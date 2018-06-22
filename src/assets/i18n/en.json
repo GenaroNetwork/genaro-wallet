@@ -1,7 +1,11 @@
 {
-  "PAGES": {
-      "HOME": {
-          "TITLE": "App works !"
-      }
+  "HEADER": {
+    "ICON": "假装这是一个icon",
+    "BLOCK_HEIGHT": "区块高度",
+    "NO_ACCOUNT": "无账号",
+    "CREATE_WALLET": "新建钱包",
+    "SETTINGS": "设置",
+    "HELP": "帮助",
+    "ABOUT": "关于"
   }
 }

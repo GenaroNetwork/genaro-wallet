@@ -1,0 +1,24 @@
+$header-height: 3rem;
+.header {
+  height: $header-height;
+  line-height: $header-height;
+  border-bottom: 1px solid #ccc;
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+    &>* {
+      float: left;
+      &.menu {
+        margin-right: 1rem;
+        position: relative;
+        /* element fix */
+        /deep/ .el-dropdown-menu {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
+  }
+}

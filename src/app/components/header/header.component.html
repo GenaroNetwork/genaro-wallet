@@ -1,0 +1,11 @@
+<div class="header">
+  <div class="left">
+    <div class="logo">{{ "HEADER.ICON" | translate }}</div>
+  </div>
+  <div class="right">
+    <div class="block-height">{{ "HEADER.BLOCK_HEIGHT" | translate}}{{ blockHeight }}</div>
+    <div class="menu">
+      <el-dropdown [model]="menus" (selected)="selected($event)">{{ currentAccount }}</el-dropdown>
+    </div>
+  </div>
+</div>

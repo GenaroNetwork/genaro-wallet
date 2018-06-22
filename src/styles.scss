@@ -1,7 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-html, body {
+
+@import "~element-angular/theme/index.css";
+@font-face {
+  font-family: "noto";
+  src: url("assets/fonts/SourceHanSansSC-Regular.otf");
+}
+
+* {
+  font-family: "noto";
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
-
   height: 100%;
 }
