@@ -5,9 +5,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgxElectronModule } from "ngx-electron";
 
+// route
 import { AppRoutingModule } from './app-routing.module';
 
 // NG Translate
@@ -16,34 +17,44 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // element
 import { ElModule } from 'element-angular';
-
 import { ElectronService } from './providers/electron.service';
-
 import { WebviewDirective } from './directives/webview.directive';
 
+// component
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from "./components/header/header.component";
 import { SiderbarComponent } from "./components/siderbar/siderbar.component";
+import { WalletComponent } from "./components/wallet/wallet.component";
+import { TxSharerComponent } from "./components/txSharer/txSharer.component";
+import { TxEdenComponent } from "./components/txEden/txEden.component";
+import { WalletNewComponent } from "./components/walletNew/walletNew.component";
+
+// services
+import { Web3Service } from "./services/web3.service";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     HeaderComponent,
     SiderbarComponent,
-    WebviewDirective
+    WalletComponent,
+    TxSharerComponent,
+    TxEdenComponent,
+    WalletNewComponent,
+    WebviewDirective,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ElModule.forRoot(),
     FormsModule,
+    NgxElectronModule,
     HttpClientModule,
     AppRoutingModule,
     TranslateModule.forRoot({
@@ -54,7 +65,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [
+    ElectronService,
+    Web3Service,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

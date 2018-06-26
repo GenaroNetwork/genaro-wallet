@@ -1,8 +1,9 @@
-$header-height: 3rem;
+@import "../../config.scss";
 .header {
   height: $header-height;
   line-height: $header-height;
-  border-bottom: 1px solid #ccc;
+  border-bottom: $border-line;
+  background: $content-bg;
   .left {
     float: left;
   }
@@ -10,8 +11,11 @@ $header-height: 3rem;
     float: right;
     &>* {
       float: left;
+      &.block-height {
+        margin-right: $border-blank;
+      }
       &.menu {
-        margin-right: 1rem;
+        margin-right: $border-blank;
         position: relative;
         /* element fix */
         /deep/ .el-dropdown-menu {

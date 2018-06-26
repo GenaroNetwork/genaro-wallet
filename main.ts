@@ -6,6 +6,9 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+import { Web3Lib } from "./libs/web3";
+new Web3Lib;
+
 function createWindow() {
 
   const electronScreen = screen;

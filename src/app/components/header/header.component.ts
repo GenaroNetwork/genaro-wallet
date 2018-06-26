@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Web3Service } from '../../services/web3.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,9 @@ export class HeaderComponent implements OnInit {
   menus: any[] = [];
 
   currentAccount: string;
+  blockHeight: number = 10;
 
-  selected(...params) {
-    console.log(...params);
-  }
-
-  constructor(private i18n: TranslateService) { }
+  constructor(private i18n: TranslateService, private web3: Web3Service, private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -38,6 +36,20 @@ export class HeaderComponent implements OnInit {
         }
       ];
     }, 0);
+    this.web3.event.on("started", () => {
+      this.web3.eth.subscribe("newBlockHeaders", (err, bh: any) => {
+        if (err) return;
+        bh = Object.assign({}, bh);
+        this.blockHeight = bh.number;
+        this.changeRef.detectChanges();
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+
   }
 
 }

@@ -1,4 +1,9 @@
-<app-header>
-</app-header>
-<app-siderbar></app-siderbar>
-<router-outlet></router-outlet>
+<app-header></app-header>
+<div class="main">
+  <el-card class="sider">
+    <app-siderbar></app-siderbar>
+  </el-card>
+  <el-card class="right">
+    <router-outlet></router-outlet>
+  </el-card>
+</div>

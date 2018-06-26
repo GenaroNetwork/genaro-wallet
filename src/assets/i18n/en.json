@@ -1,4 +1,9 @@
 {
+  "COMMON": {
+    ":": "：",
+    ".": "。",
+    ",": "，"
+  },
   "HEADER": {
     "ICON": "假装这是一个icon",
     "BLOCK_HEIGHT": "区块高度",
@@ -7,5 +12,10 @@
     "SETTINGS": "设置",
     "HELP": "帮助",
     "ABOUT": "关于"
+  },
+  "SIDERBAR": {
+    "WALLET": "钱包",
+    "EDEN": "EDEN",
+    "SHARER": "SHARER"
   }
 }

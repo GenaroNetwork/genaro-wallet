@@ -17,14 +17,15 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "postinstall": "npx electron-builder install-app-deps",
+    "postinstall2": "node fixweb3.js",
+    "postinstall": "npx electron-builder install-app-deps && npm run postinstall2",
     "ng": "ng",
     "start": "npm-run-all -p ng:serve electron:serve",
     "build": "npm run electron:tsc && ng build",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
-    "ng:serve": "ng serve -o",
-    "electron:tsc": "tsc main.ts",
+    "ng:serve": "ng serve",
+    "electron:tsc": "tsc main.ts --allowJs --lib es5,dom,es2017,es2016,es2015",
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
@@ -36,8 +37,10 @@
   "dependencies": {
     "@angular/animations": "^6.0.5",
     "better-sqlite3": "^4.1.4",
+    "bignumber.js": "^7.2.1",
     "element-angular": "^0.7.6",
-    "web3": "^1.0.0-beta.34"
+    "genaro-web3": "git+https://github.com/GenaroNetwork/genaro-web3.git",
+    "ngx-electron": "^1.0.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
@@ -45,7 +48,7 @@
     "@angular/common": "6.0.3",
     "@angular/compiler": "6.0.3",
     "@angular/compiler-cli": "6.0.3",
-    "@angular/core": "6.0.3",
+    "@angular/core": "^6.0.3",
     "@angular/forms": "6.0.3",
     "@angular/http": "6.0.3",
     "@angular/language-service": "6.0.3",

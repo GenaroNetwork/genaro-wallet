@@ -1,10 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "~element-angular/theme/index.css";
+@import "./app/config.scss";
 @font-face {
   font-family: "noto";
   src: url("assets/fonts/SourceHanSansSC-Regular.otf");
 }
+
+/* fallback */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/MaterialDesign.woff2") format('woff2');
+}
+
+[mat-icon] {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* fallback */
 
 * {
   font-family: "noto";
@@ -15,4 +43,5 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: $second-bg;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-siderbar',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SiderbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
+  page: string = "/wallet";
   ngOnInit() {
+    this.router.events.subscribe(value => {
+      if (!(value instanceof NavigationEnd)) return;
+      console.log(value);
+      this.page = value.url;
+    })
   }
 
 }

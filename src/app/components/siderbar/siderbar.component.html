@@ -1,3 +1,14 @@
-<p>
-  siderbar works!
-</p>
+<el-menu [model]="page">
+  <el-menu-item index="/wallet" to="/wallet">
+    <i mat-icon>account_balance_wallet</i>
+    {{ "SIDERBAR.WALLET" | translate }}
+  </el-menu-item>
+  <el-menu-item index="/tx-eden" to="/tx-eden">
+    <i mat-icon>storage</i>
+    {{ "SIDERBAR.EDEN" | translate }}
+  </el-menu-item>
+  <el-menu-item index="/tx-sharer" to="/tx-sharer">
+    <i mat-icon>storage</i>
+    {{ "SIDERBAR.SHARER" | translate }}
+  </el-menu-item>
+</el-menu>
