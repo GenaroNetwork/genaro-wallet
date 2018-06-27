@@ -1,12 +1,8 @@
-import 'zone.js/dist/zone-mix';
-import 'reflect-metadata';
-import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { NgxElectronModule } from "ngx-electron";
 
 // route
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +27,9 @@ import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 
 // services
 import { Web3Service } from "./services/web3.service";
+import { GethService } from "./services/geth.service";
+import { SqliteService } from "./services/sqlite.service";
+import { BipService } from "./services/bip.service";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -54,7 +53,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     ElModule.forRoot(),
     FormsModule,
-    NgxElectronModule,
     HttpClientModule,
     AppRoutingModule,
     TranslateModule.forRoot({
@@ -68,6 +66,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     ElectronService,
     Web3Service,
+    GethService,
+    BipService,
+    SqliteService,
   ],
   bootstrap: [AppComponent]
 })

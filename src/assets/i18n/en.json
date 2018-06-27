@@ -1,8 +1,16 @@
 {
   "COMMON": {
-    ":": "：",
-    ".": "。",
-    ",": "，"
+    "CONFIRM": "确定",
+    "CANCEL": "取消",
+    "COMPLETE": "完成",
+    "CLOSE": "关闭",
+    "CONTINUE": "继续",
+    "BACK": "返回",
+    "PREV": "上一步",
+    "NEXT": "下一步",
+    "COLON": "：",
+    "PERIOD": "。",
+    "COMMA": "，"
   },
   "HEADER": {
     "ICON": "假装这是一个icon",
@@ -17,5 +25,10 @@
     "WALLET": "钱包",
     "EDEN": "EDEN",
     "SHARER": "SHARER"
+  },
+  "WALLETNEW": {
+    "TITLE": "创建钱包",
+    "TITLE1": "新建钱包",
+    "TITLE2": "导入钱包"
   }
 }

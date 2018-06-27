@@ -1,14 +1,44 @@
+import { Injectable } from '@angular/core';
 import { spawn } from 'child_process';
-import { existsSync, appendFileSync, writeFileSync } from "fs";
-import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "../libs/config";
+let electron = require("electron");
+const ASSETS = `${electron.remote.app.getAppPath()}/src/assets`;
+const GETH = `${ASSETS}/geth/geth-${PLATFORM}`;
+const GETH_CONFIG = `${ASSETS}/geth/config.json`;
 
-export class GethLib {
+import { existsSync, appendFileSync, writeFileSync } from "fs";
+import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "./../libs/config";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class GethService {
+    private static runJS(JSCODE) {
+        let jsCLI = spawn(GETH, [
+            "attach",
+            WEB3_URL])
+        let done = false;
+        jsCLI.stdout.on('data', (data) => {
+            if (done) jsCLI.stdin.write("exit;\n");
+            if (data.toString().indexOf(">") === -1) return;
+            done = true;
+            jsCLI.stdin.write(JSCODE);
+        });
+    };
+
+    static async startMine() {
+        GethService.runJS("miner.start();\n");
+    }
+
+    static async stopMine() {
+        GethService.runJS("miner.stop();\n");
+    }
+
     static async startGeth() {
         let initBC = () => {
             return new Promise(res => {
-                let initCLI = spawn(`${__dirname}/geth/geth-${PLATFORM}`, [
+                let initCLI = spawn(GETH, [
                     "init",
-                    `${__dirname}/geth/config.json`,
+                    GETH_CONFIG,
                     "--datadir",
                     BC_STORAGE_PATH,
                 ]);
@@ -23,7 +53,8 @@ export class GethLib {
 
         let startBC = () => {
             return new Promise(res => {
-                let startCLI = spawn(`${__dirname}/geth/geth-${PLATFORM}`, [
+                console.log(existsSync(`assets`))
+                let startCLI = spawn(GETH, [
                     "--datadir",
                     BC_STORAGE_PATH,
                     /*"--rpc",
@@ -61,7 +92,6 @@ export class GethLib {
         }
         await startBC();
     }
-
     constructor() { }
 
 }

@@ -14,8 +14,7 @@ export class SiderbarComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe(value => {
       if (!(value instanceof NavigationEnd)) return;
-      console.log(value);
-      this.page = value.url;
+      this.page = value.urlAfterRedirects;
     })
   }
 

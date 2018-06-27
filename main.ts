@@ -1,13 +1,12 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import libs from "./libs/lib";
+libs();
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
-
-import { Web3Lib } from "./libs/web3";
-new Web3Lib;
 
 function createWindow() {
 

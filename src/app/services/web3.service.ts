@@ -1,29 +1,19 @@
 import { Injectable } from '@angular/core';
-import { WEB3_URL } from "../../../libs/config";
+import { WEB3_URL, LITE_WALLET } from "./../libs/config";
+import { GethService } from "./geth.service";
 import Web3 from 'genaro-web3';
-import { ElectronService } from "ngx-electron";
-
-let web3: Web3;
+let web3: any = new Web3(WEB3_URL);
 
 @Injectable({
   providedIn: 'root'
 })
 export class Web3Service {
-
-  eth: any;
-  event: any;
-  init() {
-    this.eth = web3.eth;
-    this.event.emit("started");
-  }
-
-  constructor(private electron: ElectronService) {
-
+  constructor() {
     this.event = (() => {
-      let events = {};
+      let events: any = {};
       return {
         on(event, callback) {
-          events[event] = events[event] || [];
+          if (!events[event]) events[event] = [];
           events[event].push(callback);
         },
         emit(event, ...args) {
@@ -34,14 +24,29 @@ export class Web3Service {
         },
       };
     })();
-    if (web3) {
-      this.init();
-    } else {
-      this.electron.ipcRenderer.send("web3-start");
-      this.electron.ipcRenderer.on("web3-started", () => {
-        web3 = new Web3(WEB3_URL);
+    web3.eth.net.isListening()
+      .then(() => {
         this.init();
+      })
+      .catch(e => {
+        // web3 is not connected
+        if (LITE_WALLET) {
+          // is lite wallet
+          throw new Error("Can not connect to mordred.");
+        }
+        GethService.startGeth().then(() => {
+          web3 = new Web3(WEB3_URL);
+          this.init();
+        });
+
       });
-    }
   }
+
+  eth: any;
+  event: any;
+  init() {
+    this.eth = web3.eth;
+    this.event.emit("started");
+    GethService.startMine();
+  };
 }

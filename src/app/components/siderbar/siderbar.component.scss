@@ -1,4 +1,9 @@
 @import "../../config.scss";
-i {
-  margin-right: $border-blank/2;
+el-menu {
+  /deep/ .el-menu {
+    border: none;
+  }
+  i {
+    margin-right: $icon-blank;
+  }
 }

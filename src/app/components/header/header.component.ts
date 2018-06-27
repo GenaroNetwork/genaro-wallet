@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ApplicationRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Web3Service } from '../../services/web3.service';
 
@@ -12,9 +12,9 @@ export class HeaderComponent implements OnInit {
   menus: any[] = [];
 
   currentAccount: string;
-  blockHeight: number = 10;
+  blockHeight: number = null;
 
-  constructor(private i18n: TranslateService, private web3: Web3Service, private changeRef: ChangeDetectorRef) { }
+  constructor(private i18n: TranslateService, private web3: Web3Service, private app: ApplicationRef) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -41,7 +41,8 @@ export class HeaderComponent implements OnInit {
         if (err) return;
         bh = Object.assign({}, bh);
         this.blockHeight = bh.number;
-        this.changeRef.detectChanges();
+        this.app.tick();
+        //this.changeRef.detectChanges();
       });
     });
   }

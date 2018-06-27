@@ -1,3 +1,44 @@
-<p>
-  walletNew works!
-</p>
+<div class="bg">
+  <el-card>
+    <ng-template #header>
+      <div class="header">
+        <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
+        {{ title | translate }}
+      </div>
+    </ng-template>
+    <div *ngIf="newWalletType===null" class="front-page">
+      <div class="image"></div>
+      <br/>
+      <el-button type="primary" (click)="toCreate()">新建</el-button>
+      <br/>
+      <el-button type="text" (click)="toImport()">导入</el-button>
+    </div>
+    <div *ngIf="newWalletType==='create'" class="createStep">
+      <el-steps [active]="createStep" [align-center]="true" finish-status="success" process-status="finish">
+        <el-step title="生成助记词"></el-step>
+        <el-step title="确认助记词"></el-step>
+        <el-step title="设置钱包密码"></el-step>
+        <el-step title="完成"></el-step>
+      </el-steps>
+      <div *ngIf="createStep===0">
+        <div class="tip">blahlbla</div>
+        <div class="genarate">
+          <div>blabla</div>
+          <el-button-group>
+            <el-button size="mini">
+              <i mat-icon>refresh</i>regerate</el-button>
+            <el-button size="mini">download</el-button>
+            <el-button size="mini">copy</el-button>
+          </el-button-group>
+        </div>
+        <el-button type="primary" (click)="createStep=3">{{ 'COMMON.CONTINUE' | translate }}</el-button>
+        <el-button type="primary" (click)="save()">导入一个钱包测试</el-button>
+        <el-button type="primary" (click)="read()">导出测试</el-button>
+      </div>
+      <div *ngIf="createStep===1"></div>
+      <div *ngIf="createStep===2"></div>
+      <div *ngIf="createStep===3"></div>
+    </div>
+    <div *ngIf="newWalletType==='import'" class="importStep">import</div>
+  </el-card>
+</div>

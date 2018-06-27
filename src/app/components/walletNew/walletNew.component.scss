@@ -1,0 +1,59 @@
+@import "../../config.scss";
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $popup-bg;
+  el-card {
+    /deep/ .el-card {
+      border-radius: $border-radius;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      height: $popup-height;
+      width: $popup-width;
+    }
+    .header {
+      position: relative;
+      text-align: center;
+      .back {
+        position: absolute;
+        left: 0;
+        float: left;
+        color: $link-color;
+        cursor: pointer;
+      }
+    }
+    .front-page {
+      text-align: center;
+      .image {
+        height: 100px;
+        width: 100px;
+        background: #CCC;
+        display: inline-block;
+      }
+    }
+    .createStep,
+    .importStep {
+      text-align: center;
+    }
+    .createStep {
+      .tip {
+        margin: $border-blank 0;
+      }
+      .genarate {
+        background: $second-bg;
+        padding: $border-blank 0;
+        margin-bottom: $border-blank;
+        div {
+          margin-bottom: $border-blank;
+        }
+      }
+    }
+  }
+}
