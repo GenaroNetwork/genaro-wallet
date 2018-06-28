@@ -47,8 +47,13 @@
     "NEWWALLET_STEP4": "完成",
     "GENERATE_MNEMONIC_TIP": "啦啦啦啦啦啦啦啦啦啦啦啦",
     "REPEAT_MNEMONIC_TIP": "啦====再输入一次助记词====啦",
-    "REPEAT_MNEMONIC_PLACEHOLDER": "输入助记词",
+    "MNEMONIC_PLACEHOLDER": "输入助记词",
+    "REPEAT_MNEMONIC_PLACEHOLDER": "请输入刚生成的助记词",
     "REPEAT_MNEMONIC_ERROR": "助记词输入错误",
-    "REGENERATE": "重新生成"
+    "REGENERATE": "重新生成",
+    "PASSWORD_PLACEHOLDER": "请输入密码",
+    "REPEAT_PASSWORD_PLACEHOLDER": "请再次输入密码",
+    "REPEAT_PASSWORD_ERROR": "确认密码与密码不相同",
+    "OLD_PASSWORD_ERROR": "原钱包密码输入错误"
   }
 }

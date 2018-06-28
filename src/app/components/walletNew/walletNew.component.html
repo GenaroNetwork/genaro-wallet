@@ -50,7 +50,7 @@
       <div *ngIf="createStep===1">
         <div class="tip">{{ 'WALLETNEW.REPEAT_MNEMONIC_TIP' | translate }}</div>
         <div class="confirm">
-          <el-input type="textarea" [rows]="4" placeholder="{{ 'WALLETNEW.REPEAT_MNEMONIC_PLACEHOLDER' | translate }}" (input)="mnemonicRepeatChange($event)">
+          <el-input type="textarea" placeholder="{{ 'WALLETNEW.REPEAT_MNEMONIC_PLACEHOLDER' | translate }}" (input)="mnemonicRepeatChange($event)">
           </el-input>
         </div>
         <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
@@ -58,10 +58,22 @@
       </div>
 
       <!-- Step 2 -->
-      <div *ngIf="createStep===2"></div>
+      <div *ngIf="createStep===2">
+        <div class="password">
+          <el-input native-type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" (input)="passwordChange($event)">
+          </el-input>
+          <br/>
+          <el-input native-type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" (input)="passwordRepeatChange($event)">
+          </el-input>
+        </div>
+        <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
+        <el-button type="primary" (click)="validatePassword()">{{ 'COMMON.NEXT' | translate }}</el-button>
+      </div>
 
       <!-- Step 3, Done -->
-      <div *ngIf="createStep===3"></div>
+      <div *ngIf="createStep===3">
+
+      </div>
     </div>
     <div *ngIf="newWalletType==='import'" class="importStep">import</div>
   </el-card>

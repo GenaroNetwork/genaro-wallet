@@ -67,6 +67,15 @@
           width: 70%;
         }
       }
+      .password {
+        padding: 2*$border-blank 2*$border-blank $border-blank;
+        el-input {
+          /deep/ .el-input {
+            width: $short-input;
+            margin-bottom: 1rem;
+          }
+        }
+      }
     }
   }
 }

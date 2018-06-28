@@ -42,8 +42,10 @@
     "ethereumjs-wallet": "^0.6.0",
     "genaro-web3": "git+https://github.com/GenaroNetwork/genaro-web3.git",
     "hdkey": "^1.0.0",
+    "jdenticon": "^2.1.0",
     "jswallet-manager": "github:GenaroNetwork/jswallet-manager",
-    "ngx-electron": "^1.0.4"
+    "ngx-electron": "^1.0.4",
+    "qrcode": "^1.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
