@@ -46,12 +46,25 @@
       .tip {
         margin: $border-blank 0;
       }
-      .genarate {
+      .generate {
         background: $second-bg;
         padding: $border-blank 0;
         margin-bottom: $border-blank;
         div {
           margin-bottom: $border-blank;
+        }
+        el-alert {
+          position: relative;
+          bottom: $border-blank;
+        }
+      }
+      .confirm {
+        margin-bottom: $border-blank;
+        text-align: center;
+        /deep/ textarea {
+          display: inline-block;
+          resize: none;
+          width: 70%;
         }
       }
     }

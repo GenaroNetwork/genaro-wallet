@@ -9,34 +9,58 @@
     <div *ngIf="newWalletType===null" class="front-page">
       <div class="image"></div>
       <br/>
-      <el-button type="primary" (click)="toCreate()">新建</el-button>
+      <el-button type="primary" (click)="toCreate()">{{ 'WALLETNEW.BUTTON_NEWWALLET' | translate }}</el-button>
       <br/>
-      <el-button type="text" (click)="toImport()">导入</el-button>
+      <el-button type="text" (click)="toImport()">{{ 'WALLETNEW.BUTTON_IMPORTWALLET' | translate }}</el-button>
     </div>
+
+    <!-- Create New Wallet -->
     <div *ngIf="newWalletType==='create'" class="createStep">
       <el-steps [active]="createStep" [align-center]="true" finish-status="success" process-status="finish">
-        <el-step title="生成助记词"></el-step>
-        <el-step title="确认助记词"></el-step>
-        <el-step title="设置钱包密码"></el-step>
-        <el-step title="完成"></el-step>
+        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP1' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP2' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP3' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP4' | translate }}"></el-step>
       </el-steps>
+
+      <!-- Step 0 -->
       <div *ngIf="createStep===0">
-        <div class="tip">blahlbla</div>
-        <div class="genarate">
-          <div>blabla</div>
+        <div class="tip">{{ 'WALLETNEW.GENERATE_MNEMONIC_TIP' | translate }}</div>
+        <div class="generate">
+          <div>{{ mnemonic }}</div>
           <el-button-group>
+            <el-button size="mini" (click)="generateMnemonic()">
+              <i mat-icon>refresh</i>
+              {{ 'WALLETNEW.REGENERATE' | translate }}
+            </el-button>
             <el-button size="mini">
-              <i mat-icon>refresh</i>regerate</el-button>
-            <el-button size="mini">download</el-button>
-            <el-button size="mini">copy</el-button>
+              <i mat-icon>cloud_download</i>
+              {{ 'COMMON.DOWNLOAD' | translate }}
+            </el-button>
+            <el-button size="mini" (click)="copy()" [type]="copied ? 'success' : ''">
+              <i mat-icon>{{ copied ? "check" : "file_copy" }}</i>
+              {{ (copied ? "COMMON.COPIED" : "COMMON.COPY") | translate }}
+            </el-button>
           </el-button-group>
         </div>
-        <el-button type="primary" (click)="createStep=3">{{ 'COMMON.CONTINUE' | translate }}</el-button>
-        <el-button type="primary" (click)="save()">导入一个钱包测试</el-button>
-        <el-button type="primary" (click)="read()">导出测试</el-button>
+        <el-button type="primary" (click)="createStep=createStep+1">{{ 'COMMON.NEXT' | translate }}</el-button>
       </div>
-      <div *ngIf="createStep===1"></div>
+
+      <!-- Step 1 -->
+      <div *ngIf="createStep===1">
+        <div class="tip">{{ 'WALLETNEW.REPEAT_MNEMONIC_TIP' | translate }}</div>
+        <div class="confirm">
+          <el-input type="textarea" [rows]="4" placeholder="{{ 'WALLETNEW.REPEAT_MNEMONIC_PLACEHOLDER' | translate }}" (input)="mnemonicRepeatChange($event)">
+          </el-input>
+        </div>
+        <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
+        <el-button type="primary" (click)="validateMnemonic()">{{ 'COMMON.NEXT' | translate }}</el-button>
+      </div>
+
+      <!-- Step 2 -->
       <div *ngIf="createStep===2"></div>
+
+      <!-- Step 3, Done -->
       <div *ngIf="createStep===3"></div>
     </div>
     <div *ngIf="newWalletType==='import'" class="importStep">import</div>

@@ -1,5 +1,14 @@
 {
   "COMMON": {
+    "COPY": "复制",
+    "COPIED": "已复制",
+    "DOWNLOAD": "下载",
+    "UPLOAD": "上传",
+    "DOWNLOADING": "下载中",
+    "UPLOADING": "上传中",
+    "DOWNLOADED": "下载完成",
+    "UPLOADED": "上传完成",
+    "ON_PROGRESS": "加载中",
     "CONFIRM": "确定",
     "CANCEL": "取消",
     "COMPLETE": "完成",
@@ -28,7 +37,18 @@
   },
   "WALLETNEW": {
     "TITLE": "创建钱包",
-    "TITLE1": "新建钱包",
-    "TITLE2": "导入钱包"
+    "TITLE_NEWWALLET": "新建钱包",
+    "BUTTON_NEWWALLET": "我是新用户，立即新建钱包",
+    "TITLE_IMPORTWALLET": "导入钱包",
+    "BUTTON_IMPORTWALLET": "我已有其他钱包，立即导入",
+    "NEWWALLET_STEP1": "生成助记词",
+    "NEWWALLET_STEP2": "确认助记词",
+    "NEWWALLET_STEP3": "设置钱包密码",
+    "NEWWALLET_STEP4": "完成",
+    "GENERATE_MNEMONIC_TIP": "啦啦啦啦啦啦啦啦啦啦啦啦",
+    "REPEAT_MNEMONIC_TIP": "啦====再输入一次助记词====啦",
+    "REPEAT_MNEMONIC_PLACEHOLDER": "输入助记词",
+    "REPEAT_MNEMONIC_ERROR": "助记词输入错误",
+    "REGENERATE": "重新生成"
   }
 }

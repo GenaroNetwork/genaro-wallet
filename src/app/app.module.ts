@@ -29,7 +29,7 @@ import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 import { Web3Service } from "./services/web3.service";
 import { GethService } from "./services/geth.service";
 import { SqliteService } from "./services/sqlite.service";
-import { BipService } from "./services/bip.service";
+import { WalletService } from "./services/wallet.service";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -67,7 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     Web3Service,
     GethService,
-    BipService,
+    WalletComponent,
     SqliteService,
   ],
   bootstrap: [AppComponent]

@@ -8,23 +8,23 @@ if (!existsSync(WALLET_CONFIG_PATH)) mkdirSync(WALLET_CONFIG_PATH);
 
 
 export default function () {
-    let wallet = new DB(join(WALLET_CONFIG_PATH, "wallet.sqlite"));
-    wallet.prepare(`CREATE TABLE IF NOT EXISTS wallet(
+    let tx = new DB(join(WALLET_CONFIG_PATH, "transactions.sqlite"));
+    /*tx.prepare(`CREATE TABLE IF NOT EXISTS wallet(
     name TEXT UNIQUE,
     address TEXT UNIQUE,
     wallet TEXT
-    )`).run();
+    )`).run();*/
 
-    ipcMain.on("db.wallet.run", (event, ipcId, sql) => {
-        wallet.prepare(sql).run();
-        event.sender.send(`db.wallet.run.${ipcId}`);
+    ipcMain.on("db.tx.run", (event, ipcId, sql) => {
+        tx.prepare(sql).run();
+        event.sender.send(`db.tx.run.${ipcId}`);
     });
-    ipcMain.on("db.wallet.get", (event, ipcId, sql) => {
-        let data = wallet.prepare(sql).get();
-        event.sender.send(`db.wallet.get.${ipcId}`, data);
+    ipcMain.on("db.tx.get", (event, ipcId, sql) => {
+        let data = tx.prepare(sql).get();
+        event.sender.send(`db.tx.get.${ipcId}`, data);
     });
-    ipcMain.on("db.wallet.all", (event, ipcId, sql) => {
-        let data = wallet.prepare(sql).all();
-        event.sender.send(`db.wallet.all.${ipcId}`, data);
+    ipcMain.on("db.tx.all", (event, ipcId, sql) => {
+        let data = tx.prepare(sql).all();
+        event.sender.send(`db.tx.all.${ipcId}`, data);
     });
 };

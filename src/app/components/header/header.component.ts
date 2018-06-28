@@ -14,7 +14,11 @@ export class HeaderComponent implements OnInit {
   currentAccount: string;
   blockHeight: number = null;
 
-  constructor(private i18n: TranslateService, private web3: Web3Service, private app: ApplicationRef) { }
+  constructor(
+    private i18n: TranslateService,
+    private web3: Web3Service,
+    private changeRef: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -41,8 +45,7 @@ export class HeaderComponent implements OnInit {
         if (err) return;
         bh = Object.assign({}, bh);
         this.blockHeight = bh.number;
-        this.app.tick();
-        //this.changeRef.detectChanges();
+        this.changeRef.detectChanges();
       });
     });
   }
