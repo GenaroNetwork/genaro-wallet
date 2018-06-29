@@ -9,7 +9,7 @@ import { Web3Service } from '../../services/web3.service';
 })
 export class HeaderComponent implements OnInit {
 
-  menus: any[] = [];
+  wallets: any[] = [];
 
   currentAccount: string;
   blockHeight: number = null;
@@ -23,22 +23,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.currentAccount = this.i18n.instant("HEADER.NO_ACCOUNT");
-      this.menus = [
-        {
-          value: "create-wallet",
-          divided: true,
-          label: this.i18n.instant("HEADER.CREATE_WALLET"),
-        }, {
-          value: "settings",
-          label: this.i18n.instant("HEADER.SETTINGS"),
-        }, {
-          value: "help",
-          label: this.i18n.instant("HEADER.HELP"),
-        }, {
-          value: "about",
-          label: this.i18n.instant("HEADER.ABOUT"),
-        }
-      ];
+      this.wallets = [];
     }, 0);
     this.web3.event.on("started", () => {
       this.web3.eth.subscribe("newBlockHeaders", (err, bh: any) => {

@@ -3,20 +3,16 @@
   margin: 1rem;
   display: flex;
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
-  el-card {
+  nz-card {
     margin: 0 $border-blank/2;
     &.sider {
       flex: 0 $left-menu-width;
-      /deep/ .el-card>* {
+      /deep/ .ant-card-body {
         padding: $border-blank 0 0;
       }
     }
     &.right {
       flex: 1;
-    }
-    /deep/ .el-card {
-      height: 100%;
-      border-radius: $border-radius;
     }
   }
 }

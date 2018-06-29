@@ -13,6 +13,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // element
 import { ElModule } from 'element-angular';
+
+// And Design
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+
+// elecreon
 import { ElectronService } from './providers/electron.service';
 import { WebviewDirective } from './directives/webview.directive';
 
@@ -54,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     ElModule.forRoot(),
+    NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -69,7 +75,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     Web3Service,
     GethService,
-    WalletComponent,
+    WalletService,
     SqliteService,
   ],
   bootstrap: [AppComponent]
