@@ -5,6 +5,7 @@
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
   nz-card {
     margin: 0 $border-blank/2;
+    border-radius: $border-radius;
     &.sider {
       flex: 0 $left-menu-width;
       /deep/ .ant-card-body {

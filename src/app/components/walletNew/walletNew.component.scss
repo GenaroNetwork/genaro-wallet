@@ -1,26 +1,32 @@
 @import "../../config.scss";
 .bg {
   position: fixed;
+  z-index: 9;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: $popup-bg;
-  el-card {
-    /deep/ .el-card {
-      border-radius: $border-radius;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      height: $popup-height;
-      width: $popup-width;
+  nz-card {
+    border-radius: $border-radius;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: $popup-height;
+    width: $popup-width;
+    /deep/ .ant-card-body {
+      padding-top: 0;
     }
     .header {
+      $title-height: 4rem;
+      height: $title-height;
+      line-height: $title-height;
       position: relative;
       text-align: center;
+      margin-bottom: 2*$border-blank;
       .back {
         position: absolute;
         left: 0;
@@ -37,17 +43,26 @@
         background: #CCC;
         display: inline-block;
       }
+      button {
+        margin-top: $border-blank;
+      }
     }
     .createStep,
     .importStep {
       text-align: center;
+      button {
+        margin: 0 $border-blank;
+      }
+      nz-button-group {
+        button {
+          margin: 0 0 0 -1px;
+        }
+      }
       .password {
         padding: 2*$border-blank 2*$border-blank $border-blank;
-        el-input {
-          /deep/ .el-input {
-            width: $short-input;
-            margin-bottom: 1rem;
-          }
+        input {
+          width: $short-input;
+          margin-bottom: 1rem;
         }
       }
       .done {
@@ -63,12 +78,10 @@
             float: left;
             margin-right: $border-blank;
           }
-          el-input {
-            /deep/ .el-input {
-              width: $short-input;
-            }
-            /deep/ .el-input__icon {
-              cursor: pointer;
+          nz-input-group {
+            width: $short-input;
+            button {
+              margin: 0;
             }
           }
           div {

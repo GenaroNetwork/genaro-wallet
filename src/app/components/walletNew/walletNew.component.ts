@@ -26,8 +26,8 @@ export class WalletNewComponent implements OnInit {
     this.closeEvent.emit();
   }
 
-  newWalletType: string = null;
-  createStep: number = 0;
+  newWalletType: string = "create";
+  createStep: number = 4;
   importStep: number = 0;
   title: string = "WALLETNEW.TITLE";
 
@@ -42,7 +42,6 @@ export class WalletNewComponent implements OnInit {
   walletAddress: string = null;
   importType: string = null;
   isEdit: boolean = null;
-  walletNameNew: string = null;
   loading: boolean = false;
 
 
@@ -60,7 +59,6 @@ export class WalletNewComponent implements OnInit {
     this.walletJson = null;
     this.importType = null;
     this.isEdit = false;
-    this.walletNameNew = null;
     this.loading = false;
   }
   toCreate() {
@@ -81,22 +79,6 @@ export class WalletNewComponent implements OnInit {
     this.mnemonic = this.wallet.generateMnemonic();
   }
 
-  mnemonicChange(event) {
-    this.mnemonic = event.target.value;
-  }
-  mnemonicRepeatChange(event) {
-    this.mnemonicRepeat = event.target.value;
-  }
-  passwordChange(event) {
-    this.password = event.target.value;
-  }
-  passwordRepeatChange(event) {
-    this.passwordRepeat = event.target.value;
-  }
-  oldPasswordChange(event) {
-    this.oldPassword = event.target.value;
-  }
-
   validateMnemonic() {
     if (this.mnemonic === this.mnemonicRepeat) {
       this.createStep++;
@@ -106,7 +88,7 @@ export class WalletNewComponent implements OnInit {
     this.alert["error"](this.translate.instant("WALLETNEW.REPEAT_MNEMONIC_ERROR"));
   }
 
-  async validatePassword() {
+  validatePassword() {
 
     if (this.password !== this.passwordRepeat) {
       this.alert["error"](this.translate.instant("WALLETNEW.REPEAT_PASSWORD_ERROR"));
@@ -118,29 +100,24 @@ export class WalletNewComponent implements OnInit {
       return;
     }
 
-    if (this.newWalletType === "create") this.createStep++;
-    if (this.newWalletType === "import") this.importStep++;
-
     this.loading = true;
-
     let walletName = this.wallet.generateName(this.translate.instant("WALLETNEW.WALLET_NAME_PREFIX"));
-    let wallet = await this.wallet.createWallet(this.mnemonic, this.password, walletName);
-    this.walletName = wallet.name;
-    this.walletNameNew = this.walletName;
-    this.walletAddress = wallet.address;
+    this.wallet.createWallet(this.mnemonic, this.password, walletName).then(wallet => {
+      if (this.newWalletType === "create") this.createStep++;
+      if (this.newWalletType === "import") this.importStep++;
 
-    if (this.newWalletType === "create") this.createStep++;
-    if (this.newWalletType === "import") this.importStep++;
-  }
+      this.walletName = wallet.name;
+      this.walletAddress = wallet.address;
 
-  inputWalletName(event) {
-    this.walletNameNew = event.target.value;
+      if (this.newWalletType === "create") this.createStep++;
+      if (this.newWalletType === "import") this.importStep++;
+
+      this.loading = false;
+    });
   }
   changeWalletName() {
-    if (this.walletNameNew === this.walletName) return;
-    if (this.wallet.checkName(this.walletNameNew)) {
+    if (this.wallet.checkName(this.walletName)) {
       this.alert["error"](this.translate.instant("WALLETNEW.NEW_NAME_EXISTS"));
-      this.walletNameNew = this.walletName;
       return;
     }
     this.wallet.changeName(this.walletAddress, this.walletName);
