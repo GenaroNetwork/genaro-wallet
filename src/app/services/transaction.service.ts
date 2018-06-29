@@ -4,6 +4,7 @@ import { WalletService } from './wallet.service';
 import {toHex, toWei, toBN} from 'web3-utils';
 import {v1 as uuidv1} from 'uuid'
 import Web3 from 'genaro-web3';
+import { Observable } from 'rxjs';
 let web3: any = new Web3(WEB3_URL);
 
 @Injectable({
@@ -47,16 +48,29 @@ export class TransactionService {
   }
 
   private sendTransaction(rawTx) {
-    web3.eth.sendSignedTransaction(rawTx).once('transactionHash', function (hash) {
-      console.log('1 hash get, transaction sent: ' + hash)
-    }).on('error', function (error) {
-        console.log('2 error: ' + error)
-    }).then(async function (receipt) {
+    return new Observable((observer) => {
+      web3.eth.sendSignedTransaction(rawTx).once('transactionHash', function (hash) {
+        console.log('1 hash get, transaction sent: ' + hash)
+        observer.next({
+          event: 'TX_HASH',
+          param: hash
+        })
+      }).on('receipt', async function (receipt) {
         // will be fired once the receipt its mined
         console.log('3 receipt mined, transaction success: ')
         console.log('receipt:\n' + JSON.stringify(receipt))
+        observer.next({
+          event: 'TX_RECEIPT',
+          param: receipt
+        })
+        observer.complete()
         //const txx = await web3.eth.getTransaction(receipt.transactionHash)
         //console.log('transaction:\n' + JSON.stringify(txx))
+      }).on('error', function (error) {
+        console.log('2 error: ' + error)
+        observer.error(error)
+      })
+      observer.next("bla bla bla")
     })
   }
 
