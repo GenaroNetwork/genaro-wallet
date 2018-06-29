@@ -1,73 +1,72 @@
 <div class="bg">
-  <el-card>
-    <ng-template #header>
-      <div class="header">
-        <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
-        {{ title | translate }}
-      </div>
-    </ng-template>
+  <nz-card [nzBordered]="false">
+    <div class="header">
+      <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
+      {{ title | translate }}
+    </div>
+
     <div *ngIf="newWalletType===null" class="front-page">
       <div class="image"></div>
       <br/>
-      <el-button type="primary" (click)="toCreate()">{{ 'WALLETNEW.BUTTON_NEWWALLET' | translate }}</el-button>
+      <button nz-button nzType="primary" (click)="toCreate()">{{ 'WALLETNEW.BUTTON_NEWWALLET' | translate }}</button>
       <br/>
-      <el-button type="text" (click)="toImport()">{{ 'WALLETNEW.BUTTON_IMPORTWALLET' | translate }}</el-button>
+      <button nz-button nzType="dashed" (click)="toImport()">{{ 'WALLETNEW.BUTTON_IMPORTWALLET' | translate }}</button>
     </div>
 
     <!-- Create New Wallet -->
     <div *ngIf="newWalletType==='create'" class="createStep">
-      <el-steps [active]="createStep" [align-center]="true" finish-status="success" process-status="finish">
-        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP1' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP2' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP3' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.NEWWALLET_STEP4' | translate }}"></el-step>
-      </el-steps>
+      <nz-steps [nzCurrent]="createStep" nzSize="small">
+        <nz-step nzTitle="{{ 'WALLETNEW.NEWWALLET_STEP1' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.NEWWALLET_STEP2' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.NEWWALLET_STEP3' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.NEWWALLET_STEP4' | translate }}"></nz-step>
+      </nz-steps>
 
       <!-- Step 0 -->
       <div *ngIf="createStep===0">
         <div class="tip">{{ 'WALLETNEW.GENERATE_MNEMONIC_TIP' | translate }}</div>
         <div class="generate">
           <div>{{ mnemonic }}</div>
-          <el-button-group>
-            <el-button size="mini" (click)="generateMnemonic()">
+          <nz-button-group nzSize="small">
+            <button nz-button (click)="generateMnemonic()">
               <i mat-icon>refresh</i>
               {{ 'WALLETNEW.REGENERATE' | translate }}
-            </el-button>
-            <el-button size="mini">
+            </button>
+            <button nz-button>
               <i mat-icon>cloud_download</i>
               {{ 'COMMON.DOWNLOAD' | translate }}
-            </el-button>
-            <el-button size="mini" (click)="copy()" [type]="copied ? 'success' : ''">
+            </button>
+            <button nz-button (click)="copy()" [type]="copied ? 'success' : ''">
               <i mat-icon>{{ copied ? "check" : "file_copy" }}</i>
               {{ (copied ? "COMMON.COPIED" : "COMMON.COPY") | translate }}
-            </el-button>
-          </el-button-group>
+            </button>
+          </nz-button-group>
         </div>
-        <el-button type="primary" (click)="createStep=createStep+1">{{ 'COMMON.NEXT' | translate }}</el-button>
+        <button nz-button nzType="primary" (click)="createStep=createStep+1">{{ 'COMMON.NEXT' | translate }}</button>
       </div>
 
       <!-- Step 1 -->
       <div *ngIf="createStep===1">
         <div class="tip">{{ 'WALLETNEW.REPEAT_MNEMONIC_TIP' | translate }}</div>
         <div class="confirm">
-          <el-input type="textarea" placeholder="{{ 'WALLETNEW.REPEAT_MNEMONIC_PLACEHOLDER' | translate }}" (input)="mnemonicRepeatChange($event)">
-          </el-input>
+          <textarea row="4" nz-input [(ngModel)]="mnemonicRepeat" placeholder="{{ 'WALLETNEW.REPEAT_MNEMONIC_PLACEHOLDER' | translate }}"></textarea>
         </div>
-        <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
-        <el-button type="primary" (click)="validateMnemonic()">{{ 'COMMON.NEXT' | translate }}</el-button>
+        <button nz-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</button>
+        <button nz-button nzType="primary" (click)="validateMnemonic()">{{ 'COMMON.NEXT' | translate }}</button>
       </div>
 
       <!-- Step 2 -->
       <div *ngIf="createStep===2">
         <div class="password">
-          <el-input native-type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" (input)="passwordChange($event)">
-          </el-input>
+          <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="password">
           <br/>
-          <el-input native-type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" (input)="passwordRepeatChange($event)">
-          </el-input>
+          <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="passwordRepeat">
         </div>
-        <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
-        <el-button type="primary" (click)="validatePassword()" [icon]="loading ? 'loading' : ''" [elDisabled]="loading">{{ 'COMMON.NEXT' | translate }}</el-button>
+        <button nz-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</button>
+        <button nz-button nzType="primary" (click)="validatePassword()" [disabled]="loading">
+          <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+          {{ 'COMMON.NEXT' | translate }}
+        </button>
       </div>
 
       <!-- Step 3, Done -->
@@ -75,34 +74,41 @@
         <div class="done">
           <div>
             <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
-            <el-input [readonly]="!isEdit" [icon]="isEdit ? 'check' : 'edit'" [model]="walletName" (icon-click)="isEdit=!isEdit;isEdit ? changeWalletName() : null"
-              (input)="inputWalletName($event)"></el-input>
+
+            <nz-input-group nzSearch [nzSuffix]="createWalletChangeName">
+              <input [disabled]="!isEdit" type="text" nz-input (ngModel)="walletName">
+            </nz-input-group>
+            <ng-template #createWalletChangeName>
+              <button nzSearch nz-button (click)="isEdit=!isEdit;isEdit ? changeWalletName() : null">
+                <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
+              </button>
+            </ng-template>
             <div>{{ walletAddress }}</div>
           </div>
         </div>
-        <el-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</el-button>
-        <el-button type="primary" (click)="ALL_DONE()">{{ 'COMMON.DONE' | translate }}</el-button>
+        <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>
+        <button nz-button nzType="primary" (click)="ALL_DONE()">{{ 'COMMON.DONE' | translate }}</button>
       </div>
     </div>
 
     <!-- Import Wallet -->
     <div *ngIf="newWalletType==='import'" class="importStep">
-      <el-steps [active]="createStep" [align-center]="true" finish-status="success" process-status="finish">
-        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP1' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP2' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP3' | translate }}"></el-step>
-        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP4' | translate }}"></el-step>
-      </el-steps>
+      <nz-steps [nzCurrent]="createStep" nzSize="small">
+        <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP1' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP2' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP3' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP4' | translate }}"></nz-step>
+      </nz-steps>
       <div *ngIf="importStep===0">
         <div class="type">
           <div [class]="importType === 'mnemonic' ? 'chosen': ''"></div>
           <div [class]="importType === 'json' ? 'chosen': ''"></div>
         </div>
-        <el-button type="primary" (click)="importStep=importStep+1">{{ 'COMMON.NEXT' | translate }}</el-button>
+        <button nz-button nzType="primary" (click)="importStep=importStep+1">{{ 'COMMON.NEXT' | translate }}</button>
       </div>
       <div *ngIf="importStep===1"></div>
       <div *ngIf="importStep===2"></div>
       <div *ngIf="importStep>=3"></div>
     </div>
-  </el-card>
+  </nz-card>
 </div>

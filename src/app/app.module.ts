@@ -13,6 +13,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // element
 import { ElModule } from 'element-angular';
+
+// And Design
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+
+// elecreon
 import { ElectronService } from './providers/electron.service';
 import { WebviewDirective } from './directives/webview.directive';
 
@@ -30,7 +35,7 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 import { Web3Service } from "./services/web3.service";
 import { GethService } from "./services/geth.service";
 import { SqliteService } from "./services/sqlite.service";
-import { WalletService } from "./services/wallet.service";
+import { TransactionService } from "./services/transaction.service";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -54,6 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     ElModule.forRoot(),
+    NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -69,8 +75,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     Web3Service,
     GethService,
-    WalletComponent,
+    WalletService,
     SqliteService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })

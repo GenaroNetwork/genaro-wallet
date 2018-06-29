@@ -5,7 +5,28 @@
   <div class="right">
     <div class="block-height">{{ "HEADER.BLOCK_HEIGHT" | translate}}{{ "COMMON.COLON" | translate}}{{ blockHeight }}</div>
     <div class="menu">
-      <el-dropdown [model]="menus" (selected)="selected($event)">{{ currentAccount }}</el-dropdown>
+      <nz-dropdown nzPlacement="bottomRight">
+        <a nz-dropdown>
+          {{ currentAccount }}
+          <i class="anticon anticon-down"></i>
+        </a>
+        <ul nz-menu>
+          <li nz-menu-divider></li>
+          <li nz-menu-item>
+            <a>{{ "HEADER.CREATE_WALLET" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "HEADER.SETTINGS" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "HEADER.HELP" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "HEADER.ABOUT" | translate}}</a>
+          </li>
+        </ul>
+      </nz-dropdown>
     </div>
   </div>
 </div>
+<app-walletNew *ngIf="true"></app-walletNew>

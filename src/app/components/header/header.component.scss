@@ -12,16 +12,10 @@
     &>* {
       float: left;
       &.block-height {
-        margin-right: $border-blank;
+        margin-right: 2*$border-blank;
       }
       &.menu {
-        margin-right: $border-blank;
-        position: relative;
-        /* element fix */
-        /deep/ .el-dropdown-menu {
-          left: auto;
-          right: 0;
-        }
+        margin-right: 2*$border-blank;
       }
     }
   }

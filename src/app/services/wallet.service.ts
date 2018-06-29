@@ -21,8 +21,10 @@ export class WalletService {
 
   createWallet(mnemonic: string, password: string, name: string): Promise<any> {
     return new Promise(res => {
-      let wallet = wallets.importFromMnemonic(mnemonic, password, name);
-      res(wallet);
+      setTimeout(() => {
+        let wallet = wallets.importFromMnemonic(mnemonic, password, name);
+        res(wallet);
+      }, 0);
     });
   }
 
@@ -56,7 +58,7 @@ export class WalletService {
     return validateMnemonic(mnemonic);
   }
 
-  signTransaction(address, password, txParams) {
+  signTransaction(address: string, password: string, txParams: object) {
     return signTx(address, password, txParams)
   }
 }

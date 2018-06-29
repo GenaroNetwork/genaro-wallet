@@ -1,18 +1,18 @@
-<el-menu [model]="page">
-  <el-menu-item index="/wallet" to="/wallet">
+<ul nz-menu>
+  <li nz-menu-item [routerLink]="['/wallet']">
     <i mat-icon>account_balance_wallet</i>
     {{ "SIDERBAR.WALLET" | translate }}
-  </el-menu-item>
-  <el-menu-item index="/tx-eden" to="/tx-eden">
+  </li>
+  <li nz-menu-item [routerLink]="['/tx-eden']">
     <i mat-icon>storage</i>
     {{ "SIDERBAR.EDEN" | translate }}
-  </el-menu-item>
-  <el-menu-item index="/tx-sharer" to="/tx-sharer">
+  </li>
+  <li nz-menu-item [routerLink]="['/tx-sharer']">
     <i mat-icon>storage</i>
     {{ "SIDERBAR.SHARER" | translate }}
-  </el-menu-item>
-  <el-menu-item *ngIf="true" index="/sharer" to="/sharer">
+  </li>
+  <li nz-menu-item [routerLink]="['/sharer']">
     <i mat-icon>storage</i>
     {{ "SIDERBAR.SHARER" | translate }}
-  </el-menu-item>
-</el-menu>
+  </li>
+</ul>
