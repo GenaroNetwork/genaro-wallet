@@ -70,7 +70,6 @@ export class TransactionService {
         console.log('2 error: ' + error)
         observer.error(error)
       })
-      observer.next("bla bla bla")
     })
   }
 
