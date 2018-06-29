@@ -49,13 +49,15 @@ export class TransactionService {
 
   private sendTransaction(rawTx) {
     return new Observable((observer) => {
-      web3.eth.sendSignedTransaction(rawTx).once('transactionHash', function (hash) {
+      web3.eth.sendSignedTransaction(rawTx)
+      .once('transactionHash', function (hash) {
         console.log('1 hash get, transaction sent: ' + hash)
         observer.next({
           event: 'TX_HASH',
           param: hash
         })
-      }).on('receipt', async function (receipt) {
+      })
+      .on('receipt', async function (receipt) {
         // will be fired once the receipt its mined
         console.log('3 receipt mined, transaction success: ')
         console.log('receipt:\n' + JSON.stringify(receipt))
@@ -64,9 +66,8 @@ export class TransactionService {
           param: receipt
         })
         observer.complete()
-        //const txx = await web3.eth.getTransaction(receipt.transactionHash)
-        //console.log('transaction:\n' + JSON.stringify(txx))
-      }).on('error', function (error) {
+      })
+      .on('error', function (error) {
         console.log('2 error: ' + error)
         observer.error(error)
       })
