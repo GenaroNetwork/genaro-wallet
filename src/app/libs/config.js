@@ -21,6 +21,8 @@ exports.WEB3_CONFIG = {
     WS_API: "eth,net,web3,admin,personal,miner"
 };
 Object.freeze(exports.WEB3_CONFIG);
+var STX_ADDR = "0xc1b2e1fc9d2099f5930a669c9ad65509433550d6";
+exports.STX_ADDR = STX_ADDR;
 var WEB3_URL;
 exports.WEB3_URL = WEB3_URL;
 if (exports.LITE_WALLET) {

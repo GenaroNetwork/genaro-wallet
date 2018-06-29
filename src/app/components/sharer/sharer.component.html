@@ -1,3 +1,26 @@
-<p>
-  sharer works!
-</p>
+<div>
+  <div>
+    <nz-table #basicTable [nzData]="dataSet">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of driversData.data">
+          <td>{{data.id}}</td>
+          <td>{{data.location}}</td>
+          <td>{{data.address}}</td>
+          <td>
+            <a>Action 一 {{data.name}}</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
