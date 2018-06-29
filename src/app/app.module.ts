@@ -35,6 +35,7 @@ import { SqliteService } from "./services/sqlite.service";
 import { TransactionService } from "./services/transaction.service";
 import { WalletService } from "./services/wallet.service";
 
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,7 +73,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ElectronService,
     Web3Service,
     GethService,
-    WalletService,
     SqliteService,
     TransactionService
   ],
