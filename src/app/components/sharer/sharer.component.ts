@@ -11,14 +11,16 @@ export class SharerComponent implements OnInit {
     private sharer: SharerService,
   ) {}
 
+  
+
   ngOnInit() {
     this.sharer.runDaemon((err) => {
       if(err) {
-        return alert(err);
+        return alert(err.message);
       }
       this.sharer.startAll((err)=>{
         if(err) {
-          return alert(err);
+          return alert(err.message0);
         }
       });
     });

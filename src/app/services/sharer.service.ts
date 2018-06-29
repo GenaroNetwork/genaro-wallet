@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { fork } from 'child_process';
 import { ipcRenderer } from "electron";
+import Dnode from "dnode";
 
+var dnode = new Dnode(undefined, { weak: false });
 // usage
 let ipcId = 0;
 function getPrivateKey() {
@@ -16,7 +18,6 @@ function validateConfig(config) {
   return ipcRenderer.sendSync("storj.lib.validateConfig", ipcId++, [config]);
 }
 
-const dnode = require('dnode');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -94,6 +95,19 @@ function _remove(nodeId) {
   console.log(`${configPath} deleted`)
 }
 
+function _start(nodeId, cb) {
+  let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+  d.on('remote', (remote) => {
+    let configPath = _getConfigPathById(nodeId);
+    remote.start(configPath, (err) => {
+      if (cb) {
+        cb(err);
+      }
+      d.end();
+    });
+  });
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -146,7 +160,7 @@ export class SharerService {
     let configBuffer = Buffer.from(configArray.join('\n'));
     try {
       let err = validateConfig(config);
-      if(err) {
+      if (err) {
         throw err;
       }
       configFileDescriptor = fs.openSync(configFilePath, 'w');
@@ -164,24 +178,14 @@ export class SharerService {
   };
 
   start(nodeId, cb) {
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
-    d.on('remote', (remote) => {
-      let configPath = _getConfigPathById(nodeId);
-      remote.start(configPath, (err) => {
-        if (cb) {
-          cb(err);
-        }
-        d.end();
-      });
-    });
+    _start(nodeId, cb);
   };
 
   startAll(cb) {
     let errs = [];
     let len = configIds.length;
     configIds.forEach(nodeId => {
-      debugger;
-      this.start(nodeId, err => {
+      _start(nodeId, err => {
         if (err) {
           errs.push(err);
         }
