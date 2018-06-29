@@ -6,7 +6,6 @@ import { join } from "path";
 if (!existsSync(GENARO_ROOT_PATH)) mkdirSync(GENARO_ROOT_PATH);
 if (!existsSync(WALLET_CONFIG_PATH)) mkdirSync(WALLET_CONFIG_PATH);
 
-
 export default class {
     constructor() {
         let tx = new DB(join(WALLET_CONFIG_PATH, "transactions.sqlite"));

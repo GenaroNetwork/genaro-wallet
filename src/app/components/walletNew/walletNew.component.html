@@ -67,14 +67,42 @@
           </el-input>
         </div>
         <el-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</el-button>
-        <el-button type="primary" (click)="validatePassword()">{{ 'COMMON.NEXT' | translate }}</el-button>
+        <el-button type="primary" (click)="validatePassword()" [icon]="loading ? 'loading' : ''" [elDisabled]="loading">{{ 'COMMON.NEXT' | translate }}</el-button>
       </div>
 
       <!-- Step 3, Done -->
-      <div *ngIf="createStep===3">
-
+      <div *ngIf="createStep>=3">
+        <div class="done">
+          <div>
+            <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
+            <el-input [readonly]="!isEdit" [icon]="isEdit ? 'check' : 'edit'" [model]="walletName" (icon-click)="isEdit=!isEdit;isEdit ? changeWalletName() : null"
+              (input)="inputWalletName($event)"></el-input>
+            <div>{{ walletAddress }}</div>
+          </div>
+        </div>
+        <el-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</el-button>
+        <el-button type="primary" (click)="ALL_DONE()">{{ 'COMMON.DONE' | translate }}</el-button>
       </div>
     </div>
-    <div *ngIf="newWalletType==='import'" class="importStep">import</div>
+
+    <!-- Import Wallet -->
+    <div *ngIf="newWalletType==='import'" class="importStep">
+      <el-steps [active]="createStep" [align-center]="true" finish-status="success" process-status="finish">
+        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP1' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP2' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP3' | translate }}"></el-step>
+        <el-step title="{{ 'WALLETNEW.IMPORTWALLET_STEP4' | translate }}"></el-step>
+      </el-steps>
+      <div *ngIf="importStep===0">
+        <div class="type">
+          <div [class]="importType === 'mnemonic' ? 'chosen': ''"></div>
+          <div [class]="importType === 'json' ? 'chosen': ''"></div>
+        </div>
+        <el-button type="primary" (click)="importStep=importStep+1">{{ 'COMMON.NEXT' | translate }}</el-button>
+      </div>
+      <div *ngIf="importStep===1"></div>
+      <div *ngIf="importStep===2"></div>
+      <div *ngIf="importStep>=3"></div>
+    </div>
   </el-card>
 </div>

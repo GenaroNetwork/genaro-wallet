@@ -2,13 +2,18 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import Sqlite from "./libs/sqlite";
-new Sqlite;
+import Avatar from "./libs/avatar";
+import StorjLin from "./libs/storj-lib";
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
+
+  // start libs;
+  new Sqlite;
+  new Avatar;
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;

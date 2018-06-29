@@ -41,6 +41,41 @@
     .createStep,
     .importStep {
       text-align: center;
+      .password {
+        padding: 2*$border-blank 2*$border-blank $border-blank;
+        el-input {
+          /deep/ .el-input {
+            width: $short-input;
+            margin-bottom: 1rem;
+          }
+        }
+      }
+      .done {
+        text-align: center;
+        padding: $border-blank 0;
+        &>div {
+          display: inline-block;
+          text-align: left;
+          img {
+            $icon-size: 5rem;
+            height: $icon-size;
+            width: $icon-size;
+            float: left;
+            margin-right: $border-blank;
+          }
+          el-input {
+            /deep/ .el-input {
+              width: $short-input;
+            }
+            /deep/ .el-input__icon {
+              cursor: pointer;
+            }
+          }
+          div {
+            margin-top: $border-blank/2;
+          }
+        }
+      }
     }
     .createStep {
       .tip {
@@ -65,15 +100,6 @@
           display: inline-block;
           resize: none;
           width: 70%;
-        }
-      }
-      .password {
-        padding: 2*$border-blank 2*$border-blank $border-blank;
-        el-input {
-          /deep/ .el-input {
-            width: $short-input;
-            margin-bottom: 1rem;
-          }
         }
       }
     }

@@ -12,6 +12,7 @@
     "CONFIRM": "确定",
     "CANCEL": "取消",
     "COMPLETE": "完成",
+    "DONE": "完成",
     "CLOSE": "关闭",
     "CONTINUE": "继续",
     "BACK": "返回",
@@ -45,6 +46,10 @@
     "NEWWALLET_STEP2": "确认助记词",
     "NEWWALLET_STEP3": "设置钱包密码",
     "NEWWALLET_STEP4": "完成",
+    "IMPORTWALLET_STEP1": "选择导入方式",
+    "IMPORTWALLET_STEP2": "导入钱包",
+    "IMPORTWALLET_STEP3": "设置钱包密码",
+    "IMPORTWALLET_STEP4": "完成",
     "GENERATE_MNEMONIC_TIP": "啦啦啦啦啦啦啦啦啦啦啦啦",
     "REPEAT_MNEMONIC_TIP": "啦====再输入一次助记词====啦",
     "MNEMONIC_PLACEHOLDER": "输入助记词",
@@ -54,6 +59,10 @@
     "PASSWORD_PLACEHOLDER": "请输入密码",
     "REPEAT_PASSWORD_PLACEHOLDER": "请再次输入密码",
     "REPEAT_PASSWORD_ERROR": "确认密码与密码不相同",
-    "OLD_PASSWORD_ERROR": "原钱包密码输入错误"
+    "PASSWORD_NOT_SAFE_LENGTH": "钱包密码至少需要输入6位",
+    "OLD_PASSWORD_ERROR": "原钱包密码输入错误",
+    "WALLET_NAME_PREFIX": "钱包",
+    "NEW_NAME_EXISTS": "该钱包名已存在，请重新输入",
+    "ADD_ANOTHER_WALLET": "继续添加钱包"
   }
 }

@@ -19,8 +19,33 @@ export class WalletService {
   constructor() {
   }
 
-  createWallet(mnemonic: string, password: string) {
-    return wallets.importFromMnemonic(mnemonic, password);
+  createWallet(mnemonic: string, password: string, name: string): Promise<any> {
+    return new Promise(res => {
+      let wallet = wallets.importFromMnemonic(mnemonic, password, name);
+      res(wallet);
+    });
+  }
+
+  /**
+   * @param {string} name 
+   * @returns {boolean} true 代表该名字存在
+   */
+  checkName(name: string) {
+    return walletNames.has(name);
+  }
+
+  changeName(address: string, newName: string) {
+    wallets.renameWallet(address, newName);
+  }
+
+  /**
+   * 
+   * @param {string} prefix 前缀，根据 i18n 决定
+   */
+  generateName(prefix: string = "Wallet") {
+    let i = 0;
+    while (walletNames.has(`${prefix} ${++i}`)) { }
+    return `${prefix} ${i}`;
   }
 
   generateMnemonic() {
