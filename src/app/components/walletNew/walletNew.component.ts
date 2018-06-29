@@ -4,8 +4,6 @@ import { ElMessageService } from 'element-angular/release/element-angular.module
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
 import { DomSanitizer } from '@angular/platform-browser';
-let a = require("storj-lib")
-console.log(a);
 
 @Component({
   selector: 'app-walletNew',

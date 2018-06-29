@@ -38,6 +38,7 @@
     "better-sqlite3": "^4.1.4",
     "bignumber.js": "^7.2.1",
     "bip39": "^2.5.0",
+    "dnode": "^1.2.2",
     "element-angular": "^0.7.6",
     "ethereumjs-wallet": "^0.6.0",
     "genaro-web3": "github:GenaroNetwork/genaro-web3",

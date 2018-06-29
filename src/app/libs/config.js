@@ -28,3 +28,7 @@ if (exports.LITE_WALLET) {
 else {
     exports.WEB3_URL = WEB3_URL = "ws://" + exports.WEB3_CONFIG.WS_ADDR + ":" + exports.WEB3_CONFIG.WS_PORT; // for develope
 }
+exports.DAEMON_CONFIG = {
+    RPC_ADDR: "127.0.0.1",
+    RPC_PORT: "45016"
+};
