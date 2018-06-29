@@ -18,9 +18,11 @@ export const WEB3_CONFIG = {
     WS_ADDR: "127.0.0.1",
     WS_PORT: "8546",
     WS_ORIGINS: "*",
-    WS_API: "eth,net,web3,admin,personal,miner",
+    WS_API: "eth,net,web3,admin,personal,miner"
 };
 Object.freeze(WEB3_CONFIG);
+
+const STX_ADDR = "0xc1b2e1fc9d2099f5930a669c9ad65509433550d6"
 
 let WEB3_URL;
 if (LITE_WALLET) {
@@ -29,7 +31,7 @@ if (LITE_WALLET) {
     WEB3_URL = `ws://${WEB3_CONFIG.WS_ADDR}:${WEB3_CONFIG.WS_PORT}`; // for develope
 }
 
-export { WEB3_URL };
+export { WEB3_URL, STX_ADDR };
 
 export const DAEMON_CONFIG = {
     RPC_ADDR: "127.0.0.1",

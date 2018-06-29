@@ -35,7 +35,7 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 import { Web3Service } from "./services/web3.service";
 import { GethService } from "./services/geth.service";
 import { SqliteService } from "./services/sqlite.service";
-import { WalletService } from "./services/wallet.service";
+import { TransactionService } from "./services/transaction.service";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -77,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     GethService,
     WalletService,
     SqliteService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })

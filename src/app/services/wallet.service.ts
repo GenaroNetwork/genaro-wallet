@@ -58,7 +58,7 @@ export class WalletService {
     return validateMnemonic(mnemonic);
   }
 
-  signTransaction(address, password, txParams) {
+  signTransaction(address: string, password: string, txParams: object) {
     return signTx(address, password, txParams)
   }
 }
