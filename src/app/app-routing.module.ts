@@ -1,6 +1,7 @@
 import { WalletComponent } from './components/wallet/wallet.component';
 import { TxSharerComponent } from "./components/txSharer/txSharer.component";
 import { TxEdenComponent } from "./components/txEden/txEden.component";
+import { SharerComponent } from "./components/sharer/sharer.component";
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -14,6 +15,9 @@ const routes: Routes = [{
 }, {
     path: 'tx-sharer',
     component: TxSharerComponent,
+},{
+    path: 'sharer',
+    component: SharerComponent,
 }, {
     path: "",
     pathMatch: "full",

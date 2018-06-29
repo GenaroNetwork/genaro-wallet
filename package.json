@@ -38,14 +38,17 @@
     "better-sqlite3": "^4.1.4",
     "bignumber.js": "^7.2.1",
     "bip39": "^2.5.0",
+    "dnode": "^1.2.2",
     "element-angular": "^0.7.6",
     "ethereumjs-wallet": "^0.6.0",
+    "genaroshare-daemon": "^1.2.9",
     "genaro-web3": "git+https://github.com/GenaroNetwork/genaro-web3.git",
     "hdkey": "^1.0.0",
     "jdenticon": "^2.1.0",
     "jswallet-manager": "github:GenaroNetwork/jswallet-manager",
     "ngx-electron": "^1.0.4",
-    "qrcode": "^1.2.0"
+    "qrcode": "^1.2.0",
+    "storj-lib": "^8.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",

@@ -24,6 +24,7 @@ import { WalletComponent } from "./components/wallet/wallet.component";
 import { TxSharerComponent } from "./components/txSharer/txSharer.component";
 import { TxEdenComponent } from "./components/txEden/txEden.component";
 import { WalletNewComponent } from "./components/walletNew/walletNew.component";
+import { SharerComponent } from "./components/sharer/sharer.component";
 
 // services
 import { Web3Service } from "./services/web3.service";
@@ -47,6 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TxEdenComponent,
     WalletNewComponent,
     WebviewDirective,
+    SharerComponent,
   ],
   imports: [
     BrowserModule,
