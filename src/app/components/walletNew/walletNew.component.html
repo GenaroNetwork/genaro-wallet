@@ -76,10 +76,10 @@
             <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
 
             <nz-input-group nzSearch [nzSuffix]="createWalletChangeName">
-              <input [disabled]="!isEdit" type="text" nz-input (ngModel)="walletName">
+              <input [disabled]="!isEdit" type="text" nz-input [(ngModel)]="walletName">
             </nz-input-group>
             <ng-template #createWalletChangeName>
-              <button nzSearch nz-button (click)="isEdit=!isEdit;isEdit ? changeWalletName() : null">
+              <button nzSearch nz-button (click)="isEdit ? changeWalletName() : null;isEdit=!isEdit;">
                 <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
               </button>
             </ng-template>
@@ -93,22 +93,100 @@
 
     <!-- Import Wallet -->
     <div *ngIf="newWalletType==='import'" class="importStep">
-      <nz-steps [nzCurrent]="createStep" nzSize="small">
+      <nz-steps [nzCurrent]="importStep" nzSize="small">
         <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP1' | translate }}"></nz-step>
         <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP2' | translate }}"></nz-step>
-        <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP3' | translate }}"></nz-step>
+        <nz-step nzTitle="{{ (importType === 'json' ? 'WALLETNEW.IMPORTWALLET_STEP3_JSON' : 'WALLETNEW.IMPORTWALLET_STEP3_MNEMONIC') | translate }}"></nz-step>
         <nz-step nzTitle="{{ 'WALLETNEW.IMPORTWALLET_STEP4' | translate }}"></nz-step>
       </nz-steps>
+
+      <!-- Step 0 -->
       <div *ngIf="importStep===0">
         <div class="type">
-          <div [class]="importType === 'mnemonic' ? 'chosen': ''"></div>
-          <div [class]="importType === 'json' ? 'chosen': ''"></div>
+          <div [class]="importType === 'mnemonic' ? 'chosen': ''" (click)="importType='mnemonic'">
+            {{ 'WALLETNEW.IMPORTWALLET_FROM_MNEMONIC' | translate }}
+          </div>
+          <div [class]="importType === 'json' ? 'chosen': ''" (click)="importType='json'">
+            {{ 'WALLETNEW.IMPORTWALLET_FROM_JSON' | translate }}
+          </div>
         </div>
-        <button nz-button nzType="primary" (click)="importStep=importStep+1">{{ 'COMMON.NEXT' | translate }}</button>
+        <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="importType===null">{{ 'COMMON.NEXT' | translate }}</button>
       </div>
-      <div *ngIf="importStep===1"></div>
-      <div *ngIf="importStep===2"></div>
-      <div *ngIf="importStep>=3"></div>
+
+      <!-- Step 1 -->
+      <div *ngIf="importStep===1">
+
+        <!-- Import from mnemonic -->
+        <div *ngIf="importType === 'mnemonic'">
+          <div class="tip">{{ 'WALLETNEW.MNEMONIC_TIP' | translate }}</div>
+          <div class="inputmnemonic">
+            <textarea row="4" nz-input [(ngModel)]="mnemonic" placeholder="{{ 'WALLETNEW.MNEMONIC_PLACEHOLDER' | translate }}"></textarea>
+          </div>
+          <br/>
+          <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
+          <button nz-button nzType="primary" (click)="validateOldMnemonic()">{{ 'COMMON.NEXT' | translate }}</button>
+        </div>
+
+        <!-- Import from json -->
+        <div *ngIf="importType === 'json'">
+          <div class="tip">{{ 'WALLETNEW.JSON_TIP' | translate }}</div>
+          <div class="selectjson" (click)="selectJson()">
+            <i class="anticon anticon-plus"></i>
+            <div *ngIf="!walletJson">{{ 'WALLETNEW.JSON_SELECT_TIP' | translate }}</div>
+            <div *ngIf="walletJson">{{ walletJsonName }}</div>
+          </div>
+          <div class="tip">{{ 'WALLETNEW.JSON_PRIVATE_TIP' | translate }}</div>
+          <br/>
+          <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
+          <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="!walletJson">{{ 'COMMON.NEXT' | translate }}</button>
+        </div>
+      </div>
+
+      <div *ngIf="importStep===2">
+        <div *ngIf="importType === 'mnemonic'">
+          <div class="password">
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="password">
+            <br/>
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="passwordRepeat">
+          </div>
+          <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
+          <button nz-button nzType="primary" (click)="validatePassword()" [disabled]="loading">
+            <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+            {{ 'COMMON.NEXT' | translate }}
+          </button>
+        </div>
+
+        <div *ngIf="importType === 'json'">
+          <div class="password">
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="oldPassword">
+          </div>
+          <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
+          <button nz-button nzType="primary" (click)="validateOldPassword()" [disabled]="loading">
+            <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+            {{ 'COMMON.NEXT' | translate }}
+          </button>
+        </div>
+
+      </div>
+      <div *ngIf="importStep>=3">
+        <div class="done">
+          <div>
+            <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
+
+            <nz-input-group nzSearch [nzSuffix]="createWalletChangeName">
+              <input [disabled]="!isEdit" type="text" nz-input [(ngModel)]="walletName">
+            </nz-input-group>
+            <ng-template #createWalletChangeName>
+              <button nzSearch nz-button (click)="isEdit ? changeWalletName() : null;isEdit=!isEdit;">
+                <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
+              </button>
+            </ng-template>
+            <div>{{ walletAddress }}</div>
+          </div>
+        </div>
+        <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>
+        <button nz-button nzType="primary" (click)="ALL_DONE()">{{ 'COMMON.DONE' | translate }}</button>
+      </div>
     </div>
   </nz-card>
 </div>
