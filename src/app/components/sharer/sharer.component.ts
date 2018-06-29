@@ -13,7 +13,14 @@ export class SharerComponent implements OnInit {
 
   ngOnInit() {
     this.sharer.runDaemon((err) => {
-      
+      if(err) {
+        return alert(err);
+      }
+      this.sharer.startAll((err)=>{
+        if(err) {
+          return alert(err);
+        }
+      });
     });
   }
 
