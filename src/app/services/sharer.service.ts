@@ -4,15 +4,18 @@ import { ipcRenderer } from "electron";
 
 // usage
 let ipcId = 0;
-function test(args) {
-  ipcRenderer.once(`storj.lib.test.${ipcId}`, (event, rt) => {
-
-  });
-  ipcRenderer.send("storj.lib.test", ipcId, args);
+function getPrivateKey() {
+  return ipcRenderer.sendSync("storj.lib.getPrivateKey", ipcId++);
 }
 
-const storj = require('storj-lib');
-const genaroshare = require('genaroshare-daemon');
+function getNodeID(key) {
+  return ipcRenderer.sendSync("storj.lib.getNodeID", ipcId++, [key]);
+}
+
+function validateConfig(config) {
+  return ipcRenderer.sendSync("storj.lib.validateConfig", ipcId++, [config]);
+}
+
 const dnode = require('dnode');
 const path = require('path');
 const fs = require('fs');
@@ -96,7 +99,6 @@ function _remove(nodeId) {
 })
 export class SharerService {
   runDaemon(callback) {
-    debugger;
     let RPCServer = fork(DAEMON, [], { env: { STORJ_NETWORK: DAEMON_CONFIG.STORJ_NETWORK, RPC_PORT: DAEMON_CONFIG.RPC_PORT } });
 
     process.on('exit', () => {
@@ -117,8 +119,8 @@ export class SharerService {
     let configFileDescriptor;
     let storPath;
     let config = DAEMON_CONFIG.prodConfig;
-    config.networkPrivateKey = storj.KeyPair().getPrivateKey();
-    let nodeID = storj.KeyPair(config.networkPrivateKey).getNodeID();
+    config.networkPrivateKey = getPrivateKey();
+    let nodeID = getNodeID(config.networkPrivateKey);
     console.log(`creating node id: ${nodeID}`);
     config.storagePath = shareBasePath;
     try {
@@ -143,7 +145,10 @@ export class SharerService {
     let configArray = JSON.stringify(config, null, 2).split('\n');
     let configBuffer = Buffer.from(configArray.join('\n'));
     try {
-      genaroshare.utils.validate(config);
+      let err = validateConfig(config);
+      if(err) {
+        throw err;
+      }
       configFileDescriptor = fs.openSync(configFilePath, 'w');
       fs.writeFileSync(configFileDescriptor, configBuffer);
       console.log(`wrote config file to: ${configFilePath}`);
@@ -175,6 +180,7 @@ export class SharerService {
     let errs = [];
     let len = configIds.length;
     configIds.forEach(nodeId => {
+      debugger;
       this.start(nodeId, err => {
         if (err) {
           errs.push(err);

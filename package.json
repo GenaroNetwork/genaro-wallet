@@ -41,6 +41,7 @@
     "dnode": "^1.2.2",
     "element-angular": "^0.7.6",
     "ethereumjs-wallet": "^0.6.0",
+    "genaroshare-daemon": "^1.2.9",
     "genaro-web3": "^0.5.1",
     "hdkey": "^1.0.0",
     "jdenticon": "^2.1.0",

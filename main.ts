@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as url from 'url';
 import Sqlite from "./libs/sqlite";
 import Avatar from "./libs/avatar";
-import StorjLin from "./libs/storj-lib";
+import StorjLib from "./libs/storj-lib";
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -14,6 +14,7 @@ function createWindow() {
   // start libs;
   new Sqlite;
   new Avatar;
+  new StorjLib;
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
