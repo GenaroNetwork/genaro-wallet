@@ -4,6 +4,7 @@ import * as url from 'url';
 import Sqlite from "./libs/sqlite";
 import Avatar from "./libs/avatar";
 import StorjLib from "./libs/storj-lib";
+import Geth from "./libs/geth";
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -15,6 +16,7 @@ function createWindow() {
   new Sqlite;
   new Avatar;
   new StorjLib;
+  new Geth;
 
   //add extensions
   // BrowserWindow.addDevToolsExtension('./extensions/elgalmkoelokbchhkhacckoklkejnhcd/1.19.1_0');
