@@ -36,6 +36,13 @@
     "EDEN": "EDEN",
     "SHARER": "SHARER"
   },
+  "WALLET": {
+    "CONFIG": "管理钱包",
+    "CHANGE_NAME": "修改名称",
+    "CHANGE_PASSWORD": "修改密码",
+    "EXPORT_JSON": "导出钱包为 JSON 文件",
+    "DELETE_WALLET": "删除钱包"
+  },
   "WALLETNEW": {
     "TITLE": "创建钱包",
     "TITLE_NEWWALLET": "新建钱包",

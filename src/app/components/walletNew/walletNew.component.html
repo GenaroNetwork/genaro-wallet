@@ -76,7 +76,7 @@
       <div *ngIf="createStep>=3">
         <div class="done">
           <div>
-            <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
+            <img [src]="'avatar://' + (walletAddress ? walletAddress : 'NONE') | safe">
 
             <nz-input-group nzSearch [nzSuffix]="createWalletChangeName">
               <input [disabled]="!isEdit" type="text" nz-input [(ngModel)]="walletName">
@@ -86,7 +86,7 @@
                 <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
               </button>
             </ng-template>
-            <div>{{ walletAddress | addr }}</div>
+            <div>{{ walletAddress | longAddr }}</div>
           </div>
         </div>
         <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>
@@ -174,7 +174,7 @@
       <div *ngIf="importStep>=3">
         <div class="done">
           <div>
-            <img [src]="safeUrl('avatar://' + (walletAddress ? walletAddress : 'NONE'))">
+            <img [src]="'avatar://' + (walletAddress ? walletAddress : 'NONE') | safe">
 
             <nz-input-group nzSearch [nzSuffix]="createWalletChangeName">
               <input [disabled]="!isEdit" type="text" nz-input [(ngModel)]="walletName">
@@ -184,7 +184,7 @@
                 <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
               </button>
             </ng-template>
-            <div>{{ walletAddress | addr }}</div>
+            <div>{{ walletAddress | longAddr }}</div>
           </div>
         </div>
         <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>

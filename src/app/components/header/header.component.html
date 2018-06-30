@@ -7,14 +7,14 @@
       {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ (txService.newBlockHeaders | async)?.number ||
       0 }}</div>
     <div class="menu">
-      <nz-dropdown nzPlacement="bottomRight">
+      <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
           {{ (walletService.currentWallet | async)?.name || emptyAccount }}
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>
           <li nz-menu-item *ngFor="let wallet of walletService.walletList | async | slice:0:10">
-            <a>{{ wallet.name }} {{ i }}</a>
+            <a (click)="walletService.currentWallet.next(wallet)">{{ wallet.name }} {{ i }}</a>
           </li>
           <li nz-menu-divider></li>
           <li nz-menu-item (click)="walletNewShown=true">

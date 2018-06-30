@@ -32,8 +32,9 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 
 
 // pipes
-import { AddrPipe } from "./pipes/addr.pipe";
+import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { GetBalancePipe } from './pipes/getBalance.pipe';
+import { SafePipe } from './pipes/safe.pipe';
 
 
 // AoT requires an exported function for factories
@@ -53,8 +54,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletNewComponent,
     WebviewDirective,
     SharerComponent,
-    AddrPipe,
+    LongAddrPipe,
+    ShortAddrPipe,
     GetBalancePipe,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

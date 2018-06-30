@@ -1,9 +1,38 @@
 <div class="header">
   <div class="card">
-    <ng-container *ngIf="">
-      {{ (txService.ready | async) ? (txService.newBlockHeaders | async | getBalance | async) : '0' }}
-    </ng-container>
+    {{ (txService.ready | async) ? (txService.newBlockHeaders | async | getBalance | async) : '0' }}&nbsp;
+    <span>GNX</span>
   </div>
-  <div class="info"></div>
+  <div class="info">
+    <img [src]="'avatar://123' | safe">
+    <div class="name">
+      {{ (walletService.currentWallet | async)?.name }}
+      <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
+        <a nz-dropdown>
+          {{ 'WALLET.CONFIG' | translate }}
+          <i class="anticon anticon-down"></i>
+        </a>
+        <ul nz-menu>
+          <li nz-menu-item (click)="walletNewShown=true">
+            <a>{{ "WALLET.CHANGE_NAME" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "WALLET.CHANGE_PASSWORD" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "WALLET.EXPORT_JSON" | translate}}</a>
+          </li>
+          <li nz-menu-item>
+            <a>{{ "WALLET.DELETE_WALLET" | translate}}</a>
+          </li>
+        </ul>
+      </nz-dropdown>
+    </div>
+    <div class="address">
+      {{ (walletService.currentWallet | async)?.address | longAddr | shortAddr}}
+      <i [class]="copied === 'wallet-address' ? 'anticon anticon-check' : 'anticon anticon-copy'" (click)="copyWalletAddr()"></i>
+    </div>
+    <div class="edit"></div>
+  </div>
 </div>
 <div class="table"></div>

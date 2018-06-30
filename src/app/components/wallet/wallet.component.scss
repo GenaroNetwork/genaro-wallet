@@ -13,13 +13,47 @@
   overflow: visible;
   .card {
     flex: 0 26rem;
-    margin-right: 1rem;
+    margin-right: 3rem;
     background: lightblue;
     border-radius: $border-radius;
     box-shadow: 0 0 4rem -1.5rem rgba(0, 0, 0, 1);
+    line-height: 18rem;
+    padding-left: 2rem;
+    font-size: 3rem;
+    color: white;
+    span {
+      font-size: 1rem;
+    }
   }
   .info {
-    flex: 1;
+    $img-size: 6rem;
+    flex: 0 26rem;
+    position: relative;
+    padding-left: $img-size + 1rem;
+    img {
+      height: $img-size;
+      width: $img-size;
+      position: absolute;
+      left: 0;
+    }
+    .name {
+      line-height: 3rem;
+      font-size: 1rem;
+      padding-right: 1rem;
+      nz-dropdown {
+        float: right;
+      }
+    }
+    .address {
+      line-height: 2rem;
+      font-size: 1rem;
+      padding-right: 1rem;
+      i {
+        float: right;
+        line-height: inherit;
+        cursor: pointer;
+      }
+    }
   }
 }
 

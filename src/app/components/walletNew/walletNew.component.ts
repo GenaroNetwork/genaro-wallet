@@ -22,7 +22,6 @@ export class WalletNewComponent implements OnChanges {
     private wallet: WalletService,
     private alert: NzMessageService,
     private translate: TranslateService,
-    private sanitizer: DomSanitizer,
   ) {
   }
 
@@ -187,10 +186,6 @@ export class WalletNewComponent implements OnChanges {
     clipboard.writeText(this.mnemonic);
     this.copied = true;
     setTimeout(() => { this.copied = false }, 1000);
-  }
-
-  safeUrl(url: string) {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
 }
