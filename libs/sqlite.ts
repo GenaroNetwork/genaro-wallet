@@ -15,7 +15,7 @@ export default class {
         wallet TEXT
         )`).run();*/
 
-        DB.prepare(`CREATE TABLE IF NOT EXISTS transactions (
+        tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
             txType TEXT,
             addrTo TEXT,
             amount REAL,
