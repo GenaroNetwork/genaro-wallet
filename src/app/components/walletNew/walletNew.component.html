@@ -3,6 +3,9 @@
     <div class="header">
       <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
       {{ title | translate }}
+      <div class="close" (click)="ALL_DONE()">
+        <i class="anticon anticon-close"></i>
+      </div>
     </div>
 
     <div *ngIf="newWalletType===null" class="front-page">
@@ -83,7 +86,7 @@
                 <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
               </button>
             </ng-template>
-            <div>{{ walletAddress }}</div>
+            <div>{{ walletAddress | addr }}</div>
           </div>
         </div>
         <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>
@@ -181,7 +184,7 @@
                 <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
               </button>
             </ng-template>
-            <div>{{ walletAddress }}</div>
+            <div>{{ walletAddress | addr }}</div>
           </div>
         </div>
         <button nz-button (click)="toFrontPage()">{{ 'WALLETNEW.ADD_ANOTHER_WALLET' | translate }}</button>

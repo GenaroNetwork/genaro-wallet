@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChange } from '@angular/core';
 import { clipboard } from "electron";
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
@@ -13,8 +13,10 @@ import { basename } from "path";
   templateUrl: './walletNew.component.html',
   styleUrls: ['./walletNew.component.scss']
 })
-export class WalletNewComponent implements OnInit {
-  @Output("close") closeEvent: EventEmitter<void> = new EventEmitter;
+export class WalletNewComponent implements OnChanges {
+
+  @Input("walletCount") walletCount: number;
+  @Output("stateChange") stateChangeEvent: EventEmitter<boolean> = new EventEmitter;
 
   constructor(
     private wallet: WalletService,
@@ -24,8 +26,14 @@ export class WalletNewComponent implements OnInit {
   ) {
   }
 
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    if (!changes.walletCount) return;
+    if (changes.walletCount.currentValue !== 0) return;
+    this.stateChangeEvent.emit(true);
+  }
+
   ALL_DONE() {
-    this.closeEvent.emit();
+    this.stateChangeEvent.emit(false);
   }
 
   newWalletType: string = null;
@@ -184,6 +192,5 @@ export class WalletNewComponent implements OnInit {
   safeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
-  ngOnInit() { }
 
 }

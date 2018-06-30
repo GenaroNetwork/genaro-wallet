@@ -29,11 +29,11 @@ import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
 
 // services
-import { Web3Service } from "./services/web3.service";
-import { GethService } from "./services/geth.service";
-import { SqliteService } from "./services/sqlite.service";
-import { TransactionService } from "./services/transaction.service";
-import { WalletService } from "./services/wallet.service";
+
+
+// pipes
+import { AddrPipe } from "./pipes/addr.pipe";
+import { GetBalancePipe } from './pipes/getBalance.pipe';
 
 
 // AoT requires an exported function for factories
@@ -53,6 +53,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletNewComponent,
     WebviewDirective,
     SharerComponent,
+    AddrPipe,
+    GetBalancePipe,
   ],
   imports: [
     BrowserModule,
@@ -71,10 +73,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     ElectronService,
-    Web3Service,
-    GethService,
-    SqliteService,
-    TransactionService
   ],
   bootstrap: [AppComponent]
 })

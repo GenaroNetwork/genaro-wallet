@@ -15,7 +15,7 @@ const routes: Routes = [{
 }, {
     path: 'tx-sharer',
     component: TxSharerComponent,
-},{
+}, {
     path: 'sharer',
     component: SharerComponent,
 }, {

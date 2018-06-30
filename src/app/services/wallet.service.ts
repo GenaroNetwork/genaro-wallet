@@ -1,41 +1,51 @@
 import { Injectable } from '@angular/core';
 import { newWalletManager, generateMnemonic, validateMnemonic, signTx } from "jswallet-manager";
 import { WALLET_CONFIG_PATH } from "../libs/config";
-import { EventEmitter } from 'events';
-let wallets = newWalletManager(WALLET_CONFIG_PATH);
-let walletList = wallets.listWallet();
-let walletNames = new Set;
-let walletAddrs = new Set;
-let walletNewEvent = new EventEmitter;
+import { BehaviorSubject } from 'rxjs';
+import { nextTick } from 'q';
 
-walletList.forEach(wallet => {
-  walletNames.add(wallet.name);
-  walletAddrs.add(wallet.address);
-});
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService {
+  private wallets: any;
 
-  walletNumber: number = 0;
-  walletNewEvent: any;
+  public walletList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor() {
-    this.walletNumber = walletNames.size;
-    this.walletNewEvent = walletNewEvent;
+    this.wallets = newWalletManager(WALLET_CONFIG_PATH);
+    this.walletList.next(this.wallets.listWallet());
+    this.walletList.subscribe(walletList => {
+      if (walletList.length === 0) {
+        this.currentWallet = null;
+        return;
+      }
+      this.currentWallet.subscribe(current => {
+        if (current && walletList.find(wallet => wallet.address === current.address) !== void 0) return;
+        nextTick(() => {
+          this.currentWallet.next(walletList[0]);
+        });
+      }).unsubscribe();
+    });
   }
+
 
   createWallet(mnemonic: string, password: string, name: string): Promise<any> {
     return new Promise(res => {
       setTimeout(() => {
-        let wallet = wallets.importFromMnemonic(mnemonic, password, name);
+        let wallet = this.wallets.importFromMnemonic(mnemonic, password, name);
+        this.walletList.next(this.wallets.listWallet());
         res(wallet);
       }, 0);
     });
   }
 
   importWallet(json: any, password, name) {
-    return wallets.importFromJson(json, password, name);
+    let wallet = this.wallets.importFromJson(json, password, name);
+    this.walletList.next(this.wallets.listWallet());
+    return wallet;
   }
 
   /**
@@ -43,11 +53,12 @@ export class WalletService {
    * @returns {boolean} true 代表该名字存在
    */
   checkName(name: string) {
-    return walletNames.has(name);
+    return this.wallets.listWallet().find(wallet => wallet.name === name) !== void 0;
   }
 
   changeName(address: string, newName: string) {
-    wallets.renameWallet(address, newName);
+    this.wallets.renameWallet(address, newName);
+    this.walletList.next(this.wallets.listWallet());
   }
 
   /**
@@ -56,7 +67,8 @@ export class WalletService {
    */
   generateName(prefix: string = "Wallet") {
     let i = 0;
-    while (walletNames.has(`${prefix} ${++i}`)) { }
+    let wallets = this.wallets.listWallet();
+    while (wallets.find(wallet => wallet.name === `${prefix} ${++i}`) !== void 0) { }
     return `${prefix} ${i}`;
   }
 

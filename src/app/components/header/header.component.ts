@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { WalletService } from "../../services/wallet.service";
 import { TranslateService } from '@ngx-translate/core';
-import { Web3Service } from '../../services/web3.service';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-header',
@@ -10,39 +10,20 @@ import { Web3Service } from '../../services/web3.service';
 })
 export class HeaderComponent implements OnInit {
 
-  wallets: any[] = [];
-
-  currentAccount: string;
+  emptyAccount: string;
+  walletShown: boolean = false;
   blockHeight: number = null;
-
-  walletNewShown: boolean;
   constructor(
     private i18n: TranslateService,
-    private web3: Web3Service,
-    private changeRef: ChangeDetectorRef,
-    private wallet: WalletService,
+    private txService: TransactionService,
+    private walletService: WalletService, // 会在 html 中用到，
   ) { }
 
   ngOnInit() {
 
-    if (this.wallet.walletNumber === 0) this.walletNewShown = true;
-    this.wallet.walletNewEvent.on("open", () => { this.walletNewShown = true });
-    this.wallet.walletNewEvent.on("close", () => { this.walletNewShown = false });
-
     setTimeout(() => {
-      this.currentAccount = this.i18n.instant("HEADER.NO_ACCOUNT");
-      this.wallets = [];
+      this.emptyAccount = this.i18n.instant("HEADER.NO_ACCOUNT");
     }, 0);
-    this.web3.event.on("started", () => {
-      this.web3.eth.subscribe("newBlockHeaders", (err, bh: any) => {
-        if (err) return;
-        bh = Object.assign({}, bh);
-        this.blockHeight = bh.number;
-        this.changeRef.detectChanges();
-      });
-    });
-
-
   }
 
   ngOnDestroy(): void {

@@ -14,6 +14,10 @@
     }
     &.right {
       flex: 1;
+      /deep/ .ant-card-body {
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 }

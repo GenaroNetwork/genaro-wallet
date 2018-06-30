@@ -3,16 +3,21 @@
     <div class="logo">{{ "HEADER.ICON" | translate }}</div>
   </div>
   <div class="right">
-    <div class="block-height">{{ "HEADER.BLOCK_HEIGHT" | translate}}{{ "COMMON.COLON" | translate}}{{ blockHeight }}</div>
+    <div class="block-height">
+      {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ (txService.newBlockHeaders | async)?.number ||
+      0 }}</div>
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight">
         <a nz-dropdown>
-          {{ currentAccount }}
+          {{ (walletService.currentWallet | async)?.name || emptyAccount }}
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>
+          <li nz-menu-item *ngFor="let wallet of walletService.walletList | async | slice:0:10">
+            <a>{{ wallet.name }} {{ i }}</a>
+          </li>
           <li nz-menu-divider></li>
-          <li nz-menu-item>
+          <li nz-menu-item (click)="walletNewShown=true">
             <a>{{ "HEADER.CREATE_WALLET" | translate}}</a>
           </li>
           <li nz-menu-item>
@@ -29,4 +34,4 @@
     </div>
   </div>
 </div>
-<app-walletNew *ngIf="walletNewShown" (close)="walletNewShown=false"></app-walletNew>
+<app-walletNew *ngIf="walletNewShown" (stateChange)="walletNewShown=$event" [walletCount]="(walletService.walletList | async)?.length"></app-walletNew>

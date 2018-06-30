@@ -9,14 +9,7 @@
   background: $popup-bg;
   nz-card {
     border-radius: $border-radius;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    height: $popup-height;
-    width: $popup-width;
+    @extend .popup-style;
     /deep/ .ant-card-body {
       padding-top: 0;
     }
@@ -30,9 +23,18 @@
       .back {
         position: absolute;
         left: 0;
+        top: 0;
         float: left;
         color: $link-color;
         cursor: pointer;
+      }
+      .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        width: $title-height;
+        text-align: center;
       }
     }
     .front-page {
@@ -158,14 +160,18 @@
         cursor: pointer;
         margin: $border-blank/2 0;
         display: inline-block;
-        height: 5rem;
+        height: 8rem;
         padding: $border-blank/2 0;
-        width: 10rem;
+        width: 14rem;
         border: 1px dashed #CCC;
         background: $second-bg;
         text-align: center;
+        border-radius: $border-radius;
         i {
-          font-size: 2rem;
+          font-size: 4rem;
+        }
+        div {
+          line-height: 2.5rem;
         }
       }
     }

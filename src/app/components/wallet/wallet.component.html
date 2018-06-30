@@ -1,1 +1,9 @@
-
+<div class="header">
+  <div class="card">
+    <ng-container *ngIf="txService.ready | async">
+      {{ txService.newBlockHeaders | async | getBalance | async }}
+    </ng-container>
+  </div>
+  <div class="info"></div>
+</div>
+<div class="table"></div>

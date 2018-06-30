@@ -16,6 +16,9 @@ function createWindow() {
   new Avatar;
   new StorjLib;
 
+  //add extensions
+  // BrowserWindow.addDevToolsExtension('./extensions/elgalmkoelokbchhkhacckoklkejnhcd/1.19.1_0');
+
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
