@@ -6,6 +6,7 @@ import { v1 as uuidv1 } from 'uuid'
 import { Observable, BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
+import { TransactionDbService } from './transaction-db.service';
 let web3: Web3;
 
 @Injectable({
@@ -17,6 +18,7 @@ export class TransactionService {
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private walletService: WalletService,
+    private transactionDb: TransactionDbService
   ) {
     web3 = new Web3(WEB3_URL);
     web3.eth.net.isListening().then(() => { this.ready.next(true); })
@@ -50,8 +52,7 @@ export class TransactionService {
       from: fromAddr,
       to: toAddr
     }
-    const rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
-    return this.sendTransaction(rawTx)
+    return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER')
   }
 
   async getNonce(address) {
@@ -71,30 +72,37 @@ export class TransactionService {
     }
   }
 
-  private sendTransaction(rawTx) {
+  private async sendTransaction(fromAddr, password, txOptions, transactionType) {
+    const rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
+    txOptions.transactionId = uuidv1()
+    txOptions.created = Date.now()
+    await this.transactionDb.addNewTransaction(transactionType, txOptions)
     return new Observable((observer) => {
       web3.eth.sendSignedTransaction(rawTx)
-        .once('transactionHash', function (hash) {
-          console.log('1 hash get, transaction sent: ' + hash)
-          observer.next({
-            event: 'TX_HASH',
-            param: hash
-          })
+      .once('transactionHash', async function (hash) {
+        console.log('1 hash get, transaction sent: ' + hash)
+        await this.transactionDb.updateTxHash(txOptions.transactionId, hash)
+        observer.next({
+          event: 'TX_HASH',
+          param: hash
         })
-        .on('receipt', async function (receipt) {
-          // will be fired once the receipt its mined
-          console.log('3 receipt mined, transaction success: ')
-          console.log('receipt:\n' + JSON.stringify(receipt))
-          observer.next({
-            event: 'TX_RECEIPT',
-            param: receipt
-          })
-          observer.complete()
+      })
+      .on('receipt', async function (receipt) {
+        // will be fired once the receipt its mined
+        console.log('3 receipt mined, transaction success: ')
+        console.log('receipt:\n' + JSON.stringify(receipt))
+        await this.transactionDb.txSuccess(txOptions.transactionId)
+        observer.next({
+          event: 'TX_RECEIPT',
+          param: receipt
         })
-        .on('error', function (error) {
-          console.log('2 error: ' + error)
-          observer.error(error)
-        })
+        observer.complete()
+      })
+      .on('error', async function (error) {
+        await this.transactionDb.txError(txOptions.transactionId, error)
+        console.log('2 error: ' + error)
+        observer.error(error)
+      })
     })
   }
 
@@ -117,8 +125,7 @@ export class TransactionService {
       }]
     }
     const txOptions = this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
-    const rawTx = this.walletService.signTransaction(address, password, txOptions)
-    return this.sendTransaction(rawTx)
+    return this.sendTransaction(address, password, txOptions, 'BUY_BUCKET')
   }
 
   buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
@@ -129,7 +136,6 @@ export class TransactionService {
       traffic: amountInGB
     }
     const txOptions = this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
-    const rawTx = this.walletService.signTransaction(address, password, txOptions)
-    return this.sendTransaction(rawTx)
+    return this.sendTransaction(address, password, txOptions, 'BUY_TRAFFIC')
   }
 }

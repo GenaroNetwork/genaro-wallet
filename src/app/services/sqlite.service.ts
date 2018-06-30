@@ -22,7 +22,7 @@ export class SqliteService {
    */
   saveWallet(name, wallet) {
     return new Promise((res, rej) => {
-      ipcRenderer.on(`db.wallet.run.${ipcId}`, (event) => res);
+      ipcRenderer.on(`db.wallet.run.${ipcId}`, (event) => res());
       ipcRenderer.send("db.wallet.run", ipcId++, `INSERT INTO wallet 
       (name, address, wallet) VALUES 
       ('${name}','${wallet.address}','${JSON.stringify(wallet)}')`);

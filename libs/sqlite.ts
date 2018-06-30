@@ -15,6 +15,22 @@ export default class {
         wallet TEXT
         )`).run();*/
 
+        DB.prepare(`CREATE TABLE IF NOT EXISTS transactions (
+            txType TEXT,
+            addrTo TEXT,
+            amount REAL,
+            gasPrice REAL,
+            gasLimit INTEGER,
+            addrFrom TEXT,
+            created NUMERIC,
+            transactionId TEXT,
+            state INTEGER,
+            message TEXT,
+            hash TEXT,
+            error TEXT,
+            chainDetail TEXT
+        )`).run();
+
         ipcMain.on("db.tx.run", (event, ipcId, sql) => {
             tx.prepare(sql).run();
             event.sender.send(`db.tx.run.${ipcId}`);
