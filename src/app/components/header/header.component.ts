@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ApplicationRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { WalletService } from "../../services/wallet.service";
 import { TranslateService } from '@ngx-translate/core';
 import { Web3Service } from '../../services/web3.service';
 
@@ -14,13 +15,20 @@ export class HeaderComponent implements OnInit {
   currentAccount: string;
   blockHeight: number = null;
 
+  walletNewShown: boolean;
   constructor(
     private i18n: TranslateService,
     private web3: Web3Service,
     private changeRef: ChangeDetectorRef,
+    private wallet: WalletService,
   ) { }
 
   ngOnInit() {
+
+    if (this.wallet.walletNumber === 0) this.walletNewShown = true;
+    this.wallet.walletNewEvent.on("open", () => { this.walletNewShown = true });
+    this.wallet.walletNewEvent.on("close", () => { this.walletNewShown = false });
+
     setTimeout(() => {
       this.currentAccount = this.i18n.instant("HEADER.NO_ACCOUNT");
       this.wallets = [];
@@ -33,6 +41,8 @@ export class HeaderComponent implements OnInit {
         this.changeRef.detectChanges();
       });
     });
+
+
   }
 
   ngOnDestroy(): void {

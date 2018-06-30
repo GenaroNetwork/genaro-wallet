@@ -11,9 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-// element
-import { ElModule } from 'element-angular';
-
 // And Design
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
@@ -36,6 +33,7 @@ import { Web3Service } from "./services/web3.service";
 import { GethService } from "./services/geth.service";
 import { SqliteService } from "./services/sqlite.service";
 import { TransactionService } from "./services/transaction.service";
+import { WalletService } from "./services/wallet.service";
 
 
 // AoT requires an exported function for factories
@@ -59,7 +57,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ElModule.forRoot(),
     NgZorroAntdModule,
     FormsModule,
     HttpClientModule,

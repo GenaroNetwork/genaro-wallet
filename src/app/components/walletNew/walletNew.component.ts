@@ -1,9 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { clipboard } from "electron";
-import { ElMessageService } from 'element-angular/release/element-angular.module';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NzMessageService } from 'ng-zorro-antd';
+import { remote } from "electron";
+import { readFileSync } from "fs";
+import { basename } from "path";
 
 @Component({
   selector: 'app-walletNew',
@@ -15,19 +18,18 @@ export class WalletNewComponent implements OnInit {
 
   constructor(
     private wallet: WalletService,
-    private alert: ElMessageService,
+    private alert: NzMessageService,
     private translate: TranslateService,
     private sanitizer: DomSanitizer,
   ) {
-    this.alert.setOptions({ showClose: true });
   }
 
   ALL_DONE() {
     this.closeEvent.emit();
   }
 
-  newWalletType: string = "create";
-  createStep: number = 4;
+  newWalletType: string = null;
+  createStep: number = 0;
   importStep: number = 0;
   title: string = "WALLETNEW.TITLE";
 
@@ -35,6 +37,7 @@ export class WalletNewComponent implements OnInit {
   mnemonic: string = null;
   mnemonicRepeat: string = null;
   walletJson: string = null;
+  walletJsonName: string = null;
   password: string = null;
   passwordRepeat: string = null;
   oldPassword: string = null;
@@ -57,6 +60,7 @@ export class WalletNewComponent implements OnInit {
     this.walletName = null;
     this.walletAddress = null;
     this.walletJson = null;
+    this.walletName = null;
     this.importType = null;
     this.isEdit = false;
     this.loading = false;
@@ -84,19 +88,25 @@ export class WalletNewComponent implements OnInit {
       this.createStep++;
       return;
     }
-    this.alert.setOptions({ showClose: true });
-    this.alert["error"](this.translate.instant("WALLETNEW.REPEAT_MNEMONIC_ERROR"));
+    this.alert.create("error", this.translate.instant("WALLETNEW.REPEAT_MNEMONIC_ERROR"));
+  }
+
+  validateOldMnemonic() {
+    if (!this.wallet.validateMnemonic(this.mnemonic)) {
+      this.alert.create("error", this.translate.instant("WALLETNEW.OLD_MNEMONIC_ERROR"));
+      return;
+    }
+    this.importStep++;
   }
 
   validatePassword() {
-
     if (this.password !== this.passwordRepeat) {
-      this.alert["error"](this.translate.instant("WALLETNEW.REPEAT_PASSWORD_ERROR"));
+      this.alert.create("error", this.translate.instant("WALLETNEW.REPEAT_PASSWORD_ERROR"));
       return;
     }
 
     if (this.password.length < 6) {
-      this.alert["error"](this.translate.instant("WALLETNEW.PASSWORD_NOT_SAFE_LENGTH"));
+      this.alert.create("error", this.translate.instant("WALLETNEW.PASSWORD_NOT_SAFE_LENGTH"));
       return;
     }
 
@@ -115,12 +125,54 @@ export class WalletNewComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  validateOldPassword() {
+    this.loading = true;
+    let json = readFileSync(this.walletJson, { encoding: "utf-8" });
+    let wallet;
+    try {
+      wallet = this.wallet.importWallet(json, this.oldPassword, this.wallet.generateName());
+    } catch (e) {
+      switch (e.message) {
+        case "Not a V3 wallet":
+          this.alert.create("error", this.translate.instant("WALLETNEW.IMPORT_JSON_ERROR_ILLEGAL"));
+          break;
+        case "Assertion failed":
+          this.alert.create("error", this.translate.instant("WALLETNEW.IMPORT_JSON_ERROR_PASSWORD"));
+          break;
+        default:
+          this.alert.create("error", this.translate.instant("WALLETNEW.IMPORT_JSON"));
+          break;
+      }
+
+      this.loading = false;
+      return;
+    }
+
+    if (this.newWalletType === "create") this.createStep++;
+    if (this.newWalletType === "import") this.importStep++;
+
+    this.walletName = wallet.name;
+    this.walletAddress = wallet.address;
+
+    if (this.newWalletType === "create") this.createStep++;
+    if (this.newWalletType === "import") this.importStep++;
+
+    this.loading = false;
+  }
+
   changeWalletName() {
     if (this.wallet.checkName(this.walletName)) {
-      this.alert["error"](this.translate.instant("WALLETNEW.NEW_NAME_EXISTS"));
+      this.alert.create("error", this.translate.instant("WALLETNEW.NEW_NAME_EXISTS"));
       return;
     }
     this.wallet.changeName(this.walletAddress, this.walletName);
+  }
+
+  selectJson() {
+    let files = remote.dialog.showOpenDialog({ properties: ["openFile"] });
+    this.walletJson = files[0];
+    this.walletJsonName = basename(this.walletJson);
   }
 
   copy() {

@@ -29,4 +29,4 @@
     </div>
   </div>
 </div>
-<app-walletNew *ngIf="false"></app-walletNew>
+<app-walletNew *ngIf="walletNewShown" (close)="walletNewShown=false"></app-walletNew>

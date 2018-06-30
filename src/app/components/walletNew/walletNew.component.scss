@@ -26,7 +26,7 @@
       line-height: $title-height;
       position: relative;
       text-align: center;
-      margin-bottom: 2*$border-blank;
+      margin-bottom: $border-blank;
       .back {
         position: absolute;
         left: 0;
@@ -50,6 +50,11 @@
     .createStep,
     .importStep {
       text-align: center;
+      nz-steps {
+        /deep/ .ant-steps {
+          margin-bottom: $border-blank;
+        }
+      }
       button {
         margin: 0 $border-blank;
       }
@@ -62,21 +67,25 @@
         padding: 2*$border-blank 2*$border-blank $border-blank;
         input {
           width: $short-input;
-          margin-bottom: 1rem;
+          margin-bottom: $border-blank;
         }
       }
       .done {
         text-align: center;
         padding: $border-blank 0;
+        $icon-size: 5rem;
         &>div {
           display: inline-block;
           text-align: left;
+          padding-left: $icon-size + $border-blank;
+          position: relative;
+          height: $icon-size;
+          margin-bottom: $border-blank;
           img {
-            $icon-size: 5rem;
             height: $icon-size;
             width: $icon-size;
-            float: left;
-            margin-right: $border-blank;
+            position: absolute;
+            left: 0;
           }
           nz-input-group {
             width: $short-input;
@@ -85,7 +94,7 @@
             }
           }
           div {
-            margin-top: $border-blank/2;
+            margin-top: $border-blank;
           }
         }
       }
@@ -113,6 +122,50 @@
           display: inline-block;
           resize: none;
           width: 70%;
+        }
+      }
+    }
+    .importStep {
+      .type {
+        height: 8rem;
+        text-align: center;
+        &>div {
+          $block-size: 5rem;
+          height: $block-size;
+          width: 1.5*$block-size;
+          border: 1px dashed #CCC;
+          line-height: $block-size;
+          display: inline-block;
+          border-radius: $border-radius;
+          margin: $border-blank 2*$border-blank 0;
+          cursor: pointer;
+          &.chosen {
+            border: 1px solid $theme-color;
+            box-shadow: 0 0 $block-size -1.3rem rgba(0, 0, 0, 1);
+          }
+        }
+      }
+      .inputmnemonic {
+        text-align: center;
+        width: 70%;
+        display: inline-block;
+        textarea {
+          resize: none;
+          margin: $border-blank 0;
+        }
+      }
+      .selectjson {
+        cursor: pointer;
+        margin: $border-blank/2 0;
+        display: inline-block;
+        height: 5rem;
+        padding: $border-blank/2 0;
+        width: 10rem;
+        border: 1px dashed #CCC;
+        background: $second-bg;
+        text-align: center;
+        i {
+          font-size: 2rem;
         }
       }
     }

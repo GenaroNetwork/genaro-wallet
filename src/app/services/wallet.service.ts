@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { newWalletManager, generateMnemonic, validateMnemonic, signTx } from "jswallet-manager";
 import { WALLET_CONFIG_PATH } from "../libs/config";
+import { EventEmitter } from 'events';
 let wallets = newWalletManager(WALLET_CONFIG_PATH);
 let walletList = wallets.listWallet();
 let walletNames = new Set;
 let walletAddrs = new Set;
+let walletNewEvent = new EventEmitter;
 
 walletList.forEach(wallet => {
   walletNames.add(wallet.name);
@@ -16,7 +18,11 @@ walletList.forEach(wallet => {
 })
 export class WalletService {
 
+  walletNumber: number = 0;
+  walletNewEvent: any;
   constructor() {
+    this.walletNumber = walletNames.size;
+    this.walletNewEvent = walletNewEvent;
   }
 
   createWallet(mnemonic: string, password: string, name: string): Promise<any> {
@@ -26,6 +32,10 @@ export class WalletService {
         res(wallet);
       }, 0);
     });
+  }
+
+  importWallet(json: any, password, name) {
+    return wallets.importFromJson(json, password, name);
   }
 
   /**
