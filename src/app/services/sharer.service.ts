@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { fork } from 'child_process';
-import { ipcRenderer } from "electron";
+import { ipcRenderer, shell } from "electron";
 import Dnode from "dnode";
 
-var dnode = new Dnode(undefined, { weak: false });
 // usage
 let ipcId = 0;
 function getPrivateKey() {
@@ -96,6 +95,7 @@ function _remove(nodeId) {
 }
 
 function _start(nodeId, cb) {
+  let dnode = new Dnode(undefined, { weak: false });
   let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
   d.on('remote', (remote) => {
     let configPath = _getConfigPathById(nodeId);
@@ -204,6 +204,7 @@ export class SharerService {
   };
 
   stop(nodeId, cb) {
+    let dnode = new Dnode(undefined, { weak: false });
     let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.stop(nodeId, (err) => {
@@ -216,6 +217,7 @@ export class SharerService {
   };
 
   restart(nodeId, cb) {
+    let dnode = new Dnode(undefined, { weak: false });
     let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.restart(nodeId, (err) => {
@@ -228,6 +230,7 @@ export class SharerService {
   };
 
   status(cb) {
+    let dnode = new Dnode(undefined, { weak: false });
     let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.status((err, statuses) => {
@@ -240,6 +243,7 @@ export class SharerService {
   };
 
   destroy(nodeId, cb) {
+    let dnode = new Dnode(undefined, { weak: false });
     let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.destroy(nodeId, (err) => {
@@ -250,6 +254,15 @@ export class SharerService {
         d.end();
       });
     });
+  };
+
+  openLogFolder() {
+    shell.showItemInFolder(LOG_DIR);
+  };
+
+  openConfig(nodeId) {
+    const configPath = _getConfigPathById(nodeId);
+    shell.openItem(configPath);
   };
 
   constructor() { }

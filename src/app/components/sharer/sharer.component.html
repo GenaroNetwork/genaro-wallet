@@ -1,23 +1,109 @@
 <div>
   <div>
-    <nz-table #basicTable [nzData]="dataSet">
+    <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()">
+      <p>{{modalMessage | translate}}</p>
+    </nz-modal>
+    <div>
+      <button nz-button nzType="primary" nz-popover [(nzVisible)]="visible" nzTrigger="click"
+        [nzContent]="contentTemplate" nzPlacement="bottom">
+        {{ "DRIVE.ADD_DRIVE" | translate}}
+      </button>
+      <ng-template #contentTemplate>
+        <div>
+          <h3>{{ "DRIVE.DRIVE_LOCATION" | translate}}</h3>
+          <p class="input-style" (click)="selectFile()">
+            <span *ngIf="addShareFilePath">{{addShareFilePath}}</span>
+            <span *ngIf="!addShareFilePath">{{ "DRIVE.SELECT_SHARDING" | translate }}</span>
+          </p>
+          <h3 style="margin-top:20px">{{ "DRIVE.SHARING_SIZE" | translate }}</h3>
+          <div>
+            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+              <input type="text" nz-input [(ngModel)]="addShareShareSize">
+            </nz-input-group>
+            <ng-template #addOnAfterTemplate>
+              <nz-select [ngModel]="addShareSelectUnit">
+                <nz-option [nzLabel]="'GB'" [nzValue]="'GB'"></nz-option>
+                <nz-option [nzLabel]="'TB'" [nzValue]="'TB'"></nz-option>
+              </nz-select>
+            </ng-template>
+          </div>
+          <div style="margin-top: 40px; text-align: center;">
+            <button nz-button nzType="primary" (click)="addShare()">{{ "DRIVE.NEXT" | translate }}</button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <nz-table #basicTable [nzData]="driversData" nzShowPagination="false">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Address</th>
-          <th>Action</th>
+          <th>{{ "DRIVE.NODE" | translate}}</th>
+          <th>{{ "DRIVE.STATUS" | translate}}</th>
+          <th>{{ "DRIVE.UPTIME" | translate}}</th>
+          <th>{{ "DRIVE.RESTARTS" | translate}}</th>
+          <th>{{ "DRIVE.PEERS" | translate}}</th>
+          <th>{{ "DRIVE.ALLOCS" | translate}}</th>
+          <th>{{ "DRIVE.DELTA" | translate}}</th>
+          <th>{{ "DRIVE.PORT" | translate}}</th>
+          <th>{{ "DRIVE.SHARED" | translate}}</th>
+          <th>{{ "DRIVE.BRIDGES" | translate}}</th>
+          <th>{{ "DRIVE.OPTION" | translate}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of driversData.data">
-          <td>{{data.id}}</td>
-          <td>{{data.location}}</td>
-          <td>{{data.address}}</td>
+        <tr *ngFor="let data of driversData">
           <td>
-            <a>Action 一 {{data.name}}</a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a>Delete</a>
+            <div>
+              <span>{{data.id}}</span>
+              <br/>
+              <span>{{data.location}}</span>
+            </div>
+          </td>
+          <td>
+            <span class="{{data.statusColor}}">{{data.status}}</span>
+          </td>
+          <td>{{data.time}}</td>
+          <td>{{data.restarts}}</td>
+          <td>{{data.peers}}</td>
+          <td>
+            <div>
+              <span>{{data.contractCount}}</span>
+              <br/>
+              <span>{{data.dataReceivedCount + ' received'}}</span>
+            </div>
+          </td>
+          <td>
+            <span class="{{data.deltaColor}}">{{data.delta}}</span>
+          </td>
+          <td>
+            <div class="{{data.portColor}}">
+              <span>{{data.listenPort}}</span>
+              <br/>
+              <span>{{data.connectionType}}</span>
+            </div>
+          </td>
+          <td>
+            <div>
+              <nz-progress [nzPercent]="data.percentUsed" nzStatus="active"></nz-progress>
+              <p>{{data.spaceUsed}}/{{data.storageAllocation}}</p>
+            </div>
+          </td>
+          <td>
+            <span class="{{data.bridgesColor}}">{{data.bridgesText}}</span>
+          </td>
+          <td>
+            <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
+              <a nz-dropdown>
+                ...
+              </a>
+              <ul nz-menu>
+                <li nz-menu-item (click)="restartShare(data)">{{ "DRIVE.RESTART" | translate}}</li>
+                <li *ngIf="data.statusSwitch" nz-menu-item (click)="stopShare(data)">{{ "DRIVE.STOP" | translate}}</li>
+                <li *ngIf="!data.statusSwitch" nz-menu-item (click)="startShare(data)">{{ "DRIVE.START" | translate}}</li>
+                <li nz-menu-item (click)="deleteShare(data)">{{ "DRIVE.DELETE" | translate}}</li>
+                <li nz-menu-item (click)="showLog(data)">{{ "DRIVE.SHOW_LOG" | translate}}</li>
+                <li nz-menu-item (click)="openConfig(data)">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
+              </ul>
+            </nz-dropdown>
           </td>
         </tr>
       </tbody>
