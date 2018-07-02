@@ -41,6 +41,12 @@ export class TransactionService {
   }
 
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
+    function add0x(addr: string) {
+      if(!addr.startsWith("0x")) addr = "0x" + addr;
+      return addr
+    }
+    fromAddr = add0x(fromAddr)
+    toAddr = add0x(toAddr)
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
     const amountInWei = toWei(toBN(amountInEther), 'ether')
     const nonceval = await this.getNonce(fromAddr)
