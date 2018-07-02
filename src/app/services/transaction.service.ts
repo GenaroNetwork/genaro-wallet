@@ -3,12 +3,21 @@ import { STX_ADDR, WEB3_URL, LITE_WALLET } from "./../libs/config";
 import { WalletService } from './wallet.service';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
+import { createHash } from 'crypto'
 let web3: Web3;
 
+function add0x(addr: string) {
+  if(!addr.startsWith("0x")) addr = "0x" + addr;
+  return addr
+}
+
+function sha256(input) {
+  return createHash('sha256').update(input).digest('hex')
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -20,13 +29,13 @@ export class TransactionService {
     private walletService: WalletService,
     private transactionDb: TransactionDbService
   ) {
-    web3 = new Web3(WEB3_URL);
+    web3 = new Web3("http://101.132.159.197:8545");
     web3.eth.net.isListening().then(() => { this.ready.next(true); })
       .catch(e => {
         // web3 is not connected
         if (LITE_WALLET) throw new Error("Can not connect to mordred."); // is lite wallet
         GethService.startGeth().then(() => {
-          web3 = new Web3(WEB3_URL);
+          web3 = new Web3("http://101.132.159.197:8545");
           this.ready.next(true);
         });
       });
@@ -41,10 +50,6 @@ export class TransactionService {
   }
 
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
-    function add0x(addr: string) {
-      if(!addr.startsWith("0x")) addr = "0x" + addr;
-      return addr
-    }
     fromAddr = add0x(fromAddr)
     toAddr = add0x(toAddr)
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
@@ -74,7 +79,7 @@ export class TransactionService {
       nonce: toHex(nonceval),
       from: fromAddr,
       to: STX_ADDR,
-      data: inputData
+      data: JSON.stringify(inputData)
     }
   }
 
@@ -105,32 +110,35 @@ export class TransactionService {
     return await web3.eth.getBalance(address)
   }
 
-  buyBucket(address: string, password: string, spaceInGB: number, durationInDay: number, gasLimit: number, gasPriceInGwei: string | number) {
+  async buyBucket(address: string, password: string, spaceInGB: number, durationInDay: number, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address)
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
     const nowTime = Math.round(Date.now() / 1000)
+    const bid = sha256(uuidv1())
     const inputData = {
       address,
       type: "0x3",
       buckets: [{
-        bucketId: uuidv1(),
+        bucketId: bid,
         backup: 6,
         size: spaceInGB,
         timeStart: nowTime,
         timeEnd: nowTime + durationInDay * 86400
       }]
     }
-    const txOptions = this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
     return this.sendTransaction(address, password, txOptions, 'BUY_BUCKET')
   }
 
-  buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
+  async buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address)
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
     const inputData = {
       address: address,
       type: "0x4",
       traffic: amountInGB
     }
-    const txOptions = this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
     return this.sendTransaction(address, password, txOptions, 'BUY_TRAFFIC')
   }
 }

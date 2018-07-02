@@ -40,13 +40,14 @@ export class TransactionDbService {
     // 1. insert db
     let addrFrom = addr2hash(transaction.from);
     let addrTo = addr2hash(transaction.to);
+    const data = transaction.data ? `'${JSON.stringify(transaction.data)}'` : 'NULL'
 
     let sql = (`INSERT INTO transactions 
-    (amount, created, addrFrom, gasLimit, gasPrice, txType, addrTo, state, transactionId)
+    (amount, created, addrFrom, gasLimit, gasPrice, txType, addrTo, state, transactionId, data)
     VALUES
     ('${transaction.value}', ${transaction.created}, '${addrFrom}', ${transaction.gasLimit},
     ${transaction.gasPrice}, '${transactionType}',
-    '${addrTo}', '${TXSTATE.INIT}', '${transaction.transactionId}')`);
+    '${addrTo}', '${TXSTATE.INIT}', '${transaction.transactionId}', ${data})`);
     await this.runSql(sql)
   }
 
@@ -56,7 +57,7 @@ export class TransactionDbService {
   }
 
   public async txSuccess(transactionId: string, reciept: string) {
-    const sql = `UPDATE transactions SET state = ${TXSTATE.SUCCESS}, chainDetail = '${reciept}' WHERE transactionId = '${transactionId}'`
+    const sql = `UPDATE transactions SET state = ${TXSTATE.SUCCESS}, receipt = '${reciept}' WHERE transactionId = '${transactionId}'`
     await this.runSql(sql)
   }
 
