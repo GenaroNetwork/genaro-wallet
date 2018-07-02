@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { spawn } from 'child_process';
 import { ipcRenderer } from "electron";
 import { BC_EXISTS_FILE } from "./../libs/config";
 import { existsSync } from "fs";
@@ -7,9 +6,6 @@ import { existsSync } from "fs";
 let ipcId = 0;
 function _initBC() {
     return new Promise((res, rej) => {
-        ipcRenderer.send("geth.initBC", ipcId++, (event, data) => {
-            res(data);
-        });
     });
 }
 
@@ -41,19 +37,11 @@ export class GethService {
         GethService.runJS("miner.stop();\n");
     }
 
-    static async startGeth() {
-        let initBC = async () => {
-            return await _initBC();
-        };
-
-        let startBC = async () => {
-            return await _startBC();
-        };
-
-        if (!existsSync(BC_EXISTS_FILE)) {
-            await initBC();
-        }
-        await startBC();
+    static startGeth() {
+        return new Promise(res => {
+            ipcRenderer.once(`geth.startBC.${ipcId}`, () => res);
+            ipcRenderer.send("geth.startBC", ipcId++);
+        });
     }
     constructor() { }
 
