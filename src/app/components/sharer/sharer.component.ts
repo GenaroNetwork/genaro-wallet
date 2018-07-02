@@ -27,6 +27,17 @@ export class SharerComponent implements OnInit {
   addShareSelectUnit: string = "GB";
   visible: boolean = false;
 
+  nodeColShow: boolean = true;
+  statusColShow: boolean = true;
+  uptimeColShow: boolean = true;
+  restartsColShow: boolean = false;
+  peersColShow: boolean = false;
+  allocsColShow: boolean = false;
+  deltaColShow: boolean = false;
+  portColShow: boolean = true;
+  sharedColShow: boolean = true;
+  bridgesColShow: boolean = true;
+
 
   selectFile() {
     var _this = this;

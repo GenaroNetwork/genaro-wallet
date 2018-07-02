@@ -11,7 +11,7 @@ const GETH_CONFIG = `${ASSETS}/geth/config.json`;
 export default class {
     constructor() {
         ipcMain.on("geth.initBC", (event, id, args) => {
-            event.returnValue = new Promise(res => {
+            let p = new Promise(res => {
                 let initCLI = spawn(GETH, [
                     "init",
                     GETH_CONFIG,
@@ -25,10 +25,11 @@ export default class {
                 });
                 initCLI.on("close", () => res());
             });
+            event.sender.send(`geth.initBC.${id}`, p);
         });
 
         ipcMain.on("geth.startBC", (event, id, args) => {
-            event.returnValue = new Promise(res => {
+            let p = new Promise(res => {
                 console.log(existsSync(`assets`))
                 let startCLI = spawn(GETH, [
                     "--datadir",
@@ -61,6 +62,7 @@ export default class {
                     };
                 });
             });
+            event.sender.send(`geth.startBC.${id}`, p);
         });
 
         ipcMain.on("geth.runJS", (event, id, args) => {

@@ -4,6 +4,10 @@ nz-card {
   height: 100%;
 }
 
+nz-switch {
+  float: right;
+}
+
 .text-gray {
   color: grey;
 }
@@ -22,4 +26,18 @@ nz-card {
 
 .text-orange {
   color: orange;
+}
+
+.hidden-col-btn {
+  margin-bottom: 20px;
+  float: right;
+  z-index: 999;
+  position: relative;
+}
+
+.add-drive-btn {
+  margin-bottom: 20px;
+  float: left;
+  z-index: 999;
+  position: relative;
 }

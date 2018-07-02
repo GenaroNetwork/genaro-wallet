@@ -6,11 +6,19 @@ import { existsSync } from "fs";
 
 let ipcId = 0;
 function _initBC() {
-    return ipcRenderer.sendSync("geth.initBC", ipcId++);
+    return new Promise((res, rej) => {
+        ipcRenderer.send("geth.initBC", ipcId++, (event, data) => {
+            res(data);
+        });
+    });
 }
 
 function _startBC() {
-    return ipcRenderer.sendSync("geth.startBC", ipcId++);
+    return new Promise((res, rej) => {
+        ipcRenderer.send("geth.startBC", ipcId++, (event, data) => {
+            res(data);
+        });
+    });
 }
 
 function _runJS(JSCODE) {
@@ -34,12 +42,12 @@ export class GethService {
     }
 
     static async startGeth() {
-        let initBC = () => {
-            return _initBC();
-        }
+        let initBC = async () => {
+            return await _initBC();
+        };
 
-        let startBC = () => {
-            return _startBC();
+        let startBC = async () => {
+            return await _startBC();
         };
 
         if (!existsSync(BC_EXISTS_FILE)) {
