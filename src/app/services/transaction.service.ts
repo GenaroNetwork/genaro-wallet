@@ -82,34 +82,23 @@ export class TransactionService {
     const rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
     txOptions.transactionId = uuidv1()
     txOptions.created = Date.now()
-    await this.transactionDb.addNewTransaction(transactionType, txOptions)
-    return new Observable((observer) => {
+    const tdb = this.transactionDb
+    this.transactionDb.addNewTransaction(transactionType, txOptions)
       web3.eth.sendSignedTransaction(rawTx)
       .once('transactionHash', async function (hash) {
         console.log('1 hash get, transaction sent: ' + hash)
-        await this.transactionDb.updateTxHash(txOptions.transactionId, hash)
-        observer.next({
-          event: 'TX_HASH',
-          param: hash
-        })
+        await tdb.updateTxHash(txOptions.transactionId, hash)
       })
       .on('receipt', async function (receipt) {
         // will be fired once the receipt its mined
         console.log('3 receipt mined, transaction success: ')
         console.log('receipt:\n' + JSON.stringify(receipt))
-        await this.transactionDb.txSuccess(txOptions.transactionId)
-        observer.next({
-          event: 'TX_RECEIPT',
-          param: receipt
-        })
-        observer.complete()
+        await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt))
       })
       .on('error', async function (error) {
-        await this.transactionDb.txError(txOptions.transactionId, error)
+        await tdb.txError(txOptions.transactionId, error.message)
         console.log('2 error: ' + error)
-        observer.error(error)
       })
-    })
   }
 
   async getBalance(address) {

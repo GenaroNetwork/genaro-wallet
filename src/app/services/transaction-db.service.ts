@@ -39,25 +39,24 @@ export class TransactionDbService {
   public async addNewTransaction(transactionType, transaction) {
     // 1. insert db
     let addrFrom = addr2hash(transaction.from);
-    let addrTo = addr2hash(transaction.recipient);
-    let chainDetail = JSON.stringify(transaction.receipt);
+    let addrTo = addr2hash(transaction.to);
 
     let sql = (`INSERT INTO transactions 
-    (amount, created, error, addrFrom, gasLimit, gasPrice, hash, message, txType, chainDetail, addrTo, state, transactionId)
+    (amount, created, addrFrom, gasLimit, gasPrice, txType, addrTo, state, transactionId)
     VALUES
-    ('${transaction.amount}', ${transaction.created}, '${transaction.error}', '${addrFrom}', ${transaction.gasLimit},
-    ${transaction.gasPrice}, '${transaction.hash}', '${transaction.message}', '${transactionType}', '${chainDetail}',
+    ('${transaction.value}', ${transaction.created}, '${addrFrom}', ${transaction.gasLimit},
+    ${transaction.gasPrice}, '${transactionType}',
     '${addrTo}', '${TXSTATE.INIT}', '${transaction.transactionId}')`);
     await this.runSql(sql)
   }
 
   public async updateTxHash(transactionId, hash) {
-    const sql = `UPDATE transactions SET hash = ${hash}, state = ${TXSTATE.INPROGRESS} WHERE transactionId = '${transactionId}'`
+    const sql = `UPDATE transactions SET hash = '${hash}', state = ${TXSTATE.INPROGRESS} WHERE transactionId = '${transactionId}'`
     await this.runSql(sql)
   }
 
-  public async txSuccess(transactionId: string) {
-    const sql = `UPDATE transactions SET state = ${TXSTATE.SUCCESS} WHERE transactionId = '${transactionId}'`
+  public async txSuccess(transactionId: string, reciept: string) {
+    const sql = `UPDATE transactions SET state = ${TXSTATE.SUCCESS}, chainDetail = '${reciept}' WHERE transactionId = '${transactionId}'`
     await this.runSql(sql)
   }
 
