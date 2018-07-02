@@ -1,0 +1,59 @@
+<!-- send transaction -->
+<!-- address -->
+<form nz-form *ngIf="name==='sendTx'" (ngSubmit)="submitSendTx($event)" class="sendTx">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="txAddress">地址</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input [(ngModel)]="formSendTx.address" nz-input name="address" type="text">
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- amount -->
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzFor="txAmount">金额</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input [(ngModel)]="formSendTx.amount" nz-input name="amount" type="number">
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- gas slider -->
+  <nz-form-item *ngIf="!formSendTx.gasDetail">
+    <nz-form-label [nzSpan]="6" nzFor="txGas">Gas</nz-form-label>
+    <nz-form-control [nzSpan]="15">
+      <nz-slider [(ngModel)]="formSendTx.gas" name="gas" [nzMin]="formSendTx.gasMin" [nzMax]="formSendTx.gasMax" [nzMarks]="{'1':'缓慢','100':'快速'}"></nz-slider>
+    </nz-form-control>
+    <i nz-col nzSpan="3" class="anticon anticon-edit" (click)="formSendTx.gasDetail=true"></i>
+  </nz-form-item>
+
+  <!-- gas -->
+  <nz-form-item *ngIf="formSendTx.gasDetail">
+    <nz-form-label [nzSpan]="6" nzFor="txAmount">gas</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input [(ngModel)]="formSendTx.gas" nz-input name="gas" type="number">
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- gaslimit -->
+  <nz-form-item *ngIf="formSendTx.gasDetail">
+    <nz-form-label [nzSpan]="6" nzFor="txAmount">gaslimit</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input [(ngModel)]="formSendTx.gasLimit" nz-input name="gasLimit" type="number">
+      <nz-form-explain>gasLimit</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- password -->
+  <nz-form-item *ngIf="formSendTx.password">
+    <nz-form-label [nzSpan]="6" nzFor="txAmount">password</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input [(ngModel)]="formSendTx.gasLimit" nz-input name="password" type="password">
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- submit -->
+  <nz-form-item>
+    <nz-form-control [nzSpan]="18" [nzOffset]="6">
+      <button nz-button nzType="primary">转账</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

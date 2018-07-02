@@ -2,7 +2,7 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import Sqlite from "./libs/sqlite";
-import Avatar from "./libs/avatar";
+import Protocol from "./libs/protocol";
 import StorjLib from "./libs/storj-lib";
 import Geth from "./libs/geth";
 
@@ -14,7 +14,7 @@ function createWindow() {
 
   // start libs;
   new Sqlite;
-  new Avatar;
+  new Protocol;
   new StorjLib;
   new Geth;
 
