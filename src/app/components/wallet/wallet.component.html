@@ -4,16 +4,15 @@
     <span>GNX</span>
   </div>
   <div class="info">
-    <img [src]="'avatar://123' | safe">
-    <div class="name">
-      {{ (walletService.currentWallet | async)?.name }}
+    <img [src]="('avatar://' + (walletService.currentWallet | async)?.address) | safe">
+    <div class="name"> {{ (walletService.currentWallet | async)?.name }}
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
           {{ 'WALLET.CONFIG' | translate }}
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>
-          <li nz-menu-item (click)="walletNewShown=true">
+          <li nz-menu-item (click)="dialogName='changeName'">
             <a>{{ "WALLET.CHANGE_NAME" | translate}}</a>
           </li>
           <li nz-menu-item>
@@ -32,7 +31,30 @@
       {{ (walletService.currentWallet | async)?.address | longAddr | shortAddr}}
       <i [class]="copied === 'wallet-address' ? 'anticon anticon-check' : 'anticon anticon-copy'" (click)="copyWalletAddr()"></i>
     </div>
-    <div class="edit"></div>
+    <div class="operations">
+      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight" [nzContent]="popoverReceive">
+        {{ "WALLET.RECEIVE_COIN" | translate}}
+      </button>
+      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomLeft" [nzContent]="popoverSend"
+        [(nzVisible)]="popoverSendVisible">
+        {{ "WALLET.SEND_COIN" | translate}}
+      </button>
+      <!-- QRCODE -->
+      <ng-template #popoverReceive>
+        <div class="popover-receive">
+          <div>{{ (walletService.currentWallet | async)?.address | longAddr }}</div>
+          <img [src]="('qrcode://gnx:' + ((walletService.currentWallet | async)?.address | longAddr)) | safe">
+        </div>
+      </ng-template>
+      <!-- Send Coin -->
+      <ng-template #popoverSend>
+        <app-form name="sendTx"></app-form>
+      </ng-template>
+    </div>
   </div>
 </div>
+
+<!-- Transactions -->
 <div class="table"></div>
+
+<app-dialog [(name)]="dialogName"></app-dialog>

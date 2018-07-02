@@ -16,6 +16,9 @@ export class WalletComponent implements OnInit {
   ) { }
 
   copied: string = null;
+  popoverSendVisible: boolean = false;
+  dialogName: string = null;
+
   copyWalletAddr() {
     this.walletService.currentWallet.subscribe(wallet => {
       clipboard.writeText(`0x${wallet.address}`);

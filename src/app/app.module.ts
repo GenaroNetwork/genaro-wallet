@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 // route
@@ -16,7 +16,6 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 // elecreon
 import { ElectronService } from './providers/electron.service';
-import { WebviewDirective } from './directives/webview.directive';
 
 // component
 import { AppComponent } from './app.component';
@@ -27,6 +26,7 @@ import { TxSharerComponent } from "./components/txSharer/txSharer.component";
 import { TxEdenComponent } from "./components/txEden/txEden.component";
 import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
+import { DialogComponent } from './components/dialog/dialog.component';
 
 // services
 
@@ -35,6 +35,7 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { GetBalancePipe } from './pipes/getBalance.pipe';
 import { SafePipe } from './pipes/safe.pipe';
+import { FormComponent } from './components/form/form.component';
 
 
 // AoT requires an exported function for factories
@@ -45,15 +46,21 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
+    // main component
     AppComponent,
+    // nav component
     HeaderComponent,
     SiderbarComponent,
+    // content component
     WalletComponent,
     TxSharerComponent,
     TxEdenComponent,
     WalletNewComponent,
-    WebviewDirective,
     SharerComponent,
+    // common component
+    DialogComponent,
+    FormComponent,
+    // pipe
     LongAddrPipe,
     ShortAddrPipe,
     GetBalancePipe,
@@ -64,6 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     NgZorroAntdModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     TranslateModule.forRoot({
