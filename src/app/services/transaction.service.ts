@@ -29,13 +29,13 @@ export class TransactionService {
     private walletService: WalletService,
     private transactionDb: TransactionDbService
   ) {
-    web3 = new Web3("http://101.132.159.197:8545");
+    web3 = new Web3(WEB3_URL);
     web3.eth.net.isListening().then(() => { this.ready.next(true); })
       .catch(e => {
         // web3 is not connected
         if (LITE_WALLET) throw new Error("Can not connect to mordred."); // is lite wallet
         GethService.startGeth().then(() => {
-          web3 = new Web3("http://101.132.159.197:8545");
+          web3 = new Web3(WEB3_URL);
           this.ready.next(true);
         });
       });
