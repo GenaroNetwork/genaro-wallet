@@ -4,7 +4,7 @@
       <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()">
         <p>{{modalMessage | translate}}</p>
       </nz-modal>
-      <div>
+      <div class="add-drive-btn">
         <button nz-button nzType="primary" nz-popover [(nzVisible)]="visible" nzTrigger="click" [nzContent]="contentTemplate" nzPlacement="bottom">
           {{ "DRIVE.ADD_DRIVE" | translate}}
         </button>
@@ -33,61 +33,109 @@
           </div>
         </ng-template>
       </div>
+      <div class="hidden-col-btn">
+        <button nz-button nzType="primary" nz-popover [(nzVisible)]="hiddenVisible" nzTrigger="click" [nzContent]="colTemplate"
+          nzPlacement="bottom">
+          {{ "DRIVE.HIDDEN_COL" | translate}}
+        </button>
+        <ng-template #colTemplate>
+          <!-- <div>
+            <label>{{ "DRIVE.NODE" | translate}}</label>
+            <nz-switch [(ngModel)]="nodeColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.STATUS" | translate}}</label>
+            <nz-switch [(ngModel)]="statusColShow" nzSize="small"></nz-switch>
+          </div> -->
+          <div>
+            <label>{{ "DRIVE.UPTIME" | translate}}</label>
+            <nz-switch [(ngModel)]="uptimeColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.RESTARTS" | translate}}</label>
+            <nz-switch [(ngModel)]="restartsColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.PEERS" | translate}}</label>
+            <nz-switch [(ngModel)]="peersColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.ALLOCS" | translate}}</label>
+            <nz-switch [(ngModel)]="allocsColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.DELTA" | translate}}</label>
+            <nz-switch [(ngModel)]="deltaColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.PORT" | translate}}</label>
+            <nz-switch [(ngModel)]="portColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.SHARED" | translate}}</label>
+            <nz-switch [(ngModel)]="sharedColShow" nzSize="small"></nz-switch>
+          </div>
+          <div>
+            <label>{{ "DRIVE.BRIDGES" | translate}}</label>
+            <nz-switch [(ngModel)]="bridgesColShow" nzSize="small"></nz-switch>
+          </div>
+        </ng-template>
+      </div>
       <nz-table #basicTable [nzData]="driversData" nzShowPagination="false">
         <thead>
           <tr>
-            <th>{{ "DRIVE.NODE" | translate}}</th>
-            <th>{{ "DRIVE.STATUS" | translate}}</th>
-            <th>{{ "DRIVE.UPTIME" | translate}}</th>
-            <th>{{ "DRIVE.RESTARTS" | translate}}</th>
-            <th>{{ "DRIVE.PEERS" | translate}}</th>
-            <th>{{ "DRIVE.ALLOCS" | translate}}</th>
-            <th>{{ "DRIVE.DELTA" | translate}}</th>
-            <th>{{ "DRIVE.PORT" | translate}}</th>
-            <th>{{ "DRIVE.SHARED" | translate}}</th>
-            <th>{{ "DRIVE.BRIDGES" | translate}}</th>
+            <th *ngIf="nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
+            <th *ngIf="statusColShow">{{ "DRIVE.STATUS" | translate}}</th>
+            <th *ngIf="uptimeColShow">{{ "DRIVE.UPTIME" | translate}}</th>
+            <th *ngIf="restartsColShow">{{ "DRIVE.RESTARTS" | translate}}</th>
+            <th *ngIf="peersColShow">{{ "DRIVE.PEERS" | translate}}</th>
+            <th *ngIf="allocsColShow">{{ "DRIVE.ALLOCS" | translate}}</th>
+            <th *ngIf="deltaColShow">{{ "DRIVE.DELTA" | translate}}</th>
+            <th *ngIf="portColShow">{{ "DRIVE.PORT" | translate}}</th>
+            <th *ngIf="sharedColShow">{{ "DRIVE.SHARED" | translate}}</th>
+            <th *ngIf="bridgesColShow">{{ "DRIVE.BRIDGES" | translate}}</th>
             <th>{{ "DRIVE.OPTION" | translate}}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of driversData">
-            <td>
+            <td *ngIf="nodeColShow">
               <div>
                 <span>{{data.id}}</span>
                 <br/>
                 <span>{{data.location}}</span>
               </div>
             </td>
-            <td>
+            <td *ngIf="statusColShow">
               <span class="{{data.statusColor}}">{{data.status}}</span>
             </td>
-            <td>{{data.time}}</td>
-            <td>{{data.restarts}}</td>
-            <td>{{data.peers}}</td>
-            <td>
+            <td *ngIf="uptimeColShow">{{data.time}}</td>
+            <td *ngIf="restartsColShow">{{data.restarts}}</td>
+            <td *ngIf="peersColShow">{{data.peers}}</td>
+            <td *ngIf="allocsColShow">
               <div>
                 <span>{{data.contractCount}}</span>
                 <br/>
                 <span>{{data.dataReceivedCount + ' received'}}</span>
               </div>
             </td>
-            <td>
+            <td *ngIf="deltaColShow">
               <span class="{{data.deltaColor}}">{{data.delta}}</span>
             </td>
-            <td>
+            <td *ngIf="portColShow">
               <div class="{{data.portColor}}">
                 <span>{{data.listenPort}}</span>
                 <br/>
                 <span>{{data.connectionType}}</span>
               </div>
             </td>
-            <td>
+            <td *ngIf="sharedColShow">
               <div>
                 <nz-progress [nzPercent]="data.percentUsed" nzStatus="active"></nz-progress>
                 <p>{{data.spaceUsed}}/{{data.storageAllocation}}</p>
               </div>
             </td>
-            <td>
+            <td *ngIf="bridgesColShow">
               <span class="{{data.bridgesColor}}">{{data.bridgesText}}</span>
             </td>
             <td>
