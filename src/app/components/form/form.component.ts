@@ -28,11 +28,11 @@ export class FormComponent implements OnInit {
     gasMax: 100,
     gasDetail: false,
     // ==
-    address: null,
+    address: "",
     amount: 0,
     gas: 1,
     gasLimit: 21000,
-    password: null,
+    password: "",
   };
   submitSendTx() {
     this.walletService.currentWallet.subscribe(wallet => {
