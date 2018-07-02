@@ -11,7 +11,7 @@ import { createHash } from 'crypto'
 let web3: Web3;
 
 function add0x(addr: string) {
-  if(!addr.startsWith("0x")) addr = "0x" + addr;
+  if (!addr.startsWith("0x")) addr = "0x" + addr;
   return addr
 }
 
@@ -89,7 +89,7 @@ export class TransactionService {
     txOptions.created = Date.now()
     const tdb = this.transactionDb
     this.transactionDb.addNewTransaction(transactionType, txOptions)
-      web3.eth.sendSignedTransaction(rawTx)
+    web3.eth.sendSignedTransaction(rawTx)
       .once('transactionHash', async function (hash) {
         console.log('1 hash get, transaction sent: ' + hash)
         await tdb.updateTxHash(txOptions.transactionId, hash)

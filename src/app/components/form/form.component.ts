@@ -27,6 +27,7 @@ export class FormComponent implements OnInit {
     gasMin: 1,
     gasMax: 100,
     gasDetail: false,
+    loading: false,
     // ==
     address: "",
     amount: 0,
@@ -35,20 +36,25 @@ export class FormComponent implements OnInit {
     password: "",
   };
   submitSendTx() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      let from = wallet.address;
-      let to = this.formSendTx.address;
-      if (to.startsWith("0x")) to = to.substr(2);
-      this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gasLimit, this.formSendTx.gas)
-        .then((...args) => {
-          console.log(...args);
-          this.onSubmit.emit();
-        })
-        .catch(err => {
-          console.log(err);
-          debugger;
-        });
-    }).unsubscribe();
+    this.formSendTx.loading = true;
+    setTimeout(() => {
+      this.walletService.currentWallet.subscribe(wallet => {
+        let from = wallet.address;
+        let to = this.formSendTx.address;
+        if (to.startsWith("0x")) to = to.substr(2);
+        this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gasLimit, this.formSendTx.gas)
+          .then((...args) => {
+            console.log(...args);
+            this.onSubmit.emit();
+            this.formSendTx.loading = false;
+          })
+          .catch(err => {
+            console.log(err);
+            this.formSendTx.loading = false;
+            debugger;
+          });
+      }).unsubscribe();
+    }, 0);
   }
 
 
