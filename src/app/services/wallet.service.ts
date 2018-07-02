@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { newWalletManager, generateMnemonic, validateMnemonic, signTx } from "jswallet-manager";
+import { newWalletManager, generateMnemonic, validateMnemonic } from "jswallet-manager";
 import { WALLET_CONFIG_PATH } from "../libs/config";
 import { BehaviorSubject } from 'rxjs';
 import { nextTick } from 'q';
@@ -81,6 +81,6 @@ export class WalletService {
   }
 
   signTransaction(address: string, password: string, txParams: object) {
-    return signTx(address, password, txParams)
+    return this.wallets.signTx(address, password, txParams)
   }
 }
