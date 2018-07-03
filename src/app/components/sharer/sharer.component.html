@@ -139,7 +139,7 @@
               <span class="{{data.bridgesColor}}">{{data.bridgesText}}</span>
             </td>
             <td>
-              <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
+              <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'" (nzVisibleChange)="changeVisible($event)">
                 <a nz-dropdown>
                   ...
                 </a>

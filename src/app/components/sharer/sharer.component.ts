@@ -143,7 +143,12 @@ export class SharerComponent implements OnInit {
     this.modalDataId = "";
   }
 
+  changeVisible(value: boolean): void {
+    this.gettingStatus = value;
+  }
+
   ngOnInit() {
+    this.gettingStatus = true;
     this.sharer.runDaemon((err) => {
       if (err) {
         return alert(err.message);
@@ -152,143 +157,144 @@ export class SharerComponent implements OnInit {
         if (err) {
           //return alert(err.message);
         }
+        this.gettingStatus = false;
       });
-
-      setInterval(() => {
-        if (this.gettingStatus) {
-          return;
-        }
-        this.gettingStatus = true;
-        this.sharer.status((err, statuses) => {
-          if (err) {
-            return alert(err.message);
-          }
-          let datas = [];
-          let connectId = "";
-          statuses.forEach(share => {
-            let data = {
-              id: "",
-              location: "",
-              shareBasePath: "",
-              spaceUsed: "",
-              storageAllocation: "",
-              percentUsed: 0,
-              time: "",
-              restarts: "",
-              peers: "",
-              contractCount: "",
-              dataReceivedCount: "",
-              bridges: 0,
-              allocs: "",
-              listenPort: "",
-              connectionType: "",
-              portColor: "",
-              bridgesText: "",
-              bridgesColor: "",
-              state: 0,
-              statusSwitch: false,
-              status: "",
-              statusColor: "",
-              delta: "",
-              deltaColor: "",
-              show: false
-            },
-              config = share.config,
-              farmerState = share.meta.farmerState || {},
-              portStatus = farmerState.portStatus || {},
-              ntpStatus = farmerState.ntpStatus || {};
-            data.id = share.id;
-            data.location = config.storagePath;
-            data.shareBasePath = config.shareBasePath;
-            data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? "0KB" : farmerState.spaceUsed;
-            data.storageAllocation = config.storageAllocation;
-            data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) || 0;
-            data.time = prettyms(share.meta.uptimeMs);
-            data.restarts = share.meta.numRestarts || 0;
-            data.peers = farmerState.totalPeers;
-            data.contractCount = farmerState.contractCount || 0;
-            data.dataReceivedCount = farmerState.dataReceivedCount || 0;
-            data.bridges = farmerState.bridgesConnectionStatus || 0;
-            data.allocs = data.bridges === 0 ? "0" : data.contractCount + '(' + data.dataReceivedCount + 'received)';
-
-            data.listenPort = portStatus.listenPort;
-            data.connectionType = portStatus.connectionType;
-            switch (portStatus.connectionStatus) {
-              case 0:
-                data.portColor = 'text-green';
-                break;
-              case 1:
-                data.portColor = 'text-yellow';
-                break;
-              case 2:
-                data.portColor = 'text-red';
-                break;
-            }
-
-            switch (data.bridges) {
-              case 0:
-                data.bridgesText = "disconnected";
-                data.bridgesColor = 'text-gray';
-                break;
-              case 1:
-                data.bridgesText = "connecting";
-                data.bridgesColor = 'text-yellow';
-                break;
-              case 2:
-                data.bridgesText = "confirming";
-                data.bridgesColor = 'text-orange';
-                break;
-              case 3:
-                data.bridgesText = "connected";
-                data.bridgesColor = 'text-green';
-                break;
-            }
-
-            data.state = share.state;
-            switch (data.state) {
-              case 0:
-                data.statusSwitch = false;
-                data.status = 'stopped';
-                data.statusColor = 'text-gray';
-                break;
-              case 1:
-                data.statusSwitch = true;
-                connectId = share.id;
-                data.status = 'running';
-                data.statusColor = 'text-green';
-                break;
-              case 2:
-                data.statusSwitch = false;
-                data.status = 'errored';
-                data.statusColor = 'text-red';
-                break;
-              default:
-                data.status = 'unknown';
-                break;
-            }
-
-            data.delta = ntpStatus.delta || '...';
-            switch (ntpStatus.status) {
-              case 0:
-                data.deltaColor = 'text-green';
-                break;
-              case 1:
-                data.deltaColor = 'text-yellow';
-                break;
-              case 2:
-                data.deltaColor = 'text-red';
-                break;
-            }
-
-            data.show = false;
-
-            datas.push(data);
-          })
-          this.driversData = datas;
-          this.gettingStatus = false;
-          this.changeRef.detectChanges();
-        });
-      }, 3000)
     });
+
+    setInterval(() => {
+      if (this.gettingStatus) {
+        return;
+      }
+      this.gettingStatus = true;
+      this.sharer.status((err, statuses) => {
+        if (err) {
+          return alert(err.message);
+        }
+        let datas = [];
+        let connectId = "";
+        statuses.forEach(share => {
+          let data = {
+            id: "",
+            location: "",
+            shareBasePath: "",
+            spaceUsed: "",
+            storageAllocation: "",
+            percentUsed: 0,
+            time: "",
+            restarts: "",
+            peers: "",
+            contractCount: "",
+            dataReceivedCount: "",
+            bridges: 0,
+            allocs: "",
+            listenPort: "",
+            connectionType: "",
+            portColor: "",
+            bridgesText: "",
+            bridgesColor: "",
+            state: 0,
+            statusSwitch: false,
+            status: "",
+            statusColor: "",
+            delta: "",
+            deltaColor: "",
+            show: false
+          },
+            config = share.config,
+            farmerState = share.meta.farmerState || {},
+            portStatus = farmerState.portStatus || {},
+            ntpStatus = farmerState.ntpStatus || {};
+          data.id = share.id;
+          data.location = config.storagePath;
+          data.shareBasePath = config.shareBasePath;
+          data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? "0KB" : farmerState.spaceUsed;
+          data.storageAllocation = config.storageAllocation;
+          data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) || 0;
+          data.time = prettyms(share.meta.uptimeMs);
+          data.restarts = share.meta.numRestarts || 0;
+          data.peers = farmerState.totalPeers;
+          data.contractCount = farmerState.contractCount || 0;
+          data.dataReceivedCount = farmerState.dataReceivedCount || 0;
+          data.bridges = farmerState.bridgesConnectionStatus || 0;
+          data.allocs = data.bridges === 0 ? "0" : data.contractCount + '(' + data.dataReceivedCount + 'received)';
+
+          data.listenPort = portStatus.listenPort;
+          data.connectionType = portStatus.connectionType;
+          switch (portStatus.connectionStatus) {
+            case 0:
+              data.portColor = 'text-green';
+              break;
+            case 1:
+              data.portColor = 'text-yellow';
+              break;
+            case 2:
+              data.portColor = 'text-red';
+              break;
+          }
+
+          switch (data.bridges) {
+            case 0:
+              data.bridgesText = "disconnected";
+              data.bridgesColor = 'text-gray';
+              break;
+            case 1:
+              data.bridgesText = "connecting";
+              data.bridgesColor = 'text-yellow';
+              break;
+            case 2:
+              data.bridgesText = "confirming";
+              data.bridgesColor = 'text-orange';
+              break;
+            case 3:
+              data.bridgesText = "connected";
+              data.bridgesColor = 'text-green';
+              break;
+          }
+
+          data.state = share.state;
+          switch (data.state) {
+            case 0:
+              data.statusSwitch = false;
+              data.status = 'stopped';
+              data.statusColor = 'text-gray';
+              break;
+            case 1:
+              data.statusSwitch = true;
+              connectId = share.id;
+              data.status = 'running';
+              data.statusColor = 'text-green';
+              break;
+            case 2:
+              data.statusSwitch = false;
+              data.status = 'errored';
+              data.statusColor = 'text-red';
+              break;
+            default:
+              data.status = 'unknown';
+              break;
+          }
+
+          data.delta = ntpStatus.delta || '...';
+          switch (ntpStatus.status) {
+            case 0:
+              data.deltaColor = 'text-green';
+              break;
+            case 1:
+              data.deltaColor = 'text-yellow';
+              break;
+            case 2:
+              data.deltaColor = 'text-red';
+              break;
+          }
+
+          data.show = false;
+
+          datas.push(data);
+        })
+        this.driversData = datas;
+        this.gettingStatus = false;
+        this.changeRef.detectChanges();
+      });
+    }, 3000);
   }
 }
