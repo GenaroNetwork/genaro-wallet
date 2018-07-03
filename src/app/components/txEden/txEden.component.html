@@ -1,3 +1,18 @@
-<p>
-  txEden works!
+<p *ngFor="let a of (wallet.test | async)">
+  {{ a }}
 </p>
+<nz-table #test [nzData]="wallet.test | async">
+  <thead>
+    <tr>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of test.data">
+      <td>
+        {{ data }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

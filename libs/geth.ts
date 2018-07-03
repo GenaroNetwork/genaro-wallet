@@ -131,5 +131,9 @@ export default class {
                 }
             )
         });
+
+        ipcMain.on("geth.endJS", (event, id) => {
+            this.endJS(id);
+        });
     }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-txEden',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TxEdenComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private wallet: WalletService
+  ) { }
 
   ngOnInit() {
   }
