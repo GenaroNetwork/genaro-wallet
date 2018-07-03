@@ -16,19 +16,20 @@ export default class {
         )`).run();*/
 
         tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
+            transactionId TEXT,
             txType TEXT,
+            addrFrom TEXT,
             addrTo TEXT,
             amount REAL,
+            data TEXT,
             gasPrice REAL,
             gasLimit INTEGER,
-            addrFrom TEXT,
             created NUMERIC,
-            transactionId TEXT,
             state INTEGER,
             message TEXT,
             hash TEXT,
             error TEXT,
-            chainDetail TEXT
+            receipt TEXT
         )`).run();
 
         ipcMain.on("db.tx.run", (event, ipcId, sql) => {
