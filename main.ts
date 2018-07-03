@@ -1,10 +1,15 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { fork } from 'child_process';
+import { connect } from 'net';
 import Sqlite from "./libs/sqlite";
 import Protocol from "./libs/protocol";
 import StorjLib from "./libs/storj-lib";
 import Geth from "./libs/geth";
+import { DAEMON_CONFIG } from "./src/app/libs/config";
+import { join } from "path";
+const DAEMON = join(__dirname, "./src/assets/daemon/rpc-server.js");
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -53,6 +58,42 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  maybeStartDaemon(() => {
+    initRPCServer((msg) => {
+      
+    });
+  });
+}
+
+function maybeStartDaemon(callback) {
+  const sock = connect( DAEMON_CONFIG.RPC_PORT );
+
+  sock.on('connect', () => {
+      sock.end()
+      sock.removeAllListeners()
+      callback()
+  })
+
+  sock.on('error', () => {
+      sock.removeAllListeners()
+      initRPCServer(callback)
+  })
+}
+
+function initRPCServer(callback) {
+  let RPCServer = fork(DAEMON, [], { env: { STORJ_NETWORK: DAEMON_CONFIG.STORJ_NETWORK, RPC_PORT: DAEMON_CONFIG.RPC_PORT } });
+  process.on('exit', () => {
+      RPCServer.kill()
+  });
+  RPCServer.on('message', (msg) => {
+      if (msg.state === 'init') {
+          return callback();
+      } else {
+          RPCServer.removeAllListeners();
+          callback(msg);
+      }
   });
 }
 

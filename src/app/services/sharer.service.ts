@@ -20,9 +20,6 @@ function validateConfig(config) {
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-let electron = require("electron");
-const ASSETS = `${electron.remote.app.getAppPath()}/src/assets`;
-const DAEMON = `${ASSETS}/daemon/rpc-server.js`;
 
 import { SHARER, DAEMON_CONFIG } from "./../libs/config";
 
@@ -112,21 +109,6 @@ function _start(nodeId, cb) {
   providedIn: 'root'
 })
 export class SharerService {
-  runDaemon(callback) {
-    let RPCServer = fork(DAEMON, [], { env: { STORJ_NETWORK: DAEMON_CONFIG.STORJ_NETWORK, RPC_PORT: DAEMON_CONFIG.RPC_PORT } });
-
-    process.on('exit', () => {
-      RPCServer.kill();
-    });
-    RPCServer.on('message', (msg) => {
-      if (msg.state === 'init') {
-        return callback(null);
-      } else {
-        RPCServer.removeAllListeners();
-      }
-    });
-  };
-
   create(shareSize, shareUnit, shareBasePath) {
     console.log(`create config with size: ${shareSize}${shareUnit}, path: ${shareBasePath}`);
     let returnedPath = false;
