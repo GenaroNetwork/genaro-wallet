@@ -20,7 +20,18 @@
     "NEXT": "下一步",
     "COLON": "：",
     "PERIOD": "。",
-    "COMMA": "，"
+    "COMMA": "，",
+    "SELECT_SAVE_PATH": "选择保存地址"
+  },
+  "MODEL": {
+    "WALLET_CHANGE_NAME": "修改钱包名",
+    "WALLET_CHANGE_NAME_PLACEHOLDER": "请输入要修改的钱包名",
+    "WALLET_CHANGE_PASSWORD": "修改钱包密码",
+    "WALLET_CHANGE_PASSWORD_PLACEHOLDER": "请输入要修改的钱包密码",
+    "WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD": "请输入当前钱包密码",
+    "WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT": "请重新输入要修改的钱包密码",
+    "WALLET_EXPORT_JSON": "导出JSON文件",
+    "WALLET_DELETE": "删除钱包"
   },
   "HEADER": {
     "ICON": "假装这是一个icon",

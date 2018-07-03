@@ -143,7 +143,7 @@
           cursor: pointer;
           &.chosen {
             border: 1px solid $theme-color;
-            box-shadow: 0 0 $block-size -1.3rem rgba(0, 0, 0, 1);
+            box-shadow: $box-shadow;
           }
         }
       }

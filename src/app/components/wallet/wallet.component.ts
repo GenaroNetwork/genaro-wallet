@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
-import { TransactionService } from '../../services/transaction.service';
 import { clipboard } from 'electron';
+import { TransactionDbService } from '../../services/transaction-db.service';
+import { TransactionService } from '../../services/transaction.service';
+const storj = require("storj-lib");
 
 @Component({
   selector: 'app-wallet',
@@ -12,12 +14,16 @@ export class WalletComponent implements OnInit {
 
   constructor(
     private walletService: WalletService, // 在 html 中使用
-    private txService: TransactionService,  // 在 html 中使用
+    private txService: TransactionService,
+    private txDbService: TransactionDbService,  // 在 html 中使用
   ) { }
 
   copied: string = null;
   popoverSendVisible: boolean = false;
   dialogName: string = null;
+
+  displayTxData: any = [];
+  allTxData: any;
 
   copyWalletAddr() {
     this.walletService.currentWallet.subscribe(wallet => {
@@ -29,7 +35,8 @@ export class WalletComponent implements OnInit {
     }).unsubscribe();
   };
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.allTxData = await this.txDbService.getTransactions(1, 1);
   }
 
 }

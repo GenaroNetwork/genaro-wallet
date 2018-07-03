@@ -51,7 +51,6 @@ export class FormComponent implements OnInit {
           .catch(err => {
             console.log(err);
             this.formSendTx.loading = false;
-            debugger;
           });
       }).unsubscribe();
     }, 0);

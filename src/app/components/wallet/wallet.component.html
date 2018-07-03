@@ -12,16 +12,16 @@
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>
-          <li nz-menu-item (click)="dialogName='changeName'">
+          <li nz-menu-item (click)="dialogName='walletChangeName'">
             <a>{{ "WALLET.CHANGE_NAME" | translate}}</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item (click)="dialogName='walletChangePassword'">
             <a>{{ "WALLET.CHANGE_PASSWORD" | translate}}</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item (click)="dialogName='walletExportJson'">
             <a>{{ "WALLET.EXPORT_JSON" | translate}}</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item (click)="dialogName='walletDelete'">
             <a>{{ "WALLET.DELETE_WALLET" | translate}}</a>
           </li>
         </ul>
@@ -55,6 +55,23 @@
 </div>
 
 <!-- Transactions -->
-<div class="table"></div>
+<div class="table">
+  <nz-table #txTable [nzData]="displayTxData">
+    <thead>
+      <tr>
+        <th>filter</th>
+        <th>hash</th>
+        <th>block</th>
+        <th>age</th>
+        <th>from</th>
+        <th>to</th>
+        <th>value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of txTable.data"></tr>
+    </tbody>
+  </nz-table>
+</div>
 
 <app-dialog [(name)]="dialogName"></app-dialog>

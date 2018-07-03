@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SharerService } from '../../services/sharer.service';
 const prettyms = require('pretty-ms');
 const { dialog } = require('electron').remote;
@@ -8,12 +8,14 @@ const { dialog } = require('electron').remote;
   templateUrl: './sharer.component.html',
   styleUrls: ['./sharer.component.scss']
 })
-export class SharerComponent implements OnInit {
+export class SharerComponent implements OnInit, OnDestroy {
 
   constructor(
     private changeRef: ChangeDetectorRef,
     private sharer: SharerService,
   ) { }
+
+  interval: any = null;
 
   driversData: Array<Object> = [];
   gettingStatus: boolean = false;
@@ -154,7 +156,7 @@ export class SharerComponent implements OnInit {
         }
       });
 
-      setInterval(() => {
+      this.interval = setInterval(() => {
         if (this.gettingStatus) {
           return;
         }
@@ -288,7 +290,11 @@ export class SharerComponent implements OnInit {
           this.gettingStatus = false;
           this.changeRef.detectChanges();
         });
-      }, 3000)
+      }, 3000);
     });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 }

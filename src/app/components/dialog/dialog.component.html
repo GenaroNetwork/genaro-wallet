@@ -1,5 +1,36 @@
-<nz-modal nzTitle="The first Modal" [nzVisible]="dialogName" (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()">
-  <p>Content one</p>
-  <p>Content two</p>
-  <p>Content three</p>
+<!-- change wallet name -->
+<nz-modal nzTitle="{{ 'MODEL.WALLET_CHANGE_NAME' | translate }}" [nzVisible]="dialogName==='walletChangeName'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="walletChangeName">
+</nz-modal>
+
+<!-- change wallet password -->
+<nz-modal nzTitle="{{ 'MODEL.WALLET_CHANGE_PASSWORD' | translate }}" [nzVisible]="dialogName==='walletChangePassword'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
+    [(ngModel)]="walletChangePassword.old">
+  <br/>
+  <br/>
+  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
+    [(ngModel)]="walletChangePassword.new">
+  <br/>
+  <br/>
+  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
+    [(ngModel)]="walletChangePassword.repeat">
+  <br/>
+  <br/>
+</nz-modal>
+
+<!-- export wallet -->
+<nz-modal nzTitle="{{ 'MODEL.WALLET_EXPORT_JSON' | translate }}" [nzVisible]="dialogName==='walletExportJson'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
+    [(ngModel)]="walletExportJson">
+</nz-modal>
+
+<!-- delete wallet -->
+<nz-modal nzTitle="{{ 'MODEL.WALLET_DELETE' | translate }}" [nzVisible]="dialogName==='walletDelete'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
+    [(ngModel)]="walletExportJson">
 </nz-modal>

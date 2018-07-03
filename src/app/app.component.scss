@@ -8,6 +8,7 @@
     &.sider {
       border-radius: $border-radius;
       flex: 0 $left-menu-width;
+      box-shadow: $box-shadow;
       /deep/ .ant-card-body {
         padding: $border-blank 0 0;
       }

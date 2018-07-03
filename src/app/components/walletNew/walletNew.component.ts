@@ -1,8 +1,7 @@
-import { Component, Output, EventEmitter, Input, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { clipboard } from "electron";
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd';
 import { remote } from "electron";
 import { readFileSync } from "fs";
@@ -13,7 +12,7 @@ import { basename } from "path";
   templateUrl: './walletNew.component.html',
   styleUrls: ['./walletNew.component.scss']
 })
-export class WalletNewComponent implements OnChanges {
+export class WalletNewComponent {
 
   @Input("walletCount") walletCount: number;
   @Output("stateChange") stateChangeEvent: EventEmitter<boolean> = new EventEmitter;
@@ -25,13 +24,10 @@ export class WalletNewComponent implements OnChanges {
   ) {
   }
 
-  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    if (!changes.walletCount) return;
-    if (changes.walletCount.currentValue !== 0) return;
-    this.stateChangeEvent.emit(true);
-  }
-
   ALL_DONE() {
+    if (this.isEdit) {
+      this.changeWalletName();
+    }
     this.stateChangeEvent.emit(false);
   }
 

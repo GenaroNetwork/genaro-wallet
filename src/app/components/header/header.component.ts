@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { WalletService } from "../../services/wallet.service";
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
+import { WalletService } from "../../services/wallet.service";
 
 @Component({
   selector: 'app-header',
@@ -9,21 +8,17 @@ import { TransactionService } from '../../services/transaction.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  emptyAccount: string;
-  walletShown: boolean = false;
+  walletNewShown: boolean = false;
   blockHeight: number = null;
   constructor(
-    private i18n: TranslateService,
-    private txService: TransactionService,
+    private txService: TransactionService, // 会在 html 中用到，
     private walletService: WalletService, // 会在 html 中用到，
   ) { }
 
   ngOnInit() {
-
-    setTimeout(() => {
-      this.emptyAccount = this.i18n.instant("HEADER.NO_ACCOUNT");
-    }, 0);
+    this.walletService.currentWallet.subscribe(wallet => {
+      if (wallet === null) this.walletNewShown = true;
+    });
   }
 
   ngOnDestroy(): void {
