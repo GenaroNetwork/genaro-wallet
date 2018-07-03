@@ -3,7 +3,7 @@ import { WalletService } from '../../services/wallet.service';
 import { clipboard } from 'electron';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
-const storj = require("storj-lib");
+//const storj = require("storj-lib");
 
 @Component({
   selector: 'app-wallet',
