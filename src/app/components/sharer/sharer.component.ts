@@ -213,16 +213,6 @@ export class SharerComponent implements OnInit, OnDestroy {
           data.bridges = farmerState.bridgesConnectionStatus || 0;
           data.allocs = data.bridges === 0 ? "0" : data.contractCount + '(' + data.dataReceivedCount + 'received)';
 
-<<<<<<< HEAD
-      this.interval = setInterval(() => {
-        if (this.gettingStatus) {
-          return;
-        }
-        this.gettingStatus = true;
-        this.sharer.status((err, statuses) => {
-          if (err) {
-            return alert(err.message);
-=======
           data.listenPort = portStatus.listenPort;
           data.connectionType = portStatus.connectionType;
           switch (portStatus.connectionStatus) {
@@ -235,7 +225,6 @@ export class SharerComponent implements OnInit, OnDestroy {
             case 2:
               data.portColor = 'text-red';
               break;
->>>>>>> 2e123b7269742bf00b482d7985858df47e0d0cb9
           }
 
           switch (data.bridges) {
@@ -295,16 +284,6 @@ export class SharerComponent implements OnInit, OnDestroy {
 
           data.show = false;
 
-<<<<<<< HEAD
-            datas.push(data);
-          })
-          this.driversData = datas;
-          this.gettingStatus = false;
-          this.changeRef.detectChanges();
-        });
-      }, 3000);
-    });
-=======
           datas.push(data);
         })
         this.driversData = datas;
@@ -312,7 +291,6 @@ export class SharerComponent implements OnInit, OnDestroy {
         this.changeRef.markForCheck();
       });
     }, 3000);
->>>>>>> 2e123b7269742bf00b482d7985858df47e0d0cb9
   }
 
   ngOnDestroy() {

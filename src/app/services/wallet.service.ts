@@ -7,6 +7,7 @@ import { remote } from "electron";
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 
+
 @Injectable({
   providedIn: 'root'
 })

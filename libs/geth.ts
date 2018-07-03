@@ -3,10 +3,12 @@ import { spawn } from 'child_process';
 import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "./../src/app/libs/config";
 import { appendFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
+import { Observable } from "rxjs";
 const GETH = join(__dirname, "geth", `geth-${PLATFORM}`);
-const GETH_CONFIG = join(__dirname, "geth", "config.json")
+const GETH_CONFIG = join(__dirname, "geth", "config.json");
 
 export default class {
+    holdingenv: any = {};
     initBC() {
         return new Promise(res => {
             let initCLI = spawn(GETH, [
@@ -64,22 +66,39 @@ export default class {
         });
     }
 
-    runJS(js) {
-        return new Promise(res => {
+    runJS(js, id) {
+        return new Observable(ob => {
             let jsCLI = spawn(GETH, [
                 "attach",
                 WEB3_URL]);
-            let done = false;
+            this.holdingenv[`${id}`] = jsCLI;
+            let started = false;
+            let inputed = false
+            let ended = false;
             jsCLI.stdout.on('data', (data) => {
-                if (done) jsCLI.stdin.write("exit;\n");
-                if (data.toString().indexOf(">") === -1) return;
-                done = true;
-                jsCLI.stdin.write(js);
+                if (data.toString().indexOf(">") > -1 && started) ended = true;
+                if (data.toString().indexOf(">") > -1 && !started) started = true;
+                if (!started) return;
+                if (ended) {
+                    jsCLI.stdin.write("exit;\n");
+                    return;
+                }
+                if (!inputed) {
+                    inputed = true;
+                    jsCLI.stdin.write(js);
+                    return;
+                }
+                ob.next(data.toString());
             });
-            jsCLI.on("close", () => {
-                res();
+            jsCLI.on("close", (code) => {
+                ob.complete();
             });
         });
+    }
+
+    endJS(id) {
+        let jsCLI = this.holdingenv[`${id}`];
+        jsCLI.kill();
     }
 
     constructor() {
@@ -103,9 +122,14 @@ export default class {
                 });
         });
         ipcMain.on("geth.runJS", (event, id, js) => {
-            this.runJS(js).then(() => {
-                event.sender.send(`geth.runJS.${id}`);
-            })
+            this.runJS(js, id).subscribe(data => {
+                event.sender.send(`geth.runJS.${id}`, data);
+            },
+                err => { },
+                () => {
+                    event.sender.send(`geth.runJS.${id}.end`);
+                }
+            )
         });
     }
 }

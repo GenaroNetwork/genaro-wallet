@@ -1,0 +1,46 @@
+@import "../../config.scss";
+:host {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  flex: 0 12rem;
+  display: flex;
+  margin-bottom: 1rem;
+  overflow: visible;
+  .card {
+    flex: 0 26rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background: $content-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding-left: 1rem;
+    &.info {
+      padding: 1rem 2rem;
+      div {
+        $font-size: 1.75rem;
+        $div-height: 4rem;
+        vertical-align: bottom;
+        height: $div-height;
+        padding-top: $div-height - $font-size;
+        font-size: 1rem;
+        span {
+          font-size: $font-size;
+          line-height: $font-size;
+          color: $theme-color;
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.table {
+  flex: 1;
+}
