@@ -12,8 +12,7 @@
           <div>
             <h3>{{ "DRIVE.DRIVE_LOCATION" | translate}}</h3>
             <p class="input-style" (click)="selectFile()">
-              <span *ngIf="addShareFilePath">{{addShareFilePath}}</span>
-              <span *ngIf="!addShareFilePath">{{ "DRIVE.SELECT_SHARDING" | translate }}</span>
+              <span>{{addShareFilePath || ("DRIVE.SELECT_SHARDING" | translate)}}</span>
             </p>
             <h3 style="margin-top:20px">{{ "DRIVE.SHARING_SIZE" | translate }}</h3>
             <div>
@@ -81,7 +80,7 @@
           </div>
         </ng-template>
       </div>
-      <nz-table #basicTable [nzData]="driversData" nzShowPagination="false">
+      <nz-table #basicTable [nzData]="sharer.driversData | async" nzShowPagination="false">
         <thead>
           <tr>
             <th *ngIf="nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -98,7 +97,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of driversData">
+          <tr *ngFor="let data of basicTable.data">
             <td *ngIf="nodeColShow">
               <div>
                 <span>{{data.id}}</span>
@@ -139,7 +138,7 @@
               <span class="{{data.bridgesColor}}">{{data.bridgesText}}</span>
             </td>
             <td>
-              <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'" (nzVisibleChange)="changeVisible($event)">
+              <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
                 <a nz-dropdown>
                   ...
                 </a>
