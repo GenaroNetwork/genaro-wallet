@@ -148,17 +148,10 @@ export class SharerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gettingStatus = true;
-    this.sharer.runDaemon((err) => {
+    this.sharer.startAll((err) => {
       if (err) {
-        return alert(err.message);
+        //return alert(err.message);
       }
-      this.sharer.startAll((err) => {
-        if (err) {
-          //return alert(err.message);
-        }
-        this.gettingStatus = false;
-      });
     });
 
     setInterval(() => {
@@ -293,7 +286,7 @@ export class SharerComponent implements OnInit {
         })
         this.driversData = datas;
         this.gettingStatus = false;
-        this.changeRef.detectChanges();
+        this.changeRef.markForCheck();
       });
     }, 3000);
   }
