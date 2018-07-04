@@ -29,15 +29,22 @@ nz-switch {
 }
 
 .hidden-col-btn {
-  margin-bottom: 20px;
   float: right;
-  z-index: 999;
   position: relative;
 }
 
 .add-drive-btn {
-  margin-bottom: 20px;
   float: left;
-  z-index: 999;
   position: relative;
+}
+
+.input-style {
+  width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout-header {
+  height: 48px;
 }

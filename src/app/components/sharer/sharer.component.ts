@@ -57,7 +57,7 @@ export class SharerComponent implements OnInit {
     let nodeId = this.sharer.create(this.addShareShareSize, this.addShareSelectUnit, this.addShareFilePath);
     this.sharer.start(nodeId, (err) => {
       if (err) {
-        return alert(err);
+        return alert(err.message);
       }
     });
   }
@@ -116,19 +116,21 @@ export class SharerComponent implements OnInit {
       case 1:
         this.sharer.restart(id, (err) => {
           if (err) {
-
+            return alert(err.message);
           }
         });
         break;
       case 2:
         this.sharer.stop(id, (err) => {
-
+          if (err) {
+            return alert(err.message);
+          }
         });
         break;
       case 3:
         this.sharer.destroy(id, (err) => {
           if (err) {
-
+            return alert(err.message);
           }
         });
         break;
