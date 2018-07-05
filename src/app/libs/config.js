@@ -12,6 +12,8 @@ exports.BC_EXISTS_FILE = path_1.join(exports.GENARO_ROOT_PATH, "bc-genesis.lock"
 exports.BC_LOG_FILE = path_1.join(exports.GENARO_ROOT_PATH, "bc-log.log");
 exports.BC_ERR_FILE = path_1.join(exports.GENARO_ROOT_PATH, "bc-err.log");
 exports.PLATFORM = "darwin-x64";
+exports.SPACE_UNIT_PRICE = 0.015 / 30; // GNX/GB*Day
+exports.TRAFFIC_UNIT_PRICE = 0.05; // GB
 exports.WEB3_CONFIG = {
     RPC_ADDR: "127.0.0.1",
     RPC_PORT: "8545",

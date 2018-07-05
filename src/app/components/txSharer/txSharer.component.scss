@@ -38,6 +38,23 @@
         }
       }
     }
+    &.opera {
+      display: flex;
+      flex-direction: column;
+      .status {
+        flex: 2;
+        line-height: 8rem;
+        padding-left: 2rem;
+      }
+      .opera {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+        button {
+          width: 8rem;
+        }
+      }
+    }
   }
 }
 
