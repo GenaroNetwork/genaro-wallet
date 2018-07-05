@@ -108,6 +108,7 @@ export class TransactionService {
       .on('error', async function (error) {
         await tdb.txError(txOptions.transactionId, error.message)
         console.log('2 error: ' + error)
+        throw new Error(error.message);
       })
   }
 
