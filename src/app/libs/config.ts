@@ -12,6 +12,9 @@ export const BC_LOG_FILE = join(GENARO_ROOT_PATH, "bc-log.log");
 export const BC_ERR_FILE = join(GENARO_ROOT_PATH, "bc-err.log");
 export const PLATFORM = "darwin-x64";
 
+export const SPACE_UNIT_PRICE = 0.015 / 30; // GNX/GB*Day
+export const TRAFFIC_UNIT_PRICE = 0.05; // GB
+
 export const WEB3_CONFIG = {
     RPC_ADDR: "127.0.0.1",
     RPC_PORT: "8545",

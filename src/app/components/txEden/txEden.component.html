@@ -1,18 +1,35 @@
-<p *ngFor="let a of (wallet.test | async)">
-  {{ a }}
-</p>
-<nz-table #test [nzData]="wallet.test | async">
-  <thead>
-    <tr>
-      <th>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of test.data">
-      <td>
-        {{ data }}
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+<div class="header">
+  <div class="card long-card">
+    <div nz-row class="line" nzType="flex" nzAlign="middle">
+      <div nz-col nzSpan="5">
+        {{ 'TXEDEN.SPACE_STATUS' | translate }} {{ 'COMMON.COLON' | translate }}
+      </div>
+      <div nz-col nzSpan="17">
+        <nz-progress [nzPercent]="60" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
+      </div>
+    </div>
+    <div nz-row nzType="flex" nzAlign="middle">
+      <div nz-col nzSpan="17" nzOffset="5">4111
+      </div>
+    </div>
+    <div nz-row class="line" nzType="flex" nzAlign="middle">
+      <div nz-col nzSpan="5">
+        {{ 'TXEDEN.TRAFFIC_STATUS' | translate }} {{ 'COMMON.COLON' | translate }}
+      </div>
+      <div nz-col nzSpan="17">
+        <nz-progress [nzPercent]="60" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
+      </div>
+    </div>
+    <div nz-row nzType="flex" nzAlign="middle">
+      <div nz-col nzSpan="17" nzOffset="5">
+        asdasd
+      </div>
+    </div>
+  </div>
+  <div class="card short-card">
+    <button nz-button nzType="primary" nzSize="large" (click)="dialogName='buySpace'">{{ 'TXEDEN.BUY_SPACE' | translate }}</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="dialogName='buyTraffic'">{{ 'TXEDEN.BUY_TRAFFIC' | translate }}</button>
+  </div>
+</div>
+
+<app-dialog [(name)]="dialogName"></app-dialog>

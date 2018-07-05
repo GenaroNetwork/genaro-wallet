@@ -27,6 +27,7 @@ import { TxEdenComponent } from "./components/txEden/txEden.component";
 import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
 import { DialogComponent } from './components/dialog/dialog.component';
+import { InputComponent } from './components/input/input.component';
 
 // services
 
@@ -60,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // common component
     DialogComponent,
     FormComponent,
+    InputComponent,
     // pipe
     LongAddrPipe,
     ShortAddrPipe,

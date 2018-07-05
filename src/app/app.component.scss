@@ -9,13 +9,13 @@
       border-radius: $border-radius;
       flex: 0 $left-menu-width;
       box-shadow: $box-shadow;
-      /deep/ .ant-card-body {
+      ::ng-deep .ant-card-body {
         padding: $border-blank 0 0;
       }
     }
     &.right {
       flex: 1;
-      /deep/ .ant-card-body {
+      ::ng-deep .ant-card-body {
         height: 100%;
         width: 100%;
       }

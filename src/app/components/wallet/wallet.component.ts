@@ -14,7 +14,7 @@ export class WalletComponent implements OnInit {
 
   constructor(
     private walletService: WalletService, // 在 html 中使用
-    private txService: TransactionService,
+    private txService: TransactionService, // 在 html 中使用
     private txDbService: TransactionDbService,  // 在 html 中使用
   ) { }
 

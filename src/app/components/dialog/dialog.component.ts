@@ -3,6 +3,8 @@ import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { nextTick } from 'q';
+import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from "../../libs/config";
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-dialog',
@@ -13,6 +15,7 @@ export class DialogComponent implements OnChanges {
   constructor(
     private walletService: WalletService,
     private alert: NzMessageService,
+    private txService: TransactionService,
     private i18n: TranslateService,
   ) { }
   @Input("name") dialogName: string = null;
@@ -108,6 +111,31 @@ export class DialogComponent implements OnChanges {
       }).unsubscribe();
     });
   }
+
+  // 购买空间
+  buySpaceStep: number = 0;
+  buySpaceLimit: number = 0;
+  buySpaceRange: number = 0;
+  buySpacePassword: string = "";
+  buySpaceGas: any;
+  SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
+  buySpaceInit() {
+    this.buySpaceStep = 0;
+    this.buySpaceRange = 0;
+    this.buySpaceLimit = 0;
+    this.buySpacePassword = "";
+  }
+  buySpaceDone() {
+    this.walletService.currentWallet.subscribe(wallet => {
+      this.txService.buyBucket(wallet.address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
+      this.buySpaceStep++;
+    }).unsubscribe();
+  }
+
+  // 购买流量
+  buyTrafficStep: number = 0;
+  buyTraffic: number = 0;
+  TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
 
   // common
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {

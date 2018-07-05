@@ -21,7 +21,27 @@
     "COLON": "：",
     "PERIOD": "。",
     "COMMA": "，",
-    "SELECT_SAVE_PATH": "选择保存地址"
+    "SELECT_SAVE_PATH": "选择保存地址",
+    "BUY_NOW": "立即购买",
+    "PAY_NOW": "立即支付",
+    "YEAR(S)": "年",
+    "MONTH(S)": "月"
+  },
+  "INPUT": {
+    "ADDRESS_FROM": "转出地址",
+    "ADDRESS_TO": "转至地址",
+    "AMOUNT": "金额",
+    "GAS": "燃料",
+    "GAS_SLOW": "缓慢",
+    "GAS_FAST": "快速",
+    "GAS_LIMIT": "燃料上限",
+    "SPACE_RANGE": "存储空间",
+    "SPACE_LIMIT": "存储时长",
+    "TRAFFIC": "流量",
+    "PASSWORD": "密码",
+    "PASSWORD_OLD": "旧密码",
+    "PASSWORD_NEW": "新密码",
+    "PASSWORD_REPEAT": "确认密码"
   },
   "MODEL": {
     "WALLET_CHANGE_NAME": "修改钱包名",
@@ -32,6 +52,15 @@
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT": "请重新输入要修改的钱包密码",
     "WALLET_EXPORT_JSON": "导出JSON文件",
     "WALLET_DELETE": "删除钱包"
+  },
+  "FORM": {
+    "ADDRESS": "地址",
+    "AMOUNT": "金额",
+    "GAS": "燃料",
+    "GAS_LIMIT": "燃料限制",
+    "GAS_SLOW": "缓慢",
+    "GAS_FAST": "快速",
+    "PASSWORD": "密码"
   },
   "HEADER": {
     "ICON": "假装这是一个icon",
@@ -96,6 +125,19 @@
     "IMPORT_JSON_ERROR": "导入钱包出错",
     "IMPORT_JSON_ERROR_PASSWORD": "导入钱包出错，密码不正确",
     "IMPORT_JSON_ERROR_ILLEGAL": "导入钱包出错，钱包格式错误"
+  },
+  "TXEDEN": {
+    "BUY_TRAFFIC": "购买流量",
+    "BUY_SPACE": "购买空间",
+    "BUY_PREVIEW_PRICE": "预计价格",
+    "BUY_SPACE_SELF": "自选空间",
+    "BUY_SPACE_DEFAULT": "购买空间套餐",
+    "BUY_TRAFFIC_SELF": "自选流量",
+    "BUY_TRAFFIC_DEFAULT": "购买流量套餐",
+    "TIME_LIMIT": "使用期限",
+    "SPACE_RANGE": "空间容量",
+    "SPACE_STATUS": "空间使用情况",
+    "TRAFFIC_STATUS": "流量使用情况"
   },
   "DRIVE": {
     "CANCEL": "取消",

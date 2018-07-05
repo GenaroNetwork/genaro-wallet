@@ -1,0 +1,17 @@
+:host {
+  &>div {
+    margin-bottom: 1rem;
+    .label {
+      text-align: right;
+    }
+    &.gas {
+      margin-bottom: 2rem;
+      .icon {
+        text-align: right;
+        .anticon {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

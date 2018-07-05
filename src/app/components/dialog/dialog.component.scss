@@ -1,0 +1,15 @@
+@import "../../config.scss";
+.buy-space,
+.buy-traffic {
+  .review {
+    margin-bottom: 1rem;
+    .label {
+      text-align: right;
+    }
+  }
+  ::ng-deep .ant-modal-footer {
+    &>span {
+      margin-right: 1rem;
+    }
+  }
+}

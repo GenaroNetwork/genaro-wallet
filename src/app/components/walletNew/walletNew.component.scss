@@ -10,7 +10,7 @@
   nz-card {
     border-radius: $border-radius;
     @extend .popup-style;
-    /deep/ .ant-card-body {
+    ::ng-deep .ant-card-body {
       padding-top: 0;
     }
     .header {
@@ -53,7 +53,7 @@
     .importStep {
       text-align: center;
       nz-steps {
-        /deep/ .ant-steps {
+        ::ng-deep .ant-steps {
           margin-bottom: $border-blank;
         }
       }
@@ -120,7 +120,7 @@
       .confirm {
         margin-bottom: $border-blank;
         text-align: center;
-        /deep/ textarea {
+        ::ng-deep textarea {
           display: inline-block;
           resize: none;
           width: 70%;

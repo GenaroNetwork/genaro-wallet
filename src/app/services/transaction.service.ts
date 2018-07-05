@@ -49,6 +49,11 @@ export class TransactionService {
     });
   }
 
+  async getGas() {
+    // @ts-ignore
+    return web3.utils.fromWei("4000000000", "Gwei");
+  }
+
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
     fromAddr = add0x(fromAddr)
     toAddr = add0x(toAddr)
@@ -102,6 +107,7 @@ export class TransactionService {
       })
       .on('error', async function (error) {
         await tdb.txError(txOptions.transactionId, error.message)
+        throw new Error(error.message);
         console.log('2 error: ' + error)
       })
   }
