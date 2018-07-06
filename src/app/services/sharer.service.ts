@@ -254,17 +254,6 @@ export class SharerService {
       
               data.delta = ntpStatus.delta || '...';
               data.deltaStatus = ntpStatus.status;
-              switch (ntpStatus.status) {
-                case 0:
-                  data.deltaColor = 'text-green';
-                  break;
-                case 1:
-                  data.deltaColor = 'text-yellow';
-                  break;
-                case 2:
-                  data.deltaColor = 'text-red';
-                  break;
-              }
       
               data.show = false;
       
