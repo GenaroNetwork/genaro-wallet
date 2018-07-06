@@ -4,19 +4,18 @@ const axios = require('axios');
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
-import { WalletService } from './wallet.service';
 import { BRIDGE_API_URL } from "./../libs/config";
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
 const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 
-function _getPayload(method, url, body) {
+function _getPayload(method, urlStr, body) {
   if (fromBody.indexOf(method) !== -1) {
     return body;
   }
 
   if (fromQuery.indexOf(method) !== -1) {
-    return url.parse(url).query;
+    return url.parse(urlStr).query;
   }
 
   return '';
@@ -94,7 +93,7 @@ export class EdenService {
   }
 
   getUserInfo() {
-    send('GET', '/user/' + this.walletAddr, null, this.bucketsSig, this.publicKey, (err, user) => {
+    send('GET', '/user/' + this.walletAddr, null, this.userSig, this.publicKey, (err, user) => {
       if (err) {
         return alert(err);
       }
