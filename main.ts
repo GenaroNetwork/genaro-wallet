@@ -7,7 +7,7 @@ import Sqlite from "./libs/sqlite";
 import Protocol from "./libs/protocol";
 import StorjLib from "./libs/storj-lib";
 import Geth from "./libs/geth";
-import { DAEMON_CONFIG } from "./src/app/libs/config";
+import { DAEMON_CONFIG } from "./libs/config";
 import { join } from "path";
 const DAEMON = join(__dirname, "./src/assets/daemon/rpc-server.js");
 
@@ -62,38 +62,38 @@ function createWindow() {
 
   maybeStartDaemon(() => {
     initRPCServer((msg) => {
-      
+
     });
   });
 }
 
 function maybeStartDaemon(callback) {
-  const sock = connect( DAEMON_CONFIG.RPC_PORT );
+  const sock = connect(DAEMON_CONFIG.RPC_PORT);
 
   sock.on('connect', () => {
-      sock.end()
-      sock.removeAllListeners()
-      callback()
+    sock.end()
+    sock.removeAllListeners()
+    callback()
   })
 
   sock.on('error', () => {
-      sock.removeAllListeners()
-      initRPCServer(callback)
+    sock.removeAllListeners()
+    initRPCServer(callback)
   })
 }
 
 function initRPCServer(callback) {
   let RPCServer = fork(DAEMON, [], { env: { STORJ_NETWORK: DAEMON_CONFIG.STORJ_NETWORK, RPC_PORT: DAEMON_CONFIG.RPC_PORT } });
   process.on('exit', () => {
-      RPCServer.kill()
+    RPCServer.kill()
   });
   RPCServer.on('message', (msg) => {
-      if (msg.state === 'init') {
-          return callback();
-      } else {
-          RPCServer.removeAllListeners();
-          callback(msg);
-      }
+    if (msg.state === 'init') {
+      return callback();
+    } else {
+      RPCServer.removeAllListeners();
+      callback(msg);
+    }
   });
 }
 

@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { spawn } from 'child_process';
-import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "./../src/app/libs/config";
+import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "./config";
 import { appendFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
 import { Observable } from "rxjs";

@@ -1,7 +1,7 @@
 import * as DB from "better-sqlite3";
 import { ipcMain } from "electron";
 import { mkdirSync, existsSync } from "fs";
-import { GENARO_ROOT_PATH, WALLET_CONFIG_PATH } from "../src/app/libs/config";
+import { GENARO_ROOT_PATH, WALLET_CONFIG_PATH } from "./config";
 import { join } from "path";
 if (!existsSync(GENARO_ROOT_PATH)) mkdirSync(GENARO_ROOT_PATH);
 if (!existsSync(WALLET_CONFIG_PATH)) mkdirSync(WALLET_CONFIG_PATH);

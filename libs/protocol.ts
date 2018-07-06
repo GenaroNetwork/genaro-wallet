@@ -1,5 +1,5 @@
 import { protocol } from "electron";
-import { GENARO_ROOT_PATH } from "../src/app/libs/config";
+import { GENARO_ROOT_PATH } from "./config";
 import { join } from "path";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { toFile as QRCode2File } from "qrcode";
