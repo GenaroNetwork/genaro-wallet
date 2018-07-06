@@ -11,8 +11,8 @@ export class HeaderComponent implements OnInit {
   walletNewShown: boolean = false;
   blockHeight: number = null;
   constructor(
-    private txService: TransactionService, // 会在 html 中用到，
-    private walletService: WalletService, // 会在 html 中用到，
+    public txService: TransactionService, // 会在 html 中用到，
+    public walletService: WalletService, // 会在 html 中用到，
   ) { }
 
   ngOnInit() {

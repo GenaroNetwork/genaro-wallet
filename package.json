@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "4.0.0",
-  "description": "Angular 6 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "genaro-wallet",
+  "version": "0.0.1",
+  "description": "Genaro Wallet",
+  "homepage": "https://genaro.network",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Geanro wallet",
+    "email": "ziyi@genaro.network"
   },
   "keywords": [
     "angular",

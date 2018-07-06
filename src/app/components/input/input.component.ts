@@ -15,24 +15,24 @@ export class InputComponent implements OnInit {
   @Output("iptChange") ngModelChange: EventEmitter<any> = new EventEmitter;
 
   // gas
-  private gasDetail: boolean = false;
-  private gasMin: number = 1;
-  private gasMax: number = 100;
-  private gasLimit: number = 21000;
-  private gasDefault: number = 1;
-  private gasMarks: {};
+  gasDetail: boolean = false;
+  gasMin: number = 1;
+  gasMax: number = 100;
+  gasLimit: number = 21000;
+  gasDefault: number = 1;
+  gasMarks: {};
 
   // 买空间/流量
-  private spaceLimitValue: number = 0;
-  private spaceLimitUnit: number = 30;
-  private spaceRangeValue: number = 0;
-  private spaceRangeUnit: number = 1;
-  private trafficValue: number = 0;
-  private trafficUnit: number = 1;
+  spaceLimitValue: number = 0;
+  spaceLimitUnit: number = 30;
+  spaceRangeValue: number = 0;
+  spaceRangeUnit: number = 1;
+  trafficValue: number = 0;
+  trafficUnit: number = 1;
 
   constructor(
-    private i18n: TranslateService,
-    private txService: TransactionService,
+    public i18n: TranslateService,
+    public txService: TransactionService,
   ) { }
 
   test(e) {

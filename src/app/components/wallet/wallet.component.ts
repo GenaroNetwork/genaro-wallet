@@ -13,9 +13,9 @@ import { TransactionService } from '../../services/transaction.service';
 export class WalletComponent implements OnInit {
 
   constructor(
-    private walletService: WalletService, // 在 html 中使用
-    private txService: TransactionService, // 在 html 中使用
-    private txDbService: TransactionDbService,  // 在 html 中使用
+    public walletService: WalletService, // 在 html 中使用
+    public txService: TransactionService, // 在 html 中使用
+    public txDbService: TransactionDbService,  // 在 html 中使用
   ) { }
 
   copied: string = null;

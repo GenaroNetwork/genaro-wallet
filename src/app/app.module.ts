@@ -28,6 +28,9 @@ import { WalletNewComponent } from "./components/walletNew/walletNew.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { InputComponent } from './components/input/input.component';
+import { FormComponent } from './components/form/form.component';
+import { SettingComponent } from './components/setting/setting.component';
+import { TableComponent } from './components/table/table.component';
 
 // services
 
@@ -36,7 +39,7 @@ import { InputComponent } from './components/input/input.component';
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { GetBalancePipe } from './pipes/getBalance.pipe';
 import { SafePipe } from './pipes/safe.pipe';
-import { FormComponent } from './components/form/form.component';
+import { NumberPipe } from './pipes/number.pipe';
 
 
 // AoT requires an exported function for factories
@@ -52,6 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     // nav component
     HeaderComponent,
     SiderbarComponent,
+    SettingComponent,
+    TableComponent,
     // content component
     WalletComponent,
     TxSharerComponent,
@@ -67,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ShortAddrPipe,
     GetBalancePipe,
     SafePipe,
+    NumberPipe,
   ],
   imports: [
     BrowserModule,

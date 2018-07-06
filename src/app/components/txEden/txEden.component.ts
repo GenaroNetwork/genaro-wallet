@@ -12,6 +12,8 @@ export class TxEdenComponent implements OnInit {
     private wallet: WalletService
   ) { }
 
+  dialogName: string = null;
+
   ngOnInit() {
   }
 
