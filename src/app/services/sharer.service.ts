@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { fork } from 'child_process';
 import { ipcRenderer, shell } from "electron";
 import Dnode from "dnode";
 import prettyms from "pretty-ms";
@@ -23,7 +22,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
-import { SHARER, DAEMON_CONFIG } from "./../libs/config";
+import { DAEMON_CONFIG } from "./../libs/config";
 
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
 try {
@@ -117,7 +116,6 @@ export class SharerService {
 
   create(shareSize, shareUnit, shareBasePath) {
     console.log(`create config with size: ${shareSize}${shareUnit}, path: ${shareBasePath}`);
-    let returnedPath = false;
     let configFileDescriptor;
     let storPath;
     let config = DAEMON_CONFIG.prodConfig;
@@ -250,60 +248,12 @@ export class SharerService {
       
               data.listenPort = portStatus.listenPort;
               data.connectionType = portStatus.connectionType;
-              switch (portStatus.connectionStatus) {
-                case 0:
-                  data.portColor = 'text-green';
-                  break;
-                case 1:
-                  data.portColor = 'text-yellow';
-                  break;
-                case 2:
-                  data.portColor = 'text-red';
-                  break;
-              }
-      
-              switch (data.bridges) {
-                case 0:
-                  data.bridgesText = "disconnected";
-                  data.bridgesColor = 'text-gray';
-                  break;
-                case 1:
-                  data.bridgesText = "connecting";
-                  data.bridgesColor = 'text-yellow';
-                  break;
-                case 2:
-                  data.bridgesText = "confirming";
-                  data.bridgesColor = 'text-orange';
-                  break;
-                case 3:
-                  data.bridgesText = "connected";
-                  data.bridgesColor = 'text-green';
-                  break;
-              }
+              data.connectionStatus = portStatus.connectionStatus;
       
               data.state = share.state;
-              switch (data.state) {
-                case 0:
-                  data.statusSwitch = false;
-                  data.status = 'stopped';
-                  data.statusColor = 'text-gray';
-                  break;
-                case 1:
-                  data.statusSwitch = true;
-                  data.status = 'running';
-                  data.statusColor = 'text-green';
-                  break;
-                case 2:
-                  data.statusSwitch = false;
-                  data.status = 'errored';
-                  data.statusColor = 'text-red';
-                  break;
-                default:
-                  data.status = 'unknown';
-                  break;
-              }
       
               data.delta = ntpStatus.delta || '...';
+              data.deltaStatus = ntpStatus.status;
               switch (ntpStatus.status) {
                 case 0:
                   data.deltaColor = 'text-green';
