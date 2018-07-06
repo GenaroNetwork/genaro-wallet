@@ -36,6 +36,8 @@ if (LITE_WALLET) {
 
 export { WEB3_URL, STX_ADDR };
 
+export const BRIDGE_API_URL = 'http://118.31.61.119:8080';
+
 export const DAEMON_CONFIG = {
     RPC_ADDR: "127.0.0.1",
     RPC_PORT: "45016",

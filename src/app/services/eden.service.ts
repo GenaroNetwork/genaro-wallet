@@ -5,8 +5,8 @@ const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
 import { WalletService } from './wallet.service';
+import { BRIDGE_API_URL } from "./../libs/config";
 
-const BRIDGE_API_URL = 'http://118.31.61.119:8080';
 const fromBody = ['POST', 'PATCH', 'PUT'];
 const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 
