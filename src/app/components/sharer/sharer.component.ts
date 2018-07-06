@@ -11,8 +11,7 @@ const { dialog } = require('electron').remote;
 export class SharerComponent implements OnInit {
 
   constructor(
-    private changeRef: ChangeDetectorRef,
-    private sharer: SharerService,
+    public sharer: SharerService,
   ) { }
 
   modalTitle: string = "";
@@ -24,6 +23,7 @@ export class SharerComponent implements OnInit {
   addShareShareSize: string = "";
   addShareSelectUnit: string = "GB";
   visible: boolean = false;
+  hiddenVisible: boolean = false;
 
   nodeColShow: boolean = true;
   statusColShow: boolean = true;

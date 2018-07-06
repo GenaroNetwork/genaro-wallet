@@ -108,7 +108,9 @@
                 </div>
               </td>
               <td *ngIf="statusColShow">
-                <span class="{{data.statusColor}}">{{data.status}}</span>
+                <span *ngIf="data.state === 0" class="text-gray">stopped</span>
+                <span *ngIf="data.state === 1" class="text-green">running</span>
+                <span *ngIf="data.state === 2" class="text-red">errored</span>
               </td>
               <td *ngIf="uptimeColShow">{{data.time}}</td>
               <td *ngIf="restartsColShow">{{data.restarts}}</td>
@@ -121,10 +123,22 @@
                 </div>
               </td>
               <td *ngIf="deltaColShow">
-                <span class="{{data.deltaColor}}">{{data.delta}}</span>
+                <span *ngIf="data.deltaStatus === 0" class="text-green">{{data.delta}}</span>
+                <span *ngIf="data.deltaStatus === 1" class="text-yellow">{{data.delta}}</span>
+                <span *ngIf="data.deltaStatus === 2" class="text-red">{{data.delta}}</span>
               </td>
               <td *ngIf="portColShow">
-                <div class="{{data.portColor}}">
+                <div *ngIf="data.connectionStatus===0" class="text-green">
+                  <span>{{data.listenPort}}</span>
+                  <br/>
+                  <span>{{data.connectionType}}</span>
+                </div>
+                <div *ngIf="data.connectionStatus===1" class="text-yellow">
+                  <span>{{data.listenPort}}</span>
+                  <br/>
+                  <span>{{data.connectionType}}</span>
+                </div>
+                <div *ngIf="data.connectionStatus===2" class="text-red">
                   <span>{{data.listenPort}}</span>
                   <br/>
                   <span>{{data.connectionType}}</span>
@@ -137,7 +151,10 @@
                 </div>
               </td>
               <td *ngIf="bridgesColShow">
-                <span class="{{data.bridgesColor}}">{{data.bridgesText}}</span>
+                <span *ngIf="data.bridges === 0" class="text-gray">disconnected</span>
+                <span *ngIf="data.bridges === 1" class="text-yellow">connecting</span>
+                <span *ngIf="data.bridges === 2" class="text-orange">confirming</span>
+                <span *ngIf="data.bridges === 3" class="text-green">disconnected</span>
               </td>
               <td>
                 <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
@@ -146,8 +163,8 @@
                   </a>
                   <ul nz-menu>
                     <li nz-menu-item (click)="restartShare(data)">{{ "DRIVE.RESTART" | translate}}</li>
-                    <li *ngIf="data.statusSwitch" nz-menu-item (click)="stopShare(data)">{{ "DRIVE.STOP" | translate}}</li>
-                    <li *ngIf="!data.statusSwitch" nz-menu-item (click)="startShare(data)">{{ "DRIVE.START" | translate}}</li>
+                    <li *ngIf="data.state === 1" nz-menu-item (click)="stopShare(data)">{{ "DRIVE.STOP" | translate}}</li>
+                    <li *ngIf="data.state !== 1" nz-menu-item (click)="startShare(data)">{{ "DRIVE.START" | translate}}</li>
                     <li nz-menu-item (click)="deleteShare(data)">{{ "DRIVE.DELETE" | translate}}</li>
                     <li nz-menu-item (click)="showLog(data)">{{ "DRIVE.SHOW_LOG" | translate}}</li>
                     <li nz-menu-item (click)="openConfig(data)">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
