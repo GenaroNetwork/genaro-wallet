@@ -32,7 +32,7 @@ function _getHash(method, url, data) {
 }
 
 function send(method, url, data, sig, pubKey, callback) {
-  if(!sig || !pubKey) {
+  if (!sig || !pubKey) {
     return callback('missing signature or pubkey');
   }
   axios({
@@ -44,7 +44,7 @@ function send(method, url, data, sig, pubKey, callback) {
       'x-pubkey': pubKey
     }
   }).then(function (res) {
-    if(res.status !== 200) {
+    if (res.status !== 200) {
       return callback(`${method} ${url} error: ${res.status}`);
     }
     callback(null, res.data);
@@ -86,7 +86,7 @@ export class EdenService {
 
   getBuckets() {
     send('GET', '/buckets', null, this.bucketsSig, this.publicKey, (err, buckets) => {
-      if(err) {
+      if (err) {
         return alert(err);
       }
       this.bucketList.next(buckets);
@@ -94,8 +94,8 @@ export class EdenService {
   }
 
   getUserInfo() {
-    send('GET', '/user/' + this.walletAddr, null,  this.bucketsSig, this.publicKey, (err, user) => {
-      if(err) {
+    send('GET', '/user/' + this.walletAddr, null, this.bucketsSig, this.publicKey, (err, user) => {
+      if (err) {
         return alert(err);
       }
       this.currentUser.next(user);

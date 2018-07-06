@@ -39,7 +39,6 @@ export class GethService {
 
     static startGeth() {
         return new Promise(res => {
-            console.log(`geth.startBC.${ipcId}`);
             ipcRenderer.on(`geth.startBC.${ipcId}`, res);
             ipcRenderer.send("geth.startBC", ipcId++);
         });
