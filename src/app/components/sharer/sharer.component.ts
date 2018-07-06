@@ -1,6 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharerService } from '../../services/sharer.service';
-const prettyms = require('pretty-ms');
 const { dialog } = require('electron').remote;
 
 @Component({
@@ -94,7 +93,7 @@ export class SharerComponent implements OnInit {
     this.modalDataId = data.id;
   }
 
-  showLog(data) {
+  showLog() {
     this.sharer.openLogFolder();
   }
 
