@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
-import { createHash } from 'crypto'
+import { createHash } from 'crypto';
 let web3: Web3;
 
 function add0x(addr: string) {
@@ -147,4 +147,44 @@ export class TransactionService {
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
     return this.sendTransaction(address, password, txOptions, 'BUY_TRAFFIC')
   }
+
+  async stake(address: string, password: string, stakeGNX: number, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      address: address,
+      type: "0x1",
+      stake: stakeGNX,
+    }
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
+  }
+
+  async unStake() {
+    // not avliable
+  }
+
+  async bindNode(address: string, password: string, nodeIds: string[] | Set<string>, gasLimit: number, gasPriceInGwei: string | number) {
+    nodeIds = Array.from(nodeIds);
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: "0x8",
+      syncNode: nodeIds,
+    }
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
+  }
+
+  async getNodes(address: string) {
+    // @ts-ignore
+    return await web3.genaro.getStorageNodes(this.address);
+  }
+
+  async getHeft(address: string) {
+    // @ts-ignore
+    return await web3.genaro.getHeft(address, 'latest');
+  }
+
+
 }

@@ -1,5 +1,5 @@
 <!-- 收款地址 -->
-<div *ngIf="name==='addressFrom'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='addressFrom'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.ADDRESS_FROM' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -10,7 +10,7 @@
 
 
 <!-- 发送地址 -->
-<div *ngIf="name==='addressTo'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='addressTo'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.ADDRESS_TO' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -22,7 +22,7 @@
 
 
 <!-- 金额 -->
-<div *ngIf="name==='amount'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='amount'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.AMOUNT' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -34,7 +34,7 @@
 
 <!-- gas -->
 <ng-container *ngIf="name==='gas' && !gasDetail">
-  <div nz-row nzType="flex" nzJustify="center" nzAlign="middle" class="gas">
+  <div nz-row nzType="flex" nzAlign="middle" class="gas">
     <div nz-col [nzSpan]="span[0]" class="label">
       {{ 'INPUT.GAS' | translate }} {{ 'COMMON.COLON' | translate }}
     </div>
@@ -48,7 +48,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="name==='gas' && gasDetail">
-  <div nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+  <div nz-row nzType="flex" nzAlign="middle">
     <div nz-col [nzSpan]="span[0]" class="label">
       {{ 'INPUT.GAS' | translate }} {{ 'COMMON.COLON' | translate }}
     </div>
@@ -56,7 +56,7 @@
       <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (input)="ngModelChange.emit([$event.target.value, gasLimit])">
     </div>
   </div>
-  <div nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+  <div nz-row nzType="flex" nzAlign="middle">
     <div nz-col [nzSpan]="span[0]" class="label">
       {{ 'INPUT.GAS_LIMIT' | translate }} {{ 'COMMON.COLON' | translate }}
     </div>
@@ -66,49 +66,9 @@
   </div>
 </ng-container>
 
-<!-- 密码 -->
-<div *ngIf="name==='password'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD' | translate }} {{ 'COMMON.COLON' | translate }}
-  </div>
-  <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
-  </div>
-</div>
-
-<!-- 旧密码 -->
-<div *ngIf="name==='passwordOld'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_OLD' | translate }} {{ 'COMMON.COLON' | translate }}
-  </div>
-  <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
-  </div>
-</div>
-
-<!-- 新密码 -->
-<div *ngIf="name==='passwordNew'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_NEW' | translate }} {{ 'COMMON.COLON' | translate }}
-  </div>
-  <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
-  </div>
-</div>
-
-<!-- 重复密码 -->
-<div *ngIf="name==='passwordRepeat'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_REPEAT' | translate }} {{ 'COMMON.COLON' | translate }}
-  </div>
-  <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
-  </div>
-</div>
-
 
 <!-- 购买空间时长 -->
-<div *ngIf="name==='spaceLimit'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='spaceLimit'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.SPACE_LIMIT' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -126,7 +86,7 @@
 </div>
 
 <!-- 购买空间大小 -->
-<div *ngIf="name==='spaceRange'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='spaceRange'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.SPACE_RANGE' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -144,7 +104,7 @@
 </div>
 
 <!-- 购买流量 -->
-<div *ngIf="name==='traffic'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='traffic'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'INPUT.TRAFFIC' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
@@ -161,16 +121,77 @@
   </div>
 </div>
 
+<!-- 压注 -->
+<div *ngIf="name==='stake'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'TXSHARER.STAKE' | translate }} {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]-4" class="preview">
+    <input [value]="ngModel" type="number" nz-input (input)="ngModelChange.emit($event.target.value)" min="0">
+  </div>
+  <div nz-col [nzSpan]="4">&nbsp;&nbsp;GNX</div>
+</div>
+
+<!-- 绑定节点 -->
+<div *ngIf="name==='bindNode'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    nodeId {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
+<!-- 密码 -->
+<div *ngIf="name==='password'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.PASSWORD' | translate }} {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
+<!-- 旧密码 -->
+<div *ngIf="name==='passwordOld'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.PASSWORD_OLD' | translate }} {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
+<!-- 新密码 -->
+<div *ngIf="name==='passwordNew'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.PASSWORD_NEW' | translate }} {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
+<!-- 重复密码 -->
+<div *ngIf="name==='passwordRepeat'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.PASSWORD_REPEAT' | translate }} {{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
 <!-- 确认按钮 -->
-<div *ngIf="name==='confirm'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='confirm'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]">
-    <button nz-button nzType="primary">{{ 'COMMON.CONFIRM' | translate }}</button>
+    <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </div>
 </div>
 
 <!-- 取消按钮 -->
-<div *ngIf="name==='cancel'" nz-row nzType="flex" nzJustify="center" nzAlign="middle">
+<div *ngIf="name==='cancel'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]">
-    <button nz-button nzType="primary">{{ 'COMMON.CONFIRM' | translate }}</button>
+    <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </div>
 </div>

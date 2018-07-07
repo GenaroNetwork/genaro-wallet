@@ -22,9 +22,6 @@ export class WalletComponent implements OnInit {
   popoverSendVisible: boolean = false;
   dialogName: string = null;
 
-  displayTxData: any = [];
-  allTxData: any;
-
   copyWalletAddr() {
     this.walletService.currentWallet.subscribe(wallet => {
       clipboard.writeText(`0x${wallet.address}`);
@@ -36,7 +33,6 @@ export class WalletComponent implements OnInit {
   };
 
   async ngOnInit() {
-    this.allTxData = await this.txDbService.getTransactions(1, 1);
   }
 
 }

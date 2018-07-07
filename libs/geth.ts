@@ -22,7 +22,7 @@ export default class {
                 //writeFileSync(BC_LOG_FILE, "done");
                 //writeFileSync(BC_ERR_FILE, "done");
             });
-            initCLI.on("close", () => res);
+            initCLI.on("close", res);
         });
     }
 
@@ -45,6 +45,8 @@ export default class {
                 WEB3_CONFIG.WS_ORIGINS,
                 "--wsapi",
                 WEB3_CONFIG.WS_API,
+                "--syncmode",
+                "full",
             ]);
             let started = false;
             startCLI.stdout.on("data", (data) => {
@@ -110,7 +112,7 @@ export default class {
         ipcMain.on("geth.startBC", (event, id) => {
             new Promise(res => {
                 if (!existsSync(BC_EXISTS_FILE)) {
-                    this.initBC().then(() => res);
+                    this.initBC().then(res);
                 }
                 res();
             })

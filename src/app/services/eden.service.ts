@@ -13,7 +13,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
   providedIn: 'root'
 })
 export class EdenService {
-  public bucketList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public bucketList: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   public currentUser: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
 
   private publicKey: string = "";
@@ -45,14 +45,8 @@ export class EdenService {
   }
 
   private getPayload(method, urlStr, body) {
-    if (fromBody.indexOf(method) !== -1) {
-      return body;
-    }
-
-    if (fromQuery.indexOf(method) !== -1) {
-      return url.parse(urlStr).query;
-    }
-
+    if (fromBody.indexOf(method) !== -1) return body;
+    if (fromQuery.indexOf(method) !== -1) return url.parse(urlStr).query;
     return '';
   };
 

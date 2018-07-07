@@ -139,6 +139,13 @@
     "SPACE_STATUS": "空间使用情况",
     "TRAFFIC_STATUS": "流量使用情况"
   },
+  "TXSHARER": {
+    "STAKE": "压注",
+    "UNSTAKE": "解除压注",
+    "STAKE_GNX": "压注金额",
+    "MAX_STAKE_NODE": "最多绑定节点数",
+    "BIND_NODE": "绑定节点"
+  },
   "DRIVE": {
     "CANCEL": "取消",
     "NEXT": "下一步",
@@ -205,5 +212,35 @@
     "GAS_PRICE": "燃料价格 (Gwei)",
     "GAS_PRICE_HOLDER": "输入Gas",
     "STAKE_CONFIRM_TIP": "请确认,押注操作不可逆. <br/>1.在抵押期间,您的GNX将被锁定,抵押期结束后可恢复使用. <br/>2.押注成功后,请勿随意删除节点,影响节点信誉值. <br/>3.可通过\"打开配置文件\"保存节点配置,以便误删时找回节点."
+  },
+  "TABLE": {
+    "TX": {
+      "TYPE_ALL": "全部",
+      "TYPE_RECEIVE": "转入",
+      "TYPE_SEND": "转出",
+      "TYPE_BUY_SPACE": "购买空间",
+      "TYPE_BUY_TRAFFIC": "购买流量",
+      "TYPE_STAKE": "抵押",
+      "HASH": "哈希值",
+      "BLOCK": "块高度",
+      "AGE": "时间",
+      "FROM": "转出地址",
+      "TO": "转入地址",
+      "VALUE": "金额"
+    },
+    "TXEDEN": {
+      "CREATE_TIME": "创建时间",
+      "BUCKET": "桶名称",
+      "USED_ALL_STORAGE": "已用空间/总空间",
+      "COST": "花费",
+      "LIMIT_TIME": "过期时间"
+    },
+    "TXSHARER": {
+      "STATE": "状态",
+      "NODE_ID": "节点 ID",
+      "STAKE_TIME": "抵押时间",
+      "INCOME": "收益"
+    }
   }
+
 }

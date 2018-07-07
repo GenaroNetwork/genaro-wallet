@@ -13,7 +13,6 @@ import { writeFileSync } from 'fs';
 })
 export class WalletService {
   private wallets: any;
-
   public walletList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   public currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   public test: BehaviorSubject<any> = new BehaviorSubject([]);

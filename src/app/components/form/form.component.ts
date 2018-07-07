@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
-import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -56,11 +55,44 @@ export class FormComponent implements OnInit {
     }, 0);
   }
 
+  // 压注
+  stakeType: number = 0;
+  stakeStep: number = 0;
+  stakeGNX: number = 0;
+  stakeGas: number[];
+  stakePassword: string = "";
+  stakeConfirm() {
+    switch (this.stakeType) {
+      case 0:
+        this.walletService.currentWallet.subscribe(wallet => {
+          this.txService.stake(wallet.address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]).then(() => {
+            this.onSubmit.emit();
+            this.stakeStep++;
+          });
+        }).unsubscribe();
+        break;
+    }
+  }
+
+  // 绑定节点
+  bindNodeStep: number = 0;
+  bindNodeId: string = "";
+  bindNodeGas: number[];
+  bindNodePassword: string;
+  bindNodeConfirm() {
+    this.walletService.currentWallet.subscribe(wallet => {
+      this.txService.bindNode(wallet.address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]).then(() => {
+        this.onSubmit.emit();
+        this.bindNodeStep++;
+      });
+    }).unsubscribe();
+  }
+
+
 
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
-    private i18n: TranslateService,
   ) {
   }
 

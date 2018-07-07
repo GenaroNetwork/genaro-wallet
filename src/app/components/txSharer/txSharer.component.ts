@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { TransactionService } from '../../services/transaction.service';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-txSharer',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TxSharerComponent implements OnInit {
 
-  constructor() {
+  heft: number = 0;
+  heftRank: number = 0;
+  constructor(
+    private app: ApplicationRef,
+    private txService: TransactionService,
+    private walletService: WalletService,
+  ) {
   }
 
   ngOnInit() {

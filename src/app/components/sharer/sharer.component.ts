@@ -24,16 +24,18 @@ export class SharerComponent implements OnInit {
   visible: boolean = false;
   hiddenVisible: boolean = false;
 
-  nodeColShow: boolean = true;
-  statusColShow: boolean = true;
-  uptimeColShow: boolean = true;
-  restartsColShow: boolean = false;
-  peersColShow: boolean = false;
-  allocsColShow: boolean = false;
-  deltaColShow: boolean = false;
-  portColShow: boolean = true;
-  sharedColShow: boolean = true;
-  bridgesColShow: boolean = true;
+  tableOpt: any = {
+    nodeColShow: true,
+    statusColShow: true,
+    uptimeColShow: true,
+    restartsColShow: false,
+    peersColShow: false,
+    allocsColShow: false,
+    deltaColShow: false,
+    portColShow: true,
+    sharedColShow: true,
+    bridgesColShow: true,
+  };
 
 
   selectFile() {

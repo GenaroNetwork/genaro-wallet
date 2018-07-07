@@ -1,11 +1,11 @@
 @import "./config.scss";
 .main {
-  margin: 1rem;
+  margin: $border-blank;
   display: flex;
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
   &>* {
-    margin: 0 $border-blank/2;
     &.sider {
+      margin-right: $border-blank;
       border-radius: $border-radius;
       flex: 0 $left-menu-width;
       box-shadow: $box-shadow;

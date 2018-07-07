@@ -1,6 +1,5 @@
 <!-- 发送交易 -->
-<!-- address -->
-<div *ngIf="name==='sendTx'" (ngSubmit)="submitSendTx($event)" class="sendTx">
+<div *ngIf="name==='sendTx'" class="sendTx">
   <app-input name="addressTo" [(ipt)]="formSendTx.address"></app-input>
   <app-input name="amount" [(ipt)]="formSendTx.amount"></app-input>
   <app-input name="gas" [(ipt)]="formSendTx.gas"></app-input>
@@ -9,4 +8,37 @@
 </div>
 
 
-<!-- gasfee -->
+<!-- 压注 -->
+<ng-container *ngIf="name==='stake'">
+  <nz-tabset *ngIf="stakeStep===0" [(nzSelectedIndex)]="stakeType" class="stake">
+    <nz-tab nzTitle="{{ 'TXSHARER.STAKE' | translate }}">
+      <app-input name="stake" [(ipt)]="stakeGNX"></app-input>
+      <app-input name="gas" [(ipt)]="stakeGas"></app-input>
+      <div nz-row class="preview">
+        <div nz-col nzSpan="18" nzOffset="6">
+          {{ 'TXSHARER.MAX_STAKE_NODE' | translate }} {{ stakeValue | maxNode }}</div>
+      </div>
+      <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
+      <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
+    </nz-tab>
+    <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
+      UNSTAKE NOT AVALIABLE NOW
+    </nz-tab>
+  </nz-tabset>
+  <div *ngIf="stakeStep===1">
+    <i class="anticon anticon-check"></i>
+  </div>
+</ng-container>
+
+<!-- 绑定节点 -->
+<ng-container *ngIf="name==='bindNode'">
+  <div *ngIf="bindNodeStep===0" class="bind-node">
+    <app-input name="bindNode" [(ipt)]="bindNodeId"></app-input>
+    <app-input name="gas" [(ipt)]="bindNodeGas"></app-input>
+    <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
+    <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
+  </div>
+  <div *ngIf="bindNodeStep===1">
+    <i class="anticon anticon-check"></i>
+  </div>
+</ng-container>

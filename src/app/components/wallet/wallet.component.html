@@ -55,23 +55,5 @@
 </div>
 
 <!-- Transactions -->
-<div class="table">
-  <nz-table #txTable [nzData]="displayTxData">
-    <thead>
-      <tr>
-        <th>filter</th>
-        <th>hash</th>
-        <th>block</th>
-        <th>age</th>
-        <th>from</th>
-        <th>to</th>
-        <th>value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of txTable.data"></tr>
-    </tbody>
-  </nz-table>
-</div>
-
+<app-table name="transaction"></app-table>
 <app-dialog [(name)]="dialogName"></app-dialog>

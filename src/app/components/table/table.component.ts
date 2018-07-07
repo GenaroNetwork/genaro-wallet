@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SharerService } from '../../services/sharer.service';
 
 @Component({
   selector: 'app-table',
@@ -8,7 +9,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TableComponent implements OnInit {
 
   @Input("name") name: string;
-  constructor() { }
+  @Input("opt") opt: any;
+
+  constructor(
+    public sharer: SharerService,
+  ) { }
 
   ngOnInit() {
   }

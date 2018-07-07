@@ -14,6 +14,7 @@ export const PLATFORM = "darwin-x64";
 
 export const SPACE_UNIT_PRICE = 0.015 / 30; // GNX/GB*Day
 export const TRAFFIC_UNIT_PRICE = 0.05; // GB
+export const STAKE_PER_NODE = 5000;
 
 export const WEB3_CONFIG = {
     RPC_ADDR: "127.0.0.1",

@@ -1,3 +1,146 @@
-<nz-table *ngIf="name==='txWallet'"></nz-table>
-<nz-table *ngIf="name==='txEden'"></nz-table>
-<nz-table *ngIf="name==='txSharer'"></nz-table>
+<!-- 钱包 -->
+<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txData">
+  <thead>
+    <tr>
+      <th>{{ 'TABLE.TX.TYPE_ALL' | translate }}</th>
+      <th>{{ 'TABLE.TX.HASH' | translate }}</th>
+      <th>{{ 'TABLE.TX.BLOCK' | translate }}</th>
+      <th>{{ 'TABLE.TX.AGE' | translate }}</th>
+      <th>{{ 'TABLE.TX.FROM' | translate }}</th>
+      <th>{{ 'TABLE.TX.TO' | translate }}</th>
+      <th>{{ 'TABLE.TX.VALUE' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of txTable.data"></tr>
+  </tbody>
+</nz-table>
+
+
+<!-- 买空间买流量 -->
+<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenData">
+  <thead>
+    <tr>
+      <th></th>
+      <th>{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
+      <th>{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
+      <th>{{ 'TABLE.TXEDEN.USED_ALL_STORAGE' | translate }}</th>
+      <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th>
+      <th>{{ 'TABLE.TXEDEN.LIMIT_TIME' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor=""></tr>
+  </tbody>
+</nz-table>
+
+<!-- 抵押 -->
+<nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData">
+  <thead>
+    <tr>
+      <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
+      <th>{{ 'TABLE.TXSHARER.NODE_ID' | translate }}</th>
+      <th>{{ 'TABLE.TXSHARER.STAKE_TIME' | translate }}</th>
+      <th>{{ 'TABLE.TXSHARER.INCOME' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor=""></tr>
+  </tbody>
+</nz-table>
+
+
+
+<!-- sharer -->
+<nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false">
+  <thead>
+    <tr>
+      <th *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
+      <th *ngIf="opt.statusColShow">{{ "DRIVE.STATUS" | translate}}</th>
+      <th *ngIf="opt.uptimeColShow">{{ "DRIVE.UPTIME" | translate}}</th>
+      <th *ngIf="opt.restartsColShow">{{ "DRIVE.RESTARTS" | translate}}</th>
+      <th *ngIf="opt.peersColShow">{{ "DRIVE.PEERS" | translate}}</th>
+      <th *ngIf="opt.allocsColShow">{{ "DRIVE.ALLOCS" | translate}}</th>
+      <th *ngIf="opt.deltaColShow">{{ "DRIVE.DELTA" | translate}}</th>
+      <th *ngIf="opt.portColShow">{{ "DRIVE.PORT" | translate}}</th>
+      <th *ngIf="opt.sharedColShow">{{ "DRIVE.SHARED" | translate}}</th>
+      <th *ngIf="opt.bridgesColShow">{{ "DRIVE.BRIDGES" | translate}}</th>
+      <th>{{ "DRIVE.OPTION" | translate}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of sharerTable.data">
+      <td *ngIf="opt.nodeColShow">
+        <div>
+          <span>{{data.id}}</span>
+          <br/>
+          <span>{{data.location}}</span>
+        </div>
+      </td>
+      <td *ngIf="opt.statusColShow">
+        <span *ngIf="data.state === 0" class="text-gray">stopped</span>
+        <span *ngIf="data.state === 1" class="text-green">running</span>
+        <span *ngIf="data.state === 2" class="text-red">errored</span>
+      </td>
+      <td *ngIf="opt.uptimeColShow">{{data.time}}</td>
+      <td *ngIf="opt.restartsColShow">{{data.restarts}}</td>
+      <td *ngIf="opt.peersColShow">{{data.peers}}</td>
+      <td *ngIf="opt.allocsColShow">
+        <div>
+          <span>{{data.contractCount}}</span>
+          <br/>
+          <span>{{data.dataReceivedCount + ' received'}}</span>
+        </div>
+      </td>
+      <td *ngIf="opt.deltaColShow">
+        <span *ngIf="data.deltaStatus === 0" class="text-green">{{data.delta}}</span>
+        <span *ngIf="data.deltaStatus === 1" class="text-yellow">{{data.delta}}</span>
+        <span *ngIf="data.deltaStatus === 2" class="text-red">{{data.delta}}</span>
+      </td>
+      <td *ngIf="opt.portColShow">
+        <div *ngIf="data.connectionStatus===0" class="text-green">
+          <span>{{data.listenPort}}</span>
+          <br/>
+          <span>{{data.connectionType}}</span>
+        </div>
+        <div *ngIf="data.connectionStatus===1" class="text-yellow">
+          <span>{{data.listenPort}}</span>
+          <br/>
+          <span>{{data.connectionType}}</span>
+        </div>
+        <div *ngIf="data.connectionStatus===2" class="text-red">
+          <span>{{data.listenPort}}</span>
+          <br/>
+          <span>{{data.connectionType}}</span>
+        </div>
+      </td>
+      <td *ngIf="opt.sharedColShow">
+        <div>
+          <nz-progress [nzPercent]="data.percentUsed" nzStatus="active"></nz-progress>
+          <p>{{data.spaceUsed}}/{{data.storageAllocation}}</p>
+        </div>
+      </td>
+      <td *ngIf="opt.bridgesColShow">
+        <span *ngIf="data.bridges === 0" class="text-gray">disconnected</span>
+        <span *ngIf="data.bridges === 1" class="text-yellow">connecting</span>
+        <span *ngIf="data.bridges === 2" class="text-orange">confirming</span>
+        <span *ngIf="data.bridges === 3" class="text-green">disconnected</span>
+      </td>
+      <td>
+        <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
+          <a nz-dropdown>
+            ...
+          </a>
+          <ul nz-menu>
+            <li nz-menu-item (click)="restartShare(data)">{{ "DRIVE.RESTART" | translate}}</li>
+            <li *ngIf="data.state === 1" nz-menu-item (click)="stopShare(data)">{{ "DRIVE.STOP" | translate}}</li>
+            <li *ngIf="data.state !== 1" nz-menu-item (click)="startShare(data)">{{ "DRIVE.START" | translate}}</li>
+            <li nz-menu-item (click)="deleteShare(data)">{{ "DRIVE.DELETE" | translate}}</li>
+            <li nz-menu-item (click)="showLog()">{{ "DRIVE.SHOW_LOG" | translate}}</li>
+            <li nz-menu-item (click)="openConfig(data)">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
+          </ul>
+        </nz-dropdown>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

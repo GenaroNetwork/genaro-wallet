@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
+    "downlevelIteration": true,
     "baseUrl": "",
     "types": []
   },
