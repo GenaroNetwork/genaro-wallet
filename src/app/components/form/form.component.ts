@@ -78,7 +78,7 @@ export class FormComponent implements OnInit {
   bindNodeStep: number = 0;
   bindNodeId: string = "";
   bindNodeGas: number[];
-  bindNodePassword: string;
+  bindNodePassword: string = "";
   bindNodeConfirm() {
     this.walletService.currentWallet.subscribe(wallet => {
       this.txService.bindNode(wallet.address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]).then(() => {

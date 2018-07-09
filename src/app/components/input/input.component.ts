@@ -35,15 +35,12 @@ export class InputComponent implements OnInit {
     public txService: TransactionService,
   ) { }
 
-  test(e) {
-    console.log(e);
-  }
-
   async ngOnInit() {
     if (!this.span) this.span = [6, 18];
     if (this.name === "gas") {
       this.gasDefault = await this.txService.getGas();
-      this.gasMax = this.gasDefault * 2;
+      this.gasMin = this.gasDefault;
+      this.gasMax = this.gasDefault + 10;
       this.i18n.get("COMMON.DONE").subscribe(() => {
         this.gasMarks = {
           "1": this.i18n.instant("INPUT.GAS_SLOW"),

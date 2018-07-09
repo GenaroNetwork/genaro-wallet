@@ -14,7 +14,7 @@
         </a>
         <ul nz-menu>
           <li nz-menu-item *ngFor="let wallet of walletService.walletList | async | slice:0:10">
-            <a (click)="walletService.currentWallet.next(wallet)">{{ wallet.name }} {{ i }}</a>
+            <a nz-row nzSpan="14" (click)="walletService.currentWallet.next(wallet)">{{ wallet.name }} {{ i }}</a>
           </li>
           <li nz-menu-divider></li>
           <li nz-menu-item (click)="walletNewShown=true">

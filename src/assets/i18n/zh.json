@@ -142,9 +142,14 @@
   "TXSHARER": {
     "STAKE": "压注",
     "UNSTAKE": "解除压注",
+    "STAKED": "已压注节点",
+    "STAKEABLE": "可压注节点",
+    "ALLSTAKEABLE": "可压注总节点",
     "STAKE_GNX": "压注金额",
     "MAX_STAKE_NODE": "最多绑定节点数",
-    "BIND_NODE": "绑定节点"
+    "BIND_NODE": "绑定节点",
+    "HEFT": "得分： <span>{{ heft }}<span> 分</span></span>",
+    "HEFT_RANK": "得分排名： <span>{{ rank }}<span> 名</span></span>"
   },
   "DRIVE": {
     "CANCEL": "取消",

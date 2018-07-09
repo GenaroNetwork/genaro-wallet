@@ -1,19 +1,14 @@
 <div class="header">
   <div class="card info">
-    <div>
-      总得分
-      <span>
-        33
-        <span>分</span>
-      </span>
+    <div [innerHtml]="'TXSHARER.HEFT' | translate:{heft: 33}">
     </div>
-    <div>
-      排名
-      <span>33</span>
+    <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: 33}">
     </div>
   </div>
   <div class="card opera">
-    <div class="status">测试</div>
+    <div class="status">
+      {{ 'TXSHARER.STAKED' | translate }}/{{ 'TXSHARER.ALLSTAKEABLE' | translate }}{{ 'COMMON.COLON' | translate }}
+    </div>
     <div class="opera">
       <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="stakePopover" nzTrigger="click" nzPlacement="bottomRight">
         {{ 'TXSHARER.STAKE' | translate }}

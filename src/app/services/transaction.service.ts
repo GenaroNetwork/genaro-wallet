@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { STX_ADDR, WEB3_URL, LITE_WALLET } from "./../libs/config";
+import { STX_ADDR, WEB3_URL, LITE_WALLET } from "../libs/config";
 import { WalletService } from './wallet.service';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
@@ -25,6 +25,7 @@ export class TransactionService {
 
   ready: BehaviorSubject<boolean> = new BehaviorSubject(false);
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
+  chainSyning: BehaviorSubject<any> = new BehaviorSubject(null);
   constructor(
     private walletService: WalletService,
     private transactionDb: TransactionDbService
@@ -45,13 +46,20 @@ export class TransactionService {
       web3.eth.subscribe("newBlockHeaders", (err, bh) => {
         if (err) return;
         this.newBlockHeaders.next(bh);
-      })
+      });
+      web3.eth.subscribe("syncing")
+        // @ts-ignore
+        .on("data", sync => {
+          if (typeof sync === "boolean") return;
+          this.chainSyning.next(sync.status);
+        });
     });
   }
 
   async getGas() {
+    let gas = await web3.eth.getGasPrice();
     // @ts-ignore
-    return web3.utils.fromWei("4000000000", "Gwei");
+    return web3.utils.fromWei(gas, "Gwei");
   }
 
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
@@ -68,6 +76,7 @@ export class TransactionService {
       from: fromAddr,
       to: toAddr
     }
+    debugger;
     return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER')
   }
 
@@ -164,6 +173,11 @@ export class TransactionService {
     // not avliable
   }
 
+  async getStake(address: string) {
+    // @ts-ignore
+    return await web3.genaro.getStake(address, 'latest');
+  }
+
   async bindNode(address: string, password: string, nodeIds: string[] | Set<string>, gasLimit: number, gasPriceInGwei: string | number) {
     nodeIds = Array.from(nodeIds);
     address = add0x(address);
@@ -178,7 +192,7 @@ export class TransactionService {
 
   async getNodes(address: string) {
     // @ts-ignore
-    return await web3.genaro.getStorageNodes(this.address);
+    return await web3.genaro.getStorageNodes(address);
   }
 
   async getHeft(address: string) {

@@ -22,7 +22,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
-import { DAEMON_CONFIG } from "./../libs/config";
+import { DAEMON_CONFIG } from "../libs/config";
 
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
 try {
@@ -216,7 +216,7 @@ export class SharerService {
   };
 
   status() {
-    if(this.interval) {
+    if (this.interval) {
       return;
     }
     this.interval = setInterval(() => {
@@ -245,18 +245,18 @@ export class SharerService {
               data.dataReceivedCount = farmerState.dataReceivedCount || 0;
               data.bridges = farmerState.bridgesConnectionStatus || 0;
               data.allocs = data.bridges === 0 ? "0" : data.contractCount + '(' + data.dataReceivedCount + 'received)';
-      
+
               data.listenPort = portStatus.listenPort;
               data.connectionType = portStatus.connectionType;
               data.connectionStatus = portStatus.connectionStatus;
-      
+
               data.state = share.state;
-      
+
               data.delta = ntpStatus.delta || '...';
               data.deltaStatus = ntpStatus.status;
-      
+
               data.show = false;
-      
+
               datas.push(data);
             });
             this.driversData.next(datas);

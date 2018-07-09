@@ -4,7 +4,7 @@ const axios = require('axios');
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
-import { BRIDGE_API_URL } from "./../libs/config";
+import { BRIDGE_API_URL } from "../libs/config";
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
 const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
@@ -12,7 +12,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 @Injectable({
   providedIn: 'root'
 })
-export class EdenService {
+export class TxEdenService {
   public bucketList: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   public currentUser: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
 

@@ -12,7 +12,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of txTable.data"></tr>
+    <tr *ngFor="let data of txTable.data">
+      <td>{{ 'TABLE.TX.TYPE_ALL' | translate }}</td>
+      <td>{{ 'TABLE.TX.HASH' | translate }}</td>
+      <td>{{ 'TABLE.TX.BLOCK' | translate }}</td>
+      <td>{{ 'TABLE.TX.AGE' | translate }}</td>
+      <td>{{ data.addrFrom }}</td>
+      <td>{{ data.addrTo }}</td>
+      <td>{{ data.amount }}</td>
+    </tr>
   </tbody>
 </nz-table>
 

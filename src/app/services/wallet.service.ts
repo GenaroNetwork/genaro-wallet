@@ -15,14 +15,10 @@ export class WalletService {
   private wallets: any;
   public walletList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   public currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
-  public test: BehaviorSubject<any> = new BehaviorSubject([]);
   constructor(
     private i18n: TranslateService,
   ) {
     let i = 1;
-    setInterval(() => {
-      this.test.next([i++, i++]);
-    }, 1000);
     this.wallets = newWalletManager(WALLET_CONFIG_PATH);
     this.walletList.next(this.wallets.listWallet());
     this.walletList.subscribe(walletList => {

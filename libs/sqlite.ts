@@ -8,14 +8,9 @@ if (!existsSync(WALLET_CONFIG_PATH)) mkdirSync(WALLET_CONFIG_PATH);
 
 export default class {
     constructor() {
-        let tx = new DB(join(WALLET_CONFIG_PATH, "transactions.sqlite"));
-        /*tx.prepare(`CREATE TABLE IF NOT EXISTS wallet(
-        name TEXT UNIQUE,
-        address TEXT UNIQUE,
-        wallet TEXT
-        )`).run();*/
-
-        tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
+        let sql: any = {};
+        sql.tx = new DB(join(WALLET_CONFIG_PATH, "transactions.sqlite"));
+        sql.tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
             transactionId TEXT,
             txType TEXT,
             addrFrom TEXT,
@@ -32,17 +27,29 @@ export default class {
             receipt TEXT
         )`).run();
 
-        ipcMain.on("db.tx.run", (event, ipcId, sql) => {
-            tx.prepare(sql).run();
-            event.sender.send(`db.tx.run.${ipcId}`);
-        });
-        ipcMain.on("db.tx.get", (event, ipcId, sql) => {
-            let data = tx.prepare(sql).get();
-            event.sender.send(`db.tx.get.${ipcId}`, data);
-        });
-        ipcMain.on("db.tx.all", (event, ipcId, sql) => {
-            let data = tx.prepare(sql).all();
-            event.sender.send(`db.tx.all.${ipcId}`, data);
-        });
+
+        //  txeden
+        sql.txeden = new DB(join(WALLET_CONFIG_PATH, "txeden.sqlite"));
+        sql.txeden.prepare(`CREATE TABLE IF NOT EXISTS txeden (
+            address TEXT,
+            type TEXT,
+            token TEXT
+        )`).run();
+
+        for (let name in sql) {
+            let env = sql[name];
+            ipcMain.on(`db.${name}.run`, (event, ipcId, sql) => {
+                env.prepare(sql).run();
+                event.sender.send(`db.${name}.run.${ipcId}`);
+            });
+            ipcMain.on(`db.${name}.get`, (event, ipcId, sql) => {
+                let data = env.prepare(sql).get();
+                event.sender.send(`db.${name}.get.${ipcId}`, data);
+            });
+            ipcMain.on(`db.${name}.all`, (event, ipcId, sql) => {
+                let data = env.prepare(sql).all();
+                event.sender.send(`db.${name}.all.${ipcId}`, data);
+            });
+        }
     }
 };
