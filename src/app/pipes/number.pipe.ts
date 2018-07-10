@@ -28,6 +28,6 @@ export class maxNode implements PipeTransform {
 })
 export class E2t implements PipeTransform {
   transform(value: any) {
-    return Number(E2t);
+    return Number(value);
   }
 }
