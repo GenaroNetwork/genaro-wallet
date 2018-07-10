@@ -70,6 +70,10 @@ export class WalletService {
     this.walletList.next(this.wallets.listWallet());
   }
 
+  getPrivateKey(addr: string, pass: string) {
+    return this.wallets.exportPrivateKey(addr, pass);
+  }
+
   /**
    * 
    * @param {string} prefix 前缀，根据 i18n 决定

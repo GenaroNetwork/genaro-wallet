@@ -8,7 +8,9 @@ import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
+
 let web3: Web3;
+const SyncTimer = 2000;
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -25,7 +27,8 @@ export class TransactionService {
 
   ready: BehaviorSubject<boolean> = new BehaviorSubject(false);
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
-  chainSyning: BehaviorSubject<any> = new BehaviorSubject(null);
+  chainSyncing: BehaviorSubject<any> = new BehaviorSubject(null);
+
   constructor(
     private walletService: WalletService,
     private transactionDb: TransactionDbService
@@ -38,21 +41,37 @@ export class TransactionService {
         GethService.startGeth().then(() => {
           web3 = new Web3(WEB3_URL);
           this.ready.next(true);
+        }).catch(e => {
         });
       });
 
     this.ready.subscribe(done => {
       if (!done) return;
-      web3.eth.subscribe("newBlockHeaders", (err, bh) => {
-        if (err) return;
-        this.newBlockHeaders.next(bh);
-      });
-      web3.eth.subscribe("syncing")
-        // @ts-ignore
-        .on("data", sync => {
-          if (typeof sync === "boolean") return;
-          this.chainSyning.next(sync.status);
-        });
+      GethService.addFullNode();
+      let blockNumber = 0;
+      let syncInterval = setInterval(() => {
+        if (blockNumber === 0)
+          web3.eth.getBlockNumber().then(number => {
+            blockNumber = number;
+            this.chainSyncing.next(number);
+          });
+        else
+          web3.eth.isSyncing().then(res => {
+            if (res === false) {
+              web3.eth.getBlockNumber
+              clearInterval(syncInterval);
+              web3.eth.subscribe("newBlockHeaders", (err, bh) => {
+                if (err) return;
+                this.newBlockHeaders.next(bh);
+                // @ts-ignore
+                this.chainSyncing.next(bh.number);
+              });
+            } else {
+              // @ts-ignore
+              this.chainSyncing.next(res.currentBlock);
+            }
+          });
+      }, SyncTimer);
     });
   }
 

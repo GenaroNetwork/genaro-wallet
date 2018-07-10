@@ -21,3 +21,13 @@ export class maxNode implements PipeTransform {
     return Math.floor(value / STAKE_PER_NODE);
   }
 }
+
+
+@Pipe({
+  name: "e2t"
+})
+export class E2t implements PipeTransform {
+  transform(value: any) {
+    return Number(E2t);
+  }
+}

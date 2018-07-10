@@ -1,25 +1,45 @@
 <!-- 钱包 -->
-<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txData">
+<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+  class="tx">
   <thead>
     <tr>
-      <th>{{ 'TABLE.TX.TYPE_ALL' | translate }}</th>
-      <th>{{ 'TABLE.TX.HASH' | translate }}</th>
-      <th>{{ 'TABLE.TX.BLOCK' | translate }}</th>
-      <th>{{ 'TABLE.TX.AGE' | translate }}</th>
-      <th>{{ 'TABLE.TX.FROM' | translate }}</th>
-      <th>{{ 'TABLE.TX.TO' | translate }}</th>
-      <th>{{ 'TABLE.TX.VALUE' | translate }}</th>
+      <th nzWidth="10%">
+        <nz-dropdown [nzTrigger]="'click'">
+          <a nz-dropdown>
+            {{ txType | translate }}
+            <i class="anticon anticon-down"></i>
+          </a>
+          <ul nz-menu>
+            <li nz-menu-item (click)="txChangeType('TYPE_ALL')">{{ "TABLE.TX.TYPE_ALL" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_RECEIVE')">{{ "TABLE.TX.TYPE_RECEIVE" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_SEND')">{{ "TABLE.TX.TYPE_SEND" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_BUY_SPACE')">{{ "TABLE.TX.TYPE_BUY_SPACE" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_BUY_TRAFFIC')">{{ "TABLE.TX.TYPE_BUY_TRAFFIC" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_STAKE')">{{ "TABLE.TX.TYPE_STAKE" | translate }}</li>
+          </ul>
+        </nz-dropdown>
+      </th>
+      <th nzWidth="18%">{{ 'TABLE.TX.HASH' | translate }}</th>
+      <th nzWidth="12%">{{ 'TABLE.TX.BLOCK' | translate }}</th>
+      <th nzWidth="12%">{{ 'TABLE.TX.AGE' | translate }}</th>
+      <th nzWidth="18%">{{ 'TABLE.TX.FROM' | translate }}</th>
+      <th nzWidth="18%">{{ 'TABLE.TX.TO' | translate }}</th>
+      <th nzWidth="12%">{{ 'TABLE.TX.VALUE' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of txTable.data">
-      <td>{{ 'TABLE.TX.TYPE_ALL' | translate }}</td>
-      <td>{{ 'TABLE.TX.HASH' | translate }}</td>
-      <td>{{ 'TABLE.TX.BLOCK' | translate }}</td>
-      <td>{{ 'TABLE.TX.AGE' | translate }}</td>
-      <td>{{ data.addrFrom }}</td>
-      <td>{{ data.addrTo }}</td>
-      <td>{{ data.amount }}</td>
+      <td>
+        <i *ngIf="data.state===1 || data.state===2" class="anticon anticon-question-circle"></i>
+        <i *ngIf="data.state===3" class="anticon anticon-close-circle"></i>
+        <i *ngIf="data.state===4" class="anticon anticon-check-circle"></i>
+      </td>
+      <td>{{ data.hash | shortAddr }}</td>
+      <td>{{ data.recipt }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.addrFrom | longAddr | shortAddr }}</td>
+      <td>{{ data.addrTo | longAddr | shortAddr }}</td>
+      <td>{{ data.amount | e2t }}</td>
     </tr>
   </tbody>
 </nz-table>

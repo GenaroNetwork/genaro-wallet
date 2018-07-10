@@ -39,7 +39,7 @@ import { TableComponent } from './components/table/table.component';
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { GetBalancePipe } from './pipes/getBalance.pipe';
 import { SafePipe } from './pipes/safe.pipe';
-import { NumberPipe, maxNode } from './pipes/number.pipe';
+import { NumberPipe, maxNode, E2t } from './pipes/number.pipe';
 
 
 // AoT requires an exported function for factories
@@ -74,6 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SafePipe,
     NumberPipe,
     maxNode,
+    E2t,
   ],
   imports: [
     BrowserModule,

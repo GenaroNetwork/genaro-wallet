@@ -1,5 +1,6 @@
 import { homedir } from "os";
 import { join } from "path";
+import { existsSync, mkdirSync } from "fs";
 
 export const PRODUCT_MODE = true;
 export const LITE_WALLET = false;
@@ -10,7 +11,10 @@ export const BC_STORAGE_PATH = join(GENARO_ROOT_PATH, "node"); // block chain st
 export const BC_EXISTS_FILE = join(GENARO_ROOT_PATH, "bc-genesis.lock")
 export const BC_LOG_FILE = join(GENARO_ROOT_PATH, "bc-log.log");
 export const BC_ERR_FILE = join(GENARO_ROOT_PATH, "bc-err.log");
+if (!existsSync(GENARO_ROOT_PATH)) mkdirSync(GENARO_ROOT_PATH);
+
 export const PLATFORM = "darwin-x64";
+export const FULL_NODE_URL = "enode://bf9599927eaf4993fdb6ff15f6918a6ca35f9126ef25a51acb3c94e93d39113acb40794643b4dd7a30a7f4db537a9cf0fef65d3ebddb89d5ddd0487fc265e65a@118.31.61.119:30315";
 
 export const SPACE_UNIT_PRICE = 0.015 / 30; // GNX/GB*Day
 export const TRAFFIC_UNIT_PRICE = 0.05; // GB

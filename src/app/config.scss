@@ -15,6 +15,9 @@ $popup-bg: rgba(0, 0, 0, .5);
 $theme-color: #409EFF;
 $link-color: $theme-color;
 $box-shadow: 0 0 1rem rgba(0, 0, 0, .1);
+$success-color: rgb(25, 150, 50);
+$warn-color: rgb(250, 200, 25);
+$error-color: rgb(200, 50, 25);
 // 弹出框
 .popup-style {
   width: 40rem;

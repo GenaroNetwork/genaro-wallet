@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ipcRenderer } from "electron";
-import { BC_EXISTS_FILE } from "../libs/config";
+import { BC_EXISTS_FILE, FULL_NODE_URL } from "../libs/config";
 import { existsSync } from "fs";
 
 let ipcId = 0;
@@ -9,7 +9,7 @@ let ipcId = 0;
 })
 export class GethService {
     private static runJS(JSCODE) {
-        ipcRenderer.send("geth.runJS", ipcId++, [JSCODE]);
+        ipcRenderer.send("geth.runJS", ipcId++, JSCODE);
     };
 
     static async startMine() {
@@ -19,6 +19,11 @@ export class GethService {
     static async stopMine() {
         GethService.runJS("miner.stop();\n");
     }
+
+    static async addFullNode() {
+        console.log(FULL_NODE_URL);
+        GethService.runJS(`admin.addPeer("${FULL_NODE_URL}");`);
+    };
 
     static startGeth() {
         return new Promise(res => {

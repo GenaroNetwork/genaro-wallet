@@ -1,34 +1,40 @@
-import { ipcMain } from "electron";
-import { spawn } from 'child_process';
-import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL } from "./config";
-import { appendFileSync, writeFileSync, existsSync } from "fs";
+import { ipcMain, dialog } from "electron";
+import { execFile } from 'child_process';
+import { BC_LOG_FILE, BC_ERR_FILE, BC_STORAGE_PATH, WEB3_CONFIG, PLATFORM, BC_EXISTS_FILE, WEB3_URL, GENARO_ROOT_PATH } from "./config";
+import { appendFileSync, writeFileSync, existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { Observable } from "rxjs";
 const GETH = join(__dirname, "geth", `geth-${PLATFORM}`);
-const GETH_CONFIG = join(__dirname, "geth", "config.json");
+const GETH_CONFIG_FILE = join(__dirname, "geth", "config.json");
+let configFile = readFileSync(GETH_CONFIG_FILE);
+let GETH_CONFIG = join(GENARO_ROOT_PATH, "block.config.json");
 
 export default class {
     holdingenv: any = {};
     initBC() {
         return new Promise(res => {
-            let initCLI = spawn(GETH, [
+            writeFileSync(GETH_CONFIG, configFile);
+            let initCLI = execFile(GETH, [
                 "init",
                 GETH_CONFIG,
                 "--datadir",
                 BC_STORAGE_PATH,
-            ]);
+            ], {
+                    maxBuffer: Infinity,
+                });
+            initCLI.stdout.on("data", data => {
+                data;
+            });
             initCLI.on("close", () => {
                 writeFileSync(BC_EXISTS_FILE, "done");
-                //writeFileSync(BC_LOG_FILE, "done");
-                //writeFileSync(BC_ERR_FILE, "done");
+                res();
             });
-            initCLI.on("close", res);
         });
     }
 
     startBC() {
         return new Promise(res => {
-            let startCLI = spawn(GETH, [
+            let startCLI = execFile(GETH, [
                 "--datadir",
                 BC_STORAGE_PATH,
                 /*"--rpc",
@@ -47,7 +53,9 @@ export default class {
                 WEB3_CONFIG.WS_API,
                 "--syncmode",
                 "full",
-            ]);
+            ], {
+                    maxBuffer: Infinity,
+                });
             let started = false;
             startCLI.stdout.on("data", (data) => {
                 appendFileSync(BC_LOG_FILE, data);
@@ -70,9 +78,11 @@ export default class {
 
     runJS(js, id) {
         return new Observable(ob => {
-            let jsCLI = spawn(GETH, [
+            let jsCLI = execFile(GETH, [
                 "attach",
-                WEB3_URL]);
+                WEB3_URL], {
+                    maxBuffer: Infinity,
+                });
             this.holdingenv[`${id}`] = jsCLI;
             let started = false;
             let inputed = false
@@ -87,7 +97,7 @@ export default class {
                 }
                 if (!inputed) {
                     inputed = true;
-                    jsCLI.stdin.write(js);
+                    jsCLI.stdin.write(`${js}\n`);
                     return;
                 }
                 ob.next(data.toString());
@@ -113,8 +123,9 @@ export default class {
             new Promise(res => {
                 if (!existsSync(BC_EXISTS_FILE)) {
                     this.initBC().then(res);
+                } else {
+                    res();
                 }
-                res();
             })
                 .then(() => {
                     return this.startBC();

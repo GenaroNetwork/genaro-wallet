@@ -13,12 +13,12 @@
   overflow: visible;
   .card {
     flex: 0 26rem;
-    margin-right: $border-blank;
     background: $content-bg;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     padding-left: 1rem;
     &.long-card {
+      margin-right: $border-blank;
       flex: 1;
       .line {
         margin-top: 2rem;

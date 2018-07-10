@@ -5,6 +5,7 @@ const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
 import { BRIDGE_API_URL } from "../libs/config";
+import { WalletService } from './wallet.service';
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
 const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
@@ -65,8 +66,9 @@ export class TxEdenService {
     return secp256k1.sign(msg, privKeyBuffer);
   }
 
-  beforehandSign(privKey, walletAddr) {
+  beforehandSign(walletAddr: string, password: string) {
     this.walletAddr = walletAddr;
+    const privKey = this.walletService.getPrivateKey(walletAddr, password);
     const privKeyBuffer = new Buffer(privKey, 'hex');
     const publicKeyBuffer = this.getPublicKey(privKeyBuffer);
     this.publicKey = publicKeyBuffer.toString('hex');
@@ -85,5 +87,6 @@ export class TxEdenService {
   }
 
   constructor(
+    private walletService: WalletService,
   ) { }
 }

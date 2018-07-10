@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { remote } from "electron";
 import { readFileSync } from "fs";
 import { basename } from "path";
+import { TxEdenService } from '../../services/txEden.service';
 
 @Component({
   selector: 'app-walletNew',
@@ -21,6 +22,7 @@ export class WalletNewComponent {
     private wallet: WalletService,
     private alert: NzMessageService,
     private translate: TranslateService,
+    private txEden: TxEdenService,
   ) {
   }
 
@@ -29,6 +31,8 @@ export class WalletNewComponent {
       this.changeWalletName();
     }
     this.stateChangeEvent.emit(false);
+    if (this.walletAddress && (this.password || this.oldPassword))
+      this.txEden.beforehandSign(this.walletAddress, this.password || this.oldPassword);
   }
 
   newWalletType: string = null;

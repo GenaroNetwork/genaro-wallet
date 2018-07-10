@@ -1,9 +1,39 @@
 @import "../../config";
+:host {
+  flex: 1;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  border-radius: $border-radius;
+  background: $content-bg;
+}
+
 nz-table {
-  ::ng-deep>div {
-    box-shadow: $box-shadow;
-    overflow: hidden;
-    border-radius: $border-radius;
-    background: $content-bg;
+  ::ng-deep nz-pagination>ul {
+    position: relative;
+    right: 1rem;
+  }
+  th,
+  td {
+    padding: 1rem 0.5rem;
+    &:first-of-type {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.tx {
+  td {
+    i.anticon {
+      font-size: 1rem;
+      &.anticon-check-circle {
+        color: $success-color;
+      }
+      &.anticon-question-circle {
+        color: $warn-color;
+      }
+      &.anticon-close-circle {
+        color: $error-color;
+      }
+    }
   }
 }
