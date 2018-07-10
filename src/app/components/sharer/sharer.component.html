@@ -1,41 +1,14 @@
-<nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()">
-  <p>{{modalMessage | translate}}</p>
-</nz-modal>
-<div class="layout-header">
-  <div class="add-drive-btn">
-    <button nz-button nzType="primary" nz-popover [(nzVisible)]="visible" nzTrigger="click" [nzContent]="contentTemplate" nzPlacement="bottom">
-      {{ "DRIVE.ADD_DRIVE" | translate}}
-    </button>
-    <ng-template #contentTemplate>
-      <div>
-        <h3>{{ "DRIVE.DRIVE_LOCATION" | translate}}</h3>
-        <p class="input-style" (click)="selectFile()">
-          <span>{{addShareFilePath || ("DRIVE.SELECT_SHARDING" | translate)}}</span>
-        </p>
-        <h3 style="margin-top:20px">{{ "DRIVE.SHARING_SIZE" | translate }}</h3>
-        <div>
-          <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-            <input type="text" nz-input [(ngModel)]="addShareShareSize">
-          </nz-input-group>
-          <ng-template #addOnAfterTemplate>
-            <nz-select [ngModel]="addShareSelectUnit">
-              <nz-option [nzLabel]="'GB'" [nzValue]="'GB'"></nz-option>
-              <nz-option [nzLabel]="'TB'" [nzValue]="'TB'"></nz-option>
-            </nz-select>
-          </ng-template>
-        </div>
-        <div style="margin-top: 40px; text-align: center;">
-          <button nz-button nzType="primary" (click)="addShare()">{{ "DRIVE.NEXT" | translate }}</button>
-        </div>
-      </div>
-    </ng-template>
-  </div>
-  <div class="hidden-col-btn">
-    <button nz-button nzType="primary" nz-popover [(nzVisible)]="hiddenVisible" nzTrigger="click" [nzContent]="colTemplate" nzPlacement="bottom">
-      {{ "DRIVE.HIDDEN_COL" | translate}}
-    </button>
-    <ng-template #colTemplate>
-      <!-- <div>
+<div>
+  <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()">
+    <p>{{modalMessage | translate}}</p>
+  </nz-modal>
+  <div class="layout-header">
+    <div class="hidden-col-btn">
+      <button nz-button nzType="primary" nz-popover [(nzVisible)]="hiddenVisible" nzTrigger="click" [nzContent]="colTemplate" nzPlacement="bottom">
+        {{ "DRIVE.HIDDEN_COL" | translate}}
+      </button>
+      <ng-template #colTemplate>
+        <!-- <div>
             <label>{{ "DRIVE.NODE" | translate}}</label>
             <nz-switch [(ngModel)]="tableOpt.nodeColShow" nzSize="small"></nz-switch>
           </div>
@@ -43,39 +16,68 @@
             <label>{{ "DRIVE.STATUS" | translate}}</label>
             <nz-switch [(ngModel)]="tableOpt.statusColShow" nzSize="small"></nz-switch>
           </div> -->
-      <div>
-        <label>{{ "DRIVE.UPTIME" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.uptimeColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.RESTARTS" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.restartsColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.PEERS" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.peersColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.ALLOCS" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.allocsColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.DELTA" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.deltaColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.PORT" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.portColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.SHARED" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.sharedColShow" nzSize="small"></nz-switch>
-      </div>
-      <div>
-        <label>{{ "DRIVE.BRIDGES" | translate}}</label>
-        <nz-switch [(ngModel)]="tableOpt.bridgesColShow" nzSize="small"></nz-switch>
-      </div>
-    </ng-template>
+        <div>
+          <label>{{ "DRIVE.UPTIME" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.uptimeColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.RESTARTS" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.restartsColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.PEERS" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.peersColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.ALLOCS" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.allocsColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.DELTA" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.deltaColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.PORT" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.portColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.SHARED" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.sharedColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
+          <label>{{ "DRIVE.BRIDGES" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.bridgesColShow" nzSize="small"></nz-switch>
+        </div>
+      </ng-template>
+    </div>
+    <div class="add-drive-btn">
+      <button nz-button nzType="primary" nz-popover [(nzVisible)]="visible" nzTrigger="click" [nzContent]="contentTemplate" nzPlacement="bottomLeft">
+        {{ "DRIVE.ADD_DRIVE" | translate}}
+      </button>
+      <ng-template #contentTemplate>
+        <div>
+          <h3>{{ "DRIVE.DRIVE_LOCATION" | translate}}</h3>
+          <p class="input-style" (click)="selectFile()">
+            <span>{{addShareFilePath || ("DRIVE.SELECT_SHARDING" | translate)}}</span>
+          </p>
+          <h3 style="margin-top:20px">{{ "DRIVE.SHARING_SIZE" | translate }}</h3>
+          <div>
+            <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+              <input type="text" nz-input [(ngModel)]="addShareShareSize">
+            </nz-input-group>
+            <ng-template #addOnAfterTemplate>
+              <nz-select [ngModel]="addShareSelectUnit">
+                <nz-option [nzLabel]="'GB'" [nzValue]="'GB'"></nz-option>
+                <nz-option [nzLabel]="'TB'" [nzValue]="'TB'"></nz-option>
+              </nz-select>
+            </ng-template>
+          </div>
+          <div style="margin-top: 40px; text-align: center;">
+            <button nz-button nzType="primary" (click)="addShare()">{{ "DRIVE.NEXT" | translate }}</button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>
 <app-table name="sharer" [opt]="tableOpt"></app-table>
