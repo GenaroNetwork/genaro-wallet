@@ -5,11 +5,12 @@
         {{ 'TXEDEN.SPACE_STATUS' | translate }} {{ 'COMMON.COLON' | translate }}
       </div>
       <div nz-col nzSpan="17">
-        <nz-progress [nzPercent]="60" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
+        <nz-progress [nzPercent]="spacePer" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
       </div>
     </div>
     <div nz-row nzType="flex" nzAlign="middle">
       <div nz-col nzSpan="17" nzOffset="5">
+        {{ spaceDetail }}
       </div>
     </div>
     <div nz-row class="line" nzType="flex" nzAlign="middle">
@@ -17,11 +18,12 @@
         {{ 'TXEDEN.TRAFFIC_STATUS' | translate }} {{ 'COMMON.COLON' | translate }}
       </div>
       <div nz-col nzSpan="17">
-        <nz-progress [nzPercent]="60" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
+        <nz-progress [nzPercent]="trafficPer" [nzShowInfo]="false" nzStatus="success" [nzStrokeWidth]="15"></nz-progress>
       </div>
     </div>
     <div nz-row nzType="flex" nzAlign="middle">
       <div nz-col nzSpan="17" nzOffset="5">
+        {{ trafficDetail }}
       </div>
     </div>
   </div>

@@ -34,16 +34,21 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public el: ElementRef,
     public txService: TransactionService,
     public walletService: WalletService,
-    public txEdenSercvice: TxEdenService,
+    public txEdenService: TxEdenService,
   ) { }
 
   txData: any[];
   txDisplayData: any[];
   txType: string = "TYPE_ALL";
-  txSub: any;
+  txNewBlocksSub: any;
+  txChangeWalletSub: any;
   transactionInit() {
     this.txUpdateData();
-    this.txSub = this.txService.newBlockHeaders.subscribe(async () => {
+    this.txNewBlocksSub = this.txService.newBlockHeaders.subscribe(async () => {
+      this.txUpdateData();
+    });
+    this.txChangeWalletSub = this.walletService.currentWallet.subscribe(wallet => {
+      if (!wallet) return;
       this.txUpdateData();
     });
   }
@@ -51,26 +56,31 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txUpdateData();
   }
   transactionDestory() {
-    this.txSub.unsubscribe();
+    this.txNewBlocksSub.unsubscribe();
+    this.txChangeWalletSub.unsubscribe();
   }
 
   async txUpdateData() {
-    // @ts-ignore
-    this.txData = await this.txdb.getTransactions(null, null);
-    let data = this.txData;
-    //data = data.sort();
-    if (this.txType !== "TYPE_ALL") {
-      const types = {
-        "TYPE_SEND": "TRANSFER",
-        "TYPE_BUY_SPACE": "BUY_BUCKET",
-        "TYPE_BUY_TRAFFIC": "BUY_TRAFFIC",
-        "TYPE_STAKE": "STAKE_GNX",
-        "TYPE_BIND_NODE": "BIND_NODE",
+    this.walletService.currentWallet.subscribe(async wallet => {
+      if (!wallet) return;
+
+      // @ts-ignore
+      this.txData = await this.txdb.getTransactions(null, null);
+      let data = this.txData;
+      data = data.filter(tx => tx.addrFrom === wallet.address || tx.addrTo === wallet.address);
+      if (this.txType !== "TYPE_ALL") {
+        const types = {
+          "TYPE_SEND": "TRANSFER",
+          "TYPE_BUY_SPACE": "BUY_BUCKET",
+          "TYPE_BUY_TRAFFIC": "BUY_TRAFFIC",
+          "TYPE_STAKE": "STAKE_GNX",
+          "TYPE_BIND_NODE": "BIND_NODE",
+        }
+        data = data.filter(tx => tx.txType === types[this.txType]);
       }
-      data = data.filter(tx => tx.txType === types[this.txType]);
-    }
-    data = data.sort((a, b) => b.created - a.created);
-    this.txDisplayData = data;
+      data = data.sort((a, b) => b.created - a.created);
+      this.txDisplayData = data;
+    }).unsubscribe();
   }
   txGetBlockNumber(receipt) {
     if (!receipt) return "-";
@@ -82,30 +92,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   //txEden
-  txEdenData: any[];
-  txEdenSub: any;
-  txEdenInit() {
-    this.txEdenSub = this.txEdenSercvice.bucketList.subscribe((...args) => {
-      console.log(...args)
-    });
-  }
-  txEdenChange() {
-    this.txEdenDataUpdate();
-  }
-  txEdenDestroy() {
-    this.txEdenSub.unsubscribe();
-  }
-  txEdenDataUpdate = () => {
-    let data = this.txEdenSercvice.getBuckets();
-    /*let walletAddr = null;
-    return async (addr: string = null) => {
-      if (!addr) addr = walletAddr;
-      if (!addr) return;
-      walletAddr = addr;
-
-    }*/
-  };
-
 
   // tx sharer
   txSharerData: any[] = [];

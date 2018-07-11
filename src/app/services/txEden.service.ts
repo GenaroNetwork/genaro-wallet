@@ -26,7 +26,7 @@ export class TxEdenService {
   private ipcId: number = 0;
   public requestPassword: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private async send(method, url, data, sig, pubKey) {
-    if (!sig || !pubKey || sig.length !== 128) {
+    if (!sig || !pubKey) {
       // return await this.send(method, url, data, sig, pubKey);
       throw new Error('missing signature or pubkey');
     }
@@ -78,7 +78,7 @@ export class TxEdenService {
       this.walletAddr = walletAddr;
     else
       walletAddr = this.walletAddr;
-    if(!walletAddr.startsWith('0x')) {
+    if (!walletAddr.startsWith('0x')) {
       walletAddr = '0x' + walletAddr;
     }
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
@@ -139,7 +139,7 @@ export class TxEdenService {
 
   async getUserInfo() {
     await this.checkSig();
-    let user = await this.send('GET', '/user/' + this.walletAddr, null, this.userSig, this.publicKey);
+    let user = await this.send('GET', '/user/0x' + this.walletAddr, null, this.userSig, this.publicKey);
     this.currentUser.next(user);
   }
 
@@ -147,15 +147,22 @@ export class TxEdenService {
     private walletService: WalletService,
     private txService: TransactionService,
   ) {
-    this.walletService.currentWallet.subscribe(wallet => {
+    walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.changeAddr(wallet.address);
       this.getBuckets();
       this.getUserInfo();
     });
-    this.txService.newBlockHeaders.subscribe(header => {
+    txService.newBlockHeaders.subscribe(header => {
       this.getBuckets();
       this.getUserInfo();
+    });
+
+    this.requestPassword.subscribe(bool => {
+      if (!bool && this.publicKey && this.bucketsSig && this.userSig) {
+        this.getBuckets();
+        this.getUserInfo();
+      }
     });
   }
 }

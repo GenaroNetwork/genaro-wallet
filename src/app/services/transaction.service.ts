@@ -51,7 +51,7 @@ export class TransactionService {
 
     this.ready.subscribe(done => {
       if (!done) return;
-      GethService.addFullNode();
+      if (!LITE_WALLET) GethService.addFullNode();
       let blockNumber = 0;
       let syncInterval = setInterval(() => {
         if (blockNumber === 0)

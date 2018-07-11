@@ -23,13 +23,16 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     this.walletSub = this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.txService.getHeft(wallet.address).then(heft => {
+        if (!heft) return;
         this.heft = Number(heft)
       });
       this.txService.getStake(wallet.address).then(val => {
+        if (!val) return;
         this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
       });
 
       this.txService.getNodes(wallet.address).then(val => {
+        if (!val) return;
         this.staked = val.length;
       });
 

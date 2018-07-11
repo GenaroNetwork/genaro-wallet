@@ -11,17 +11,37 @@ export class TxEdenComponent implements OnInit, OnDestroy {
 
   constructor(
     private wallet: WalletService,
-    private txEden: TxEdenService,
+    public txEden: TxEdenService,
   ) {
   }
 
-  dialogName: string = null;
+  spacePer: number = 0;
+  trafficPer: number = 0;
+  spaceDetail: string = "";
+  trafficDetail: string = "";
   requestPasswordValue: string = "";
-  loadState() {
-  }
+  dialogName: string = null;
 
+  userSub: any;
+  bucketSub: any;
   ngOnInit() {
-    this.loadState();
+    this.userSub = this.txEden.currentUser.subscribe(user => {
+      if (!user) return;
+      this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes);
+      this.trafficDetail = `${user.usedDownloadBytes / 1024 / 1024 / 1024}/${user.limitBytes / 1024 / 1024 / 1024}GB`;
+    });
+    this.bucketSub = this.txEden.bucketList.subscribe(buckets => {
+      if (!buckets) return;
+      let all = 0;
+      let used = 0;
+      buckets.forEach(bucket => {
+        all += bucket.limitStorage;
+        used += (bucket.usedStorage || 0);
+      });
+      this.spacePer = used * 100 / all;
+      this.spaceDetail = `${used / 1024 / 1024 / 1024}/${all / 1024 / 1024 / 1024}GB`;
+
+    });
   }
 
   async requestPasswordDone() {
@@ -36,7 +56,8 @@ export class TxEdenComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.userSub.unsubscribe();
+    this.bucketSub.unsubscribe();
   }
 
 }

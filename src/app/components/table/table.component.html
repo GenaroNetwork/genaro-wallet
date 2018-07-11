@@ -47,19 +47,26 @@
 
 
 <!-- 买空间买流量 -->
-<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenData">
+<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="(txEdenService.bucketList | async) || []">
   <thead>
     <tr>
       <th></th>
       <th>{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
       <th>{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
       <th>{{ 'TABLE.TXEDEN.USED_ALL_STORAGE' | translate }}</th>
-      <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th>
+      <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
       <th>{{ 'TABLE.TXEDEN.LIMIT_TIME' | translate }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor=""></tr>
+    <tr *ngFor="let data of txEdenTable.data">
+      <th></th>
+      <th>{{ (data.timeStart*1000) | date:"yyyy-MM-dd HH:mm" }}</th>
+      <th>{{ data.name }}</th>
+      <th>{{ (data.usedStorage||0)/1024/1024/1024 }}/{{ (data.limitStorage/1024/1024/1024) }} GB</th>
+      <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
+      <th>{{ (data.timeEnd*1000) | date:"yyyy-MM-dd HH:mm" }}</th>
+    </tr>
   </tbody>
 </nz-table>
 
