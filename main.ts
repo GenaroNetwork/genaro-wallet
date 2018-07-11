@@ -9,8 +9,11 @@ import StorjLib from "./libs/storj-lib";
 import Geth from "./libs/geth";
 import { DAEMON_CONFIG } from "./libs/config";
 import { join } from "path";
-const DAEMON = join(__dirname, "./src/assets/daemon/rpc-server.js");
-
+console.log(process.env.NODE_ENV);
+let DAEMON = join(__dirname, "./dist/assets/daemon/rpc-server.js");
+if (process.env.NODE_ENV === 'development') {
+  DAEMON = join(__dirname, "./src/assets/daemon/rpc-server.js");
+}
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
