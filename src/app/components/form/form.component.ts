@@ -59,14 +59,13 @@ export class FormComponent implements OnInit {
   stakeType: number = 0;
   stakeStep: number = 0;
   stakeGNX: number = 0;
-  stakeGas: number[];
+  stakeGas: number[] = [null, 2100000];
   stakePassword: string = "";
   stakeConfirm() {
     switch (this.stakeType) {
       case 0:
         this.walletService.currentWallet.subscribe(wallet => {
           this.txService.stake(wallet.address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]).then(() => {
-            this.onSubmit.emit();
             this.stakeStep++;
           });
         }).unsubscribe();
@@ -82,7 +81,6 @@ export class FormComponent implements OnInit {
   bindNodeConfirm() {
     this.walletService.currentWallet.subscribe(wallet => {
       this.txService.bindNode(wallet.address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]).then(() => {
-        this.onSubmit.emit();
         this.bindNodeStep++;
       });
     }).unsubscribe();

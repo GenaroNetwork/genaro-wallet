@@ -226,6 +226,7 @@
       "TYPE_BUY_SPACE": "购买空间",
       "TYPE_BUY_TRAFFIC": "购买流量",
       "TYPE_STAKE": "抵押",
+      "TYPE_BIND_NODE": "绑定节点",
       "HASH": "哈希值",
       "BLOCK": "块高度",
       "AGE": "时间",
@@ -245,6 +246,15 @@
       "NODE_ID": "节点 ID",
       "STAKE_TIME": "抵押时间",
       "INCOME": "收益"
+    }
+  },
+  "ERROR": {
+    "TX": {
+      "PASSWORD": "密码输入错误",
+      "GAS": "燃料费太低",
+      "LIMIT": "GAS LIMIT 设置过低",
+      "BALANCE": "余额不足",
+      "OTHER": "错误:{{err}}"
     }
   }
 

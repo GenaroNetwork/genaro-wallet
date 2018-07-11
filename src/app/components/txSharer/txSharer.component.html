@@ -1,8 +1,8 @@
 <div class="header">
   <div class="card info">
-    <div [innerHtml]="'TXSHARER.HEFT' | translate:{heft: 33}">
+    <div [innerHtml]="'TXSHARER.HEFT' | translate:{heft: heft}">
     </div>
-    <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: 33}">
+    <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: '-'}">
     </div>
   </div>
   <div class="card opera">
@@ -17,12 +17,12 @@
         {{ 'TXSHARER.BIND_NODE' | translate }}
       </button>
       <ng-template #stakePopover>
-        <app-form name="stake"></app-form>
+        <app-form name="stake" (submit)="tableChange=tableChange+1"></app-form>
       </ng-template>
       <ng-template #bindNodePopover>
-        <app-form name="bindNode"></app-form>
+        <app-form name="bindNode" (submit)="tableChange=tableChange+1"></app-form>
       </ng-template>
     </div>
   </div>
 </div>
-<app-table name="txSharer"></app-table>
+<app-table name="txSharer" [change]="tableChange"></app-table>

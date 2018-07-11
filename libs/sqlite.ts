@@ -32,8 +32,7 @@ export default class {
         sql.txeden = new DB(join(WALLET_CONFIG_PATH, "txeden.sqlite"));
         sql.txeden.prepare(`CREATE TABLE IF NOT EXISTS txeden (
             address TEXT,
-            type TEXT,
-            token TEXT
+            tokens TEXT
         )`).run();
 
         for (let name in sql) {

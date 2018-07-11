@@ -117,7 +117,7 @@ export class DialogComponent implements OnChanges {
   buySpaceLimit: number = 0;
   buySpaceRange: number = 0;
   buySpacePassword: string = "";
-  buySpaceGas: any;
+  buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
   buySpaceInit() {
     this.buySpaceStep = 0;
@@ -126,16 +126,30 @@ export class DialogComponent implements OnChanges {
     this.buySpacePassword = "";
   }
   buySpaceDone() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      this.txService.buyBucket(wallet.address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
-      this.buySpaceStep++;
-    }).unsubscribe();
+    return new Promise(res => {
+      this.walletService.currentWallet.subscribe(wallet => {
+        this.txService.buyBucket(wallet.address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]).then(res => {
+          this.buySpaceStep++;
+        });
+      }).unsubscribe();
+    });
   }
 
   // 购买流量
+  buyTrafficPassword: string = "";
   buyTrafficStep: number = 0;
   buyTraffic: number = 0;
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
+  buyTrafficGas: number[] = [null, 2100000];
+  buyTrafficDone() {
+    return new Promise(res => {
+      this.walletService.currentWallet.subscribe(wallet => {
+        this.txService.buyTraffic(wallet.address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]).then(res => {
+          this.buySpaceStep++;
+        });
+      }).unsubscribe();
+    });
+  }
 
   // common
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {

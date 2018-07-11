@@ -1,21 +1,22 @@
 <!-- 钱包 -->
-<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
   class="tx">
   <thead>
     <tr>
       <th nzWidth="10%">
         <nz-dropdown [nzTrigger]="'click'">
           <a nz-dropdown>
-            {{ txType | translate }}
+            {{ ("TABLE.TX." + txType) | translate }}
             <i class="anticon anticon-down"></i>
           </a>
           <ul nz-menu>
             <li nz-menu-item (click)="txChangeType('TYPE_ALL')">{{ "TABLE.TX.TYPE_ALL" | translate }}</li>
-            <li nz-menu-item (click)="txChangeType('TYPE_RECEIVE')">{{ "TABLE.TX.TYPE_RECEIVE" | translate }}</li>
+            <!-- <li nz-menu-item (click)="txChangeType('TYPE_RECEIVE')">{{ "TABLE.TX.TYPE_RECEIVE" | translate }}</li> -->
             <li nz-menu-item (click)="txChangeType('TYPE_SEND')">{{ "TABLE.TX.TYPE_SEND" | translate }}</li>
             <li nz-menu-item (click)="txChangeType('TYPE_BUY_SPACE')">{{ "TABLE.TX.TYPE_BUY_SPACE" | translate }}</li>
             <li nz-menu-item (click)="txChangeType('TYPE_BUY_TRAFFIC')">{{ "TABLE.TX.TYPE_BUY_TRAFFIC" | translate }}</li>
             <li nz-menu-item (click)="txChangeType('TYPE_STAKE')">{{ "TABLE.TX.TYPE_STAKE" | translate }}</li>
+            <li nz-menu-item (click)="txChangeType('TYPE_BIND_NODE')">{{ "TABLE.TX.TYPE_BIND_NODE" | translate }}</li>
           </ul>
         </nz-dropdown>
       </th>
@@ -35,7 +36,7 @@
         <i *ngIf="data.state===4" class="anticon anticon-check-circle"></i>
       </td>
       <td>{{ data.hash | shortAddr }}</td>
-      <td>{{ data.recipt }}</td>
+      <td>{{ txGetBlockNumber(data.receipt) }}</td>
       <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
       <td>{{ data.addrFrom | longAddr | shortAddr }}</td>
       <td>{{ data.addrTo | longAddr | shortAddr }}</td>

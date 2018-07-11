@@ -21,7 +21,6 @@ export class GethService {
     }
 
     static async addFullNode() {
-        console.log(FULL_NODE_URL);
         GethService.runJS(`admin.addPeer("${FULL_NODE_URL}");`);
     };
 

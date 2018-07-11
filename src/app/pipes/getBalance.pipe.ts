@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TransactionService } from "../services/transaction.service";
 import { WalletService } from '../services/wallet.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { fromWei } from "web3-utils";
 
 @Pipe({
@@ -14,6 +14,7 @@ export class GetBalancePipe implements PipeTransform {
   ) { }
 
   transform(value: any, unit: string = 'ether', address: string = null): any {
+    console.log("change?")
     return new Observable<any>(bs => {
       if (address) {
         /* 指定 address */

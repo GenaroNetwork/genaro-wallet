@@ -3,11 +3,13 @@ import { STX_ADDR, WEB3_URL, LITE_WALLET } from "../libs/config";
 import { WalletService } from './wallet.service';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
+import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 let web3: Web3;
 const SyncTimer = 2000;
@@ -31,7 +33,9 @@ export class TransactionService {
 
   constructor(
     private walletService: WalletService,
-    private transactionDb: TransactionDbService
+    private transactionDb: TransactionDbService,
+    private alert: NzMessageService,
+    private i18n: TranslateService,
   ) {
     web3 = new Web3(WEB3_URL);
     web3.eth.net.isListening().then(() => { this.ready.next(true); })
@@ -95,7 +99,6 @@ export class TransactionService {
       from: fromAddr,
       to: toAddr
     }
-    debugger;
     return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER')
   }
 
@@ -116,28 +119,38 @@ export class TransactionService {
     }
   }
 
-  private async sendTransaction(fromAddr, password, txOptions, transactionType) {
-    const rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
-    txOptions.transactionId = uuidv1()
-    txOptions.created = Date.now()
-    const tdb = this.transactionDb
-    this.transactionDb.addNewTransaction(transactionType, txOptions)
-    web3.eth.sendSignedTransaction(rawTx)
-      .once('transactionHash', async function (hash) {
-        console.log('1 hash get, transaction sent: ' + hash)
-        await tdb.updateTxHash(txOptions.transactionId, hash)
-      })
-      .on('receipt', async function (receipt) {
-        // will be fired once the receipt its mined
-        console.log('3 receipt mined, transaction success: ')
-        console.log('receipt:\n' + JSON.stringify(receipt))
-        await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt))
-      })
-      .on('error', async function (error) {
-        await tdb.txError(txOptions.transactionId, error.message)
-        console.log('2 error: ' + error)
-        throw new Error(error.message);
-      })
+  private sendTransaction(fromAddr, password, txOptions, transactionType) {
+    return new Promise((res, rej) => {
+      let rawTx;
+      try {
+        rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
+      } catch (e) {
+        this.alertError(e);
+        rej(e);
+        return;
+      }
+      txOptions.transactionId = uuidv1()
+      txOptions.created = Date.now()
+      const tdb = this.transactionDb
+      this.transactionDb.addNewTransaction(transactionType, txOptions)
+      web3.eth.sendSignedTransaction(rawTx)
+        .once('transactionHash', async hash => {
+          console.log('1 hash get, transaction sent: ' + hash)
+          await tdb.updateTxHash(txOptions.transactionId, hash)
+          res();
+        })
+        .on('receipt', async receipt => {
+          // will be fired once the receipt its mined
+          console.log('3 receipt mined, transaction success: ')
+          console.log('receipt:\n' + JSON.stringify(receipt))
+          await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt))
+        })
+        .on('error', async error => {
+          await tdb.txError(txOptions.transactionId, error.message)
+          this.alertError(error);
+          rej(error.message);
+        })
+    });
   }
 
   async getBalance(address) {
@@ -179,12 +192,14 @@ export class TransactionService {
   async stake(address: string, password: string, stakeGNX: number, gasLimit: number, gasPriceInGwei: string | number) {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    stakeGNX = Number(stakeGNX);
     const inputData = {
       address: address,
       type: "0x1",
       stake: stakeGNX,
     }
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    debugger;
     return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
   }
 
@@ -206,7 +221,7 @@ export class TransactionService {
       syncNode: nodeIds,
     }
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
-    return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
+    return this.sendTransaction(address, password, txOptions, 'BIND_NODE');
   }
 
   async getNodes(address: string) {
@@ -219,5 +234,15 @@ export class TransactionService {
     return await web3.genaro.getHeft(address, 'latest');
   }
 
+
+  alertError(error: Error) {
+    if (error.message.indexOf("wrong passphrase") > -1) {
+      this.alert.error(this.i18n.instant("ERROR.TX.PASSWORD"));
+    } else if (error.message.indexOf("insufficient funds") > -1) {
+      this.alert.error(this.i18n.instant("ERROR.TX.BALANCE"));
+    } else {
+      debugger;
+    }
+  }
 
 }

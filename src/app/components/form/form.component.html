@@ -16,7 +16,7 @@
       <app-input name="gas" [(ipt)]="stakeGas"></app-input>
       <div nz-row class="preview">
         <div nz-col nzSpan="18" nzOffset="6">
-          {{ 'TXSHARER.MAX_STAKE_NODE' | translate }} {{ stakeValue | maxNode }}</div>
+          {{ 'TXSHARER.MAX_STAKE_NODE' | translate }} {{ stakeGNX | maxNode }}</div>
       </div>
       <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
       <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>

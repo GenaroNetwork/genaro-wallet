@@ -41,7 +41,7 @@
   <ng-container *ngIf="buySpaceStep===0">
     <app-input name="spaceRange" (iptChange)="buySpaceRange=$event"></app-input>
     <app-input name="spaceLimit" (iptChange)="buySpaceLimit=$event"></app-input>
-    <app-input name="gas" (iptChange)="buySpaceGas=$event"></app-input>
+    <app-input name="gas" [(ipt)]="buySpaceGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <div nz-row class="review">
@@ -50,7 +50,7 @@
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.SPACE_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="18">{{ buySpaceLimit }}{{ 'COMMON.MONTH(S)' | translate }}</div>
+      <div nz-col nzSpan="18">{{ buySpaceLimit/30 }}{{ 'COMMON.MONTH(S)' | translate }}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
@@ -81,7 +81,7 @@
   [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate" [nzFooter]="buyTrafficFooter" class="buy-traffic">
   <ng-container *ngIf="buyTrafficStep===0">
     <app-input name="traffic" (iptChange)="buyTraffic=$event"></app-input>
-    <app-input name="gas" (iptChange)="buyTrafficGas=$event"></app-input>
+    <app-input name="gas" [(ipt)]="buyTrafficGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <div nz-row class="review">
@@ -92,7 +92,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buyTraffic*TRAFFIC_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input name="password" [(ipt)]="buySpacePassword"></app-input>
+    <app-input name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
   </ng-container>
