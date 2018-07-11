@@ -27,17 +27,14 @@ import { DAEMON_CONFIG } from "../libs/config";
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
 try {
   mkdirPSync(BASE_PATH, null);
-  console.log(`config base path: ${BASE_PATH}`);
 } catch (error) { }
 const CONFIG_DIR = path.join(BASE_PATH, 'configs');
 try {
   mkdirPSync(CONFIG_DIR, null);
-  console.log(`config path: ${CONFIG_DIR}`);
 } catch (error) { }
 const LOG_DIR = path.join(BASE_PATH, 'logs');
 try {
   mkdirPSync(LOG_DIR, null);
-  console.log(`log path: ${LOG_DIR}`);
 } catch (error) { }
 
 function mkdirPSync(dirpath, made) {
@@ -73,7 +70,6 @@ function _initConfigs() {
   fs.readdirSync(CONFIG_DIR).forEach(file => {
     let fileobj = path.parse(file);
     if (fileobj.ext === '.json' && fileobj.name.length === 40) {
-      console.log(`add config file: ${file}`);
       configIds.push(fileobj.name);
     }
   });
@@ -89,7 +85,6 @@ function _getConfigPathById(nodeId) {
 function _remove(nodeId) {
   const configPath = _getConfigPathById(nodeId)
   fs.unlinkSync(configPath)
-  console.log(`${configPath} deleted`)
 }
 
 function _start(nodeId, cb) {
@@ -115,13 +110,11 @@ export class SharerService {
   private interval: any = null;
 
   create(shareSize, shareUnit, shareBasePath) {
-    console.log(`create config with size: ${shareSize}${shareUnit}, path: ${shareBasePath}`);
     let configFileDescriptor;
     let storPath;
     let config = DAEMON_CONFIG.prodConfig;
     config.networkPrivateKey = getPrivateKey();
     let nodeID = getNodeID(config.networkPrivateKey);
-    console.log(`creating node id: ${nodeID}`);
     config.storagePath = shareBasePath;
     try {
       mkdirPSync(shareBasePath, null);
@@ -151,9 +144,8 @@ export class SharerService {
       }
       configFileDescriptor = fs.openSync(configFilePath, 'w');
       fs.writeFileSync(configFileDescriptor, configBuffer);
-      console.log(`wrote config file to: ${configFilePath}`);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       if (configFileDescriptor) {
         fs.closeSync(configFileDescriptor);

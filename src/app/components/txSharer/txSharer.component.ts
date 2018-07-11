@@ -11,7 +11,7 @@ import { STAKE_PER_NODE } from "../../libs/config";
 export class TxSharerComponent implements OnInit, OnDestroy {
 
   heft: number = 0;
-  heftRank: number = 0;
+  heftRank: string = "-";
   staked: number = 0;
   stakeAll: number = 0;
   walletSub: any;
@@ -31,6 +31,18 @@ export class TxSharerComponent implements OnInit, OnDestroy {
 
       this.txService.getNodes(wallet.address).then(val => {
         this.staked = val.length;
+      });
+
+      fetch("http://118.31.61.119:8000/top-farmer").then(val => {
+        val.json().then(arr => {
+          let addr = wallet.address;
+          if (!addr.startsWith("0x")) addr = "0x" + addr;
+          let me = arr.filter(farmer => farmer.address === addr);
+          if (me.length === 0) this.heftRank = "300+";
+          else {
+            this.heftRank = me[0].order + 1;
+          }
+        });
       });
     });
   }

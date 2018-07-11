@@ -11,6 +11,7 @@ export const BC_STORAGE_PATH = join(GENARO_ROOT_PATH, "node"); // block chain st
 export const BC_EXISTS_FILE = join(GENARO_ROOT_PATH, "bc-genesis.lock")
 export const BC_LOG_FILE = join(GENARO_ROOT_PATH, "bc-log.log");
 export const BC_ERR_FILE = join(GENARO_ROOT_PATH, "bc-err.log");
+export const SQLITE_CONFIG_PATH = join(GENARO_ROOT_PATH, "sqlite");
 if (!existsSync(GENARO_ROOT_PATH)) mkdirSync(GENARO_ROOT_PATH);
 
 export const PLATFORM = "darwin-x64";

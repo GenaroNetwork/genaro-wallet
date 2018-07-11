@@ -7,7 +7,6 @@ const url = require('url');
 import { BRIDGE_API_URL } from "../libs/config";
 import { WalletService } from './wallet.service';
 import { ipcRenderer } from 'electron';
-import { NzModalService } from '../../../node_modules/ng-zorro-antd';
 import { TransactionService } from './transaction.service';
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
