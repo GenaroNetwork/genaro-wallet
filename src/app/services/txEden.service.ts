@@ -79,13 +79,16 @@ export class TxEdenService {
       this.walletAddr = walletAddr;
     else
       walletAddr = this.walletAddr;
+    if(!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
     if (privKey.startsWith("0x")) privKey = privKey.substr(2);
     const privKeyBuffer = new Buffer(privKey, 'hex');
     const publicKeyBuffer = this.getPublicKey(privKeyBuffer);
     this.publicKey = publicKeyBuffer.toString('hex');
-    this.bucketsSig = this.getSig(privKeyBuffer, 'GET', '/buckets', null).signature.toString("hex");
-    this.userSig = this.getSig(privKeyBuffer, 'GET', '/user/' + walletAddr, null).signature.toString("hex");
+    this.bucketsSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/buckets', null).signature).toString("hex");
+    this.userSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/user/' + walletAddr, null).signature).toString("hex");
     let sig = {
       bucketsSig: this.bucketsSig,
       userSig: this.userSig,
