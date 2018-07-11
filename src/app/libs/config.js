@@ -37,7 +37,7 @@ exports.BRIDGE_API_URL = 'http://118.31.61.119:8080';
 exports.DAEMON_CONFIG = {
     RPC_ADDR: "127.0.0.1",
     RPC_PORT: "45016",
-    STORJ_NETWORK: "gtest",
+    STORJ_NETWORK: "local",
     prodConfig: {
         'paymentAddress': '1EkMi5CFSkPY8jeAdfu3y1tUPCERQAf9xV',
         'opcodeSubscriptions': [
