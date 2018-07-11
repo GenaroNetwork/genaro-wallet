@@ -1,5 +1,5 @@
 <div>
-  <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()">
+  <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()" (nzOnCancel)="modalVisible=false">
     <p>{{modalMessage | translate}}</p>
   </nz-modal>
   <div class="layout-header">
@@ -80,4 +80,4 @@
     </div>
   </div>
 </div>
-<app-table name="sharer" [opt]="tableOpt"></app-table>
+<app-table name="sharer" [opt]="tableOpt" (action)="tableAction($event)"></app-table>

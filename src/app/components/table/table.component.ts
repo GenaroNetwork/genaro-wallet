@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { SharerService } from '../../services/sharer.service';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
@@ -16,6 +16,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   @Input("name") name: string;
   @Input("opt") opt: any;
   @Input("change") change: number;
+  @Output("action") action: EventEmitter<any> = new EventEmitter;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {

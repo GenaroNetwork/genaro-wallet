@@ -173,12 +173,12 @@
             ...
           </a>
           <ul nz-menu>
-            <li nz-menu-item (click)="restartShare(data)">{{ "DRIVE.RESTART" | translate}}</li>
-            <li *ngIf="data.state === 1" nz-menu-item (click)="stopShare(data)">{{ "DRIVE.STOP" | translate}}</li>
-            <li *ngIf="data.state !== 1" nz-menu-item (click)="startShare(data)">{{ "DRIVE.START" | translate}}</li>
-            <li nz-menu-item (click)="deleteShare(data)">{{ "DRIVE.DELETE" | translate}}</li>
-            <li nz-menu-item (click)="showLog()">{{ "DRIVE.SHOW_LOG" | translate}}</li>
-            <li nz-menu-item (click)="openConfig(data)">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
+            <li nz-menu-item (click)="action.emit(['restartShare',data])">{{ "DRIVE.RESTART" | translate}}</li>
+            <li *ngIf="data.state === 1" nz-menu-item (click)="action.emit(['stopShare',data])">{{ "DRIVE.STOP" | translate}}</li>
+            <li *ngIf="data.state !== 1" nz-menu-item (click)="action.emit(['startShare',data])">{{ "DRIVE.START" | translate}}</li>
+            <li nz-menu-item (click)="action.emit(['deleteShare',data])">{{ "DRIVE.DELETE" | translate}}</li>
+            <li nz-menu-item (click)="action.emit(['showLog'])">{{ "DRIVE.SHOW_LOG" | translate}}</li>
+            <li nz-menu-item (click)="action.emit(['openConfig',data])">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
           </ul>
         </nz-dropdown>
       </td>

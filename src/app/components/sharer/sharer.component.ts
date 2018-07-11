@@ -144,6 +144,12 @@ export class SharerComponent implements OnInit {
     this.modalDataId = "";
   }
 
+  tableAction(event) {
+    let name = event[0];
+    let args = event.slice(1);
+    if (this[name]) this[name](...args);
+  }
+
   ngOnInit() {
     this.sharer.startAll((err) => {
       if (err) {
