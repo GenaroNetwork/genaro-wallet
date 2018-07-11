@@ -1,6 +1,7 @@
-import { Component, OnInit, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
+import { STAKE_PER_NODE } from "../../libs/config";
 
 @Component({
   selector: 'app-txSharer',
@@ -11,10 +12,11 @@ export class TxSharerComponent implements OnInit, OnDestroy {
 
   heft: number = 0;
   heftRank: number = 0;
+  staked: number = 0;
+  stakeAll: number = 0;
   walletSub: any;
   stakeData: any;
   constructor(
-    private app: ApplicationRef,
     private txService: TransactionService,
     private walletService: WalletService,
   ) {
@@ -22,6 +24,13 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       if (!wallet) return;
       this.txService.getHeft(wallet.address).then(heft => {
         this.heft = Number(heft)
+      });
+      this.txService.getStake(wallet.address).then(val => {
+        this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
+      });
+
+      this.txService.getNodes(wallet.address).then(val => {
+        this.staked = val.length;
       });
     });
   }

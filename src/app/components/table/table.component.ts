@@ -85,9 +85,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   txEdenData: any[];
   txEdenSub: any;
   txEdenInit() {
-    this.txEdenSub = this.walletService.currentWallet.subscribe(async wallet => {
-      if (!wallet) return;
-      this.txEdenDataUpdate();
+    this.txEdenSub = this.txEdenSercvice.bucketList.subscribe((...args) => {
+      console.log(...args)
     });
   }
   txEdenChange() {
@@ -97,7 +96,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txEdenSub.unsubscribe();
   }
   txEdenDataUpdate = () => {
-    this.txEdenSercvice.getBuckets();
+    let data = this.txEdenSercvice.getBuckets();
     /*let walletAddr = null;
     return async (addr: string = null) => {
       if (!addr) addr = walletAddr;
@@ -117,21 +116,23 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       this.txSharerDataUpdate(wallet.address);
     });
   }
+
   txSharerChange() {
-    this.txSharerDataUpdate();
   }
-  txSharerDestroy() {
-    this.txSharerSub.unsubscribe();
-  }
+
   txSharerDataUpdate = (() => {
     let walletAddr = null;
     return async (addr: string = null) => {
       if (!addr) addr = walletAddr;
       if (!addr) return;
-      walletAddr = addr;
-      let data = await this.txService.getNodes(addr);
+      let nodes = await this.txService.getNodes(addr);
+      this.txSharerData = nodes;
     }
   })();
+
+  txSharerDestroy() {
+    this.txSharerSub.unsubscribe();
+  }
 
 
 

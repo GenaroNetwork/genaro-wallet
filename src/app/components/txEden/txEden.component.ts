@@ -16,31 +16,23 @@ export class TxEdenComponent implements OnInit, OnDestroy {
   }
 
   dialogName: string = null;
-  requestPassword: boolean = false;
   requestPasswordValue: string = "";
   loadState() {
-    this.wallet.currentWallet.subscribe(wallet => {
-      if (!wallet) return;
-      let data = this.txEden.getUserInfo();
-    });
   }
 
   ngOnInit() {
     this.loadState();
-    this.txEden.passwordEvent.on("request", () => {
-      this.requestPassword = true;
-    });
   }
 
   async requestPasswordDone() {
     this.txEden.beforehandSign(this.requestPasswordValue);
-    this.requestPassword = false;
-    this.txEden.passwordEvent.emit("resolve");
+    this.txEden.getBuckets();
+    this.txEden.getUserInfo();
+    this.txEden.requestPassword.next(false);
   }
 
   requestPasswordCancel() {
-    this.requestPassword = false;
-    this.txEden.passwordEvent.emit("reject");
+    this.txEden.requestPassword.next(false);
   }
 
   ngOnDestroy() {

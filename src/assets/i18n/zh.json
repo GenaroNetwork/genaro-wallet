@@ -142,8 +142,8 @@
   "TXSHARER": {
     "STAKE": "压注",
     "UNSTAKE": "解除压注",
-    "STAKED": "已压注节点",
-    "STAKEABLE": "可压注节点",
+    "STAKED": "已绑定节点",
+    "STAKEABLE": "可绑定节点",
     "ALLSTAKEABLE": "可压注总节点",
     "STAKE_GNX": "压注金额",
     "MAX_STAKE_NODE": "最多绑定节点数",
