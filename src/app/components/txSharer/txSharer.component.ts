@@ -50,7 +50,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     });
   }
 
-  tableChange: number = 0;
+  tableChangeIndex: number = 0;
 
   ngOnInit() {
   }

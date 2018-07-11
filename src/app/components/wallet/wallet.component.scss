@@ -21,6 +21,7 @@
     padding-left: 2rem;
     font-size: 3rem;
     color: white;
+    white-space: nowrap;
     span {
       font-size: 1rem;
     }
@@ -52,10 +53,9 @@
       line-height: 2rem;
       font-size: 1rem;
       padding-right: 1rem;
-      i {
+      app-copy {
         float: right;
         line-height: inherit;
-        cursor: pointer;
       }
     }
     .operations {

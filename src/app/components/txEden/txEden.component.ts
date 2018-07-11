@@ -21,6 +21,7 @@ export class TxEdenComponent implements OnInit, OnDestroy {
   trafficDetail: string = "";
   requestPasswordValue: string = "";
   dialogName: string = null;
+  tableChangeIndex: number = 0;
 
   userSub: any;
   bucketSub: any;

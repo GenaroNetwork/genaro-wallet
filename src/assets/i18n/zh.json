@@ -73,8 +73,8 @@
   },
   "SIDERBAR": {
     "WALLET": "钱包",
-    "EDEN": "EDEN",
-    "SHARER": "SHARER"
+    "TXEDEN": "空间管理",
+    "TXSHARER": "数据栈管理"
   },
   "WALLET": {
     "CONFIG": "管理钱包",
@@ -88,9 +88,9 @@
   "WALLETNEW": {
     "TITLE": "创建钱包",
     "TITLE_NEWWALLET": "新建钱包",
-    "BUTTON_NEWWALLET": "我是新用户，立即新建钱包",
+    "BUTTON_NEWWALLET": "我是新用户，没有助记词，生成新助记词创建钱包",
     "TITLE_IMPORTWALLET": "导入钱包",
-    "BUTTON_IMPORTWALLET": "我已有其他钱包，立即导入",
+    "BUTTON_IMPORTWALLET": "我已有Genaro钱包，导入钱包",
     "NEWWALLET_STEP1": "生成助记词",
     "NEWWALLET_STEP2": "确认助记词",
     "NEWWALLET_STEP3": "设置钱包密码",
@@ -101,12 +101,12 @@
     "IMPORTWALLET_STEP3_MNEMONIC": "设置钱包密码",
     "IMPORTWALLET_STEP3_JSON": "输入该钱包密码",
     "IMPORTWALLET_STEP4": "完成",
-    "GENERATE_MNEMONIC_TIP": "啦啦啦啦啦啦啦啦啦啦啦啦",
+    "GENERATE_MNEMONIC_TIP": "以下密钥非常重要，是用于恢复钱包和重置钱包密码，一旦丢失，你的资产和文件也将丢失。请务必将它记在安全地方，且注意保密。",
     "MNEMONIC_TIP": "请输入您的助记词",
     "JSON_TIP": "请选择您的JSON文件",
     "JSON_PRIVATE_TIP": "该文件仅保存在本地",
     "JSON_SELECT_TIP": "请选择JSON文件",
-    "REPEAT_MNEMONIC_TIP": "啦====再输入一次助记词====啦",
+    "REPEAT_MNEMONIC_TIP": "再次输入你的助记词生成钱包",
     "MNEMONIC_PLACEHOLDER": "输入助记词",
     "REPEAT_MNEMONIC_PLACEHOLDER": "请输入刚生成的助记词",
     "REPEAT_MNEMONIC_ERROR": "助记词输入错误",
@@ -140,16 +140,16 @@
     "TRAFFIC_STATUS": "流量使用情况"
   },
   "TXSHARER": {
-    "STAKE": "压注",
-    "UNSTAKE": "解除压注",
+    "STAKE": "押注",
+    "UNSTAKE": "解除押注",
     "STAKED": "已绑定节点",
-    "STAKEABLE": "可绑定节点",
-    "ALLSTAKEABLE": "可压注总节点",
-    "STAKE_GNX": "压注金额",
+    "STAKEABLE": "可绑定节点总数",
+    "ALLSTAKEABLE": "可押注总节点",
+    "STAKE_GNX": "押注金额",
     "MAX_STAKE_NODE": "最多绑定节点数",
     "BIND_NODE": "绑定节点",
-    "HEFT": "得分： <span>{{ heft }}<span> 分</span></span>",
-    "HEFT_RANK": "得分排名： <span>{{ rank }}<span> 名</span></span>"
+    "HEFT": "当前权重： <span>{{ heft }}<span> 分</span></span>",
+    "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>"
   },
   "DRIVE": {
     "CANCEL": "取消",
@@ -210,7 +210,7 @@
     "STAKE_SUCCESS_TIP": "交易已成功发起,哈希值为: ",
     "RESTART_CONFIRM_TIP": "您确定要重启您的分享节点吗?",
     "START_CONFIRM_TIP": "您确定要启动您的分享节点吗?",
-    "STOP_CONFIRM_TIP": "您确定要暂停您的分享节点吗? 您可以之后任何时候重启, 但用户在您暂停期间无法获取到存储的问题, 因此这期间您无法继续获取到收益并且也会降低您的节点信誉值.",
+    "STOP_CONFIRM_TIP": "您确定要暂停您的分享节点吗? 您可以之后任何时候重启, 但用户在您暂停期间无法获取到存储的文件, 因此这期间您无法继续获取到收益并且也会降低您的节点信誉值.",
     "DELETE_CONFIRM_TIP": "您确定要删除您的分享节点吗? 若该节点已押注, 押注期内, 押注的GNX无法使用. 请先确认你已备份节点配置以便找回. 您将丢失所有存储在您设备上的数据并无法获取收益, 同时也会降低您的设备的信誉值.",
     "STAKE_FIRST_TIP": "请先押注",
     "NODE_STAKE_TIP": "节点尚未押注",

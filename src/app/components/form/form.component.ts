@@ -67,6 +67,7 @@ export class FormComponent implements OnInit {
         this.walletService.currentWallet.subscribe(wallet => {
           this.txService.stake(wallet.address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]).then(() => {
             this.stakeStep++;
+            this.onSubmit.emit();
           });
         }).unsubscribe();
         break;
@@ -76,12 +77,13 @@ export class FormComponent implements OnInit {
   // 绑定节点
   bindNodeStep: number = 0;
   bindNodeId: string = "";
-  bindNodeGas: number[];
+  bindNodeGas: number[] = [null, 2100000];
   bindNodePassword: string = "";
   bindNodeConfirm() {
     this.walletService.currentWallet.subscribe(wallet => {
       this.txService.bindNode(wallet.address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]).then(() => {
         this.bindNodeStep++;
+        this.onSubmit.emit();
       });
     }).unsubscribe();
   }

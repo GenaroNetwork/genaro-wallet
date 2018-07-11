@@ -1,6 +1,6 @@
 <div class="header">
   <div class="card">
-    {{ (txService.ready | async) ? (txService.newBlockHeaders | async | getBalance | async) : '0' }}&nbsp;
+    {{ ((txService.ready | async) ? (txService.newBlockHeaders | async | getBalance | async) : '0') | shortGNX }}&nbsp;
     <span>GNX</span>
   </div>
   <div class="info">
@@ -29,7 +29,7 @@
     </div>
     <div class="address">
       {{ (walletService.currentWallet | async)?.address | longAddr | shortAddr}}
-      <i [class]="copied === 'wallet-address' ? 'anticon anticon-check' : 'anticon anticon-copy'" (click)="copyWalletAddr()"></i>
+      <app-copy [data]="(walletService.currentWallet | async)?.address | longAddr"></app-copy>
     </div>
     <div class="operations">
       <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight" [nzContent]="popoverReceive">

@@ -13,7 +13,7 @@
   <nz-tabset *ngIf="stakeStep===0" [(nzSelectedIndex)]="stakeType" class="stake">
     <nz-tab nzTitle="{{ 'TXSHARER.STAKE' | translate }}">
       <app-input name="stake" [(ipt)]="stakeGNX"></app-input>
-      <app-input name="gas" [(ipt)]="stakeGas"></app-input>
+      <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
       <div nz-row class="preview">
         <div nz-col nzSpan="18" nzOffset="6">
           {{ 'TXSHARER.MAX_STAKE_NODE' | translate }} {{ stakeGNX | maxNode }}</div>
@@ -33,8 +33,8 @@
 <!-- 绑定节点 -->
 <ng-container *ngIf="name==='bindNode'">
   <div *ngIf="bindNodeStep===0" class="bind-node">
-    <app-input name="bindNode" [(ipt)]="bindNodeId"></app-input>
-    <app-input name="gas" [(ipt)]="bindNodeGas"></app-input>
+    <app-input name="bindNode" [(ipt)]="bindNodeId" [span]="[6,14]"></app-input>
+    <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,14]"></app-input>
     <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
   </div>

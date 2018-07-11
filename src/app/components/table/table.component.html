@@ -35,11 +35,17 @@
         <i *ngIf="data.state===3" class="anticon anticon-close-circle"></i>
         <i *ngIf="data.state===4" class="anticon anticon-check-circle"></i>
       </td>
-      <td>{{ data.hash | shortAddr }}</td>
+      <td>{{ data.hash | shortAddr }}
+        <app-copy [data]="data.hash | shortAddr"></app-copy>
+      </td>
       <td>{{ txGetBlockNumber(data.receipt) }}</td>
       <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
-      <td>{{ data.addrFrom | longAddr | shortAddr }}</td>
-      <td>{{ data.addrTo | longAddr | shortAddr }}</td>
+      <td>{{ data.addrFrom | longAddr | shortAddr }}
+        <app-copy [data]="data.addrFrom | longAddr"></app-copy>
+      </td>
+      <td>{{ data.addrTo | longAddr | shortAddr }}
+        <app-copy [data]="data.addrTo | longAddr"></app-copy>
+      </td>
       <td>{{ data.amount | e2t }}</td>
     </tr>
   </tbody>
@@ -83,7 +89,9 @@
   <tbody>
     <tr *ngFor="let data of txSharerTable.data">
       <th>-</th>
-      <th>{{ data }}</th>
+      <th>{{ data }}
+        <app-copy [data]="data"></app-copy>
+      </th>
       <th>-</th>
       <th>-</th>
     </tr>
@@ -113,7 +121,9 @@
     <tr *ngFor="let data of sharerTable.data">
       <td *ngIf="opt.nodeColShow">
         <div>
-          <span>{{data.id}}</span>
+          <span>{{data.id}}
+            <app-copy [data]="data.id"></app-copy>
+          </span>
           <br/>
           <span>{{data.location}}</span>
         </div>

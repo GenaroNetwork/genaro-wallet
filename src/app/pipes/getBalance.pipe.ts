@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TransactionService } from "../services/transaction.service";
 import { WalletService } from '../services/wallet.service';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 import { fromWei } from "web3-utils";
 
 @Pipe({
@@ -33,5 +33,14 @@ export class GetBalancePipe implements PipeTransform {
       }
     });
   }
+}
 
+@Pipe({
+  name: "shortGNX",
+})
+export class ShortGNXPipe implements PipeTransform {
+  transform(value: string | number, length: number = 4) {
+    let number = Number(value);
+    return number.toFixed(length);
+  }
 }

@@ -32,8 +32,8 @@
     <button nz-button nzType="primary" nzSize="large" (click)="dialogName='buyTraffic'">{{ 'TXEDEN.BUY_TRAFFIC' | translate }}</button>
   </div>
 </div>
-<app-table name="txEden"></app-table>
-<app-dialog [(name)]="dialogName"></app-dialog>
+<app-table name="txEden" [change]="tableChangeIndex"></app-table>
+<app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1"></app-dialog>
 <nz-modal [nzVisible]="txEden.requestPassword | async" [nzTitle]="null" (nzOnCancel)="requestPasswordCancel()" (nzOnOk)="requestPasswordDone()">
   <p>请输入钱包密码</p>
   <app-input name="password" [(ipt)]="requestPasswordValue"></app-input>

@@ -17,20 +17,9 @@ export class WalletComponent implements OnInit {
     public txService: TransactionService, // 在 html 中使用
     public txDbService: TransactionDbService,  // 在 html 中使用
   ) { }
-
-  copied: string = null;
   popoverSendVisible: boolean = false;
   dialogName: string = null;
 
-  copyWalletAddr() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      clipboard.writeText(`0x${wallet.address}`);
-      this.copied = "wallet-address";
-      setTimeout(() => {
-        this.copied = null;
-      }, 1000);
-    }).unsubscribe();
-  };
 
   async ngOnInit() {
   }

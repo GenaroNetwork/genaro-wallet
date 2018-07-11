@@ -99,19 +99,21 @@ export class TxEdenService {
     ipcRenderer.send(`db.txeden.run`, this.ipcId++, `DELETE FROM txeden WHERE address='${this.walletAddr}'`);
   }
 
-  private checkSig() {
+  private checkSig(requestPassword: boolean = false) {
     return new Promise((res, rej) => {
       if (!this.walletAddr) return;
       if (this.bucketsSig && this.userSig && this.publicKey) return;
       ipcRenderer.on(`db.txeden.get.${this.ipcId}`, async (sender, data) => {
         if (!data) {
-          this.requestPassword.next(true);
+          if (requestPassword) this.requestPassword.next(true);
+          rej();
           return;
         }
         else {
           let sigs = JSON.parse(data.tokens);
           if (!sigs.publicKey || !sigs.publicKey || !sigs.userSig) {
-            this.requestPassword.next(true);
+            if (requestPassword) this.requestPassword.next(true);
+            rej();
             return;
           }
           this.publicKey = sigs.publicKey;
@@ -131,14 +133,14 @@ export class TxEdenService {
     this.publicKey = null;
   }
 
-  async getBuckets() {
-    await this.checkSig();
+  async getBuckets(requestPassword: boolean = false) {
+    await this.checkSig(requestPassword);
     let buckets = await this.send('GET', '/buckets', null, this.bucketsSig, this.publicKey);
     this.bucketList.next(buckets);
   }
 
-  async getUserInfo() {
-    await this.checkSig();
+  async getUserInfo(requestPassword: boolean = false) {
+    await this.checkSig(requestPassword);
     let user = await this.send('GET', '/user/0x' + this.walletAddr, null, this.userSig, this.publicKey);
     this.currentUser.next(user);
   }
@@ -150,8 +152,8 @@ export class TxEdenService {
     walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.changeAddr(wallet.address);
-      this.getBuckets();
-      this.getUserInfo();
+      this.getBuckets(true);
+      this.getUserInfo(true);
     });
     txService.newBlockHeaders.subscribe(header => {
       this.getBuckets();

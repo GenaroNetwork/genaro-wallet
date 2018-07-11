@@ -18,12 +18,12 @@
         {{ 'TXSHARER.BIND_NODE' | translate }}
       </button>
       <ng-template #stakePopover>
-        <app-form name="stake" (submit)="tableChange=tableChange+1"></app-form>
+        <app-form name="stake" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
       </ng-template>
       <ng-template #bindNodePopover>
-        <app-form name="bindNode" (submit)="tableChange=tableChange+1"></app-form>
+        <app-form name="bindNode" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
       </ng-template>
     </div>
   </div>
 </div>
-<app-table name="txSharer" [change]="tableChange"></app-table>
+<app-table name="txSharer" [change]="tableChangeIndex"></app-table>

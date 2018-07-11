@@ -31,13 +31,14 @@ import { InputComponent } from './components/input/input.component';
 import { FormComponent } from './components/form/form.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { TableComponent } from './components/table/table.component';
+import { CopyComponent } from './components/copy/copy.component';
 
 // services
 
 
 // pipes
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
-import { GetBalancePipe } from './pipes/getBalance.pipe';
+import { GetBalancePipe, ShortGNXPipe } from './pipes/getBalance.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { NumberPipe, maxNode, E2t } from './pipes/number.pipe';
 
@@ -67,10 +68,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     DialogComponent,
     FormComponent,
     InputComponent,
+    CopyComponent,
     // pipe
     LongAddrPipe,
     ShortAddrPipe,
     GetBalancePipe,
+    ShortGNXPipe,
     SafePipe,
     NumberPipe,
     maxNode,
