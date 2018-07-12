@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef } from '@angular/core';
 import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from "../libs/config";
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
@@ -12,6 +12,8 @@ import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 import { newWalletManager } from "jswallet-manager";
 
 let web3: Web3;
+let web3Provider: any;
+
 const SyncTimer = 2000;
 
 function add0x(addr: string) {
@@ -32,12 +34,14 @@ export class TransactionService {
   connected: boolean = null;
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
   chainSyncing: any = [true, 0];
+  private retryConnect: number = 0;
   private walletManager: any;
 
   constructor(
     private transactionDb: TransactionDbService,
     private alert: NzMessageService,
     private i18n: TranslateService,
+    private appRef: ApplicationRef,
   ) {
     this.walletManager = newWalletManager(WALLET_CONFIG_PATH);
     this.connect();
@@ -46,19 +50,35 @@ export class TransactionService {
       this.connected = state;
 
       if (!LITE_WALLET) GethService.addFullNode();
-      //if (!state) web3.eth.clearSubscriptions();
-      else this.afterConnected();
+      if (state) {
+        this.afterConnected();
+        this.retryConnect = 0;
+      }
+      else {
+        try {
+          web3.eth.clearSubscriptions();
+        } catch (e) { }
+      }
     });
   }
 
   async connect() {
-    web3 = new Web3(WEB3_URL);
+    this.retryConnect++;
+    if (this.retryConnect > 20) {
+      alert(`Connect To Server Failed For Several Times.
+      Please Check Your Connection.`);
+    }
+    web3Provider = new Web3.providers.WebsocketProvider(WEB3_URL);
+    web3Provider.connection.onerror = () => {
+      this.ready.next(false);
+      this.connect();
+    };
+    web3 = new Web3(web3Provider);
     try {
       await web3.eth.net.isListening();
       this.ready.next(true);
       return;
     } catch (e) { }
-
     // web3 is not connected
     if (LITE_WALLET) {
       this.ready.next(false);
@@ -81,11 +101,13 @@ export class TransactionService {
       let blockNumber = await web3.eth.getBlockNumber();
       if (blockNumber === baseNumber) {
         this.chainSyncing = [true, blockNumber];
+        this.appRef.tick();
         return;
       }
       let syncing: any = await web3.eth.isSyncing();
       if (syncing !== false) {
         this.chainSyncing = [true, syncing.currentBlock];
+        this.appRef.tick();
         return;
       }
       clearInterval(syncInterval);
@@ -94,6 +116,7 @@ export class TransactionService {
         this.newBlockHeaders.next(bh);
         // @ts-ignore
         this.chainSyncing = [false, bh.number];
+        this.appRef.tick();
       });
     }, SyncTimer);
   }

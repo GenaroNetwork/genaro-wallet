@@ -24,14 +24,12 @@ export class DialogComponent implements OnChanges {
   //  Wallet change name
   walletChangeName: string = "";
   walletChangeNameInit() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      this.walletChangeName = wallet.name;
-    }).unsubscribe();
+    let address = this.walletService.wallets.current;
+    this.walletChangeName = this.walletService.wallets.all[address].name;
   }
   walletChangeNameDone() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      this.walletService.changeName(wallet.address, this.walletChangeName);
-    }).unsubscribe();
+    let address = this.walletService.wallets.current;
+    this.walletService.changeName(address, this.walletChangeName);
   }
 
   // wallet change password
@@ -59,16 +57,15 @@ export class DialogComponent implements OnChanges {
         rej("PASSWORD_ERROR_REPEAT");
         return;
       }
-      this.walletService.currentWallet.subscribe(wallet => {
-        try {
-          this.walletService.changePassword(wallet.address, this.walletChangePassword.old, this.walletChangePassword.new);
-        } catch (e) {
-          this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-          rej("PASSWORD_ERROR_OLD");
-          return;
-        }
-        res();
-      }).unsubscribe();
+      let address = this.walletService.wallets.current;
+      try {
+        this.walletService.changePassword(address, this.walletChangePassword.old, this.walletChangePassword.new);
+      } catch (e) {
+        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
+        rej("PASSWORD_ERROR_OLD");
+        return;
+      }
+      res();
     });
   }
 
@@ -79,15 +76,14 @@ export class DialogComponent implements OnChanges {
   }
   walletExportJsonDone() {
     return new Promise((res, rej) => {
-      this.walletService.currentWallet.subscribe(wallet => {
-        if (!this.walletService.validatePassword(wallet.address, this.walletExportJson)) {
-          this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-          rej("PASSWORD_ERROR_OLD");
-          return;
-        }
-        this.walletService.exportJson(wallet.address);
-        res();
-      }).unsubscribe();
+      let address = this.walletService.wallets.current;
+      if (!this.walletService.validatePassword(address, this.walletExportJson)) {
+        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
+        rej("PASSWORD_ERROR_OLD");
+        return;
+      }
+      this.walletService.exportJson(address);
+      res();
     });
   }
 
@@ -98,17 +94,16 @@ export class DialogComponent implements OnChanges {
   }
   walletDeleteDone() {
     return new Promise((res, rej) => {
-      this.walletService.currentWallet.subscribe(wallet => {
-        if (!this.walletService.validatePassword(wallet.address, this.walletExportJson)) {
-          this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-          rej("PASSWORD_ERROR_OLD");
-          return;
-        }
-        nextTick(() => {
-          this.walletService.deleteWallet(wallet.address);
-        });
-        res();
-      }).unsubscribe();
+      let address = this.walletService.wallets.current;
+      if (!this.walletService.validatePassword(address, this.walletExportJson)) {
+        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
+        rej("PASSWORD_ERROR_OLD");
+        return;
+      }
+      nextTick(() => {
+        this.walletService.deleteWallet(address);
+      });
+      res();
     });
   }
 
@@ -119,20 +114,11 @@ export class DialogComponent implements OnChanges {
   buySpacePassword: string = "";
   buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
-  buySpaceInit() {
-    this.buySpaceStep = 0;
-    this.buySpaceRange = 0;
-    this.buySpaceLimit = 0;
-    this.buySpacePassword = "";
-  }
-  buySpaceDone() {
-    return new Promise(res => {
-      this.walletService.currentWallet.subscribe(wallet => {
-        this.txService.buyBucket(wallet.address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]).then(res => {
-          this.buySpaceStep++;
-        });
-      }).unsubscribe();
-    });
+  async buySpaceSubmit() {
+    let address = this.walletService.wallets.current;
+    debugger;
+    await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
+    this.buySpaceStep++;
   }
 
   // 购买流量
@@ -141,14 +127,11 @@ export class DialogComponent implements OnChanges {
   buyTraffic: number = 0;
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
   buyTrafficGas: number[] = [null, 2100000];
-  buyTrafficDone() {
-    return new Promise(res => {
-      this.walletService.currentWallet.subscribe(wallet => {
-        this.txService.buyTraffic(wallet.address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]).then(res => {
-          this.buySpaceStep++;
-        });
-      }).unsubscribe();
-    });
+  async buyTrafficSubmit() {
+    debugger
+    let address = this.walletService.wallets.current;
+    await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
+    this.buySpaceStep++;
   }
 
   // common

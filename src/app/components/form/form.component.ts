@@ -32,25 +32,12 @@ export class FormComponent implements OnInit {
     gas: [null, 21000],
     password: "",
   };
-  submitSendTx() {
-    this.formSendTx.loading = true;
-    setTimeout(() => {
-      this.walletService.currentWallet.subscribe(wallet => {
-        let from = wallet.address;
-        let to = this.formSendTx.address;
-        if (to.startsWith("0x")) to = to.substr(2);
-        this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gas[1], this.formSendTx.gas[0])
-          .then((...args) => {
-            console.log(...args);
-            this.onSubmit.emit();
-            this.formSendTx.loading = false;
-          })
-          .catch(err => {
-            console.log(err);
-            this.formSendTx.loading = false;
-          });
-      }).unsubscribe();
-    }, 0);
+  async submitSendTx() {
+    let from = this.walletService.wallets.current;
+    let to = this.formSendTx.address;
+    if (to.startsWith("0x")) to = to.substr(2);
+    await this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gas[1], this.formSendTx.gas[0]);
+    this.onSubmit.emit();
   }
 
   // 压注

@@ -59,6 +59,15 @@ function createWindow() {
       { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
       { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
     ]
+  }, {
+    label: "Dev",
+    submenu: [
+      {
+        label: "Open Dev Tools", accelerator: "CmdOrCtrl+Shift+I", click: function () {
+          win.webContents.openDevTools();
+        }
+      },
+    ]
   }
   ];
   // @ts-ignore
@@ -77,7 +86,8 @@ function createWindow() {
     }));
   }
 
-  win.webContents.openDevTools();
+  if (process.env.NODE_ENV === "development")
+    win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
