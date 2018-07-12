@@ -14,7 +14,7 @@
   .card {
     flex: 0 26rem;
     margin-right: 1rem;
-    background: lightblue;
+    background: url("assets/img/gnx_white.svg") 1rem 1rem / 4rem auto no-repeat, url("assets/img/gnx_blue.svg") 120% 120%/ 15rem auto no-repeat, linear-gradient(to right bottom, #409eff, #188be2);
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     line-height: 16rem;

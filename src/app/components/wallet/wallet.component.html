@@ -1,10 +1,10 @@
 <div class="header">
   <div class="card">
-    {{ ((txService.ready | async) ? (txService.newBlockHeaders | async | getBalance | async) : '0') | shortGNX }}&nbsp;
+    {{ (walletService.balances[walletService.wallets.current] || 0 ) | gnxunit | shortGNX}}
     <span>GNX</span>
   </div>
   <div class="info">
-    <img [src]="('avatar://' + (walletService.currentWallet | async)?.address) | safe">
+    <img [src]="('avatar://' + walletService.wallets.current) | safe">
     <div class="name"> {{ (walletService.currentWallet | async)?.name }}
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
@@ -28,8 +28,8 @@
       </nz-dropdown>
     </div>
     <div class="address">
-      {{ (walletService.currentWallet | async)?.address | longAddr | shortAddr}}
-      <app-copy [data]="(walletService.currentWallet | async)?.address | longAddr"></app-copy>
+      {{ walletService.wallets.current | longAddr | shortAddr}}
+      <app-copy [data]="walletService.wallets.current | longAddr"></app-copy>
     </div>
     <div class="operations">
       <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight" [nzContent]="popoverReceive">
@@ -42,8 +42,8 @@
       <!-- QRCODE -->
       <ng-template #popoverReceive>
         <div class="popover-receive">
-          <div>{{ (walletService.currentWallet | async)?.address | longAddr }}</div>
-          <img [src]="('qrcode://gnx:' + ((walletService.currentWallet | async)?.address | longAddr)) | safe">
+          <div>{{ walletService.wallets.current | longAddr }}</div>
+          <img [src]="('qrcode://gnx:' + (walletService.wallets.current | longAddr)) | safe">
         </div>
       </ng-template>
       <!-- Send Coin -->

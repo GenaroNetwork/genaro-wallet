@@ -59,7 +59,7 @@
     <app-input name="password" [(ipt)]="buySpacePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
-    {{ 'TXEDEN.BUY_SPACE' | translate }}
+    <i class="anticon anticon-check-circle"></i>
   </ng-container>
 </nz-modal>
 <ng-template #buySpaceFooter>
@@ -95,6 +95,7 @@
     <app-input name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
+    <i class="anticon anticon-check-circle"></i>
   </ng-container>
 </nz-modal>
 <ng-template #buyTrafficFooter class="btfooter">

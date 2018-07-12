@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { STX_ADDR, WEB3_URL, LITE_WALLET } from "../libs/config";
-import { WalletService } from './wallet.service';
+import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from "../libs/config";
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -10,6 +9,7 @@ import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
 import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
 import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { newWalletManager } from "jswallet-manager";
 
 let web3: Web3;
 const SyncTimer = 2000;
@@ -27,56 +27,75 @@ function sha256(input) {
 })
 export class TransactionService {
 
-  ready: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  ready: BehaviorSubject<boolean> = new BehaviorSubject(null);
+  readyState: boolean = null;
+  connected: boolean = null;
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
-  chainSyncing: BehaviorSubject<any> = new BehaviorSubject(null);
+  chainSyncing: any = [true, 0];
+  private walletManager: any;
 
   constructor(
-    private walletService: WalletService,
     private transactionDb: TransactionDbService,
     private alert: NzMessageService,
     private i18n: TranslateService,
   ) {
-    web3 = new Web3(WEB3_URL);
-    web3.eth.net.isListening().then(() => { this.ready.next(true); })
-      .catch(e => {
-        // web3 is not connected
-        if (LITE_WALLET) throw new Error("Can not connect to mordred."); // is lite wallet
-        GethService.startGeth().then(() => {
-          web3 = new Web3(WEB3_URL);
-          this.ready.next(true);
-        }).catch(e => {
-        });
-      });
+    this.walletManager = newWalletManager(WALLET_CONFIG_PATH);
+    this.connect();
+    this.ready.subscribe(async (state: boolean) => {
+      this.readyState = state;
+      this.connected = state;
 
-    this.ready.subscribe(done => {
-      if (!done) return;
       if (!LITE_WALLET) GethService.addFullNode();
-      let blockNumber = 0;
-      let syncInterval = setInterval(() => {
-        if (blockNumber === 0)
-          web3.eth.getBlockNumber().then(number => {
-            blockNumber = number;
-            this.chainSyncing.next(number);
-          });
-        else
-          web3.eth.isSyncing().then(res => {
-            if (res === false) {
-              web3.eth.getBlockNumber
-              clearInterval(syncInterval);
-              web3.eth.subscribe("newBlockHeaders", (err, bh) => {
-                if (err) return;
-                this.newBlockHeaders.next(bh);
-                // @ts-ignore
-                this.chainSyncing.next(bh.number);
-              });
-            } else {
-              // @ts-ignore
-              this.chainSyncing.next(res.currentBlock);
-            }
-          });
-      }, SyncTimer);
+      //if (!state) web3.eth.clearSubscriptions();
+      else this.afterConnected();
     });
+  }
+
+  async connect() {
+    web3 = new Web3(WEB3_URL);
+    try {
+      await web3.eth.net.isListening();
+      this.ready.next(true);
+      return;
+    } catch (e) { }
+
+    // web3 is not connected
+    if (LITE_WALLET) {
+      this.ready.next(false);
+      throw new Error("Can not connect to mordred."); // is lite wallet
+    }
+
+    try {
+      await GethService.startGeth();
+      web3 = new Web3(WEB3_URL);
+      this.ready.next(true);
+    } catch (e) {
+      this.ready.next(false);
+      throw new Error("Can not start geth."); // is lite wallet
+    }
+  }
+
+  async afterConnected() {
+    let baseNumber = await web3.eth.getBlockNumber();
+    let syncInterval = setInterval(async () => {
+      let blockNumber = await web3.eth.getBlockNumber();
+      if (blockNumber === baseNumber) {
+        this.chainSyncing = [true, blockNumber];
+        return;
+      }
+      let syncing: any = await web3.eth.isSyncing();
+      if (syncing !== false) {
+        this.chainSyncing = [true, syncing.currentBlock];
+        return;
+      }
+      clearInterval(syncInterval);
+      web3.eth.subscribe("newBlockHeaders", (err, bh) => {
+        if (err) return;
+        this.newBlockHeaders.next(bh);
+        // @ts-ignore
+        this.chainSyncing = [false, bh.number];
+      });
+    }, SyncTimer);
   }
 
   async getGas() {
@@ -123,7 +142,7 @@ export class TransactionService {
     return new Promise((res, rej) => {
       let rawTx;
       try {
-        rawTx = this.walletService.signTransaction(fromAddr, password, txOptions)
+        rawTx = this.walletManager.signTx(fromAddr, password, txOptions)
       } catch (e) {
         this.alertError(e);
         rej(e);
@@ -199,7 +218,6 @@ export class TransactionService {
       stake: stakeGNX,
     }
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
-    debugger;
     return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
   }
 

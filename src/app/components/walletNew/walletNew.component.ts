@@ -70,7 +70,6 @@ export class WalletNewComponent {
     this.walletName = null;
     this.importType = null;
     this.isEdit = false;
-    this.loading = false;
   }
   toCreate() {
     this.title = "WALLETNEW.TITLE_NEWWALLET";
@@ -106,7 +105,7 @@ export class WalletNewComponent {
     this.importStep++;
   }
 
-  validatePassword() {
+  async validatePassword() {
     if (this.password !== this.passwordRepeat) {
       this.alert.create("error", this.translate.instant("WALLETNEW.REPEAT_PASSWORD_ERROR"));
       return;
@@ -116,25 +115,17 @@ export class WalletNewComponent {
       this.alert.create("error", this.translate.instant("WALLETNEW.PASSWORD_NOT_SAFE_LENGTH"));
       return;
     }
-
-    this.loading = true;
     let walletName = this.wallet.generateName(this.translate.instant("WALLETNEW.WALLET_NAME_PREFIX"));
-    this.wallet.createWallet(this.mnemonic, this.password, walletName).then(wallet => {
-      if (this.newWalletType === "create") this.createStep++;
-      if (this.newWalletType === "import") this.importStep++;
-
-      this.walletName = wallet.name;
-      this.walletAddress = wallet.address;
-
-      if (this.newWalletType === "create") this.createStep++;
-      if (this.newWalletType === "import") this.importStep++;
-
-      this.loading = false;
-    });
+    let wallet = await this.wallet.createWallet(this.mnemonic, this.password, walletName);
+    if (this.newWalletType === "create") this.createStep++;
+    if (this.newWalletType === "import") this.importStep++;
+    this.walletName = wallet.name;
+    this.walletAddress = wallet.address;
+    if (this.newWalletType === "create") this.createStep++;
+    if (this.newWalletType === "import") this.importStep++;
   }
 
   validateOldPassword() {
-    this.loading = true;
     let json = readFileSync(this.walletJson, { encoding: "utf-8" });
     let wallet;
     try {
@@ -151,8 +142,6 @@ export class WalletNewComponent {
           this.alert.create("error", this.translate.instant("WALLETNEW.IMPORT_JSON"));
           break;
       }
-
-      this.loading = false;
       return;
     }
 
@@ -164,8 +153,6 @@ export class WalletNewComponent {
 
     if (this.newWalletType === "create") this.createStep++;
     if (this.newWalletType === "import") this.importStep++;
-
-    this.loading = false;
   }
 
   changeWalletName() {

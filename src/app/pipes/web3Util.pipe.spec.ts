@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { GetBalancePipe } from './getBalance.pipe';
+import { Web3UtilPipe } from './web3Util.pipe';
 
-describe('Pipe: GetBalancee', () => {
+describe('Pipe: Web3Utile', () => {
   it('create an instance', () => {
-    let pipe = new GetBalancePipe(null, null);
+    let pipe = new Web3UtilPipe();
     expect(pipe).toBeTruthy();
   });
 });

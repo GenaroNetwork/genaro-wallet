@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -21,7 +20,6 @@ export class FormComponent implements OnInit {
     this.onCancel.emit();
   }
 
-
   // send transaction
   formSendTx: any = {
     gasMin: 1,
@@ -31,7 +29,7 @@ export class FormComponent implements OnInit {
     // ==
     address: "",
     amount: 0,
-    gas: [2, 21000],
+    gas: [null, 21000],
     password: "",
   };
   submitSendTx() {

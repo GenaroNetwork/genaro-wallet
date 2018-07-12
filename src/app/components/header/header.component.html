@@ -1,15 +1,15 @@
 <div class="header">
   <div class="left">
-    <div class="logo">{{ "HEADER.ICON" | translate }}</div>
+    <div class="logo"></div>
   </div>
   <div class="right">
     <div class="block-height">
-      {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ (txService.chainSyncing | async) || 0}}
+      {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
     </div>
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
-          {{ (walletService.currentWallet | async)?.name || ("HEADER.NO_ACCOUNT" | translate) }}
+          {{ walletService.wallets.all[walletService.wallets.current].name || ("HEADER.NO_ACCOUNT" | translate) }}
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>

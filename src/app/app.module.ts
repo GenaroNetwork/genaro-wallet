@@ -38,9 +38,9 @@ import { CopyComponent } from './components/copy/copy.component';
 
 // pipes
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
-import { GetBalancePipe, ShortGNXPipe } from './pipes/getBalance.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { NumberPipe, maxNode, E2t } from './pipes/number.pipe';
+import { TranserUnitPipe, ShortGNXPipe } from "./pipes/web3Util.pipe";
 
 
 // AoT requires an exported function for factories
@@ -72,12 +72,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     // pipe
     LongAddrPipe,
     ShortAddrPipe,
-    GetBalancePipe,
     ShortGNXPipe,
     SafePipe,
     NumberPipe,
     maxNode,
     E2t,
+    TranserUnitPipe,
   ],
   imports: [
     BrowserModule,

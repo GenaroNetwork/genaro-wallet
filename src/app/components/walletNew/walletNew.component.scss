@@ -39,11 +39,13 @@
     }
     .front-page {
       text-align: center;
-      .image {
+      .generate {
         height: 100px;
-        width: 100px;
-        background: #CCC;
+        width: 200px;
+        background-image: url("assets/img/key_generate.png");
+        background-size: contain;
         display: inline-block;
+        margin-bottom: 2rem;
       }
       button {
         margin-top: $border-blank;
@@ -129,21 +131,37 @@
     }
     .importStep {
       .type {
-        height: 8rem;
+        height: 12rem;
         text-align: center;
         &>div {
-          $block-size: 5rem;
-          height: $block-size;
-          width: 1.5*$block-size;
+          height: 8rem;
+          width: 8rem;
           border: 1px dashed #CCC;
-          line-height: $block-size;
+          line-height: 13.2rem;
           display: inline-block;
           border-radius: $border-radius;
           margin: $border-blank 2*$border-blank 0;
           cursor: pointer;
+          background-size: auto 4rem;
+          background-position: 50% 30%;
+          background-repeat: no-repeat;
+          color: #CCC;
+          &.mnemonic {
+            background-image: url("assets/img/import_mnemonic.png");
+          }
+          &.json {
+            background-image: url("assets/img/import_json.png");
+          }
           &.chosen {
             border: 1px solid $theme-color;
             box-shadow: $box-shadow;
+            color: #333;
+            &.mnemonic {
+              background-image: url("assets/img/import_mnemonic_active.png");
+            }
+            &.json {
+              background-image: url("assets/img/import_json_active.png");
+            }
           }
         }
       }

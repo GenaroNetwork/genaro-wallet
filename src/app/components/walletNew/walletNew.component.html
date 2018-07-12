@@ -9,7 +9,7 @@
     </div>
 
     <div *ngIf="newWalletType===null" class="front-page">
-      <div class="image"></div>
+      <div class="generate"></div>
       <br/>
       <button nz-button nzType="primary" (click)="toCreate()">{{ 'WALLETNEW.BUTTON_NEWWALLET' | translate }}</button>
       <br/>
@@ -106,10 +106,10 @@
       <!-- Step 0 -->
       <div *ngIf="importStep===0">
         <div class="type">
-          <div [class]="importType === 'mnemonic' ? 'chosen': ''" (click)="importType='mnemonic'">
+          <div [class]="importType === 'mnemonic' ? 'chosen mnemonic': 'mnemonic'" (click)="importType='mnemonic'">
             {{ 'WALLETNEW.IMPORTWALLET_FROM_MNEMONIC' | translate }}
           </div>
-          <div [class]="importType === 'json' ? 'chosen': ''" (click)="importType='json'">
+          <div [class]="importType === 'json' ? 'chosen json': 'json'" (click)="importType='json'">
             {{ 'WALLETNEW.IMPORTWALLET_FROM_JSON' | translate }}
           </div>
         </div>
