@@ -5,10 +5,14 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { EdenComponent } from './components/eden/eden.component';
 
 const routes: Routes = [{
     path: 'wallet',
     component: WalletComponent,
+}, {
+    path: 'eden',
+    component: EdenComponent,
 }, {
     path: 'tx-eden',
     component: TxEdenComponent,

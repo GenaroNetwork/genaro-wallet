@@ -1,18 +1,22 @@
 <ul nz-menu>
   <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'">
-    <i mat-icon>account_balance_wallet</i>
+    <i class="anticon anticon-wallet"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
+  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden'">
+    <i class="anticon anticon-folder"></i>
+    {{ "SIDERBAR.EDEN" | translate }}
+  </li>
   <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'">
-    <i mat-icon>storage</i>
+    <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'">
-    <i mat-icon>storage</i>
+    <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXSHARER" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'">
-    <i mat-icon>storage</i>
+    <i class="anticon anticon-database"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>
 </ul>
