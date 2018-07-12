@@ -247,6 +247,11 @@ export class TransactionService {
     return await web3.genaro.getStorageNodes(address);
   }
 
+  async getAddressByNodeId(nodeId: string) {
+    // @ts-ignore
+    return await web3.genaro.getAddressByNode(nodeId);
+  }
+
   async getHeft(address: string) {
     // @ts-ignore
     return await web3.genaro.getHeft(address, 'latest');

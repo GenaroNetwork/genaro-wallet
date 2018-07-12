@@ -17,6 +17,10 @@
             <nz-switch [(ngModel)]="tableOpt.statusColShow" nzSize="small"></nz-switch>
           </div> -->
         <div>
+          <label>{{ "DRIVE.ADDRESS" | translate}}</label>
+          <nz-switch [(ngModel)]="tableOpt.addressColShow" nzSize="small"></nz-switch>
+        </div>
+        <div>
           <label>{{ "DRIVE.UPTIME" | translate}}</label>
           <nz-switch [(ngModel)]="tableOpt.uptimeColShow" nzSize="small"></nz-switch>
         </div>

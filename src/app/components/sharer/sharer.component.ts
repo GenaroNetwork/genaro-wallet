@@ -35,6 +35,7 @@ export class SharerComponent implements OnInit {
     portColShow: true,
     sharedColShow: true,
     bridgesColShow: true,
+    addressColShow: false,
   };
 
 
