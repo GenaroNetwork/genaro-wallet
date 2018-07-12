@@ -211,19 +211,33 @@ export class SharerService {
     if (this.interval) {
       return;
     }
+    let datas = [];
     this.interval = setInterval(() => {
       let dnode = new Dnode(undefined, { weak: false });
       let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
       d.on('remote', (remote) => {
         remote.status((err, statuses) => {
           if (!err) {
-            let datas = [];
+            datas.forEach(d => {
+              d.delete = true;
+            });
+
             statuses.forEach(share => {
               let data: any = {},
                 config = share.config,
                 farmerState = share.meta.farmerState || {},
                 portStatus = farmerState.portStatus || {},
-                ntpStatus = farmerState.ntpStatus || {};
+                ntpStatus = farmerState.ntpStatus || {},
+                isNew = true;
+
+              datas.forEach(d => {
+                if(d.id == share.id) {
+                  data = d;
+                  data.delete = false;
+                  isNew = false;
+                }
+              });
+
               data.id = share.id;
               data.location = config.storagePath;
               data.shareBasePath = config.shareBasePath;
@@ -248,8 +262,14 @@ export class SharerService {
               data.deltaStatus = ntpStatus.status;
 
               data.show = false;
+              data.delete = false;
 
-              datas.push(data);
+              if(isNew) {
+                datas.push(data);
+              }
+            });
+            datas = datas.filter(d => {
+              return !d.delete;
             });
             this.driversData.next(datas);
           }
@@ -259,7 +279,7 @@ export class SharerService {
           d.end();
         });
       });
-    }, 3000);
+    }, 5000);
   };
 
   destroy(nodeId, cb) {
