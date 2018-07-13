@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { SettingService } from '../../services/setting.service';
 
 @Component({
   selector: 'app-siderbar',
@@ -8,9 +9,15 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class SiderbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public settingService: SettingService,
+  ) { }
 
   page: string = "/wallet";
+  open(url: string, string: string) {
+    return url.startsWith(string);
+  }
   ngOnInit() {
     this.router.events.subscribe(value => {
       if (!(value instanceof NavigationEnd)) return;

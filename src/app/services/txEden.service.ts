@@ -24,7 +24,7 @@ export class TxEdenService {
   private userSig: string = "";
   private walletAddr: string = "";
   private ipcId: number = 0;
-  public requestPassword: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public requestPassword: boolean = false;
   private async send(method, url, data, sig, pubKey) {
     if (!sig || !pubKey) {
       // return await this.send(method, url, data, sig, pubKey);
@@ -97,6 +97,8 @@ export class TxEdenService {
       ipcRenderer.send(`db.txeden.run`, this.ipcId++, `INSERT INTO txeden (address, tokens) VALUES ('${this.walletAddr}', '${JSON.stringify(sig)}')`);
     });
     ipcRenderer.send(`db.txeden.run`, this.ipcId++, `DELETE FROM txeden WHERE address='${this.walletAddr}'`);
+    this.getBuckets();
+    this.getUserInfo();
   }
 
   private checkSig(requestPassword: boolean = false) {
@@ -105,15 +107,13 @@ export class TxEdenService {
       if (this.bucketsSig && this.userSig && this.publicKey) return;
       ipcRenderer.on(`db.txeden.get.${this.ipcId}`, async (sender, data) => {
         if (!data) {
-          if (requestPassword) this.requestPassword.next(true);
-          rej();
+          if (requestPassword) this.requestPassword = true;
           return;
         }
         else {
           let sigs = JSON.parse(data.tokens);
           if (!sigs.publicKey || !sigs.publicKey || !sigs.userSig) {
-            if (requestPassword) this.requestPassword.next(true);
-            rej();
+            if (requestPassword) this.requestPassword = true;
             return;
           }
           this.publicKey = sigs.publicKey;
@@ -131,6 +131,11 @@ export class TxEdenService {
     this.bucketsSig = null;
     this.userSig = null;
     this.publicKey = null;
+  }
+
+  async getAll() {
+    this.getBuckets();
+    this.getUserInfo();
   }
 
   async getBuckets(requestPassword: boolean = false) {
@@ -152,19 +157,7 @@ export class TxEdenService {
     walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.changeAddr(wallet.address);
-      this.getBuckets(true);
-      this.getUserInfo(true);
-    });
-    txService.newBlockHeaders.subscribe(header => {
-      this.getBuckets();
-      this.getUserInfo();
-    });
-
-    this.requestPassword.subscribe(bool => {
-      if (!bool && this.publicKey && this.bucketsSig && this.userSig) {
-        this.getBuckets();
-        this.getUserInfo();
-      }
+      this.getAll();
     });
   }
 }

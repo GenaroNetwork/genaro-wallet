@@ -1,21 +1,61 @@
-<ul nz-menu>
-  <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'">
+<ul nz-menu nzMode="inline">
+  <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'" *ngIf="settingService.showWallet">
     <i class="anticon anticon-wallet"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden'">
-    <i class="anticon anticon-folder"></i>
-    {{ "SIDERBAR.EDEN" | translate }}
+  <li nz-submenu [nzOpen]="open(page,'/eden')" *ngIf="settingService.showEden">
+    <span title>
+      <i class="anticon anticon-folder"></i>
+      {{ "SIDERBAR.EDEN" | translate }}
+    </span>
+    <ul>
+      <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden'">
+        <i class="anticon anticon-file"></i>
+        {{ "SIDERBAR.EDEN_FILE" | translate }}
+      </li>
+      <li nz-submenu [nzOpen]="open(page,'/eden-upload')">
+        <span title>
+          <i class="anticon anticon-upload"></i>
+          {{ "SIDERBAR.EDEN_UPLOAD" | translate }}
+        </span>
+        <ul>
+          <li nz-menu-item [routerLink]="['/eden-upload-inprogress']" [nzSelected]="page==='/eden-upload-inprogress'">
+            <i class="anticon anticon-spin anticon-loading"></i>
+            {{ "SIDERBAR.EDEN_INPROGRESS" | translate }}
+          </li>
+          <li nz-menu-item [routerLink]="['/eden-upload-done']" [nzSelected]="page==='/eden-upload-done'">
+            <i class="anticon anticon-clock-circle-o"></i>
+            {{ "SIDERBAR.EDEN_DONE" | translate }}
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu [nzOpen]="open(page,'/eden-download')">
+        <span title>
+          <i class="anticon anticon-download"></i>
+          {{ "SIDERBAR.EDEN_DOWNLOAD" | translate }}
+        </span>
+        <ul>
+          <li nz-menu-item [routerLink]="['/eden-download-inprogress']" [nzSelected]="page==='/eden-download-inprogress'">
+            <i class="anticon anticon-spin anticon-loading"></i>
+            {{ "SIDERBAR.EDEN_INPROGRESS" | translate }}
+          </li>
+          <li nz-menu-item [routerLink]="['/eden-download-done']" [nzSelected]="page==='/eden-download-done'">
+            <i class="anticon anticon-clock-circle-o"></i>
+            {{ "SIDERBAR.EDEN_DONE" | translate }}
+          </li>
+        </ul>
+      </li>
+    </ul>
   </li>
-  <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'">
+  <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'" *ngIf="settingService.showTxEden">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'">
+  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.showTxSharer">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXSHARER" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'">
+  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.showSharer">
     <i class="anticon anticon-database"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>

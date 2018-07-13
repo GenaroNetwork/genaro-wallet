@@ -22,13 +22,13 @@
             <a>{{ "HEADER.CREATE_WALLET" | translate}}</a>
           </li>
           <li nz-menu-item>
-            <a>{{ "HEADER.SETTINGS" | translate}}</a>
+            <a (click)="dialogName='setting'">{{ "HEADER.SETTINGS" | translate}}</a>
           </li>
           <li nz-menu-item>
-            <a>{{ "HEADER.HELP" | translate}}</a>
+            <a (click)="dialogName='help'">{{ "HEADER.HELP" | translate}}</a>
           </li>
           <li nz-menu-item>
-            <a>{{ "HEADER.ABOUT" | translate}}</a>
+            <a (click)="dialogName='about'">{{ "HEADER.ABOUT" | translate}}</a>
           </li>
         </ul>
       </nz-dropdown>
@@ -36,3 +36,4 @@
   </div>
 </div>
 <app-walletNew *ngIf="walletNewShown" (stateChange)="walletNewShown=$event"></app-walletNew>
+<app-dialog [(name)]="dialogName"></app-dialog>

@@ -111,3 +111,71 @@
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
   </ng-container>
 </ng-template>
+
+
+<!-- eden 需要密码 -->
+<nz-modal nzTitle="{{ 'MODEL.EDEN_NEED_PASS' | translate }}" [nzVisible]="dialogName==='edenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input type="password" nzSize="large" [(ngModel)]="edenNeedPass">
+</nz-modal>
+
+
+<!-- tx eden 需要密码 -->
+<nz-modal nzTitle="{{ 'MODEL.TXEDEN_NEED_PASS' | translate }}" [nzVisible]="dialogName==='txEdenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()">
+  <input nz-input type="password" nzSize="large" [(ngModel)]="walletExportJson">
+</nz-modal>
+
+
+<!-- 设置 -->
+<nz-modal [nzTitle]="'HEADER.SETTINGS' | translate" [nzFooter]="null" [nzVisible]="dialogName==='setting'" (nzOnCancel)="dialogNameChange.emit(null)">
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.SHOW.WALLET' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-switch [(ngModel)]="settingService.showWallet"></nz-switch>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.SHOW.EDEN' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-switch [(ngModel)]="settingService.showEden"></nz-switch>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.SHOW.TXEDEN' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-switch [(ngModel)]="settingService.showTxEden"></nz-switch>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.SHOW.SHARER' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.SHOW.TXSHARER' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
+    </div>
+  </div>
+</nz-modal>
+
+
+<!-- 帮助 -->
+<nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
+</nz-modal>
+
+<!-- 关于 -->
+<nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
+</nz-modal>

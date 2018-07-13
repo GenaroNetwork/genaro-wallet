@@ -10,6 +10,7 @@ import { WalletService } from "../../services/wallet.service";
 export class HeaderComponent implements OnInit {
   walletNewShown: boolean = false;
   blockHeight: number = null;
+  dialogName: string = null;
   constructor(
     public txService: TransactionService, // 会在 html 中用到，
     public walletService: WalletService, // 会在 html 中用到，

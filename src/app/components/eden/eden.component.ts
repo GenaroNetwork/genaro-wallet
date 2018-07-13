@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { EdenService } from '../../services/eden.service';
 @Component({
   selector: 'app-eden',
   templateUrl: './eden.component.html',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EdenComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public edenService: EdenService,
+  ) {
+  }
+
+  edenNeedPass: string = null;
 
   ngOnInit() {
+    this.edenService.updateAll();
   }
 
 }

@@ -5,6 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { nextTick } from 'q';
 import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from "../../libs/config";
 import { TransactionService } from '../../services/transaction.service';
+import { EdenService } from '../../services/eden.service';
+import { TxEdenService } from '../../services/txEden.service';
+import { SettingService } from '../../services/setting.service';
 
 @Component({
   selector: 'app-dialog',
@@ -17,6 +20,9 @@ export class DialogComponent implements OnChanges {
     private alert: NzMessageService,
     private txService: TransactionService,
     private i18n: TranslateService,
+    private edenService: EdenService,
+    private txEdenService: TxEdenService,
+    public settingService: SettingService,
   ) { }
   @Input("name") dialogName: string = null;
   @Output("nameChange") dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -154,6 +160,20 @@ export class DialogComponent implements OnChanges {
         this.dialogNameChange.emit(null);
       }
     }
+  }
+
+
+  //eden 需要密码
+  edenNeedPass: string = "";
+  edenNeedPassDone() {
+    this.edenService.generateEnv(this.edenNeedPass);
+  }
+
+
+  //txeden 需要密码
+  txEdenNeedPass: string = "";
+  txEdenNeedPassDone() {
+    this.txEdenService.beforehandSign(this.txEdenNeedPass);
   }
 
 }

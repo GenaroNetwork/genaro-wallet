@@ -96,12 +96,18 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // tx sharer
   txSharerData: any[] = [];
-  txSharerSub: any;
+  txSharerSub1: any;
+  txSharerSub2: any;
   txSharerInit() {
-    this.txSharerSub = this.walletService.currentWallet.subscribe(async wallet => {
+    this.txSharerSub1 = this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.txSharerDataUpdate(wallet.address);
     });
+    this.txSharerSub2 = this.txService.newBlockHeaders.subscribe(() => {
+      let address = this.walletService.wallets.current;
+      if (!address) return;
+      this.txSharerDataUpdate(address);
+    })
   }
 
   txSharerChange() {
@@ -118,7 +124,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   })();
 
   txSharerDestroy() {
-    this.txSharerSub.unsubscribe();
+    this.txSharerSub1.unsubscribe();
+    this.txSharerSub2.unsubscribe();
   }
 
 

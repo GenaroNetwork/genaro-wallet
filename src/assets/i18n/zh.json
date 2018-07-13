@@ -51,7 +51,9 @@
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD": "请输入当前钱包密码",
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT": "请重新输入要修改的钱包密码",
     "WALLET_EXPORT_JSON": "导出JSON文件",
-    "WALLET_DELETE": "删除钱包"
+    "WALLET_DELETE": "删除钱包",
+    "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
+    "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。"
   },
   "FORM": {
     "ADDRESS": "地址",
@@ -74,8 +76,13 @@
   "SIDERBAR": {
     "WALLET": "我的钱包",
     "EDEN": "我的文件",
-    "SHARER": "我的分享",
+    "EDEN_FILE": "文件管理",
+    "EDEN_UPLOAD": "上传记录",
+    "EDEN_DOWNLOAD": "下载记录",
+    "EDEN_INPROGRESS": "进行中",
+    "EDEN_DONE": "已完成",
     "TXEDEN": "空间管理",
+    "SHARER": "我的分享",
     "TXSHARER": "数据栈管理"
   },
   "WALLET": {
@@ -152,6 +159,9 @@
     "BIND_NODE": "绑定节点",
     "HEFT": "当前权重： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>"
+  },
+  "EDEN": {
+    "BUCKET": "容器"
   },
   "DRIVE": {
     "CANCEL": "取消",
@@ -238,7 +248,7 @@
     },
     "TXEDEN": {
       "CREATE_TIME": "创建时间",
-      "BUCKET": "桶名称",
+      "BUCKET": "容器名",
       "USED_ALL_STORAGE": "已用空间/总空间",
       "COST": "花费",
       "LIMIT_TIME": "过期时间"

@@ -19,3 +19,16 @@
   margin: 1rem auto;
   color: $success-color;
 }
+
+.setting {
+  height: 3rem;
+  line-height: 3rem;
+  border-bottom: 1px solid #ccc;
+  margin: 0 1rem;
+  &:last-of-type {
+    border: none;
+  }
+  div:last-of-type {
+    text-align: right;
+  }
+}

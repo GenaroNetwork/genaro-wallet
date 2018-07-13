@@ -27,12 +27,10 @@ export class WalletNewComponent {
   }
 
   ALL_DONE() {
+    this.stateChangeEvent.emit(false);
     if (this.isEdit) {
       this.changeWalletName();
     }
-    this.stateChangeEvent.emit(false);
-    if (this.walletAddress && (this.password || this.oldPassword))
-      this.txEden.beforehandSign(this.walletAddress, this.password || this.oldPassword);
   }
 
   newWalletType: string = null;

@@ -67,6 +67,7 @@ export class TransactionService {
     if (this.retryConnect > 20) {
       alert(`Connect To Server Failed For Several Times.
       Please Check Your Connection.`);
+      this.retryConnect = 0;
     }
     web3Provider = new Web3.providers.WebsocketProvider(WEB3_URL);
     web3Provider.connection.onerror = () => {

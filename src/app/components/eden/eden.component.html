@@ -1,3 +1,4 @@
 <p>
   eden works!
 </p>
+<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv=false"></app-dialog>

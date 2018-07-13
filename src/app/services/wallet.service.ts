@@ -105,6 +105,10 @@ export class WalletService {
     return this.walletManager.validatePassword(address, password);
   }
 
+  getJson(address: string) {
+    return this.walletManager.exportJson(address);
+  }
+
   exportJson(address: string) {
     let path = remote.dialog.showSaveDialog({
       title: this.i18n.instant("COMMON.SELECT_SAVE_PATH"),

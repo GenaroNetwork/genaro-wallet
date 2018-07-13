@@ -34,7 +34,4 @@
 </div>
 <app-table name="txEden" [change]="tableChangeIndex"></app-table>
 <app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1"></app-dialog>
-<nz-modal [nzVisible]="txEden.requestPassword | async" [nzTitle]="null" (nzOnCancel)="requestPasswordCancel()" (nzOnOk)="requestPasswordDone()">
-  <p>请输入钱包密码</p>
-  <app-input name="password" [(ipt)]="requestPasswordValue"></app-input>
-</nz-modal>
+<app-dialog [name]="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false"></app-dialog>

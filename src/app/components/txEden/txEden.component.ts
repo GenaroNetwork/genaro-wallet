@@ -13,13 +13,13 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     private wallet: WalletService,
     public txEden: TxEdenService,
   ) {
+    this.txEden.getAll();
   }
 
   spacePer: number = 0;
   trafficPer: number = 0;
   spaceDetail: string = "";
   trafficDetail: string = "";
-  requestPasswordValue: string = "";
   dialogName: string = null;
   tableChangeIndex: number = 0;
 
@@ -43,17 +43,6 @@ export class TxEdenComponent implements OnInit, OnDestroy {
       this.spaceDetail = `${used / 1024 / 1024 / 1024}/${all / 1024 / 1024 / 1024}GB`;
 
     });
-  }
-
-  async requestPasswordDone() {
-    this.txEden.beforehandSign(this.requestPasswordValue);
-    this.txEden.getBuckets();
-    this.txEden.getUserInfo();
-    this.txEden.requestPassword.next(false);
-  }
-
-  requestPasswordCancel() {
-    this.txEden.requestPassword.next(false);
   }
 
   ngOnDestroy() {
