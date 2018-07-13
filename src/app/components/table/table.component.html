@@ -97,6 +97,7 @@
   <thead>
     <tr>
       <th *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
+      <th *ngIf="opt.addressColShow">{{ "DRIVE.ADDRESS" | translate}}</th>
       <th *ngIf="opt.statusColShow">{{ "DRIVE.STATUS" | translate}}</th>
       <th *ngIf="opt.uptimeColShow">{{ "DRIVE.UPTIME" | translate}}</th>
       <th *ngIf="opt.restartsColShow">{{ "DRIVE.RESTARTS" | translate}}</th>
@@ -120,6 +121,7 @@
           <span>{{data.location}}</span>
         </div>
       </td>
+      <td *ngIf="opt.addressColShow">{{data.address}}</td>
       <td *ngIf="opt.statusColShow">
         <span *ngIf="data.state === 0" class="text-gray">stopped</span>
         <span *ngIf="data.state === 1" class="text-green">running</span>

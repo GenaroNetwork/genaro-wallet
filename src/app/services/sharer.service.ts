@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ipcRenderer, shell } from "electron";
 import Dnode from "dnode";
 import prettyms from "pretty-ms";
+import { TransactionService } from './transaction.service';
 
 // usage
 let ipcId = 0;
@@ -261,6 +262,12 @@ export class SharerService {
               data.delta = ntpStatus.delta || '...';
               data.deltaStatus = ntpStatus.status;
 
+              if(!data.address) {
+                this.txService.getAddressByNodeId(data.id).then(val => {
+                  data.address = val;
+                });
+              }
+
               data.show = false;
               data.delete = false;
 
@@ -305,6 +312,8 @@ export class SharerService {
     shell.openItem(configPath);
   };
 
-  constructor() { }
+  constructor(
+    private txService: TransactionService
+  ) { }
 
 }

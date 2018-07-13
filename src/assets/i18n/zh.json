@@ -172,6 +172,7 @@
     "DRIVE_ID": "编号",
     "LOCATION": "位置",
     "NODE": "节点",
+    "ADDRESS": "钱包地址",
     "SHARED": "已分享",
     "UPTIME": "分享时间",
     "RESTARTS": "重启次数",
