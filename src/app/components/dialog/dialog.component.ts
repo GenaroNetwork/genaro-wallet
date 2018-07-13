@@ -9,12 +9,15 @@ import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 
+let version = require("../../../../package.json").version;
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnChanges {
+  public version = version;
   constructor(
     private walletService: WalletService,
     private alert: NzMessageService,

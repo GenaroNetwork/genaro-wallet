@@ -178,4 +178,5 @@
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
+  版本号： {{version}}
 </nz-modal>

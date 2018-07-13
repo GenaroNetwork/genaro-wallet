@@ -69,10 +69,22 @@ export class EdenService {
   updateBuckets(env) {
     env.getBuckets((err, result) => {
       if (err) throw new Error(err);
-      console.log(result);
+      console.log(env);
+      this.currentBuckets = [];
+      result.forEach(bucket => {
+        this.currentBuckets.push({
+          id: bucket.id,
+          name: bucket.name,
+          created: bucket.created,
+        });
+      });
     });
   }
   updateFiles(env) {
+    let bucket = this.currentBuckets.find(bucket => bucket.name === this.currentPath[0]);
+    if (!bucket) throw Error("没有bucket");
+    let bucketId = bucket.id;
+    env.listFiles(bucket, (err => { }));
   }
   updateView(env) {
 

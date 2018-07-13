@@ -41,47 +41,27 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   txData: any[];
   txDisplayData: any[];
   txType: string = "TYPE_ALL";
-  txNewBlocksSub: any;
-  txChangeWalletSub: any;
-  transactionInit() {
-    this.txUpdateData();
-    this.txNewBlocksSub = this.txService.newBlockHeaders.subscribe(async () => {
-      this.txUpdateData();
-    });
-    this.txChangeWalletSub = this.walletService.currentWallet.subscribe(wallet => {
-      if (!wallet) return;
-      this.txUpdateData();
-    });
-  }
-  transactionChange() {
-    this.txUpdateData();
-  }
-  transactionDestory() {
-    this.txNewBlocksSub.unsubscribe();
-    this.txChangeWalletSub.unsubscribe();
-  }
-
+  transactionChange = this.txUpdateData;
+  transactionWalletSub = this.txUpdateData;
+  transactionBlockSub = this.txUpdateData;
   async txUpdateData() {
-    this.walletService.currentWallet.subscribe(async wallet => {
-      if (!wallet) return;
-
-      // @ts-ignore
-      this.txData = await this.txdb.getTransactions(null, null);
-      let data = this.txData;
-      data = data.filter(tx => tx.addrFrom === wallet.address || tx.addrTo === wallet.address);
-      if (this.txType !== "TYPE_ALL") {
-        const types = {
-          "TYPE_SEND": "TRANSFER",
-          "TYPE_BUY_SPACE": "BUY_BUCKET",
-          "TYPE_BUY_TRAFFIC": "BUY_TRAFFIC",
-          "TYPE_STAKE": "STAKE_GNX",
-          "TYPE_BIND_NODE": "BIND_NODE",
-        }
-        data = data.filter(tx => tx.txType === types[this.txType]);
+    let address = this.walletService.wallets.current;
+    // @ts-ignore
+    this.txData = await this.txdb.getTransactions(null, null);
+    let data = this.txData;
+    data = data.filter(tx => tx.addrFrom === address || tx.addrTo === address);
+    if (this.txType !== "TYPE_ALL") {
+      const types = {
+        "TYPE_SEND": "TRANSFER",
+        "TYPE_BUY_SPACE": "BUY_BUCKET",
+        "TYPE_BUY_TRAFFIC": "BUY_TRAFFIC",
+        "TYPE_STAKE": "STAKE_GNX",
+        "TYPE_BIND_NODE": "BIND_NODE",
       }
-      data = data.sort((a, b) => b.created - a.created);
-      this.txDisplayData = data;
-    }).unsubscribe();
+      data = data.filter(tx => tx.txType === types[this.txType]);
+    }
+    data = data.sort((a, b) => b.created - a.created);
+    this.txDisplayData = data;
   }
   txGetBlockNumber(receipt) {
     if (!receipt) return "-";
@@ -94,48 +74,35 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   //txEden
 
+
   // tx sharer
   txSharerData: any[] = [];
-  txSharerSub1: any;
-  txSharerSub2: any;
-  txSharerInit() {
-    this.txSharerSub1 = this.walletService.currentWallet.subscribe(wallet => {
-      if (!wallet) return;
-      this.txSharerDataUpdate(wallet.address);
-    });
-    this.txSharerSub2 = this.txService.newBlockHeaders.subscribe(() => {
-      let address = this.walletService.wallets.current;
-      if (!address) return;
-      this.txSharerDataUpdate(address);
-    })
-  }
-
-  txSharerChange() {
-  }
-
-  txSharerDataUpdate = (() => {
-    let walletAddr = null;
-    return async (addr: string = null) => {
-      if (!addr) addr = walletAddr;
-      if (!addr) return;
-      let nodes = await this.txService.getNodes(addr);
-      this.txSharerData = nodes;
-    }
-  })();
-
-  txSharerDestroy() {
-    this.txSharerSub1.unsubscribe();
-    this.txSharerSub2.unsubscribe();
-  }
+  txSharerWalletSub = this.txSharerDataUpdate;
+  txSharerBlockSub = this.txSharerDataUpdate;
+  async txSharerDataUpdate() {
+    let address = this.walletService.wallets.current;
+    let nodes = await this.txService.getNodes(address);
+    this.txSharerData = nodes;
+  };
 
 
 
+  allWalletSub: any;
+  allBlockSub: any;
   ngOnInit() {
     if (this[`${this.name}Init`]) this[`${this.name}Init`]();
+    this.allWalletSub = this.walletService.currentWallet.subscribe(() => {
+      if (this[`${this.name}WalletSub`]) this[`${this.name}WalletSub`]();
+    });
+    this.allBlockSub = this.txService.newBlockHeaders.subscribe(() => {
+      if (this[`${this.name}BlockSub`]) this[`${this.name}BlockSub`]();
+    });
   }
 
   ngOnDestroy() {
     if (this[`${this.name}Destroy`]) this[`${this.name}Destroy`]();
+    this.allWalletSub.unsubscribe();
+    this.allBlockSub.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 const axios = require('axios');
 const secp256k1 = require('secp256k1');
@@ -16,15 +16,16 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
   providedIn: 'root'
 })
 export class TxEdenService {
-  public bucketList: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
-  public currentUser: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
+  public bucketList: any = null;
+  public currentUser: any = null;
+  public requestPassword: boolean = false;
 
   private publicKey: string = "";
   private bucketsSig: string = "";
   private userSig: string = "";
   private walletAddr: string = "";
   private ipcId: number = 0;
-  public requestPassword: boolean = false;
+
   private async send(method, url, data, sig, pubKey) {
     if (!sig || !pubKey) {
       // return await this.send(method, url, data, sig, pubKey);
@@ -101,19 +102,19 @@ export class TxEdenService {
     this.getUserInfo();
   }
 
-  private checkSig(requestPassword: boolean = false) {
+  private checkSig() {
     return new Promise((res, rej) => {
       if (!this.walletAddr) return;
       if (this.bucketsSig && this.userSig && this.publicKey) return;
       ipcRenderer.on(`db.txeden.get.${this.ipcId}`, async (sender, data) => {
         if (!data) {
-          if (requestPassword) this.requestPassword = true;
+          this.requestPassword = true;
           return;
         }
         else {
           let sigs = JSON.parse(data.tokens);
           if (!sigs.publicKey || !sigs.publicKey || !sigs.userSig) {
-            if (requestPassword) this.requestPassword = true;
+            this.requestPassword = true;
             return;
           }
           this.publicKey = sigs.publicKey;
@@ -134,30 +135,24 @@ export class TxEdenService {
   }
 
   async getAll() {
+    await this.checkSig();
     this.getBuckets();
     this.getUserInfo();
+    this.appRef.tick();
   }
 
-  async getBuckets(requestPassword: boolean = false) {
-    await this.checkSig(requestPassword);
+  async getBuckets() {
     let buckets = await this.send('GET', '/buckets', null, this.bucketsSig, this.publicKey);
-    this.bucketList.next(buckets);
+    this.bucketList = buckets;
   }
 
-  async getUserInfo(requestPassword: boolean = false) {
-    await this.checkSig(requestPassword);
+  async getUserInfo() {
     let user = await this.send('GET', '/user/0x' + this.walletAddr, null, this.userSig, this.publicKey);
-    this.currentUser.next(user);
+    this.currentUser = user;
   }
 
   constructor(
     private walletService: WalletService,
-    private txService: TransactionService,
-  ) {
-    walletService.currentWallet.subscribe(wallet => {
-      if (!wallet) return;
-      this.changeAddr(wallet.address);
-      this.getAll();
-    });
-  }
+    private appRef: ApplicationRef,
+  ) { }
 }

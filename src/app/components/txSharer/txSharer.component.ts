@@ -20,10 +20,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
-  ) {
-    this.walletSub = this.walletService.currentWallet.subscribe(this.updateValue);
-    this.newBlockSub = this.txService.newBlockHeaders.subscribe(this.updateValue)
-  }
+  ) { }
 
   updateValue() {
     let address = this.walletService.wallets.current;
@@ -58,6 +55,8 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   tableChangeIndex: number = 0;
 
   ngOnInit() {
+    this.walletSub = this.walletService.currentWallet.subscribe(() => this.updateValue());
+    this.newBlockSub = this.txService.newBlockHeaders.subscribe(() => this.updateValue());
   }
 
   ngOnDestroy() {
