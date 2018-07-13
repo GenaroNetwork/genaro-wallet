@@ -2,6 +2,8 @@ import { Injectable, ApplicationRef } from '@angular/core';
 import { Environment } from "libgenaro";
 import { WalletService } from './wallet.service';
 import { BRIDGE_API_URL } from '../libs/config';
+import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
+import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,8 @@ export class EdenService {
 
   constructor(
     private walletService: WalletService,
+    private messageService: NzMessageService,
+    private i18n: TranslateService,
     private appRef: ApplicationRef,
   ) {
     /*
@@ -35,11 +39,19 @@ export class EdenService {
   generateEnv(password: string) {
     let address = this.walletService.wallets.current;
     let json = this.walletService.getJson(address);
-    let env = new Environment({
-      bridgeUrl: BRIDGE_API_URL,
-      keyFile: json,
-      passphrase: password,
-    });
+    let env;
+    try {
+      env = new Environment({
+        bridgeUrl: BRIDGE_API_URL,
+        keyFile: json,
+        passphrase: password,
+      });
+    } catch (e) {
+      if (e.message.indexOf("passphrase mismatch") > -1) {
+        this.messageService.error(this.i18n.instant("ERROR.PASSWORD"));
+      }
+      return false;
+    }
     this.allEnvs[address] = env;
     this.requestEnv = false;
     this.updateAll();

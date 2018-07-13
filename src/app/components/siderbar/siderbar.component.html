@@ -13,34 +13,18 @@
         <i class="anticon anticon-file"></i>
         {{ "SIDERBAR.EDEN_FILE" | translate }}
       </li>
-      <li nz-submenu [nzOpen]="open(page,'/eden-upload')">
+      <li nz-submenu [nzOpen]="open(page,'/eden-history')">
         <span title>
-          <i class="anticon anticon-upload"></i>
-          {{ "SIDERBAR.EDEN_UPLOAD" | translate }}
+          <i class="anticon anticon-clock-circle-o"></i>
+          {{ "SIDERBAR.EDEN_TASK" | translate }}
         </span>
         <ul>
-          <li nz-menu-item [routerLink]="['/eden-upload-inprogress']" [nzSelected]="page==='/eden-upload-inprogress'">
+          <li nz-menu-item [routerLink]="['/eden-history-inprogress']" [nzSelected]="page==='/eden-history-inprogress'">
             <i class="anticon anticon-spin anticon-loading"></i>
             {{ "SIDERBAR.EDEN_INPROGRESS" | translate }}
           </li>
-          <li nz-menu-item [routerLink]="['/eden-upload-done']" [nzSelected]="page==='/eden-upload-done'">
-            <i class="anticon anticon-clock-circle-o"></i>
-            {{ "SIDERBAR.EDEN_DONE" | translate }}
-          </li>
-        </ul>
-      </li>
-      <li nz-submenu [nzOpen]="open(page,'/eden-download')">
-        <span title>
-          <i class="anticon anticon-download"></i>
-          {{ "SIDERBAR.EDEN_DOWNLOAD" | translate }}
-        </span>
-        <ul>
-          <li nz-menu-item [routerLink]="['/eden-download-inprogress']" [nzSelected]="page==='/eden-download-inprogress'">
-            <i class="anticon anticon-spin anticon-loading"></i>
-            {{ "SIDERBAR.EDEN_INPROGRESS" | translate }}
-          </li>
-          <li nz-menu-item [routerLink]="['/eden-download-done']" [nzSelected]="page==='/eden-download-done'">
-            <i class="anticon anticon-clock-circle-o"></i>
+          <li nz-menu-item [routerLink]="['/eden-history-done']" [nzSelected]="page==='/eden-history-done'">
+            <i class="anticon anticon-check-circle-o"></i>
             {{ "SIDERBAR.EDEN_DONE" | translate }}
           </li>
         </ul>

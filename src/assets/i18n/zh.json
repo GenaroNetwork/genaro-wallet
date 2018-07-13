@@ -77,8 +77,7 @@
     "WALLET": "我的钱包",
     "EDEN": "我的文件",
     "EDEN_FILE": "文件管理",
-    "EDEN_UPLOAD": "上传记录",
-    "EDEN_DOWNLOAD": "下载记录",
+    "EDEN_TASK": "任务列表",
     "EDEN_INPROGRESS": "进行中",
     "EDEN_DONE": "已完成",
     "TXEDEN": "空间管理",
@@ -262,13 +261,11 @@
     }
   },
   "ERROR": {
-    "TX": {
-      "PASSWORD": "密码输入错误",
-      "GAS": "燃料费太低",
-      "LIMIT": "GAS LIMIT 设置过低",
-      "BALANCE": "余额不足",
-      "OTHER": "错误:{{err}}"
-    }
+    "PASSWORD": "密码输入错误",
+    "GAS": "燃料费太低",
+    "LIMIT": "GAS LIMIT 设置过低",
+    "BALANCE": "余额不足",
+    "OTHER": "错误:{{err}}"
   }
 
 }

@@ -6,6 +6,7 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EdenComponent } from './components/eden/eden.component';
+import { TaskComponent } from './components/task/task.component';
 
 const routes: Routes = [{
     path: 'wallet',
@@ -13,6 +14,12 @@ const routes: Routes = [{
 }, {
     path: 'eden',
     component: EdenComponent,
+}, {
+    path: 'eden-history-inprogress',
+    component: TaskComponent,
+}, {
+    path: 'eden-history-done',
+    component: TaskComponent,
 }, {
     path: 'tx-eden',
     component: TxEdenComponent,

@@ -15,37 +15,42 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   staked: number = 0;
   stakeAll: number = 0;
   walletSub: any;
+  newBlockSub: any;
   stakeData: any;
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
   ) {
-    this.walletSub = this.walletService.currentWallet.subscribe(wallet => {
-      if (!wallet) return;
-      this.txService.getHeft(wallet.address).then(heft => {
-        if (!heft) return;
-        this.heft = Number(heft)
-      });
-      this.txService.getStake(wallet.address).then(val => {
-        if (!val) return;
-        this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
-      });
+    this.walletSub = this.walletService.currentWallet.subscribe(this.updateValue);
+    this.newBlockSub = this.txService.newBlockHeaders.subscribe(this.updateValue)
+  }
 
-      this.txService.getNodes(wallet.address).then(val => {
-        if (!val) return;
-        this.staked = val.length;
-      });
+  updateValue() {
+    let address = this.walletService.wallets.current;
+    if (!address) return;
+    this.txService.getHeft(address).then(heft => {
+      if (!heft) return;
+      this.heft = Number(heft)
+    });
+    this.txService.getStake(address).then(val => {
+      if (!val) return;
+      this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
+    });
 
-      fetch("http://118.31.61.119:8000/top-farmer").then(val => {
-        val.json().then(arr => {
-          let addr = wallet.address;
-          if (!addr.startsWith("0x")) addr = "0x" + addr;
-          let me = arr.filter(farmer => farmer.address === addr);
-          if (me.length === 0) this.heftRank = "300+";
-          else {
-            this.heftRank = me[0].order + 1;
-          }
-        });
+    this.txService.getNodes(address).then(val => {
+      if (!val) return;
+      this.staked = val.length;
+    });
+
+    fetch("http://118.31.61.119:8000/top-farmer").then(val => {
+      val.json().then(arr => {
+        let addr = address;
+        if (!addr.startsWith("0x")) addr = "0x" + addr;
+        let me = arr.filter(farmer => farmer.address === addr);
+        if (me.length === 0) this.heftRank = "300+";
+        else {
+          this.heftRank = me[0].order + 1;
+        }
       });
     });
   }
@@ -56,7 +61,8 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.walletSub.unsubscribe()
+    this.walletSub.unsubscribe();
+    this.newBlockSub.unsubscribe();
   }
 
 }

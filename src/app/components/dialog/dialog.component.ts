@@ -140,6 +140,23 @@ export class DialogComponent implements OnChanges {
     this.buySpaceStep++;
   }
 
+
+  //eden 需要密码
+  edenNeedPass: string = "";
+  edenNeedPassDone() {
+    return new Promise((res, rej) => {
+      if (this.edenService.generateEnv(this.edenNeedPass)) res();
+      else (rej());
+    })
+  }
+
+
+  //txeden 需要密码
+  txEdenNeedPass: string = "";
+  txEdenNeedPassDone() {
+    this.txEdenService.beforehandSign(this.txEdenNeedPass);
+  }
+
   // common
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (changes.dialogName) {
@@ -160,20 +177,6 @@ export class DialogComponent implements OnChanges {
         this.dialogNameChange.emit(null);
       }
     }
-  }
-
-
-  //eden 需要密码
-  edenNeedPass: string = "";
-  edenNeedPassDone() {
-    this.edenService.generateEnv(this.edenNeedPass);
-  }
-
-
-  //txeden 需要密码
-  txEdenNeedPass: string = "";
-  txEdenNeedPassDone() {
-    this.txEdenService.beforehandSign(this.txEdenNeedPass);
   }
 
 }

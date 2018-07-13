@@ -283,13 +283,16 @@ export class TransactionService {
 
 
   alertError(error: Error) {
-    if (error.message.indexOf("wrong passphrase") > -1) {
-      this.alert.error(this.i18n.instant("ERROR.TX.PASSWORD"));
+    if (!error) {
+      return;
+    } else if (!error.message) {
+      this.alert.error(error.toString());
+    } else if (error.message.indexOf("wrong passphrase") > -1) {
+      this.alert.error(this.i18n.instant("ERROR.PASSWORD"));
     } else if (error.message.indexOf("insufficient funds") > -1) {
-      this.alert.error(this.i18n.instant("ERROR.TX.BALANCE"));
+      this.alert.error(this.i18n.instant("ERROR.BALANCE"));
     } else {
-      debugger;
+      this.alert.error(error.message.toString());
     }
   }
-
 }

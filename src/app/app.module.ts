@@ -33,6 +33,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { TableComponent } from './components/table/table.component';
 import { CopyComponent } from './components/copy/copy.component';
 import { EdenComponent } from './components/eden/eden.component';
+import { TaskComponent } from './components/task/task.component';
 
 // services
 
@@ -66,6 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TxEdenComponent,
     WalletNewComponent,
     SharerComponent,
+    TaskComponent,
     // common component
     DialogComponent,
     FormComponent,
