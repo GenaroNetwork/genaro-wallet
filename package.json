@@ -20,7 +20,7 @@
     "postinstall": "npx electron-builder install-app-deps && node angular-support",
     "ng": "ng",
     "start": "cross-env NODE_ENV=development npm-run-all -p ng:serve electron:serve",
-    "build": "npm run electron:tsc && ng build",
+    "build": "npm run electron:tsc && ng build --source-map && npm version patch",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
     "ng:serve": "ng serve",
@@ -30,7 +30,7 @@
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
     "electron:mac": "npm run build:prod && npx electron-builder build --mac",
-    "electron:mac:dev": "npm run build:dev && npx electron-builder build --mac",
+    "electron:mac:dev": "npm run build && npx electron-builder build --mac",
     "test": "ng test",
     "e2e": "ng e2e"
   },
