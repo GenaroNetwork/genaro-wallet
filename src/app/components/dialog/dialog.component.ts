@@ -123,9 +123,15 @@ export class DialogComponent implements OnChanges {
   buySpacePassword: string = "";
   buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
+  buySpaceInit() {
+    this.buySpaceStep = 0;
+    this.buySpaceLimit = 0;
+    this.buySpaceRange = 0;
+    this.buySpacePassword = "";
+    this.buySpaceGas = [null, 2100000];
+  }
   async buySpaceSubmit() {
     let address = this.walletService.wallets.current;
-    debugger;
     await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
     this.buySpaceStep++;
   }
@@ -134,13 +140,18 @@ export class DialogComponent implements OnChanges {
   buyTrafficPassword: string = "";
   buyTrafficStep: number = 0;
   buyTraffic: number = 0;
-  TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
   buyTrafficGas: number[] = [null, 2100000];
+  TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
+  buyTrafficInit() {
+    this.buyTrafficPassword = "";
+    this.buyTrafficStep = 0;
+    this.buyTraffic = 0;
+    this.buyTrafficGas = [null, 2100000];
+  }
   async buyTrafficSubmit() {
-    debugger
     let address = this.walletService.wallets.current;
     await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
-    this.buySpaceStep++;
+    this.buyTrafficStep++;
   }
 
 

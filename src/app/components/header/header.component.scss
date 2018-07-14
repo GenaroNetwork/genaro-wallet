@@ -19,10 +19,8 @@
     float: right;
     &>* {
       float: left;
-      &.block-height {
-        margin-right: 2*$border-blank;
-      }
       &.menu {
+        margin-left: 2*$border-blank;
         margin-right: 2*$border-blank;
       }
     }

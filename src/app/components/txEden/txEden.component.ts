@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 
@@ -7,7 +7,7 @@ import { TxEdenService } from '../../services/txEden.service';
   templateUrl: './txEden.component.html',
   styleUrls: ['./txEden.component.scss']
 })
-export class TxEdenComponent implements OnInit, OnDestroy {
+export class TxEdenComponent implements OnInit {
 
   constructor(
     private wallet: WalletService,
@@ -25,29 +25,29 @@ export class TxEdenComponent implements OnInit, OnDestroy {
 
   userSub: any;
   bucketSub: any;
-  ngOnInit() {
-    this.userSub = this.txEden.currentUser.subscribe(user => {
-      if (!user) return;
-      this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes);
-      this.trafficDetail = `${user.usedDownloadBytes / 1024 / 1024 / 1024}/${user.limitBytes / 1024 / 1024 / 1024}GB`;
+  async ngOnInit() {
+    await this.txEden.getAll();
+    let user = this.txEden.currentUser;
+    let buckets = this.txEden.bucketList;
+    let allSpace = 0;
+    let usedSpace = 0;
+    buckets.forEach(bucket => {
+      allSpace += bucket.limitStorage;
+      usedSpace += (bucket.usedSpaceStorage || 0);
     });
-    this.bucketSub = this.txEden.bucketList.subscribe(buckets => {
-      if (!buckets) return;
-      let all = 0;
-      let used = 0;
-      buckets.forEach(bucket => {
-        all += bucket.limitStorage;
-        used += (bucket.usedStorage || 0);
-      });
-      this.spacePer = used * 100 / all;
-      this.spaceDetail = `${used / 1024 / 1024 / 1024}/${all / 1024 / 1024 / 1024}GB`;
-
-    });
-  }
-
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
-    this.bucketSub.unsubscribe();
+    this.spacePer = usedSpace * 100 / allSpace;
+    this.spaceDetail = `${(usedSpace || 0) / 1024 / 1024 / 1024}/${allSpace / 1024 / 1024 / 1024} GB`;
+    this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0;
+    this.trafficDetail = `${(user.usedDownloadBytes || 0) / 1024 / 1024 / 1024
+      }/${user.limitBytes / 1024 / 1024 / 1024} GB`;
+    if (!allSpace) {
+      this.spacePer = 0;
+      this.spaceDetail = "0/0 GB"
+    }
+    if (!user.limitBytes) {
+      this.trafficPer = 0;
+      this.trafficDetail = "0/0 GB"
+    }
   }
 
 }

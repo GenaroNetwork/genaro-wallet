@@ -12,9 +12,10 @@ import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 import { newWalletManager } from "jswallet-manager";
 
 let web3: Web3;
+let connectedWeb3: any = null;
 let web3Provider: any;
-
 const SyncTimer = 2000;
+const TIMEOUT_LIMIT = 10 * 1000;
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -31,11 +32,10 @@ export class TransactionService {
 
   ready: BehaviorSubject<boolean> = new BehaviorSubject(null);
   readyState: boolean = null;
-  connected: boolean = null;
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
   chainSyncing: any = [true, 0];
-  private retryConnect: number = 0;
   private walletManager: any;
+  private newBlockHeadersTimer = null;
 
   constructor(
     private transactionDb: TransactionDbService,
@@ -47,33 +47,23 @@ export class TransactionService {
     this.connect();
     this.ready.subscribe(async (state: boolean) => {
       this.readyState = state;
-      this.connected = state;
-
+      if (state === null) return;
       if (!LITE_WALLET) GethService.addFullNode();
-      if (state) {
-        this.afterConnected();
-        this.retryConnect = 0;
-      }
+      if (state) this.afterConnected();
       else {
-        try {
-          web3.eth.clearSubscriptions();
-        } catch (e) { }
+        this.newBlockHeaders.next(null);
+        web3.eth.clearSubscriptions();
       }
+    });
+
+    this.newBlockHeaders.subscribe(bh => {
+      this.keepConnect();
     });
   }
 
   async connect() {
-    this.retryConnect++;
-    if (this.retryConnect > 20) {
-      alert(`Connect To Server Failed For Several Times.
-      Please Check Your Connection.`);
-      this.retryConnect = 0;
-    }
+    this.ready.next(null);
     web3Provider = new Web3.providers.WebsocketProvider(WEB3_URL);
-    web3Provider.connection.onerror = () => {
-      this.ready.next(false);
-      this.connect();
-    };
     web3 = new Web3(web3Provider);
     try {
       await web3.eth.net.isListening();
@@ -85,7 +75,6 @@ export class TransactionService {
       this.ready.next(false);
       throw new Error("Can not connect to mordred."); // is lite wallet
     }
-
     try {
       await GethService.startGeth();
       web3 = new Web3(WEB3_URL);
@@ -97,6 +86,9 @@ export class TransactionService {
   }
 
   async afterConnected() {
+    this.keepConnect();
+    if (connectedWeb3) connectedWeb3.connection.close();
+    connectedWeb3 = web3Provider;
     let baseNumber = await web3.eth.getBlockNumber();
     let syncInterval = setInterval(async () => {
       let blockNumber = await web3.eth.getBlockNumber();
@@ -105,6 +97,7 @@ export class TransactionService {
         this.appRef.tick();
         return;
       }
+      this.keepConnect();
       let syncing: any = await web3.eth.isSyncing();
       if (syncing !== false) {
         this.chainSyncing = [true, syncing.currentBlock];
@@ -120,6 +113,14 @@ export class TransactionService {
         this.appRef.tick();
       });
     }, SyncTimer);
+  }
+
+  keepConnect() {
+    if (this.newBlockHeadersTimer !== null)
+      clearTimeout(this.newBlockHeadersTimer);
+    this.newBlockHeadersTimer = setInterval(() => {
+      this.ready.next(false);
+    }, TIMEOUT_LIMIT);
   }
 
   async getGas() {

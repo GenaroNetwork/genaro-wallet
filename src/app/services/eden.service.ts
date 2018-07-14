@@ -12,9 +12,9 @@ export class EdenService {
 
   allEnvs: any = {};
   requestEnv: boolean = false;
-  currentBuckets: any = null;
-  currentFiles: any = null;
-  currentView: any = null;
+  currentBuckets: any = [];
+  currentFiles: any = [];
+  currentView: any = [];
   currentPath: string[] = [];
 
   constructor(
@@ -58,18 +58,16 @@ export class EdenService {
   }
   updateAll() {
     let env = this.allEnvs[this.walletService.wallets.current];
+    this.updateBuckets(env);
+    this.updateFiles(env);
+  }
+  updateBuckets(env) {
     if (!env) {
       this.requestEnv = true;
       return;
     }
-    this.updateBuckets(env);
-    if (this.currentPath.length !== 0)
-      this.updateFiles(env);
-  }
-  updateBuckets(env) {
     env.getBuckets((err, result) => {
       if (err) throw new Error(err);
-      console.log(env);
       this.currentBuckets = [];
       result.forEach(bucket => {
         this.currentBuckets.push({
@@ -78,17 +76,55 @@ export class EdenService {
           created: bucket.created,
         });
       });
+      this.updateView();
     });
   }
   updateFiles(env) {
+    if (!env) {
+      this.requestEnv = true;
+      return;
+    }
+    if (this.currentPath.length === 0) {
+      this.currentFiles = [];
+      this.updateView();
+      return;
+    }
     let bucket = this.currentBuckets.find(bucket => bucket.name === this.currentPath[0]);
     if (!bucket) throw Error("没有bucket");
     let bucketId = bucket.id;
-    env.listFiles(bucket, (err => { }));
+    env.listFiles(bucketId, ((err, files) => { }));
   }
-  updateView(env) {
 
+  updateView() {
+    let view = [];
+    if (this.currentPath.length === 0) {
+      this.currentBuckets.forEach(bucket => {
+        let file = Object.assign({}, bucket);
+        file.type = "bucket";
+      });
+    } else { }
+    this.appRef.tick();
   }
-  changePath() { }
+  changePath(path: string[]) {
+    let currentPath = this.currentPath;
+    path.forEach(now => {
+      if (now === "/") {
+        currentPath = [];
+      } else if (now.startsWith("/")) {
+        currentPath = [now.substr(1)];
+      } else if (now === ".." || now === "../") {
+        currentPath.pop();
+      } else if (now.startsWith("../")) {
+        currentPath.pop();
+        currentPath.push(now.substr(3));
+      } else if (now === "." || now === "./") {
+        return;
+      } else if (now.startsWith("./")) {
+        currentPath.push(now.substr(3));
+      } else {
+        currentPath.push(now.substr(3));
+      }
+    });
+  }
 
 }

@@ -3,9 +3,13 @@
     <div class="logo"></div>
   </div>
   <div class="right">
-    <div class="block-height">
+    <span *ngIf="txService.readyState===null">正在连接，请稍候</span>
+    <span *ngIf="txService.readyState===false">连接已断开，
+      <a (click)="txService.connect()">重新连接</a>
+    </span>
+    <div class="block-height" *ngIf="txService.readyState===true">
       {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
-      <i *ngIf="txService.chainSyncing[0]" class="anticon  anticon-spin anticon-sync"></i>
+      <i *ngIf="txService.chainSyncing[0]" class="anticon anticon-spin anticon-sync"></i>
     </div>
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">

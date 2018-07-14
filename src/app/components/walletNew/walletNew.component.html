@@ -35,7 +35,7 @@
               <i mat-icon>refresh</i>
               {{ 'WALLETNEW.REGENERATE' | translate }}
             </button>
-            <button nz-button>
+            <button nz-button (click)="downloadMnemonic()">
               <i mat-icon>cloud_download</i>
               {{ 'COMMON.DOWNLOAD' | translate }}
             </button>

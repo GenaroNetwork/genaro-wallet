@@ -1,12 +1,10 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { clipboard } from "electron";
+import { clipboard, remote } from "electron";
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { remote } from "electron";
 import { readFileSync } from "fs";
 import { basename } from "path";
-import { TxEdenService } from '../../services/txEden.service';
 
 @Component({
   selector: 'app-walletNew',
@@ -22,7 +20,6 @@ export class WalletNewComponent {
     private wallet: WalletService,
     private alert: NzMessageService,
     private translate: TranslateService,
-    private txEden: TxEdenService,
   ) {
   }
 
@@ -85,6 +82,10 @@ export class WalletNewComponent {
 
   generateMnemonic() {
     this.mnemonic = this.wallet.generateMnemonic();
+  }
+
+  downloadMnemonic() {
+    remote.dialog.showSaveDialog({});
   }
 
   validateMnemonic() {

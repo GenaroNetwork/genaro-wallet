@@ -47,7 +47,7 @@
 
 
 <!-- 买空间买流量 -->
-<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="(txEdenService.bucketList | async) || []">
+<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
   <thead>
     <tr>
       <th></th>
