@@ -137,7 +137,7 @@ export default class {
             },
                 err => { },
                 () => {
-                    event.sender.send(`geth.runJS.${id}.end`);
+                    event.sender.send(`geth.runJS.${id}.done`);
                 }
             )
         });

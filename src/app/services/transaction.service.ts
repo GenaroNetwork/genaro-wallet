@@ -167,7 +167,7 @@ export class TransactionService {
     return new Promise((res, rej) => {
       let rawTx;
       try {
-        rawTx = this.walletManager.signTx(fromAddr, password, txOptions)
+        rawTx = this.walletManager.signTx(fromAddr, password, txOptions);
       } catch (e) {
         this.alertError(e);
         rej(e);
@@ -287,7 +287,7 @@ export class TransactionService {
     if (!error) {
       return;
     } else if (!error.message) {
-      this.alert.error(error.toString());
+      console.log(error);
     } else if (error.message.indexOf("wrong passphrase") > -1) {
       this.alert.error(this.i18n.instant("ERROR.PASSWORD"));
     } else if (error.message.indexOf("insufficient funds") > -1) {

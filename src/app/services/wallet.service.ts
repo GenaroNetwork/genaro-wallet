@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { newWalletManager, generateMnemonic, validateMnemonic } from "jswallet-manager";
 import { WALLET_CONFIG_PATH } from "../libs/config";
 import { BehaviorSubject } from 'rxjs';
-import { remote } from "electron";
+import { remote } from "electron"; // 有时间的话把界面功能同意挪到 component 中，service 不要涉及任何界面功能
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
@@ -13,8 +13,8 @@ import { TransactionService } from './transaction.service';
 })
 export class WalletService {
   private walletManager: any;
-  public walletList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  public currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
+  walletList: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   wallets: any = {
     current: null,
     all: {},
@@ -28,13 +28,20 @@ export class WalletService {
     this.walletManager = newWalletManager(WALLET_CONFIG_PATH);
     this.walletList.next(this.walletManager.listWallet());
     this.walletList.subscribe(walletList => {
+      // 删除不存在的钱包的签名
+      let addrArr = walletList.map(wallet => `'${wallet.address}'`);
+      let addrs = addrArr.join(",");
+
+      // 更改当前钱包
+      let allWallets = [];
+      walletList.forEach(wallet => {
+        allWallets[wallet.address] = wallet;
+      });
+      this.wallets.all = allWallets;
       if (walletList.length === 0) {
         this.currentWallet.next(null);
         return;
       }
-      walletList.forEach(wallet => {
-        this.wallets.all[wallet.address] = wallet;
-      });
       let currentAddress = this.wallets.current;
       if (currentAddress && walletList.find(wallet => wallet.address === currentAddress)) return;
       this.currentWallet.next(walletList[0]);

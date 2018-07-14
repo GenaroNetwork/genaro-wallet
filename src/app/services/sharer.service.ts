@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ipcRenderer, shell } from "electron";
+import { shell } from "electron";
 import Dnode from "dnode";
 import prettyms from "pretty-ms";
 import { TransactionService } from './transaction.service';
 
 // usage
-let ipcId = 0;
 function getPrivateKey() {
-  return ipcRenderer.sendSync("storj.lib.getPrivateKey", ipcId++);
+  return this.ipc.sendSync("storj.lib.getPrivateKey");
 }
 
 function getNodeID(key) {
-  return ipcRenderer.sendSync("storj.lib.getNodeID", ipcId++, [key]);
+  return this.ipc.sendSync("storj.lib.getNodeID", [key]);
 }
 
 function validateConfig(config) {
-  return ipcRenderer.sendSync("storj.lib.validateConfig", ipcId++, [config]);
+  return this.ipc.sendSync("storj.lib.validateConfig", [config]);
 }
 
 const path = require('path');
@@ -24,6 +23,7 @@ const fs = require('fs');
 const os = require('os');
 
 import { DAEMON_CONFIG } from "../libs/config";
+import { IpcService } from './ipc.service';
 
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
 try {
@@ -232,7 +232,7 @@ export class SharerService {
                 isNew = true;
 
               datas.forEach(d => {
-                if(d.id == share.id) {
+                if (d.id == share.id) {
                   data = d;
                   data.delete = false;
                   isNew = false;
@@ -262,7 +262,7 @@ export class SharerService {
               data.delta = ntpStatus.delta || '...';
               data.deltaStatus = ntpStatus.status;
 
-              if(!data.address) {
+              if (!data.address) {
                 this.txService.getAddressByNodeId(data.id).then(val => {
                   data.address = val;
                 });
@@ -271,7 +271,7 @@ export class SharerService {
               data.show = false;
               data.delete = false;
 
-              if(isNew) {
+              if (isNew) {
                 datas.push(data);
               }
             });
@@ -313,7 +313,8 @@ export class SharerService {
   };
 
   constructor(
-    private txService: TransactionService
+    private txService: TransactionService,
+    private ipc: IpcService,
   ) { }
 
 }

@@ -41,20 +41,18 @@ export class FormComponent implements OnInit {
   }
 
   // 压注
-  stakeType: number = 0;
+  stakeType: number = 0; // stake or unstake
   stakeStep: number = 0;
   stakeGNX: number = 0;
   stakeGas: number[] = [null, 2100000];
   stakePassword: string = "";
-  stakeConfirm() {
+  async  stakeConfirm() {
     switch (this.stakeType) {
       case 0:
-        this.walletService.currentWallet.subscribe(wallet => {
-          this.txService.stake(wallet.address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]).then(() => {
-            this.stakeStep++;
-            this.onSubmit.emit();
-          });
-        }).unsubscribe();
+        let address = this.walletService.wallets.current;
+        await this.txService.stake(address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]);
+        this.stakeStep++;
+        this.onSubmit.emit();
         break;
     }
   }
@@ -64,13 +62,11 @@ export class FormComponent implements OnInit {
   bindNodeId: string = "";
   bindNodeGas: number[] = [null, 2100000];
   bindNodePassword: string = "";
-  bindNodeConfirm() {
-    this.walletService.currentWallet.subscribe(wallet => {
-      this.txService.bindNode(wallet.address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]).then(() => {
-        this.bindNodeStep++;
-        this.onSubmit.emit();
-      });
-    }).unsubscribe();
+  async bindNodeConfirm() {
+    let address = this.walletService.wallets.current;
+    await this.txService.bindNode(address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]);
+    this.bindNodeStep++;
+    this.onSubmit.emit();
   }
 
 

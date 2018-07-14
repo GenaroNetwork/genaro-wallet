@@ -8,8 +8,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
-
-let version = require("../../../../package.json").version;
+import { remote } from "electron";
 
 @Component({
   selector: 'app-dialog',
@@ -17,7 +16,7 @@ let version = require("../../../../package.json").version;
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnChanges {
-  public version = version;
+  public version = remote.app.getVersion();
   constructor(
     private walletService: WalletService,
     private alert: NzMessageService,
@@ -128,7 +127,6 @@ export class DialogComponent implements OnChanges {
     this.buySpaceLimit = 0;
     this.buySpaceRange = 0;
     this.buySpacePassword = "";
-    this.buySpaceGas = [null, 2100000];
   }
   async buySpaceSubmit() {
     let address = this.walletService.wallets.current;
@@ -146,7 +144,6 @@ export class DialogComponent implements OnChanges {
     this.buyTrafficPassword = "";
     this.buyTrafficStep = 0;
     this.buyTraffic = 0;
-    this.buyTrafficGas = [null, 2100000];
   }
   async buyTrafficSubmit() {
     let address = this.walletService.wallets.current;

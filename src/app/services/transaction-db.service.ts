@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ipcRenderer } from 'electron';
 import { BehaviorSubject } from 'rxjs';
+import { IpcService } from './ipc.service';
 
 enum TXSTATE {
   INIT = 1,
@@ -20,12 +20,12 @@ const addr2hash = add => {
 })
 
 export class TransactionDbService {
-  
-  public table1: BehaviorSubject<any>
-  private ipcId: number = 0
 
-  constructor() { 
-    
+  public table1: BehaviorSubject<any>
+  constructor(
+    private ipc: IpcService,
+  ) {
+
   }
 
   /*
@@ -67,17 +67,11 @@ export class TransactionDbService {
   }
 
   private getRows(sql) {
-    return new Promise((res, rej) => {
-      ipcRenderer.on(`db.tx.all.${this.ipcId}`, (event, data) => { res(data) });
-      ipcRenderer.send("db.tx.all", this.ipcId++, sql);
-    });
+    return this.ipc.dbAll("tx", sql);
   }
 
   private runSql(sql) {
-    return new Promise((res, rej) => {
-      ipcRenderer.on(`db.tx.run.${this.ipcId}`, (event, data) => { res() });
-      ipcRenderer.send("db.tx.run", this.ipcId++, sql);
-    });
+    return this.ipc.dbRun("tx", sql);
   }
 
 }

@@ -26,17 +26,17 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     let address = this.walletService.wallets.current;
     if (!address) return;
     this.txService.getHeft(address).then(heft => {
-      if (!heft) return;
-      this.heft = Number(heft)
+      if (!heft) this.heft = 0;
+      else this.heft = Number(heft);
     });
     this.txService.getStake(address).then(val => {
-      if (!val) return;
-      this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
+      if (!val) this.stakeAll = 0;
+      else this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
     });
 
     this.txService.getNodes(address).then(val => {
-      if (!val) return;
-      this.staked = val.length;
+      if (!val) this.staked = 0;
+      else this.staked = val.length;
     });
 
     fetch("http://118.31.61.119:8000/top-farmer").then(val => {
