@@ -117,7 +117,7 @@ export class TxEdenService {
     if (force)
       this.requestPassword = true;
     else
-      this.requestPassword = this.requestPassword === false ? true : this.requestPassword;
+      this.requestPassword = this.requestPassword === null ? true : this.requestPassword;
     this.appRef.tick();
   }
 

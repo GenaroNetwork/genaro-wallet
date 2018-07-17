@@ -9,6 +9,7 @@ import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 import { remote } from "electron";
+import { SETTINGS } from "../../libs/config";
 
 @Component({
   selector: 'app-dialog',
@@ -16,7 +17,8 @@ import { remote } from "electron";
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnChanges {
-  public version = remote.app.getVersion();
+  version = remote.app.getVersion();
+  SETTINGS = SETTINGS;
   constructor(
     private walletService: WalletService,
     private alert: NzMessageService,
@@ -166,6 +168,17 @@ export class DialogComponent implements OnChanges {
   txEdenNeedPass: string = "";
   txEdenNeedPassDone() {
     this.txEdenService.beforehandSign(this.txEdenNeedPass);
+  }
+
+  // setting
+  settingGetLanguageName(lang) {
+    try {
+      let name = require(`../../../assets/i18n/${lang}.json`).LANGUAGE_NAME;
+      if (name) return name;
+      else return lang;
+    } catch (e) {
+      return lang;
+    }
   }
 
   // common

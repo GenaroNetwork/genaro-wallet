@@ -41,7 +41,6 @@ export class TransactionDbService {
     let addrFrom = addr2hash(transaction.from);
     let addrTo = addr2hash(transaction.to);
     const data = transaction.data ? `'${JSON.stringify(transaction.data)}'` : 'NULL'
-
     let sql = (`INSERT INTO transactions 
     (amount, created, addrFrom, gasLimit, gasPrice, txType, addrTo, state, transactionId, data)
     VALUES

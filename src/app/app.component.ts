@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AppConfig } from '../environments/environment';
+const LANGS = ["en", "zh"];
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,10 @@ import { AppConfig } from '../environments/environment';
 })
 export class AppComponent {
   constructor(public electronService: ElectronService,
-    private translate: TranslateService) {
-
-    translate.setDefaultLang('zh');
+    private i18n: TranslateService) {
+    this.i18n.addLangs(LANGS);
+    this.i18n.setDefaultLang('en');
+    console.log(this.i18n.getBrowserLang());
 
     if (electronService.isElectron()) {
     } else {

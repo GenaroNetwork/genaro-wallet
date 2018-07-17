@@ -32,6 +32,13 @@ export default class {
             tokens TEXT
         )`).run();
 
+        // settings
+        sql.setting = new DB(join(SQLITE_CONFIG_PATH, "setting.sqlite"));
+        sql.setting.prepare(`CREATE TABLE IF NOT EXISTS setting (
+            name TEXT,
+            value TEXT
+        )`).run();
+
         for (let name in sql) {
             let env = sql[name];
             ipcMain.on(`db.${name}.run`, (event, ipcId, sql) => {

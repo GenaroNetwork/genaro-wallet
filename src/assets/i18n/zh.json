@@ -1,4 +1,5 @@
 {
+  "LANGUAGE_NAME": "简体中文",
   "COMMON": {
     "COPY": "复制",
     "COPIED": "已复制",
@@ -8,7 +9,7 @@
     "UPLOADING": "上传中",
     "DOWNLOADED": "下载完成",
     "UPLOADED": "上传完成",
-    "ON_PROGRESS": "加载中",
+    "IN_PROCESS": "加载中",
     "CONFIRM": "确定",
     "CANCEL": "取消",
     "COMPLETE": "完成",
@@ -53,7 +54,17 @@
     "WALLET_EXPORT_JSON": "导出JSON文件",
     "WALLET_DELETE": "删除钱包",
     "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
-    "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。"
+    "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
+    "SETTING": {
+      "SHOW": {
+        "WALLET": "显示【我的钱包】",
+        "EDEN": "显示【我的文件】",
+        "TXEDEN": "显示【空间管理】",
+        "SHARER": "显示【数据站管理】",
+        "TXSHARER": "显示【我的分享】"
+      },
+      "LANGUAGE": "语言"
+    }
   },
   "FORM": {
     "ADDRESS": "地址",
@@ -65,7 +76,6 @@
     "PASSWORD": "密码"
   },
   "HEADER": {
-    "ICON": "假装这是一个icon",
     "BLOCK_HEIGHT": "区块高度",
     "NO_ACCOUNT": "无账号",
     "CREATE_WALLET": "新建钱包",
@@ -78,7 +88,7 @@
     "EDEN": "我的文件",
     "EDEN_FILE": "文件管理",
     "EDEN_TASK": "任务列表",
-    "EDEN_INPROGRESS": "进行中",
+    "EDEN_INPROCESS": "进行中",
     "EDEN_DONE": "已完成",
     "TXEDEN": "空间管理",
     "SHARER": "我的分享",
@@ -150,9 +160,9 @@
   "TXSHARER": {
     "STAKE": "押注",
     "UNSTAKE": "解除押注",
-    "STAKED": "已绑定节点",
-    "STAKEABLE": "可绑定节点总数",
-    "ALLSTAKEABLE": "可押注总节点",
+    "BINDED": "已绑定节点",
+    "BINDABLE": "可绑定节点总数",
+    "ALLBINDABLE": "可绑定总节点",
     "STAKE_GNX": "押注金额",
     "MAX_STAKE_NODE": "最多绑定节点数",
     "BIND_NODE": "绑定节点",
@@ -267,5 +277,4 @@
     "BALANCE": "余额不足",
     "OTHER": "错误:{{err}}"
   }
-
 }

@@ -129,15 +129,15 @@
 
 <!-- 设置 -->
 <nz-modal [nzTitle]="'HEADER.SETTINGS' | translate" [nzFooter]="null" [nzVisible]="dialogName==='setting'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <div nz-row class="setting">
+  <div nz-row class="setting" *ngIf="SETTINGS.showWallet[1]">
     <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.WALLET' | translate}}
+      {{ 'MODEL.SETTING.SHOW.WALLET' | translate }}
     </div>
     <div nz-col nzSpan="6">
       <nz-switch [(ngModel)]="settingService.showWallet"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting">
+  <div nz-row class="setting" *ngIf="SETTINGS.showEden[1]">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.EDEN' | translate}}
     </div>
@@ -145,7 +145,7 @@
       <nz-switch [(ngModel)]="settingService.showEden"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting">
+  <div nz-row class="setting" *ngIf="SETTINGS.showTxEden[1]">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.TXEDEN' | translate}}
     </div>
@@ -153,7 +153,7 @@
       <nz-switch [(ngModel)]="settingService.showTxEden"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting">
+  <div nz-row class="setting" *ngIf="SETTINGS.showSharer[1]">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.SHARER' | translate}}
     </div>
@@ -161,12 +161,22 @@
       <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting">
+  <div nz-row class="setting" *ngIf="SETTINGS.showTxSharer[1]">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.TXSHARER' | translate}}
     </div>
     <div nz-col nzSpan="6">
       <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
+    </div>
+  </div>
+  <div nz-row class="setting" *ngIf="SETTINGS.lang[1]">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.SETTING.LANGUAGE' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <nz-select [(ngModel)]="settingService.lang">
+        <nz-option *ngFor="let lang of i18n.getLangs()" [nzValue]="lang" [nzLabel]="settingGetLanguageName(lang)"></nz-option>
+      </nz-select>
     </div>
   </div>
 </nz-modal>

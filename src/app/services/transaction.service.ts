@@ -182,13 +182,13 @@ export class TransactionService {
       this.transactionDb.addNewTransaction(transactionType, txOptions)
       web3.eth.sendSignedTransaction(rawTx)
         .once('transactionHash', async hash => {
-          console.log('1 hash get, transaction sent: ' + hash)
+          console.log('hash get, transaction sent: ' + hash)
           await tdb.updateTxHash(txOptions.transactionId, hash)
           res();
         })
         .on('receipt', async receipt => {
           // will be fired once the receipt its mined
-          console.log('3 receipt mined, transaction success: ')
+          console.log('receipt mined, transaction success: ')
           console.log('receipt:\n' + JSON.stringify(receipt))
           await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt))
         })

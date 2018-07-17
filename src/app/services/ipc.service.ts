@@ -33,7 +33,7 @@ export class IpcService {
     });
   }
 
-  // 数据库相关
+  // 数据库相关(底层)
   private db(type: string, sql: string) {
     return this.ipcOnce(`db.${type}`, sql);
   }
@@ -51,6 +51,8 @@ export class IpcService {
   ethInit() {
 
   }
+
+  // 设置相关
 
   constructor() { }
 
