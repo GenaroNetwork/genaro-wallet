@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { NumberPipe } from './number.pipe';
+import { SpecialTxPipe } from './transaction.pipe';
 
-describe('Pipe: Numbere', () => {
+describe('Pipe: Transactione', () => {
   it('create an instance', () => {
-    let pipe = new NumberPipe();
+    let pipe = new SpecialTxPipe();
     expect(pipe).toBeTruthy();
   });
 });

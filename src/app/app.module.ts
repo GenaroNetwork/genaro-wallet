@@ -41,8 +41,8 @@ import { TaskComponent } from './components/task/task.component';
 // pipes
 import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { SafePipe } from './pipes/safe.pipe';
-import { NumberPipe, maxNode, E2t } from './pipes/number.pipe';
 import { TranserUnitPipe, ShortGNXPipe } from "./pipes/web3Util.pipe";
+import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
 
 
 // AoT requires an exported function for factories
@@ -78,10 +78,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ShortAddrPipe,
     ShortGNXPipe,
     SafePipe,
-    NumberPipe,
-    maxNode,
-    E2t,
+    maxNodePipe,
     TranserUnitPipe,
+    SpecialTxPipe,
   ],
   imports: [
     BrowserModule,

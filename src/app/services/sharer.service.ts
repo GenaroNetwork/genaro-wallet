@@ -4,121 +4,83 @@ import { shell } from "electron";
 import Dnode from "dnode";
 import prettyms from "pretty-ms";
 import { TransactionService } from './transaction.service';
-
-// usage
-function getPrivateKey() {
-  return this.ipc.sendSync("storj.lib.getPrivateKey");
-}
-
-function getNodeID(key) {
-  return this.ipc.sendSync("storj.lib.getNodeID", [key]);
-}
-
-function validateConfig(config) {
-  return this.ipc.sendSync("storj.lib.validateConfig", [config]);
-}
+import { DAEMON_CONFIG } from "../libs/config";
+import { IpcService } from './ipc.service';
 
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-
-import { DAEMON_CONFIG } from "../libs/config";
-import { IpcService } from './ipc.service';
-
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
-try {
-  mkdirPSync(BASE_PATH, null);
-} catch (error) { }
 const CONFIG_DIR = path.join(BASE_PATH, 'configs');
-try {
-  mkdirPSync(CONFIG_DIR, null);
-} catch (error) { }
 const LOG_DIR = path.join(BASE_PATH, 'logs');
-try {
-  mkdirPSync(LOG_DIR, null);
-} catch (error) { }
-
-function mkdirPSync(dirpath, made) {
-  if (!made) {
-    made = null;
-  }
-
-  dirpath = path.normalize(dirpath);
-  try {
-    fs.mkdirSync(dirpath);
-    made = made || dirpath;
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      made = mkdirPSync(path.dirname(dirpath), made);
-      mkdirPSync(dirpath, made);
-    } else {
-      let stat;
-      try {
-        stat = fs.statSync(dirpath);
-        if (!stat.isDirectory()) {
-          throw err;
-        }
-      } catch (err) {
-        throw err;
-      }
-    }
-  }
-  return made;
-}
-
-let configIds = [];
-function _initConfigs() {
-  fs.readdirSync(CONFIG_DIR).forEach(file => {
-    let fileobj = path.parse(file);
-    if (fileobj.ext === '.json' && fileobj.name.length === 40) {
-      configIds.push(fileobj.name);
-    }
-  });
-}
-_initConfigs();
-function _getConfigPathById(nodeId) {
-  return path.join(
-    CONFIG_DIR,
-    `${nodeId}.json`
-  );
-}
-
-function _remove(nodeId) {
-  const configPath = _getConfigPathById(nodeId)
-  fs.unlinkSync(configPath)
-}
-
-function _start(nodeId, cb) {
-  let dnode = new Dnode(undefined, { weak: false });
-  let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
-  d.on('remote', (remote) => {
-    let configPath = _getConfigPathById(nodeId);
-    remote.start(configPath, (err) => {
-      if (cb) {
-        cb(err);
-      }
-      d.end();
-    });
-  });
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharerService {
   public driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-
+  private configIds: any[] = [];
   private interval: any = null;
+  private mkdirPSync(dirpath, made) {
+    if (!made) made = null;
+    dirpath = path.normalize(dirpath);
+    try {
+      fs.mkdirSync(dirpath);
+      made = made || dirpath;
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        made = this.mkdirPSync(path.dirname(dirpath), made);
+        this.mkdirPSync(dirpath, made);
+      } else {
+        try {
+          let stat = fs.statSync(dirpath);
+          if (!stat.isDirectory()) {
+            throw err;
+          }
+        } catch (err) {
+          throw err;
+        }
+      }
+    }
+    return made;
+  }
+
+  private initConfigs() {
+    fs.readdirSync(CONFIG_DIR).forEach(file => {
+      let fileobj = path.parse(file);
+      if (fileobj.ext === '.json' && fileobj.name.length === 40) {
+        this.configIds.push(fileobj.name);
+      }
+    });
+  }
+
+  private getPrivateKey() {
+    return this.ipc.ipcSync("storj.lib.getPrivateKey");
+  }
+
+  private getNodeID(key) {
+    return this.ipc.ipcSync("storj.lib.getNodeID", [key]);
+  }
+
+  private validateConfig(config) {
+    return this.ipc.ipcSync("storj.lib.validateConfig", [config]);
+  }
+  private getConfigPathById(nodeId) {
+    return path.join(
+      CONFIG_DIR,
+      `${nodeId}.json`
+    );
+  }
 
   create(shareSize, shareUnit, shareBasePath) {
     let configFileDescriptor;
     let storPath;
     let config = DAEMON_CONFIG.prodConfig;
-    config.networkPrivateKey = getPrivateKey();
-    let nodeID = getNodeID(config.networkPrivateKey);
+    config.networkPrivateKey = this.getPrivateKey();
+    let nodeID = this.getNodeID(config.networkPrivateKey);
     config.storagePath = shareBasePath;
     try {
-      mkdirPSync(shareBasePath, null);
+      this.mkdirPSync(shareBasePath, null);
     } catch (err) { }
 
     if (config.storagePath === undefined || config.storagePath === '') {
@@ -139,7 +101,7 @@ export class SharerService {
     let configArray = JSON.stringify(config, null, 2).split('\n');
     let configBuffer = Buffer.from(configArray.join('\n'));
     try {
-      let err = validateConfig(config);
+      let err = this.validateConfig(config);
       if (err) {
         throw err;
       }
@@ -152,19 +114,34 @@ export class SharerService {
         fs.closeSync(configFileDescriptor);
       }
     }
-    _initConfigs();
+    this.initConfigs();
     return nodeID;
   };
 
+  private remove(nodeId) {
+    const configPath = this.getConfigPathById(nodeId)
+    fs.unlinkSync(configPath)
+  }
+
   start(nodeId, cb) {
-    _start(nodeId, cb);
-  };
+    let dnode = new Dnode(undefined, { weak: false });
+    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    d.on('remote', (remote) => {
+      let configPath = this.getConfigPathById(nodeId);
+      remote.start(configPath, (err) => {
+        if (cb) {
+          cb(err);
+        }
+        d.end();
+      });
+    });
+  }
 
   startAll(cb) {
     let errs = [];
-    let len = configIds.length;
-    configIds.forEach(nodeId => {
-      _start(nodeId, err => {
+    let len = this.configIds.length;
+    this.configIds.forEach(nodeId => {
+      this.start(nodeId, err => {
         if (err) {
           errs.push(err);
         }
@@ -294,7 +271,7 @@ export class SharerService {
     let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.destroy(nodeId, (err) => {
-        _remove(nodeId);
+        this.remove(nodeId);
         if (cb) {
           cb(err);
         }
@@ -308,13 +285,19 @@ export class SharerService {
   };
 
   openConfig(nodeId) {
-    const configPath = _getConfigPathById(nodeId);
+    const configPath = this.getConfigPathById(nodeId);
     shell.openItem(configPath);
   };
 
   constructor(
     private txService: TransactionService,
     private ipc: IpcService,
-  ) { }
-
+  ) {
+    try {
+      this.mkdirPSync(BASE_PATH, null);
+      this.mkdirPSync(LOG_DIR, null);
+      this.mkdirPSync(CONFIG_DIR, null);
+    } catch (error) { }
+    this.initConfigs();
+  }
 }

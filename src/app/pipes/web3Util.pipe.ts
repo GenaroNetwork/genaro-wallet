@@ -1,15 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { fromWei, toWei } from "web3-utils";
+import { fromWei, toWei, toBN } from "web3-utils";
 
 @Pipe({
-  name: "gnxunit",
+  name: "gnxUnit",
 })
 export class TranserUnitPipe implements PipeTransform {
-  transform(value: any, unitFrom: any = "wei", unitTo: any = "ether") {
+  transform(value: any, unitFrom: string = "wei", unitTo: string = "ether") {
     value = value.toString();
-    return fromWei(toWei(value, unitFrom), unitTo);
+    return fromWei(toWei(toBN(value), unitFrom), unitTo);
   }
 }
+
 @Pipe({
   name: "shortGNX",
 })

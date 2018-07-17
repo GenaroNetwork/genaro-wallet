@@ -22,7 +22,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
   ) { }
 
-  updateValue() {
+  async updateValue() {
     let address = this.walletService.wallets.current;
     if (!address) return;
     this.txService.getHeft(address).then(heft => {
@@ -33,23 +33,19 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       if (!val) this.stakeAll = 0;
       else this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
     });
-
     this.txService.getNodes(address).then(val => {
       if (!val) this.staked = 0;
       else this.staked = val.length;
     });
-
-    fetch("http://118.31.61.119:8000/top-farmer").then(val => {
-      val.json().then(arr => {
-        let addr = address;
-        if (!addr.startsWith("0x")) addr = "0x" + addr;
-        let me = arr.filter(farmer => farmer.address === addr);
-        if (me.length === 0) this.heftRank = "300+";
-        else {
-          this.heftRank = me[0].order + 1;
-        }
-      });
-    });
+    let res = await fetch("http://118.31.61.119:8000/top-farmer");
+    let json = await res.json();
+    let addr = address;
+    if (!addr.startsWith("0x")) addr = "0x" + addr;
+    let me = json.filter(farmer => farmer.address === addr);
+    if (me.length === 0) this.heftRank = "300+";
+    else {
+      this.heftRank = me[0].order + 1;
+    }
   }
 
   tableChangeIndex: number = 0;
