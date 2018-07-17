@@ -2,7 +2,7 @@ import { Injectable, ApplicationRef } from '@angular/core';
 import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from "../libs/config";
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid'
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
@@ -10,6 +10,7 @@ import { createHash } from 'crypto';
 import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
 import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 import { newWalletManager } from "jswallet-manager";
+import { nextTick } from 'q';
 
 let web3: Web3;
 let connectedWeb3: any = null;
@@ -34,7 +35,7 @@ export class TransactionService {
   readyState: boolean = null;
   newBlockHeaders: BehaviorSubject<any> = new BehaviorSubject(null);
   chainSyncing: any = [true, 0];
-  private walletManager: any;
+  walletManager: any;
   private newBlockHeadersTimer = null;
 
   constructor(

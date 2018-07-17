@@ -30,9 +30,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   constructor(
+    public el: ElementRef,
     public sharer: SharerService,
     public txdb: TransactionDbService,
-    public el: ElementRef,
     public txService: TransactionService,
     public walletService: WalletService,
     public txEdenService: TxEdenService,
@@ -72,7 +72,13 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txUpdateData();
   }
 
-  //txEden
+  // //txEden
+  // txEdenData: any = [];
+  // txEdenWalletSub = this.txEdenDataUpdate;
+  // txEdenBlockSub = this.txEdenDataUpdate;
+  // txEdenDataUpdate(){
+  //   this.txEdenData = this.txEdenService.bucketList;
+  // }
 
 
   // tx sharer

@@ -123,7 +123,7 @@
 <!-- tx eden 需要密码 -->
 <nz-modal nzTitle="{{ 'MODEL.TXEDEN_NEED_PASS' | translate }}" [nzVisible]="dialogName==='txEdenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <input nz-input type="password" nzSize="large" [(ngModel)]="walletExportJson">
+  <input nz-input type="password" nzSize="large" [(ngModel)]="txEdenNeedPass">
 </nz-modal>
 
 

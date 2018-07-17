@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { newWalletManager, generateMnemonic, validateMnemonic } from "jswallet-manager";
-import { WALLET_CONFIG_PATH } from "../libs/config";
+import { generateMnemonic, validateMnemonic } from "jswallet-manager";
 import { BehaviorSubject } from 'rxjs';
-import { remote } from "electron"; // 有时间的话把界面功能同意挪到 component 中，service 不要涉及任何界面功能
+import { remote } from "electron"; // 有时间的话把界面功能统一挪到 component 中，service 不要涉及任何界面功能
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
@@ -25,7 +24,7 @@ export class WalletService {
     private i18n: TranslateService,
     private txService: TransactionService,
   ) {
-    this.walletManager = newWalletManager(WALLET_CONFIG_PATH);
+    this.walletManager = this.txService.walletManager;
     this.walletList.next(this.walletManager.listWallet());
     this.walletList.subscribe(walletList => {
       // 删除不存在的钱包的签名
@@ -46,10 +45,12 @@ export class WalletService {
       if (currentAddress && walletList.find(wallet => wallet.address === currentAddress)) return;
       this.currentWallet.next(walletList[0]);
     });
+
     this.currentWallet.subscribe(wallet => {
       if (wallet) this.wallets.current = wallet.address;
       else this.wallets.current = null;
     });
+
     this.txService.newBlockHeaders.subscribe(async bh => {
       if (!bh) return;
       let address = this.wallets.current;
@@ -59,14 +60,10 @@ export class WalletService {
     });
   }
 
-  createWallet(mnemonic: string, password: string, name: string): Promise<any> {
-    return new Promise(res => {
-      setTimeout(() => {
-        let wallet = this.walletManager.importFromMnemonic(mnemonic, password, name);
-        this.walletList.next(this.walletManager.listWallet());
-        res(wallet);
-      }, 0);
-    });
+  async createWallet(mnemonic: string, password: string, name: string): Promise<any> {
+    let wallet = this.walletManager.importFromMnemonic(mnemonic, password, name);
+    this.walletList.next(this.walletManager.listWallet());
+    return wallet;
   }
 
   importWallet(json: any, password, name) {
@@ -89,7 +86,9 @@ export class WalletService {
   }
 
   changePassword(address: string, oldPassword: string, newPassword: string) {
+    console.log(this.walletManager.listWallet());
     this.walletManager.changePassword(address, oldPassword, newPassword);
+    console.log(this.walletManager.listWallet());
     this.walletList.next(this.walletManager.listWallet());
   }
 

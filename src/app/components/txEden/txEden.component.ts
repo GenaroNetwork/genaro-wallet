@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { WalletService } from '../../services/wallet.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TxEdenService } from '../../services/txEden.service';
+import { TransactionService } from '../../services/transaction.service';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-txEden',
   templateUrl: './txEden.component.html',
   styleUrls: ['./txEden.component.scss']
 })
-export class TxEdenComponent implements OnInit {
+export class TxEdenComponent implements OnInit, OnDestroy {
 
   constructor(
-    private wallet: WalletService,
+    private walletService: WalletService,
+    private txService: TransactionService,
     public txEden: TxEdenService,
   ) {
     this.txEden.getAll();
@@ -18,15 +20,25 @@ export class TxEdenComponent implements OnInit {
 
   spacePer: number = 0;
   trafficPer: number = 0;
-  spaceDetail: string = "";
-  trafficDetail: string = "";
+  spaceDetail: string = "0/0 GB";
+  trafficDetail: string = "0/0 GB";
   dialogName: string = null;
   tableChangeIndex: number = 0;
 
-  userSub: any;
-  bucketSub: any;
-  async ngOnInit() {
-    await this.txEden.getAll();
+  walletSub: any;
+  blockSub: any;
+  ngOnInit() {
+    this.txEdenUpdate();
+    this.blockSub = this.walletService.currentWallet.subscribe(() => {
+      this.txEdenUpdate();
+    });
+    this.walletSub = this.txService.newBlockHeaders.subscribe(() => {
+      this.txEdenUpdate(false);
+    });
+  }
+
+  async txEdenUpdate(force: boolean = true) {
+    await this.txEden.getAll(force);
     let user = this.txEden.currentUser;
     let buckets = this.txEden.bucketList;
     let allSpace = 0;
@@ -49,5 +61,12 @@ export class TxEdenComponent implements OnInit {
       this.trafficDetail = "0/0 GB"
     }
   }
+
+  ngOnDestroy() {
+    this.walletSub.unsubscribe();
+    this.blockSub.unsubscribe();
+  }
+
+
 
 }

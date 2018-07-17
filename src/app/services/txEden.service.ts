@@ -1,5 +1,4 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 const axios = require('axios');
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
@@ -17,7 +16,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 export class TxEdenService {
   public bucketList: any = [];
   public currentUser: any = {};
-  public requestPassword: boolean = false;
+  public requestPassword: boolean = null;
 
   private publicKey: string = "";
   private bucketsSig: string = "";
@@ -95,13 +94,13 @@ export class TxEdenService {
     this.getAll();
   }
 
-  private checkSig() {
+  private checkSig(force: boolean = false) {
     return new Promise(async (res, rej) => {
       if (this.bucketsSig && this.userSig && this.publicKey) res();
       let data: any = await this.ipc.dbGet("txeden", `SELECT * FROM txeden WHERE address='${this.walletService.wallets.current}'`);
       if (!data) {
-        this.requestPassword = true;
-        rej();
+        this.requestPass(force);
+        rej(new Error("Need Password"));
         return;
       }
       let sigs = JSON.parse(data.tokens);
@@ -112,27 +111,51 @@ export class TxEdenService {
     });
   }
 
+  private async requestPass(force: boolean = false) {
+    let delOldSql = `DELETE FROM txeden WHERE address='${this.walletService.wallets.current}'`;
+    await this.ipc.dbRun("txeden", delOldSql);
+    if (force)
+      this.requestPassword = true;
+    else
+      this.requestPassword = this.requestPassword === false ? true : this.requestPassword;
+    this.appRef.tick();
+  }
+
   async changeAddr(addr: string) {
     this.bucketsSig = null;
     this.userSig = null;
     this.publicKey = null;
   }
 
-  async getAll() {
-    await this.checkSig();
-    this.getBuckets();
-    this.getUserInfo();
-    this.appRef.tick();
+  async getAll(force: boolean = false) {
+    try {
+      await this.checkSig(force);
+      this.getBuckets(force);
+      this.getUserInfo(force);
+      this.appRef.tick();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  async getBuckets() {
-    let buckets = await this.send('GET', '/buckets', null, this.bucketsSig, this.publicKey);
-    this.bucketList = buckets;
+  async getBuckets(force: boolean = false) {
+    try {
+      let buckets = await this.send('GET', '/buckets', null, this.bucketsSig, this.publicKey);
+      this.bucketList = buckets;
+    } catch (e) {
+      if (e.message.indexOf("401") > -1)
+        this.requestPass(force);
+    }
   }
 
-  async getUserInfo() {
-    let user = await this.send('GET', '/user/0x' + this.walletService.wallets.current, null, this.userSig, this.publicKey);
-    this.currentUser = user;
+  async getUserInfo(force: boolean = false) {
+    try {
+      let user = await this.send('GET', '/user/0x' + this.walletService.wallets.current, null, this.userSig, this.publicKey);
+      this.currentUser = user;
+    } catch (e) {
+      if (e.message.indexOf("401") > -1)
+        this.requestPass(force);
+    }
   }
 
   constructor(

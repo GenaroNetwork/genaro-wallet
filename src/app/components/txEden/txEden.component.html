@@ -34,4 +34,4 @@
 </div>
 <app-table name="txEden" [change]="tableChangeIndex"></app-table>
 <app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1"></app-dialog>
-<app-dialog [name]="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false"></app-dialog>
+<app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false"></app-dialog>
