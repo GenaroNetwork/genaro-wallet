@@ -53,7 +53,9 @@ export class TransactionService {
       if (state) this.afterConnected();
       else {
         this.newBlockHeaders.next(null);
-        web3.eth.clearSubscriptions();
+        try {
+          web3.eth.clearSubscriptions();
+        } catch (e) { }
       }
     });
 

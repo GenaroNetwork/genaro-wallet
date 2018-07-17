@@ -61,13 +61,13 @@ export class WalletService {
   }
 
   async createWallet(mnemonic: string, password: string, name: string): Promise<any> {
-    let wallet = this.walletManager.importFromMnemonic(mnemonic, password, name);
+    let wallet = this.walletManager.importFromMnemonic(mnemonic, password, name, true);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
   }
 
   importWallet(json: any, password, name) {
-    let wallet = this.walletManager.importFromJson(json, password, name);
+    let wallet = this.walletManager.importFromJson(json, password, name, true);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
   }
