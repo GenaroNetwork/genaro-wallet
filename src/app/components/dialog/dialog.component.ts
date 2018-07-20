@@ -105,7 +105,7 @@ export class DialogComponent implements OnChanges {
   walletDeleteDone() {
     return new Promise((res, rej) => {
       let address = this.walletService.wallets.current;
-      if (!this.walletService.validatePassword(address, this.walletExportJson)) {
+      if (!this.walletService.validatePassword(address, this.walletDelete)) {
         this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
         rej("PASSWORD_ERROR_OLD");
         return;

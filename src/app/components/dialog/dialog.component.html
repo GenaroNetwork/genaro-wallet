@@ -32,7 +32,7 @@
 <nz-modal nzTitle="{{ 'MODEL.WALLET_DELETE' | translate }}" [nzVisible]="dialogName==='walletDelete'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
   <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
-    [(ngModel)]="walletExportJson">
+    [(ngModel)]="walletDelete">
 </nz-modal>
 
 <!-- 购买空间 -->
