@@ -1,5 +1,11 @@
 <div class="header">操作</div>
-<div class="content"></div>
+<div class="content" (contextmenu)="rightClick($event)">
+  <div *ngFor="let file of edenService.currentView; let i = index" [class]="'file ' + ((fileSelected.indexOf(i) > -1) ? 'selected' : '')"
+    (click)="click($event, i)" (dblclick)="dblclick()" (contextmenu)="rightClick($event)">
+    <i [class]="type2icon(file.type)"></i>
+    <div class="name">{{ file.name }}</div>
+  </div>
+</div>
 
 <app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv=false">
 </app-dialog>

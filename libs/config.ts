@@ -18,24 +18,24 @@ if (!existsSync(SQLITE_CONFIG_PATH)) mkdirSync(SQLITE_CONFIG_PATH);
 
 
 // all
-// export const SETTINGS = {
-//     showWallet: [true, false], // default editable
-//     showEden: [true, true],
-//     showTxEden: [true, true],
-//     showSharer: [true, true],
-//     showTxSharer: [true, true],
-//     lang: ['en', true],
-// }
-
-// wallet
 export const SETTINGS = {
     showWallet: [true, false], // default editable
-    showEden: [false, false],
+    showEden: [true, true],
     showTxEden: [true, true],
-    showSharer: [false, false],
+    showSharer: [true, true],
     showTxSharer: [true, true],
     lang: ['en', true],
 }
+
+// wallet
+// export const SETTINGS = {
+//     showWallet: [true, false], // default editable
+//     showEden: [false, false],
+//     showTxEden: [true, true],
+//     showSharer: [false, false],
+//     showTxSharer: [true, true],
+//     lang: ['en', true],
+// }
 
 
 // eden

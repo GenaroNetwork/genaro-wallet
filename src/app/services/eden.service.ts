@@ -23,13 +23,6 @@ export class EdenService {
     private i18n: TranslateService,
     private appRef: ApplicationRef,
   ) {
-    /*
-    
-    console.log(Environment);
-    v8::Local<v8::String> bridgeUrl = options->Get(Nan::New("bridgeUrl").ToLocalChecked()).As<v8::String>();
-    v8::Local<v8::String> key_file = options->Get(Nan::New("keyFile").ToLocalChecked()).As<v8::String>();
-    v8::Local<v8::String> passphrase = options->Get(Nan::New("passphrase").
-    */
     this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) return;
       this.updateAll();
@@ -56,11 +49,13 @@ export class EdenService {
     this.requestEnv = false;
     this.updateAll();
   }
+
   updateAll() {
     let env = this.allEnvs[this.walletService.wallets.current];
     this.updateBuckets(env);
-    this.updateFiles(env);
+    if (this.currentPath.length > 0) this.updateFiles(env);
   }
+
   updateBuckets(env) {
     if (!env) {
       this.requestEnv = true;
@@ -101,8 +96,14 @@ export class EdenService {
       this.currentBuckets.forEach(bucket => {
         let file = Object.assign({}, bucket);
         file.type = "bucket";
+        view.push(file);
       });
-    } else { }
+    } else {
+      this.currentFiles.forEach(file => {
+
+      });
+    }
+    this.currentView = view;
     this.appRef.tick();
   }
   changePath(path: string[]) {
@@ -125,6 +126,8 @@ export class EdenService {
         currentPath.push(now.substr(3));
       }
     });
+    this.currentPath = currentPath;
+    this.updateAll();
   }
 
 }

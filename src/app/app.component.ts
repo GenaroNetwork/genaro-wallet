@@ -13,7 +13,6 @@ export class AppComponent {
     private i18n: TranslateService) {
     this.i18n.addLangs(LANGS);
     this.i18n.setDefaultLang('en');
-    console.log(this.i18n.getBrowserLang());
 
     if (electronService.isElectron()) {
     } else {
