@@ -19,6 +19,19 @@ const LOG_DIR = path.join(BASE_PATH, 'logs');
 })
 export class SharerService {
   public driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public tableOpt: any = {
+    nodeColShow: true,
+    statusColShow: true,
+    uptimeColShow: true,
+    restartsColShow: false,
+    peersColShow: false,
+    allocsColShow: false,
+    deltaColShow: false,
+    portColShow: true,
+    sharedColShow: true,
+    bridgesColShow: true,
+    addressColShow: false
+  };
   private configIds: any[] = [];
   private interval: any = null;
   private mkdirPSync(dirpath, made) {

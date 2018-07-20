@@ -24,21 +24,6 @@ export class SharerComponent implements OnInit {
   visible: boolean = false;
   hiddenVisible: boolean = false;
 
-  tableOpt: any = {
-    nodeColShow: true,
-    statusColShow: true,
-    uptimeColShow: true,
-    restartsColShow: false,
-    peersColShow: false,
-    allocsColShow: false,
-    deltaColShow: false,
-    portColShow: true,
-    sharedColShow: true,
-    bridgesColShow: true,
-    addressColShow: false,
-  };
-
-
   selectFile() {
     var _this = this;
     dialog.showOpenDialog({

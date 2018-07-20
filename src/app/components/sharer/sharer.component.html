@@ -18,39 +18,39 @@
           </div> -->
         <div>
           <label>{{ "DRIVE.ADDRESS" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.addressColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.addressColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.UPTIME" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.uptimeColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.uptimeColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.RESTARTS" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.restartsColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.restartsColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.PEERS" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.peersColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.peersColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.ALLOCS" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.allocsColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.allocsColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.DELTA" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.deltaColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.deltaColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.PORT" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.portColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.portColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.SHARED" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.sharedColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.sharedColShow" nzSize="small"></nz-switch>
         </div>
         <div>
           <label>{{ "DRIVE.BRIDGES" | translate}}</label>
-          <nz-switch [(ngModel)]="tableOpt.bridgesColShow" nzSize="small"></nz-switch>
+          <nz-switch [(ngModel)]="sharer.tableOpt.bridgesColShow" nzSize="small"></nz-switch>
         </div>
       </ng-template>
     </div>
@@ -84,4 +84,4 @@
     </div>
   </div>
 </div>
-<app-table name="sharer" [opt]="tableOpt" (action)="tableAction($event)"></app-table>
+<app-table name="sharer" [opt]="sharer.tableOpt" (action)="tableAction($event)"></app-table>
