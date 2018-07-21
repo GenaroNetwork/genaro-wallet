@@ -14,6 +14,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   heftRank: string = "-";
   staked: number = 0;
   stakeAll: number = 0;
+  stakeAmount: number = 0;
   walletSub: any;
   newBlockSub: any;
   stakeData: any;
@@ -30,8 +31,14 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       else this.heft = Number(heft);
     });
     this.txService.getStake(address).then(val => {
-      if (!val) this.stakeAll = 0;
-      else this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
+      if (!val) {
+        this.stakeAll = 0;
+        this.stakeAmount = 0;
+      }
+      else {
+        this.stakeAll = Math.floor(Number(val) / STAKE_PER_NODE);
+        this.stakeAmount = Number(val);
+      }
     });
     this.txService.getNodes(address).then(val => {
       if (!val) this.staked = 0;
