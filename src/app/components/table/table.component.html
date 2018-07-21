@@ -83,6 +83,7 @@
       <th>{{ 'TABLE.TXSHARER.NODE_ID' | translate }}</th>
       <th>{{ 'TABLE.TXSHARER.STAKE_TIME' | translate }}</th>
       <th>{{ 'TABLE.TXSHARER.INCOME' | translate }}</th>
+      <th>{{ 'TABLE.TXSHARER.REMOVE_NODE' | translate }}</th>
     </tr>
   </thead>
   <tbody>
@@ -91,6 +92,14 @@
       <th>{{ data }}</th>
       <th>-</th>
       <th>-</th>
+      <th>
+        <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="removeNodePopover" nzTrigger="click" nzPlacement="bottomLeft">
+          {{ 'TXSHARER.REMOVE_NODE' | translate }}
+        </button>
+        <ng-template #removeNodePopover>
+          <app-form name="removeNode" [nodeId]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
+        </ng-template>
+      </th>
     </tr>
   </tbody>
 </nz-table>

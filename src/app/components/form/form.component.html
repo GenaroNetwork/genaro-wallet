@@ -42,3 +42,15 @@
     <i class="anticon anticon-check-circle"></i>
   </div>
 </ng-container>
+
+<!-- 解绑节点 -->
+<ng-container *ngIf="name==='removeNode'">
+  <div *ngIf="removeNodeStep===0" class="bind-node">
+    <app-input name="gas" [(ipt)]="removeNodeGas" [span]="[6,14]"></app-input>
+    <app-input name="password" [(ipt)]="removeNodePassword" [span]="[6,14]"></app-input>
+    <app-input name="confirm" (iptChange)="removeNodeConfirm()"></app-input>
+  </div>
+  <div *ngIf="removeNodeStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </div>
+</ng-container>

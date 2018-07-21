@@ -270,6 +270,17 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'BIND_NODE');
   }
 
+  async removeNode(address: string, password: string, nodeId: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: "0xe",
+      nodeId: nodeId
+    }
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'REMOVE_NODE');
+  }
+
   async getNodes(address: string) {
     // @ts-ignore
     return await web3.genaro.getStorageNodes(address);

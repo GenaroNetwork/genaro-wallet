@@ -168,7 +168,8 @@
     "BIND_NODE": "Bind node",
     "HEFT": "Current heft： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "Heft rank： <span>{{ rank }}<span> 名</span></span>",
-    "STAKE_AMOUNT": "Stake amount：<span>{{ stake }}<span> GNX</span></span>"
+    "STAKE_AMOUNT": "Stake amount：<span>{{ stake }}<span> GNX</span></span>",
+    "REMOVE_NODE": "remove"
   },
   "EDEN": {
     "BUCKET": "Bucket"
@@ -268,7 +269,8 @@
       "STATE": "State",
       "NODE_ID": "Node ID",
       "STAKE_TIME": "Stake time",
-      "INCOME": "Income"
+      "INCOME": "Income",
+      "REMOVE_NODE": "Unbind node"
     }
   },
   "ERROR": {

@@ -11,6 +11,7 @@ export class FormComponent implements OnInit {
 
   @Input("name") name: string = null;
   @Input("opts") options: any = {};
+  @Input("nodeId") nodeId: string = null;
 
   @Output("submit") onSubmit: EventEmitter<any> = new EventEmitter;
   @Output("cancel") onCancel: EventEmitter<any> = new EventEmitter;
@@ -69,7 +70,17 @@ export class FormComponent implements OnInit {
     this.onSubmit.emit();
   }
 
-
+  // 解绑节点
+  removeNodeStep: number = 0;
+  removeNodeId: string = "";
+  removeNodeGas: number[] = [null, 2100000];
+  removeNodePassword: string = "";
+  async removeNodeConfirm() {
+    let address = this.walletService.wallets.current;
+    await this.txService.removeNode(address, this.removeNodePassword, this.removeNodeId, this.removeNodeGas[1], this.removeNodeGas[0]);
+    this.removeNodeStep++;
+    this.onSubmit.emit();
+  }
 
   constructor(
     private txService: TransactionService,
@@ -77,6 +88,10 @@ export class FormComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    if (this.name === "removeNode") {
+      this.removeNodeId = this.nodeId;
+    }
+  }
 
 }

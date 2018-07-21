@@ -168,7 +168,8 @@
     "BIND_NODE": "绑定节点",
     "HEFT": "当前权重： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>",
-    "STAKE_AMOUNT": "押注总额：<span>{{ stake }}<span> GNX</span></span>"
+    "STAKE_AMOUNT": "押注总额：<span>{{ stake }}<span> GNX</span></span>",
+    "REMOVE_NODE": "解绑"
   },
   "EDEN": {
     "BUCKET": "容器"
@@ -268,7 +269,8 @@
       "STATE": "状态",
       "NODE_ID": "节点 ID",
       "STAKE_TIME": "抵押时间",
-      "INCOME": "收益"
+      "INCOME": "收益",
+      "REMOVE_NODE": "解绑节点"
     }
   },
   "ERROR": {
