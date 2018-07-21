@@ -12,6 +12,7 @@
   margin-bottom: 1rem;
   overflow: visible;
   .card {
+    $font-size: 1.75rem;
     flex: 0 26rem;
     margin-right: $border-blank;
     background: $content-bg;
@@ -21,7 +22,6 @@
     &.info {
       padding: 1rem 2rem;
       div {
-        $font-size: 1.75rem;
         $div-height: 3rem;
         vertical-align: bottom;
         height: $div-height;
@@ -41,9 +41,15 @@
       display: flex;
       flex-direction: column;
       .status {
+        font-size: 1rem;
         flex: 2;
         line-height: 8rem;
         padding-left: 2rem;
+        .stake-percent {
+          font-size: $font-size;
+          line-height: $font-size;
+          color: $theme-color;
+        }
       }
       .opera {
         flex: 1;

@@ -89,3 +89,5 @@ export { WEB3_URL, STX_ADDR };
 
 export const BRIDGE_API_URL = 'http://118.31.61.119:8080';
 export const DAEMON_CONFIG = require("./DAEMON_CONFIG.json");
+
+export const SENTINEL_WEB = 'http://118.31.61.119:8001';

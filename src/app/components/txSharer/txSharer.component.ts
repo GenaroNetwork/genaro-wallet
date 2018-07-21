@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
-import { STAKE_PER_NODE } from "../../libs/config";
+import { STAKE_PER_NODE, SENTINEL_WEB } from "../../libs/config";
+import { shell } from "electron";
 
 @Component({
   selector: 'app-txSharer',
@@ -56,6 +57,10 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   }
 
   tableChangeIndex: number = 0;
+
+  openSentinel() {
+    shell.openExternal(SENTINEL_WEB);
+  }
 
   ngOnInit() {
     this.walletSub = this.walletService.currentWallet.subscribe(() => this.updateValue());
