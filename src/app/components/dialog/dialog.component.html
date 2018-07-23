@@ -39,8 +39,8 @@
 <nz-modal [nzVisible]="dialogName==='buySpace'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.BUY_SPACE' | translate"
   [nzFooter]="buySpaceFooter" class="buy-space">
   <ng-container *ngIf="buySpaceStep===0">
-    <app-input name="spaceRange" (iptChange)="buySpaceRange=$event"></app-input>
-    <app-input name="spaceLimit" (iptChange)="buySpaceLimit=$event"></app-input>
+    <app-input name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
+    <app-input name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
     <app-input name="gas" [(ipt)]="buySpaceGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">

@@ -22,14 +22,6 @@ export class InputComponent implements OnInit {
   gasDefault: number = 1;
   gasMarks: {};
 
-  // 买空间/流量
-  spaceLimitValue: number = 0;
-  spaceLimitUnit: number = 30;
-  spaceRangeValue: number = 0;
-  spaceRangeUnit: number = 1;
-  trafficValue: number = 0;
-  trafficUnit: number = 1;
-
   constructor(
     public i18n: TranslateService,
     public txService: TransactionService,
@@ -53,12 +45,8 @@ export class InputComponent implements OnInit {
         this.gasLimit = this.ngModel[1];
       this.ngModelChange.emit([this.gasDefault, this.gasLimit]);
     }
-    else if (this.name === "buyTraffic") {
-      if (this.ngModel && this.ngModel[0])
-        this.trafficValue = this.ngModel[0];
-      if (this.ngModel && this.ngModel[1])
-        this.trafficUnit = this.ngModel[1];
-      this.ngModelChange.emit([this.trafficValue, this.trafficUnit]);
+    else if (this.name === "buyTraffic" || this.name === "spaceRange" || this.name === "spaceLimit") {
+      this.ngModelChange.emit([this.ngModel[0], this.ngModel[1]]);
     }
   }
 
