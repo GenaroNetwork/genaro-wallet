@@ -110,10 +110,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buyTraffic">
-      <input nz-input type="text" [(ngModel)]="trafficValue" (input)="ngModelChange.emit($event.target.value * trafficUnit)">
+      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buyTraffic>
-      <nz-select [(ngModel)]="trafficUnit" (ngModelChange)="ngModelChange.emit(trafficValue * $event)">
+      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
         <nz-option nzLabel="GB" [nzValue]="1"></nz-option>
         <nz-option nzLabel="TB" [nzValue]="1024"></nz-option>
       </nz-select>

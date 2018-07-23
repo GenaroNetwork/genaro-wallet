@@ -53,6 +53,13 @@ export class InputComponent implements OnInit {
         this.gasLimit = this.ngModel[1];
       this.ngModelChange.emit([this.gasDefault, this.gasLimit]);
     }
+    else if (this.name === "buyTraffic") {
+      if (this.ngModel && this.ngModel[0])
+        this.trafficValue = this.ngModel[0];
+      if (this.ngModel && this.ngModel[1])
+        this.trafficUnit = this.ngModel[1];
+      this.ngModelChange.emit([this.trafficValue, this.trafficUnit]);
+    }
   }
 
 }

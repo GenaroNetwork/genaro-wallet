@@ -80,7 +80,7 @@
 <nz-modal [nzVisible]="dialogName==='buyTraffic'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate"
   [nzFooter]="buyTrafficFooter" class="buy-traffic">
   <ng-container *ngIf="buyTrafficStep===0">
-    <app-input name="traffic" (iptChange)="buyTraffic=$event"></app-input>
+    <app-input name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
     <app-input name="gas" [(ipt)]="buyTrafficGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">

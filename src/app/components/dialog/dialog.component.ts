@@ -140,12 +140,14 @@ export class DialogComponent implements OnChanges {
   buyTrafficPassword: string = "";
   buyTrafficStep: number = 0;
   buyTraffic: number = 0;
+  buyTrafficParams: number[] = [0, 1];
   buyTrafficGas: number[] = [null, 2100000];
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
   buyTrafficInit() {
     this.buyTrafficPassword = "";
     this.buyTrafficStep = 0;
     this.buyTraffic = 0;
+    this.buyTrafficParams = [0, 1];
   }
   async buyTrafficSubmit() {
     let address = this.walletService.wallets.current;
