@@ -16,7 +16,7 @@ let web3: Web3;
 let connectedWeb3: any = null;
 let web3Provider: any;
 const SyncTimer = 2000;
-const TIMEOUT_LIMIT = 10 * 1000;
+const TIMEOUT_LIMIT = 30 * 1000;
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -121,7 +121,7 @@ export class TransactionService {
   keepConnect() {
     if (this.newBlockHeadersTimer !== null)
       clearTimeout(this.newBlockHeadersTimer);
-    this.newBlockHeadersTimer = setInterval(() => {
+    this.newBlockHeadersTimer = setTimeout(() => {
       this.ready.next(false);
     }, TIMEOUT_LIMIT);
   }
