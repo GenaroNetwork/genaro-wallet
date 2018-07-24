@@ -13,21 +13,13 @@
         <i class="anticon anticon-file"></i>
         {{ "SIDERBAR.EDEN_FILE" | translate }}
       </li>
-      <li nz-submenu [nzOpen]="open(page,'/eden-history')">
-        <span title>
-          <i class="anticon anticon-clock-circle-o"></i>
-          {{ "SIDERBAR.EDEN_TASK" | translate }}
-        </span>
-        <ul>
-          <li nz-menu-item [routerLink]="['/eden-history-inprogress']" [nzSelected]="page==='/eden-history-inprogress'">
-            <i class="anticon anticon-spin anticon-loading"></i>
-            {{ "SIDERBAR.EDEN_INPROGRESS" | translate }}
-          </li>
-          <li nz-menu-item [routerLink]="['/eden-history-done']" [nzSelected]="page==='/eden-history-done'">
-            <i class="anticon anticon-check-circle-o"></i>
-            {{ "SIDERBAR.EDEN_DONE" | translate }}
-          </li>
-        </ul>
+      <li nz-menu-item [routerLink]="['/eden-inprocess']" [nzSelected]="page==='/eden-inprocess'">
+        <i class="anticon anticon-spin anticon-loading"></i>
+        {{ "SIDERBAR.EDEN_INPROCESS" | translate }}
+      </li>
+      <li nz-menu-item [routerLink]="['/eden-done']" [nzSelected]="page==='/eden-done'">
+        <i class="anticon anticon-check-circle-o"></i>
+        {{ "SIDERBAR.EDEN_DONE" | translate }}
       </li>
     </ul>
   </li>

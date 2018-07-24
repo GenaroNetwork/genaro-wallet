@@ -43,7 +43,8 @@ export class IpcService {
   dbGet(table: string, sql) {
     return this.db(`${table}.get`, sql);
   }
-  dbAll(table: string, sql) {
+  dbAll(table: string, sql): Promise<any[]> {
+    // @ts-ignore
     return this.db(`${table}.all`, sql);
   }
 

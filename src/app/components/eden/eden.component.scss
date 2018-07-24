@@ -10,13 +10,40 @@
 }
 
 .header {
+  $line-height: 3rem;
   flex: 0 0 3rem;
-  line-height: 3rem;
+  line-height: $line-height;
+  padding: 0 1rem;
+  nz-breadcrumb {
+    float: left;
+    height: $line-height;
+    line-height: $line-height;
+    nz-breadcrumb-item {
+      span {
+        cursor: pointer;
+        &:hover {
+          color: $theme-color;
+        }
+      }
+      ::ng-deep .ant-breadcrumb-separator {
+        margin: 0;
+      }
+    }
+  }
+  .opera {
+    float: right;
+    overflow: hidden;
+    button {
+      margin: 0 0 0 1rem;
+    }
+  }
 }
 
 .content {
   flex: 1 1;
   padding: 1rem;
+  overflow: auto;
+  position: relative;
   .file {
     float: left;
     height: 8rem;
@@ -40,10 +67,18 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      user-select: none;
     }
     &.selected {
       border-style: solid;
       border-color: $theme-color;
     }
+  }
+  .loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }

@@ -172,7 +172,15 @@
     "REMOVE_NODE": "解绑"
   },
   "EDEN": {
-    "BUCKET": "容器"
+    "HOME_DIR": "根目录",
+    "BUCKET": "容器",
+    "UPLOAD_FILE": "上传文件",
+    "DOWNLOAD_FILE": "下载文件",
+    "DELETE_FILE": "删除文件",
+    "NEW_BUCKET": "新建容器",
+    "DELETE_BUCKET": "删除容器",
+    "NEW_FOLDER": "新建文件夹",
+    "DELETE_FOLDER": "删除文件夹"
   },
   "DRIVE": {
     "CANCEL": "取消",

@@ -6,6 +6,8 @@ import { join } from "path";
 export default class {
     constructor() {
         let sql: any = {};
+
+        // transactions
         sql.tx = new DB(join(SQLITE_CONFIG_PATH, "transactions.sqlite"));
         sql.tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
             transactionId TEXT,
@@ -37,6 +39,26 @@ export default class {
         sql.setting.prepare(`CREATE TABLE IF NOT EXISTS setting (
             name TEXT,
             value TEXT
+        )`).run();
+
+        // tasks
+        sql.task = new DB(join(SQLITE_CONFIG_PATH, "task.sqlite"));
+        sql.task.prepare(`CREATE TABLE IF NOT EXISTS task (
+            id TEXT,
+            bucketId TEXT,
+            bucketName TEXT,
+            fileId TEXT,
+            fileName TEXT,
+            nativePath TEXT,
+            env TEXT,
+            created NUMERIC,
+            updated NUMERIC,
+            process INTEGER,
+            state INTEGER,
+            type TEXT,
+            doneBytes REAL,
+            allBytes REAL,
+            error TEXT
         )`).run();
 
         for (let name in sql) {

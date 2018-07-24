@@ -10,13 +10,12 @@ import { createHash } from 'crypto';
 import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
 import { TranslateService } from '../../../node_modules/@ngx-translate/core';
 import { newWalletManager } from "jswallet-manager";
-import { nextTick } from 'q';
 
 let web3: Web3;
 let connectedWeb3: any = null;
 let web3Provider: any;
 const SyncTimer = 2000;
-const TIMEOUT_LIMIT = 10 * 1000;
+const TIMEOUT_LIMIT = 20 * 1000;
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;

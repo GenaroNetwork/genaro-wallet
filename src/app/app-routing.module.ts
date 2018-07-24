@@ -15,10 +15,10 @@ const routes: Routes = [{
     path: 'eden',
     component: EdenComponent,
 }, {
-    path: 'eden-history-inprogress',
+    path: 'eden-inprocess',
     component: TaskComponent,
 }, {
-    path: 'eden-history-done',
+    path: 'eden-done',
     component: TaskComponent,
 }, {
     path: 'tx-eden',

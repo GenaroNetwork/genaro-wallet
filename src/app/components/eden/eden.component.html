@@ -1,7 +1,25 @@
-<div class="header">操作</div>
-<div class="content" (contextmenu)="rightClick($event)">
-  <div *ngFor="let file of edenService.currentView; let i = index" [class]="'file ' + ((fileSelected.indexOf(i) > -1) ? 'selected' : '')"
-    (click)="click($event, i)" (dblclick)="dblclick()" (contextmenu)="rightClick($event)">
+<div class="header">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <span (click)="edenService.changePath(['/'])">{{ "EDEN.HOME_DIR" | translate }}</span>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngFor="let path of edenService.currentPath">
+      <span>{{ path }}</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div class="opera">
+    <!-- 容器 -->
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0">{{ "EDEN.NEW_BUCKET" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" [disabled]="!fileSelected.size">{{ "EDEN.DELETE_BUCKET" | translate }}</button>
+    <!-- 容器内 -->
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0">{{ "EDEN.UPLOAD_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0">{{ "EDEN.DOWNLOAD_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size" (click)="test()">{{ "EDEN.DELETE_FILE" | translate }}</button>
+  </div>
+</div>
+<div class="content" (contextmenu)="rightClick($event)" (mousedown)="mouseDown($event, -1)">
+  <div *ngFor="let file of edenService.currentView; let i = index" [class]="'file ' + (fileSelected.has(i) ? 'selected' : '')"
+    (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(file.name, file.type)">
     <i [class]="type2icon(file.type)"></i>
     <div class="name">{{ file.name }}</div>
   </div>
