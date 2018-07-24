@@ -74,10 +74,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectLimit">
-      <input nz-input type="text" [(ngModel)]="spaceLimitValue" (input)="ngModelChange.emit($event.target.value * spaceLimitUnit)">
+      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buySpaceSelectLimit>
-      <nz-select [(ngModel)]="spaceLimitUnit" (ngModelChange)="ngModelChange.emit(spaceLimitValue * $event)">
+      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
         <nz-option nzLabel="{{ 'COMMON.YEAR(S)' | translate }}" [nzValue]="30*12"></nz-option>
         <nz-option nzLabel="{{ 'COMMON.MONTH(S)' | translate }}" [nzValue]="30"></nz-option>
       </nz-select>
@@ -92,10 +92,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectRange">
-      <input nz-input type="text" [(ngModel)]="spaceRangeValue" (input)="ngModelChange.emit($event.target.value * spaceRangeUnit)">
+      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buySpaceSelectRange>
-      <nz-select [(ngModel)]="spaceRangeUnit" (ngModelChange)="ngModelChange.emit(spaceRangeValue * $event)">
+      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
         <nz-option nzLabel="GB" [nzValue]="1"></nz-option>
         <nz-option nzLabel="TB" [nzValue]="1024"></nz-option>
       </nz-select>
@@ -110,10 +110,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buyTraffic">
-      <input nz-input type="text" [(ngModel)]="trafficValue" (input)="ngModelChange.emit($event.target.value * trafficUnit)">
+      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buyTraffic>
-      <nz-select [(ngModel)]="trafficUnit" (ngModelChange)="ngModelChange.emit(trafficValue * $event)">
+      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
         <nz-option nzLabel="GB" [nzValue]="1"></nz-option>
         <nz-option nzLabel="TB" [nzValue]="1024"></nz-option>
       </nz-select>
