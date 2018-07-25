@@ -64,6 +64,12 @@
         "TXSHARER": "Dislay [My sharing]"
       },
       "LANGUAGE": "Language"
+    },
+    "ABOUT": {
+      "AGREEMENT": "Agreement",
+      "PRIVACY": "Privacy Policy",
+      "LOGS": "LOGS",
+      "VERSION": "VERSION"
     }
   },
   "FORM": {

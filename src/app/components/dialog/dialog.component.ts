@@ -8,8 +8,8 @@ import { TransactionService } from '../../services/transaction.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
-import { remote } from "electron";
-import { SETTINGS } from "../../libs/config";
+import { remote, shell } from "electron";
+import { SETTINGS, GET_AGREEMENT, GET_TUTORIAL } from "../../libs/config";
 
 @Component({
   selector: 'app-dialog',
@@ -207,6 +207,42 @@ export class DialogComponent implements OnChanges {
         this.dialogNameChange.emit(null);
       }
     }
+  }
+
+  // about
+  isLastestVersion: boolean = true;
+  updateUrl: string = '';
+  aboutInit() {
+    this.checkUpdate();
+  }
+  openAgreementWeb() {
+    shell.openExternal(GET_AGREEMENT(this.i18n.currentLang));
+  }
+  openPrivacyWeb() {
+    shell.openExternal(GET_TUTORIAL(this.i18n.currentLang));
+  }
+  openLogsWeb() {
+    //shell.openExternal();
+  }
+  async checkUpdate() {
+    this.isLastestVersion = true;
+    let latestVersion = await this.settingService.getUpdateVersion();
+    if (!latestVersion && latestVersion.version && latestVersion.url) {
+      let lv = latestVersion.split(".");
+      let cv = this.version.split(".");
+      for (let index = 0, length = lv.length; index < length; index++) {
+        let lvn = parseInt(lv[index]);
+        let cvn = parseInt(cv[index]);
+        if (lvn > cvn) {
+          this.isLastestVersion = false;
+          this.updateUrl = latestVersion.url;
+          break;
+        }
+      }
+    }
+  }
+  openUpdateVersion() {
+    shell.openExternal(GET_TUTORIAL(this.updateUrl));
   }
 
 }

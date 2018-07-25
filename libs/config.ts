@@ -91,3 +91,14 @@ export const BRIDGE_API_URL = 'http://118.31.61.119:8080';
 export const DAEMON_CONFIG = require("./DAEMON_CONFIG.json");
 
 export const SENTINEL_WEB = 'http://118.31.61.119:8001';
+
+
+export const GET_AGREEMENT = (l) => {
+    return `https://genaro.network/${l}/genaro-eden/user-agreement`;
+};
+export const GET_TUTORIAL = (l) => {
+    return `https://genaro.network/${l}/genaro-eden/user-tutorial`;
+};
+
+export const CHECK_MAC_UPDATE_URL = "";
+export const CHECK_WIN_UPDATE_URL = "";

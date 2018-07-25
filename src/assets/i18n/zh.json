@@ -64,6 +64,12 @@
         "TXSHARER": "显示【我的分享】"
       },
       "LANGUAGE": "语言"
+    },
+    "ABOUT": {
+      "AGREEMENT": "使用协议",
+      "PRIVACY": "隐私条款",
+      "LOGS": "版本日志",
+      "VERSION": "检测版本"
     }
   },
   "FORM": {

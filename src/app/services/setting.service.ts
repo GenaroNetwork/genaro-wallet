@@ -1,7 +1,8 @@
 import { Injectable, SimpleChange, ApplicationRef } from '@angular/core';
 import { IpcService } from './ipc.service';
 import { TranslateService } from '../../../node_modules/@ngx-translate/core';
-import { SETTINGS } from "../libs/config";
+import { SETTINGS, CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from "../libs/config";
+const axios = require('axios');
 
 @Injectable({
   providedIn: 'root'
@@ -85,5 +86,19 @@ export class SettingService {
   }
   update(name) {
     this.ipc.dbRun("setting", `UPDATE setting SET value='${JSON.stringify(this[name])}' WHERE name='${name}'`);
+  }
+
+  async getUpdateVersion() {
+    try {
+      let res = await axios.get(CHECK_MAC_UPDATE_URL);
+      if (res.status !== 200) {
+        return '';
+      }
+      return res.data;
+    }
+    catch(e) {
+      console.log(e);
+      return '';
+    }
   }
 }
