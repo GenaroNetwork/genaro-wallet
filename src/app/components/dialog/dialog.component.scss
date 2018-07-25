@@ -33,3 +33,15 @@
     text-align: right;
   }
 }
+
+.right-btn {
+  border-color: #fff;
+  background-color: #fff;
+  &.ant-btn-danger:hover {
+    color: #ff4d4f;
+  }
+}
+
+.contact-email {
+  color: #bfbfbf;
+}

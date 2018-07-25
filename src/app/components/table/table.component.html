@@ -1,6 +1,6 @@
 <!-- 钱包 -->
 <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
-  class="tx">
+  class="tx" nzShowPagination="false">
   <thead>
     <tr>
       <th nzWidth="10%">
@@ -49,7 +49,7 @@
     </tr>
   </tbody>
 </nz-table>
-
+<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage" (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
 <nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
@@ -76,7 +76,7 @@
 </nz-table>
 
 <!-- 抵押 -->
-<nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData">
+<nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" nzShowPagination="false">
   <thead>
     <tr>
       <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -103,7 +103,7 @@
     </tr>
   </tbody>
 </nz-table>
-
+<nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage" (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination>
 
 
 <!-- sharer -->

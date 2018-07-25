@@ -64,6 +64,18 @@
         "TXSHARER": "显示【我的分享】"
       },
       "LANGUAGE": "语言"
+    },
+    "ABOUT": {
+      "AGREEMENT": "使用协议",
+      "PRIVACY": "隐私条款",
+      "LOGS": "版本日志",
+      "VERSION": "检测版本"
+    },
+    "HELP": {
+      "INSTRUCTIONS": "使用说明",
+      "DOWNLOAD_EDEN": "下载Genaro Eden",
+      "DOWNLOAD_SHARER": "下载Genaro Sharer",
+      "CONTACT": "联系客服"
     }
   },
   "FORM": {

@@ -44,6 +44,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   transactionChange = this.txUpdateData;
   transactionWalletSub = this.txUpdateData;
   transactionBlockSub = this.txUpdateData;
+  txDataCurrentPage: number = 1;
+  txDataTotalPage: number = 0;
   async txUpdateData() {
     let address = this.walletService.wallets.current;
     // @ts-ignore
@@ -61,6 +63,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       data = data.filter(tx => tx.txType === types[this.txType]);
     }
     data = data.sort((a, b) => b.created - a.created);
+    this.txDataTotalPage = data.length;
+    data = data.slice((this.txDataCurrentPage - 1) * 10, this.txDataCurrentPage * 10);
     this.txDisplayData = data;
   }
   txGetBlockNumber(receipt) {
@@ -69,6 +73,11 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
   txChangeType(type: string) {
     this.txType = type;
+    this.txDataCurrentPage = 1;
+    this.txUpdateData();
+  }
+  txChangePage(page: number) {
+    this.txDataCurrentPage = page;
     this.txUpdateData();
   }
 
@@ -83,14 +92,20 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // tx sharer
   txSharerData: any[] = [];
+  txSharerDataCurrentPage: number = 1;
+  txSharerDataTotalPage: number = 0;
   txSharerWalletSub = this.txSharerDataUpdate;
   txSharerBlockSub = this.txSharerDataUpdate;
   async txSharerDataUpdate() {
     let address = this.walletService.wallets.current;
     let nodes = await this.txService.getNodes(address);
-    this.txSharerData = nodes;
+    this.txSharerDataTotalPage = nodes.length;
+    this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
   };
-
+  txSharerChangePage(page: number) {
+    this.txSharerDataCurrentPage = page;
+    this.txSharerDataUpdate();
+  }
 
 
   allWalletSub: any;

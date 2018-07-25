@@ -106,3 +106,16 @@ export enum TASK_STATE {
     ERROR = 3,
     CANCEL = 4,
 }
+export const GET_AGREEMENT = (l) => {
+    return `https://genaro.network/${l}/genaro-eden/user-agreement`;
+};
+export const GET_TUTORIAL = (l) => {
+    return `https://genaro.network/${l}/genaro-eden/user-tutorial`;
+};
+
+export const CHECK_MAC_UPDATE_URL = "";
+export const CHECK_WIN_UPDATE_URL = "";
+
+export const INSTRUCTIONS_URL = "";
+export const DOWNLOAD_EDEN_URL = "";
+export const DOWNLOAD_SHARER_URL = "";
