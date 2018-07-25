@@ -158,7 +158,7 @@
       {{ 'MODEL.SETTING.SHOW.SHARER' | translate}}
     </div>
     <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
+      <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
     </div>
   </div>
   <div nz-row class="setting" *ngIf="SETTINGS.showTxSharer[1]">
@@ -166,7 +166,7 @@
       {{ 'MODEL.SETTING.SHOW.TXSHARER' | translate}}
     </div>
     <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
+      <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
     </div>
   </div>
   <div nz-row class="setting" *ngIf="SETTINGS.lang[1]">

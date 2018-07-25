@@ -99,8 +99,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   async txSharerDataUpdate() {
     let address = this.walletService.wallets.current;
     let nodes = await this.txService.getNodes(address);
-    this.txSharerDataTotalPage = nodes.length;
-    this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
+    if(nodes) {
+      this.txSharerDataTotalPage = nodes.length;
+      this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
+    }
   };
   txSharerChangePage(page: number) {
     this.txSharerDataCurrentPage = page;
