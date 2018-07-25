@@ -76,18 +76,33 @@ export const WEB3_CONFIG = {
 };
 Object.freeze(WEB3_CONFIG);
 
-const STX_ADDR = "0xc1b2e1fc9d2099f5930a669c9ad65509433550d6"
+const STX_ADDR = "0x6000000000000000000000000000000000000000"
 
 let WEB3_URL;
 if (LITE_WALLET) {
-    WEB3_URL = "ws://47.100.107.16:8547"; // for product
+    WEB3_URL = "ws://47.100.107.16:8547"; // for LITE
 } else {
-    WEB3_URL = `ws://${WEB3_CONFIG.WS_ADDR}:${WEB3_CONFIG.WS_PORT}`; // for develope
+    WEB3_URL = `ws://${WEB3_CONFIG.WS_ADDR}:${WEB3_CONFIG.WS_PORT}`; // for FULL NODE
 }
 
 export { WEB3_URL, STX_ADDR };
 
 export const BRIDGE_API_URL = 'http://118.31.61.119:8080';
+// export const BRIDGE_API_URL = 'http://192.168.0.55:8080';
 export const DAEMON_CONFIG = require("./DAEMON_CONFIG.json");
 
 export const SENTINEL_WEB = 'http://118.31.61.119:8001';
+
+
+export enum TASK_TYPE {
+    FILE_UPLOAD = 0,
+    FILE_DOWNLOAD = 1,
+}
+
+export enum TASK_STATE {
+    INIT = 0,
+    INPROCESS = 1,
+    DONE = 2,
+    ERROR = 3,
+    CANCEL = 4,
+}

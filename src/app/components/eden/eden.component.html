@@ -9,21 +9,23 @@
   </nz-breadcrumb>
   <div class="opera">
     <!-- 容器 -->
-    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0">{{ "EDEN.NEW_BUCKET" | translate }}</button>
-    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" [disabled]="!fileSelected.size">{{ "EDEN.DELETE_BUCKET" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" (click)="edenDialogName='buySpace'">{{ "EDEN.CREATE_BUCKET" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" [disabled]="fileSelected.size!==1" (click)="edenDialogName='edenRenameBucket'">{{ "EDEN.RENAME_BUCKET" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" [disabled]="!fileSelected.size" (click)="deleteBucket()">{{ "EDEN.DELETE_BUCKET" | translate }}</button>
     <!-- 容器内 -->
-    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0">{{ "EDEN.UPLOAD_FILE" | translate }}</button>
-    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0">{{ "EDEN.DOWNLOAD_FILE" | translate }}</button>
-    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size" (click)="test()">{{ "EDEN.DELETE_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" (click)="edenService.fileUploadTask()">{{ "EDEN.UPLOAD_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size||selectedIncludeFolder"
+      (click)="downloadFile()">{{ "EDEN.DOWNLOAD_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size" (click)="removeFile()">{{ "EDEN.REMOVE_FILE" | translate }}</button>
   </div>
 </div>
 <div class="content" (contextmenu)="rightClick($event)" (mousedown)="mouseDown($event, -1)">
   <div *ngFor="let file of edenService.currentView; let i = index" [class]="'file ' + (fileSelected.has(i) ? 'selected' : '')"
-    (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(file.name, file.type)">
+    (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(i)">
     <i [class]="type2icon(file.type)"></i>
     <div class="name">{{ file.name }}</div>
   </div>
 </div>
 
-<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv=false">
+<app-dialog [name]="edenService.requestEnv ? 'edenNeedPass' : edenDialogName" [(name)]="edenDialogName" [opt]="edenDialogOpt">
 </app-dialog>

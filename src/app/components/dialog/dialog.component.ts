@@ -30,6 +30,7 @@ export class DialogComponent implements OnChanges {
   ) { }
   @Input("name") dialogName: string = null;
   @Output("nameChange") dialogNameChange: EventEmitter<string> = new EventEmitter;
+  @Input("opt") options: any = null;
 
   //  Wallet change name
   walletChangeName: string = "";
@@ -162,11 +163,32 @@ export class DialogComponent implements OnChanges {
 
   //eden 需要密码
   edenNeedPass: string = "";
+  edenNeedPassInit() {
+    this.edenNeedPass = "";
+  }
   edenNeedPassDone() {
     return new Promise((res, rej) => {
       if (this.edenService.generateEnv(this.edenNeedPass)) res();
       else (rej());
     })
+  }
+  edenNeedPassDestroy() {
+    this.edenService.requestEnv = false;
+  }
+
+  // eeden 新建容器
+  edenCreateBucket: string = "";
+  edenCreateBucketInit() {
+    this.edenCreateBucket = "";
+  }
+  edenCreateBucketDone() {
+    this.edenService.bucketCreateTask(this.edenCreateBucket);
+  }
+
+
+  // eden 删除容器
+  edenDeleteBucketDone() {
+    this.edenService.bucketDeleteTask(this.options);
   }
 
 
@@ -190,8 +212,10 @@ export class DialogComponent implements OnChanges {
   // common
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (changes.dialogName) {
-      if (this[`${this.dialogName}Init`])
-        this[`${this.dialogName}Init`]();
+      if (this[`${changes.dialogName.previousValue}Destroy`])
+        this[`${changes.dialogName.previousValue}Destroy`]();
+      if (this[`${changes.dialogName.currentValue}Init`])
+        this[`${changes.dialogName.currentValue}Init`]();
     }
   }
   dialogDone() {

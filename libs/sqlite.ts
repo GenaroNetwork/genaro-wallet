@@ -55,7 +55,7 @@ export default class {
             updated NUMERIC,
             process INTEGER,
             state INTEGER,
-            type TEXT,
+            type INTEGER,
             doneBytes REAL,
             allBytes REAL,
             error TEXT

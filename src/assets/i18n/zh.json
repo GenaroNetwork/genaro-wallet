@@ -173,13 +173,23 @@
   },
   "EDEN": {
     "HOME_DIR": "根目录",
-    "BUCKET": "容器",
+    "BUCKET": "空间",
+    "REFRESH": "刷新",
+    "OPEN": "打开",
     "UPLOAD_FILE": "上传文件",
     "DOWNLOAD_FILE": "下载文件",
-    "DELETE_FILE": "删除文件",
-    "NEW_BUCKET": "新建容器",
-    "DELETE_BUCKET": "删除容器",
-    "NEW_FOLDER": "新建文件夹",
+    "REMOVE_FILE": "删除文件",
+    "REMOVE_FILE_DONE": "文件已删除",
+    "CREATE_BUCKET": "新建空间",
+    "RENAME_BUCKET": "重命名",
+    "CREATE_BUCKET_TIP": "请输入新建空间名",
+    "CREATE_BUCKET_EXISTS": "该空间名已存在",
+    "CREATE_BUCKET_DONE": "创建空间成功",
+    "DELETE_BUCKET": "删除空间",
+    "DELETE_BUCKET_TIP": "删除该空间后，购买空间所用 GNX 无法退回，且其内部保存文件将全部丢失。是否确认删除？",
+    "DELETE_BUCKET_DONE": "空间已删除",
+    "DELETE_BUCKET_CONFIRM": "确定删除下列空间",
+    "CREATE_FOLDER": "新建文件夹",
     "DELETE_FOLDER": "删除文件夹"
   },
   "DRIVE": {
@@ -268,7 +278,7 @@
     },
     "TXEDEN": {
       "CREATE_TIME": "创建时间",
-      "BUCKET": "容器名",
+      "BUCKET": "空间名",
       "USED_ALL_STORAGE": "已用空间/总空间",
       "COST": "花费",
       "LIMIT_TIME": "过期时间"
