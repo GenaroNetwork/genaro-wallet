@@ -9,7 +9,7 @@ import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 import { remote, shell } from "electron";
-import { SETTINGS, GET_AGREEMENT, GET_TUTORIAL } from "../../libs/config";
+import { SETTINGS, GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from "../../libs/config";
 
 @Component({
   selector: 'app-dialog',
@@ -207,6 +207,17 @@ export class DialogComponent implements OnChanges {
         this.dialogNameChange.emit(null);
       }
     }
+  }
+
+  // help
+  openInstructionsWeb() {
+    shell.openExternal(INSTRUCTIONS_URL);
+  }
+  openDownloadEdenWeb() {
+    shell.openExternal(DOWNLOAD_EDEN_URL);
+  }
+  openDownloadSharerWeb() {
+    shell.openExternal(DOWNLOAD_SHARER_URL);
   }
 
   // about

@@ -184,6 +184,44 @@
 
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.HELP.INSTRUCTIONS' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <button nz-button class="right-btn" (click)="openInstructionsWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.HELP.DOWNLOAD_EDEN' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <button nz-button class="right-btn" (click)="openDownloadEdenWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="16" nzOffset="1">
+      {{ 'MODEL.HELP.DOWNLOAD_SHARER' | translate}}
+    </div>
+    <div nz-col nzSpan="6">
+      <button nz-button class="right-btn" (click)="openDownloadSharerWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
+    </div>
+  </div>
+  <div nz-row class="setting">
+    <div nz-col nzSpan="12" nzOffset="1">
+      {{ 'MODEL.HELP.CONTACT' | translate}}
+    </div>
+    <div nz-col nzSpan="10">
+      <span class="contact-email">eden@genaro.network</span>
+    </div>
+  </div>
 </nz-modal>
 
 <!-- 关于 -->

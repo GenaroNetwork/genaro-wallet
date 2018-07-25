@@ -102,3 +102,7 @@ export const GET_TUTORIAL = (l) => {
 
 export const CHECK_MAC_UPDATE_URL = "";
 export const CHECK_WIN_UPDATE_URL = "";
+
+export const INSTRUCTIONS_URL = "";
+export const DOWNLOAD_EDEN_URL = "";
+export const DOWNLOAD_SHARER_URL = "";

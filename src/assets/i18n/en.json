@@ -70,6 +70,12 @@
       "PRIVACY": "Privacy Policy",
       "LOGS": "LOGS",
       "VERSION": "VERSION"
+    },
+    "HELP": {
+      "INSTRUCTIONS": "Instructions",
+      "DOWNLOAD_EDEN": "Download Genaro Eden",
+      "DOWNLOAD_SHARER": "Download Genaro Sharer",
+      "CONTACT": "Contact Customer Service"
     }
   },
   "FORM": {
