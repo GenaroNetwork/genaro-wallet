@@ -4,6 +4,8 @@ import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
+import { EdenService } from '../../services/eden.service';
+import { TASK_STATE, TASK_TYPE } from '../../libs/config';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public txService: TransactionService,
     public walletService: WalletService,
     public txEdenService: TxEdenService,
+    public edenService: EdenService,
   ) { }
 
   txData: any[];
@@ -46,6 +49,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   transactionBlockSub = this.txUpdateData;
   txDataCurrentPage: number = 1;
   txDataTotalPage: number = 0;
+  TASK_STATE = TASK_STATE;
+  TASK_TYPE = TASK_TYPE;
   async txUpdateData() {
     let address = this.walletService.wallets.current;
     // @ts-ignore
@@ -99,7 +104,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   async txSharerDataUpdate() {
     let address = this.walletService.wallets.current;
     let nodes = await this.txService.getNodes(address);
-    if(nodes) {
+    if (nodes) {
       this.txSharerDataTotalPage = nodes.length;
       this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
     }
@@ -120,6 +125,17 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.allBlockSub = this.txService.newBlockHeaders.subscribe(() => {
       if (this[`${this.name}BlockSub`]) this[`${this.name}BlockSub`]();
     });
+  }
+
+
+  taskFilter() {
+    let data = this.edenService.tasks;
+    if (this.opt === "eden-inprocess") {
+      return data.filter(data => data.state === TASK_STATE.INPROCESS);
+    }
+    if (this.opt === "eden-done") {
+      return data.filter(data => data.state === TASK_STATE.DONE);
+    }
   }
 
   ngOnDestroy() {

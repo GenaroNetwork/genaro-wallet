@@ -96,14 +96,12 @@ export class TransactionService {
       let blockNumber = await web3.eth.getBlockNumber();
       if (blockNumber === baseNumber) {
         this.chainSyncing = [true, blockNumber];
-        this.appRef.tick();
         return;
       }
       this.keepConnect();
       let syncing: any = await web3.eth.isSyncing();
       if (syncing !== false) {
         this.chainSyncing = [true, syncing.currentBlock];
-        this.appRef.tick();
         return;
       }
       clearInterval(syncInterval);
@@ -112,7 +110,6 @@ export class TransactionService {
         this.newBlockHeaders.next(bh);
         // @ts-ignore
         this.chainSyncing = [false, bh.number];
-        this.appRef.tick();
       });
     }, SyncTimer);
   }

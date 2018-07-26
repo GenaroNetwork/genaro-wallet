@@ -8,8 +8,8 @@ import { TransactionService } from '../../services/transaction.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
-import { remote, shell } from "electron";
-import { SETTINGS, GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from "../../libs/config";
+import { shell } from "electron";
+import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from "../../libs/config";
 
 @Component({
   selector: 'app-dialog',
@@ -17,8 +17,7 @@ import { SETTINGS, GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_
   styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnChanges {
-  version = remote.app.getVersion();
-  SETTINGS = SETTINGS;
+  version = this.settingService.appVersion;
   constructor(
     private walletService: WalletService,
     private alert: NzMessageService,

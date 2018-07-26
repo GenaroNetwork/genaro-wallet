@@ -210,6 +210,17 @@
     "CREATE_FOLDER": "新建文件夹",
     "DELETE_FOLDER": "删除文件夹"
   },
+  "TASK": {
+    "FILE_NAME": "文件名",
+    "FILE_SIZE": "文件大小",
+    "CREATED": "任务开始时间",
+    "TYPE": "任务类型",
+    "TYPE_UPLOAD": "上传任务",
+    "TYPE_DOWNLOAD": "下载任务",
+    "PATH": "文件路径",
+    "PROCESS": "任务进度",
+    "STATUS": "任务状态"
+  },
   "DRIVE": {
     "CANCEL": "取消",
     "NEXT": "下一步",

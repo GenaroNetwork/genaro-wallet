@@ -118,7 +118,6 @@ export class TxEdenService {
       this.requestPassword = true;
     else
       this.requestPassword = this.requestPassword === null ? true : this.requestPassword;
-    this.appRef.tick();
   }
 
   async changeAddr(addr: string) {
@@ -132,7 +131,6 @@ export class TxEdenService {
       await this.checkSig(force);
       this.getBuckets(force);
       this.getUserInfo(force);
-      this.appRef.tick();
     } catch (e) {
       console.log(e);
     }

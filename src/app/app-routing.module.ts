@@ -15,6 +15,9 @@ const routes: Routes = [{
     path: 'eden',
     component: EdenComponent,
 }, {
+    path: 'eden/:path',
+    component: EdenComponent,
+}, {
     path: 'eden-inprocess',
     component: TaskComponent,
 }, {

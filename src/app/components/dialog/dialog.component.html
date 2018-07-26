@@ -129,15 +129,7 @@
 
 <!-- 设置 -->
 <nz-modal [nzTitle]="'HEADER.SETTINGS' | translate" [nzFooter]="null" [nzVisible]="dialogName==='setting'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <div nz-row class="setting" *ngIf="SETTINGS.showWallet[1]">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.WALLET' | translate }}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showWallet"></nz-switch>
-    </div>
-  </div>
-  <div nz-row class="setting" *ngIf="SETTINGS.showEden[1]">
+  <div nz-row class="setting" *ngIf="settingService.showEden!==null">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.EDEN' | translate}}
     </div>
@@ -145,7 +137,7 @@
       <nz-switch [(ngModel)]="settingService.showEden"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting" *ngIf="SETTINGS.showTxEden[1]">
+  <div nz-row class="setting" *ngIf="settingService.showTxEden!==null">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.TXEDEN' | translate}}
     </div>
@@ -153,7 +145,7 @@
       <nz-switch [(ngModel)]="settingService.showTxEden"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting" *ngIf="SETTINGS.showSharer[1]">
+  <div nz-row class="setting" *ngIf="settingService.showSharer!==null">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.SHARER' | translate}}
     </div>
@@ -161,7 +153,7 @@
       <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting" *ngIf="SETTINGS.showTxSharer[1]">
+  <div nz-row class="setting" *ngIf="settingService.showTxSharer!==null">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.SHOW.TXSHARER' | translate}}
     </div>
@@ -169,7 +161,7 @@
       <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
     </div>
   </div>
-  <div nz-row class="setting" *ngIf="SETTINGS.lang[1]">
+  <div nz-row class="setting" *ngIf="settingService.lang!==null">
     <div nz-col nzSpan="16" nzOffset="1">
       {{ 'MODEL.SETTING.LANGUAGE' | translate}}
     </div>
@@ -184,7 +176,7 @@
 <!-- 新建容器 -->
 <nz-modal nzTitle="{{ 'EDEN.NEW_BUCKET' | translate }}" [nzVisible]="dialogName==='edenCreateBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <div nz-row class="setting" *ngIf="SETTINGS.showSharer[1]">
+  <div nz-row class="setting">
     <div nz-col nzSpan="8" nzOffset="1">
       {{ 'EDEN.CREATE_BUCKET_TIP' | translate}} {{ 'COMMON.COLON' | translate}}
     </div>
@@ -251,7 +243,9 @@
       {{ 'MODEL.ABOUT.AGREEMENT' | translate}}
     </div>
     <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openAgreementWeb()"><i class="anticon anticon-right"></i></button>
+      <button nz-button class="right-btn" (click)="openAgreementWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
     </div>
   </div>
   <div nz-row class="setting">
@@ -259,7 +253,9 @@
       {{ 'MODEL.ABOUT.PRIVACY' | translate}}
     </div>
     <div nz-col nzSpan="6">
-        <button nz-button class="right-btn" (click)="openPrivacyWeb()"><i class="anticon anticon-right"></i></button>
+      <button nz-button class="right-btn" (click)="openPrivacyWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
     </div>
   </div>
   <div *ngIf="false" nz-row class="setting">
@@ -267,7 +263,9 @@
       {{ 'MODEL.ABOUT.LOGS' | translate}}
     </div>
     <div nz-col nzSpan="6">
-        <button nz-button class="right-btn" (click)="openLogsWeb()"><i class="anticon anticon-right"></i></button>
+      <button nz-button class="right-btn" (click)="openLogsWeb()">
+        <i class="anticon anticon-right"></i>
+      </button>
     </div>
   </div>
   <div nz-row class="setting">

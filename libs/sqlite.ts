@@ -49,6 +49,7 @@ export default class {
             bucketName TEXT,
             fileId TEXT,
             fileName TEXT,
+            onlinePath TEXT,
             nativePath TEXT,
             env TEXT,
             created NUMERIC,

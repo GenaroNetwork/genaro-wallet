@@ -49,7 +49,8 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage" (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
+<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage"
+  (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
 <nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
@@ -103,7 +104,8 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage" (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination>
+<nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage"
+  (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination>
 
 
 <!-- sharer -->
@@ -200,6 +202,35 @@
           </ul>
         </nz-dropdown>
       </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+
+
+<nz-table *ngIf="name==='task'" [nzData]="taskFilter()" #taskTable>
+  <thead>
+    <tr>
+      <th>{{ "TASK.FILE_NAME" | translate}}</th>
+      <th>{{ "TASK.FILE_SIZE" | translate}}</th>
+      <th>{{ "TASK.CREATED" | translate}}</th>
+      <th>{{ "TASK.TYPE" | translate}}</th>
+      <th>{{ "TASK.PATH" | translate}}</th>
+      <th>{{ "TASK.PROCESS" | translate}}</th>
+      <th>{{ "TASK.STATUS" | translate}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of taskTable.data">
+      <td>{{ task.fileName.split("/").pop() }}</td>
+      <td>{{ task.allBytes | humanSize }}</td>
+      <td>{{ task.created | date }}</td>
+      <td>{{ task.type }}</td>
+      <td>{{ [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</td>
+      <td>
+        <nz-progress [nzPercent]="(task.process*100).toFixed(1)"></nz-progress>
+      </td>
+      <td>{{ TASK_STATE[task.state] }}</td>
     </tr>
   </tbody>
 </nz-table>

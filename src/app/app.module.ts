@@ -29,7 +29,6 @@ import { SharerComponent } from "./components/sharer/sharer.component";
 import { DialogComponent } from './components/dialog/dialog.component';
 import { InputComponent } from './components/input/input.component';
 import { FormComponent } from './components/form/form.component';
-import { SettingComponent } from './components/setting/setting.component';
 import { TableComponent } from './components/table/table.component';
 import { CopyComponent } from './components/copy/copy.component';
 import { EdenComponent } from './components/eden/eden.component';
@@ -43,6 +42,7 @@ import { LongAddrPipe, ShortAddrPipe } from "./pipes/addr.pipe";
 import { SafePipe } from './pipes/safe.pipe';
 import { TranserUnitPipe, ShortGNXPipe } from "./pipes/web3Util.pipe";
 import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
+import { HumanSizePipe } from './pipes/human.pipe';
 
 
 // AoT requires an exported function for factories
@@ -58,7 +58,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     // nav component
     HeaderComponent,
     SiderbarComponent,
-    SettingComponent,
     TableComponent,
     // content component
     EdenComponent,
@@ -81,6 +80,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     maxNodePipe,
     TranserUnitPipe,
     SpecialTxPipe,
+    HumanSizePipe,
   ],
   imports: [
     BrowserModule,

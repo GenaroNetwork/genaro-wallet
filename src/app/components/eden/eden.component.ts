@@ -1,8 +1,9 @@
-import { Component, OnInit, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { remote } from "electron";
 import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
+import { ActivatedRoute } from '../../../../node_modules/@angular/router';
 
 
 
@@ -11,12 +12,12 @@ import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
   templateUrl: './eden.component.html',
   styleUrls: ['./eden.component.scss']
 })
-export class EdenComponent implements OnInit, OnDestroy {
+export class EdenComponent implements OnInit {
   constructor(
     public edenService: EdenService,
     public walletService: WalletService,
-    private appRef: ApplicationRef,
     private i18n: TranslateService,
+    private route: ActivatedRoute,
   ) {
   }
   edenDialogName: string = null;
@@ -24,21 +25,21 @@ export class EdenComponent implements OnInit, OnDestroy {
   fileSelected: Set<number> = new Set();
   lastFileSelected: number = null;
   selectedIncludeFolder: boolean = false;
-  edenServiceSub = this.edenService.events.subscribe(value => {
-    if (value === "refresh-done") this.clearSelect();
-  })
+  zone: NgZone;
 
   ngOnInit() {
-    // this.edenService.updateAll();
-    let env = this.edenService.allEnvs[this.walletService.wallets.current]
-    if (!env)
-      this.edenService.generateEnv("111111");
-    else
-      this.edenService.updateAll();
-  }
-
-  ngOnDestroy() {
-    this.edenServiceSub.unsubscribe();
+    this.edenService.updateAll();
+    // let env = this.edenService.allEnvs[this.walletService.wallets.current]
+    // if (!env)
+    //   this.edenService.generateEnv("111111");
+    // else
+    //   this.edenService.updateAll();
+    let path = this.route.snapshot.params.path;
+    if (path) {
+      let pathArr = path.split("/");
+      pathArr.unshift("/");
+      this.edenService.changePath(pathArr);
+    }
   }
 
   clearSelect() {
@@ -52,7 +53,6 @@ export class EdenComponent implements OnInit, OnDestroy {
     if (i === -1) {
       this.clearSelect();
       this.lastFileSelected = null;
-      this.appRef.tick();
       return;
     }
     if (event.button !== 0) {
@@ -82,13 +82,12 @@ export class EdenComponent implements OnInit, OnDestroy {
       if (this.edenService.currentView[i].type === "folder") this.selectedIncludeFolder = true;
     });
     this.lastFileSelected = i;
-    this.appRef.tick();
   }
 
   dblclick(index: number) {
     let file = this.edenService.currentView[index];
     if (file.type !== "bucket" && file.type !== "folder") return;
-    this.edenService.changePath(["/", file.name]);
+    this.edenService.changePath(["/", file.id]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
   }
@@ -102,11 +101,12 @@ export class EdenComponent implements OnInit, OnDestroy {
       menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.CREATE_BUCKET"), click: this.createBucket.bind(this) }));
       if (this.fileSelected.size > 0) menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.DELETE_BUCKET"), click: this.deleteBucket.bind(this) }));
     } else {
-      if (this.fileSelected.size > 0) {
+      if (this.fileSelected.size === 0)
+        menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.UPLOAD_FILE"), click: this.uploadFile.bind(this) }));
+      else {
         menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.DOWNLOAD_FILE"), click: this.downloadFile.bind(this) }));
         menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.REMOVE_FILE"), click: this.removeFile.bind(this) }));
       }
-      menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.UPLOAD_FILE"), click: this.uploadFile.bind(this) }));
     }
     menu.popup({ window: remote.getCurrentWindow() });
   }
@@ -129,8 +129,8 @@ export class EdenComponent implements OnInit, OnDestroy {
   createBucket() { }
   openBucket() {
     let i = this.fileSelected.values().next().value;
-    let name = this.edenService.currentView[i].name;
-    this.edenService.changePath([`/${name}`]);
+    let id = this.edenService.currentView[i].id;
+    this.edenService.changePath([`/${id}`]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
   }
