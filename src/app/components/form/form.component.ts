@@ -61,11 +61,12 @@ export class FormComponent implements OnInit {
   // 绑定节点
   bindNodeStep: number = 0;
   bindNodeId: string = "";
+  bindNodeToken: string = "";
   bindNodeGas: number[] = [null, 2100000];
   bindNodePassword: string = "";
   async bindNodeConfirm() {
     let address = this.walletService.wallets.current;
-    await this.txService.bindNode(address, this.bindNodePassword, [this.bindNodeId], this.bindNodeGas[1], this.bindNodeGas[0]);
+    await this.txService.bindNode(address, this.bindNodePassword, this.bindNodeToken , this.bindNodeGas[1], this.bindNodeGas[0]);
     this.bindNodeStep++;
     this.onSubmit.emit();
   }

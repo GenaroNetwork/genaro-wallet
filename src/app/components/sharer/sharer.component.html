@@ -2,6 +2,15 @@
   <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()" (nzOnCancel)="modalVisible=false">
     <p>{{modalMessage | translate}}</p>
   </nz-modal>
+  <nz-modal nzTitle="{{ 'DRIVE.GET_BIND_TOKEN' | translate }}" [nzVisible]="bindModalVisible" (nzOnCancel)="bindModalVisible=false"
+    (nzOnOk)="getBindToken()">
+    <ng-container *ngIf="bindTokenStep===0">
+      <input nz-input nzSize="large" placeholder="{{ 'DRIVE.ADDRESS' | translate }}" [(ngModel)]="bindNodeAddress">
+    </ng-container>
+    <ng-container *ngIf="bindTokenStep===1">
+        Token: <span>{{bindToken}}<app-copy [data]="bindToken"></app-copy></span>
+    </ng-container>
+  </nz-modal>
   <div class="layout-header">
     <div class="hidden-col-btn">
       <button nz-button nzType="primary" nz-popover [(nzVisible)]="hiddenVisible" nzTrigger="click" [nzContent]="colTemplate" nzPlacement="bottom">

@@ -235,6 +235,7 @@
     "DISCONNECTED": "Disconnected",
     "SHOW_LOG": "Show log",
     "OPEN_CONFIG": "Open configuration file",
+    "GET_BIND_TOKEN": "Obtain token for binding",
     "SHOW_REWARD": "My reward",
     "YOUR_REWARD": "Your reward",
     "YOUR_STAKE_WALLET": "Your staked wallet: ",

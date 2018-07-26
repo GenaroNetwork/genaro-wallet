@@ -197,6 +197,7 @@
             <li nz-menu-item (click)="action.emit(['deleteShare',data])">{{ "DRIVE.DELETE" | translate}}</li>
             <li nz-menu-item (click)="action.emit(['showLog'])">{{ "DRIVE.SHOW_LOG" | translate}}</li>
             <li nz-menu-item (click)="action.emit(['openConfig',data])">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
+            <li nz-menu-item (click)="action.emit(['openBindTokenDialog',data])">{{ "DRIVE.GET_BIND_TOKEN" | translate}}</li>
           </ul>
         </nz-dropdown>
       </td>

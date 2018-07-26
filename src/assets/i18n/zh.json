@@ -242,6 +242,7 @@
     "DISCONNECTED": "断开连接",
     "SHOW_LOG": "显示日志",
     "OPEN_CONFIG": "打开配置文件",
+    "GET_BIND_TOKEN": "获取绑定token",
     "SHOW_REWARD": "我的收益",
     "YOUR_REWARD": "您的收益",
     "YOUR_STAKE_WALLET": "您押注的钱包: ",

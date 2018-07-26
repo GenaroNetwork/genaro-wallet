@@ -33,7 +33,7 @@
 <!-- 绑定节点 -->
 <ng-container *ngIf="name==='bindNode'">
   <div *ngIf="bindNodeStep===0" class="bind-node">
-    <app-input name="bindNode" [(ipt)]="bindNodeId" [span]="[6,14]"></app-input>
+    <app-input name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,14]"></app-input>
     <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,14]"></app-input>
     <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
