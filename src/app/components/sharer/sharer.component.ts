@@ -108,7 +108,7 @@ export class SharerComponent implements OnInit {
       if (err) {
         return this.alert.error(err.message);
       }
-      this.bindToken = token + '--' + this.bindNodeId;
+      this.bindToken = token;
       this.bindTokenStep = 1;
     });
   }
