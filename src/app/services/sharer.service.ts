@@ -11,7 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const BASE_PATH = path.join(os.homedir(), '.config/genaroshare');
-const CONFIG_DIR = path.join(BASE_PATH, 'configs');
+const CONFIG_DIR = path.join(BASE_PATH, 'configs_testchain');
 const LOG_DIR = path.join(BASE_PATH, 'logs');
 
 @Injectable({
@@ -300,6 +300,21 @@ export class SharerService {
   openConfig(nodeId) {
     const configPath = this.getConfigPathById(nodeId);
     shell.openItem(configPath);
+  };
+
+  getBindToken(nodeId, address, cb) {
+    let dnode = new Dnode(undefined, { weak: false });
+    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    d.on('remote', (remote) => {
+      let configPath = this.getConfigPathById(nodeId);
+      remote.getNodeToken(configPath, address, (err, token) => {
+        d.end();
+        if (err) {
+          return cb(err);
+        }
+        cb(null, token);
+      });
+    });
   };
 
   constructor(

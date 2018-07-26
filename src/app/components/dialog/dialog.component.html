@@ -19,6 +19,7 @@
     [(ngModel)]="walletChangePassword.repeat">
   <br/>
   <br/>
+  <span *ngIf="false">{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}<a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a></span>
 </nz-modal>
 
 <!-- 导出 JSON -->

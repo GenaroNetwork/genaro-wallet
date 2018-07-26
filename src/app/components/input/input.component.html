@@ -135,12 +135,22 @@
 <!-- 绑定节点 -->
 <div *ngIf="name==='bindNode'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    nodeId {{ 'COMMON.COLON' | translate }}
+    token {{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
+
+<!-- 绑定节点Token -->
+<div *ngIf="name==='bindNodeToken'" nz-row nzType="flex" nzAlign="middle">
+    <div nz-col [nzSpan]="span[0]" class="label">
+      token {{ 'COMMON.COLON' | translate }}
+    </div>
+    <div nz-col [nzSpan]="span[1]">
+      <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+    </div>
+  </div>
 
 <!-- 密码 -->
 <div *ngIf="name==='password'" nz-row nzType="flex" nzAlign="middle">

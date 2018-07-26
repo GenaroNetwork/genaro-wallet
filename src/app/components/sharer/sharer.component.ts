@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharerService } from '../../services/sharer.service';
 const { dialog } = require('electron').remote;
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-sharer',
@@ -11,6 +12,7 @@ export class SharerComponent implements OnInit {
 
   constructor(
     public sharer: SharerService,
+    private alert: NzMessageService,
   ) { }
 
   modalTitle: string = "";
@@ -23,6 +25,11 @@ export class SharerComponent implements OnInit {
   addShareSelectUnit: string = "GB";
   visible: boolean = false;
   hiddenVisible: boolean = false;
+  bindModalVisible: boolean = false;
+  bindNodeId: string = "";
+  bindNodeAddress: string = "";
+  bindToken: string = "";
+  bindTokenStep: number = 0;
 
   selectFile() {
     var _this = this;
@@ -39,12 +46,12 @@ export class SharerComponent implements OnInit {
   addShare() {
     this.visible = false;
     if (!this.addShareFilePath) {
-      return alert("请选择目录");
+      return this.alert.error("请选择目录");
     }
     let nodeId = this.sharer.create(this.addShareShareSize, this.addShareSelectUnit, this.addShareFilePath);
     this.sharer.start(nodeId, (err) => {
       if (err) {
-        return alert(err.message);
+        return this.alert.error(err.message);
       }
     });
   }
@@ -89,6 +96,27 @@ export class SharerComponent implements OnInit {
     this.sharer.openConfig(data.id);
   }
 
+  openBindTokenDialog(data) {
+    this.bindNodeId = data.id;
+    this.bindNodeAddress = "";
+    this.bindTokenStep = 0;
+    this.bindModalVisible = true;
+  }
+
+  getBindToken() {
+    if(this.bindTokenStep === 1) {
+      this.bindModalVisible = false;
+      return;
+    }
+    this.sharer.getBindToken(this.bindNodeId, this.bindNodeAddress, (err, token) => {
+      if (err) {
+        return this.alert.error(err.message);
+      }
+      this.bindToken = token;
+      this.bindTokenStep = 1;
+    });
+  }
+
   handleCancel() {
     this.modalVisible = false;
     this.modalType = 0;
@@ -103,21 +131,21 @@ export class SharerComponent implements OnInit {
       case 1:
         this.sharer.restart(id, (err) => {
           if (err) {
-            return alert(err.message);
+            return this.alert.error(err.message);
           }
         });
         break;
       case 2:
         this.sharer.stop(id, (err) => {
           if (err) {
-            return alert(err.message);
+            return this.alert.error(err.message);
           }
         });
         break;
       case 3:
         this.sharer.destroy(id, (err) => {
           if (err) {
-            return alert(err.message);
+            return this.alert.error(err.message);
           }
         });
         break;
@@ -139,7 +167,7 @@ export class SharerComponent implements OnInit {
   ngOnInit() {
     this.sharer.startAll((err) => {
       if (err) {
-        //return alert(err.message);
+        //return this.alert.error(err.message);
       }
       this.sharer.status();
     });

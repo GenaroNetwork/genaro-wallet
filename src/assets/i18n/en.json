@@ -55,6 +55,8 @@
     "WALLET_DELETE": "Delete wallet",
     "EDEN_NEED_PASS": "Please enter your wallet password to unlock the [File Management] feature",
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
+    "FORGET_PASSWORD_TIPS": "Forget password? Your can import mnemonic to reset your password. ",
+    "IMPORT_MNEMONIC_NOW": "Import Now",
     "SETTING": {
       "SHOW": {
         "WALLET": "Dislay [My wallet]",
@@ -233,6 +235,7 @@
     "DISCONNECTED": "Disconnected",
     "SHOW_LOG": "Show log",
     "OPEN_CONFIG": "Open configuration file",
+    "GET_BIND_TOKEN": "Obtain token for binding",
     "SHOW_REWARD": "My reward",
     "YOUR_REWARD": "Your reward",
     "YOUR_STAKE_WALLET": "Your staked wallet: ",

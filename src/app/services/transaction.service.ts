@@ -254,14 +254,15 @@ export class TransactionService {
     return await web3.genaro.getStake(address, 'latest');
   }
 
-  async bindNode(address: string, password: string, nodeIds: string[] | Set<string>, gasLimit: number, gasPriceInGwei: string | number) {
-    nodeIds = Array.from(nodeIds);
+  async bindNode(address: string, password: string, token: string, gasLimit: number, gasPriceInGwei: string | number) {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
     const inputData = {
       type: "0x8",
-      syncNode: nodeIds,
-    }
+      nodeId: token.split('--')[1],
+      address: address,
+      sign: token.split('--')[0],
+    };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'BIND_NODE');
   }
