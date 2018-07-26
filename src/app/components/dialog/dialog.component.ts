@@ -79,6 +79,9 @@ export class DialogComponent implements OnChanges {
       res();
     });
   }
+  forgetPassword() {
+    
+  }
 
   // wallet export json
   walletExportJson: string = "";

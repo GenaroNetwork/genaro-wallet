@@ -55,6 +55,8 @@
     "WALLET_DELETE": "删除钱包",
     "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
     "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
+    "FORGET_PASSWORD_TIPS": "忘记密码？导入助记词可重置密码。",
+    "IMPORT_MNEMONIC_NOW": "现在导入",
     "SETTING": {
       "SHOW": {
         "WALLET": "显示【我的钱包】",
