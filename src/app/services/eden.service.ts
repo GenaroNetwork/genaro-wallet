@@ -190,20 +190,31 @@ export class EdenService {
 
   private async loadTask() {
     this.tasks = await this.ipc.dbAll("task", "SELECT * FROM task");
+    this.appRef.tick();
   }
 
-  private updateTask() {
-    this.newTask(TASK_TYPE.FILE_DOWNLOAD, {})
-  }
-
-  private newTask(type: TASK_TYPE, obj: any) {
+  private async newTask(type: TASK_TYPE, obj: any) {
     let id = uuidv1();
     let insert = `
     (id, bucketId, bucketName, fileId, fileName, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
     VALUES
     ('${id}', '${obj.bucketId}', '${obj.bucketName}', '${obj.fileId}', '${obj.fileName}', '${obj.nativePath}'
     , '${obj.env}', '${Date.now()}', '${Date.now()}', 0, '${TASK_STATE.INIT}', '${type}', 0, ${obj.allBytes}, NULL)`;
+    await this.ipc.dbRun("task", `INSERT INTO task ${insert}`);
+    this.loadTask();
+    return id;
   }
+
+  private async updateTask(id: string, obj: any) {
+    let updateArr = [];
+    for (let key in obj) {
+      updateArr.push(`${key}='${obj[key]}'`);
+    }
+    if (!updateArr.length) return;
+    let update = updateArr.join(",");
+    await this.ipc.dbRun("task", `UPDATE task SET ${update} WHERE id='${id}'`);
+    await this.loadTask();
+  };
 
   private convertChar(html: string, encode: boolean = true) {
     enum chars {
@@ -223,17 +234,17 @@ export class EdenService {
     let env = this.allEnvs[address];
     return new Promise((res, rej) => {
       let times = 0;
+      let errCount = 0;
       arr.forEach(item => {
-        func(item, env, () => {
+        func(item, env, (err: boolean = false) => {
+          if (err) errCount++;
           if (++times < arr.length) return;
           if (reload) this.updateAll();
-          res();
+          res(errCount);
         });
       });
     });
   }
-
-  fileTask() { }
 
   fileUploadTask() {
     let path = Array.from(this.currentPath);
@@ -243,14 +254,47 @@ export class EdenService {
       properties: ["openFile", "multiSelections"]
     });
     if (!nativePaths) return;
-    this.runAll(nativePaths, (path, env, cb) => {
-      env.storeFile(bucketId, path, {
-        filename: basename(path),
-        progressCallback: (...params) => { },
-        finishedCallback: cb,
+    this.runAll(nativePaths, async (path, env, cb) => {
+      let filename = basename(path);
+      let taskId = null;
+      let taskEnv = env.storeFile(bucketId, path, {
+        filename,
+        progressCallback: (process, doneBytes, allBytes) => {
+          if (!taskId) return;
+          console.log(doneBytes, allBytes);
+          this.updateTask(taskId, {
+            process, doneBytes, allBytes,
+            state: TASK_STATE.INPROCESS,
+          });
+        },
+        finishedCallback: (err, fileId) => {
+          if (err) {
+            console.log(err);
+            cb(true);
+          }
+          else {
+            if (!taskId) return;
+            this.updateTask(taskId, {
+
+            });
+            cb();
+          }
+        },
       });
-    }).then(() => {
-      this.messageService.success(this.i18n.instant("EDEN.UPLOAD_FILE_DONE"))
+      taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
+        bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: taskEnv, allBytes: null,
+      });
+      // (id, bucketId, bucketName, fileId, fileName, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
+      // VALUES
+      // ('${id}', '${obj.bucketId}', '${obj.bucketName}', '${obj.fileId}', '${obj.fileName}', '${obj.nativePath}'
+      // , '${obj.env}', '${Date.now()}', '${Date.now()}', 0, '${TASK_STATE.INIT}', '${type}', 0, ${obj.allBytes}, NULL)`;
+    }).then(errCount => {
+      if (errCount === nativePaths.length)
+        this.messageService.warning(this.i18n.instant("EDEN.UPLOAD_FILE_ERROR_ALL"))
+      else if (errCount)
+        this.messageService.warning(this.i18n.instant("EDEN.UPLOAD_FILE_ERROR", { errCount }))
+      else
+        this.messageService.success(this.i18n.instant("EDEN.UPLOAD_FILE_DONE"))
     });
   }
 
@@ -268,10 +312,13 @@ export class EdenService {
     this.runAll(files, (file, env, cb) => {
       let filePath = nativePath;
       if (files.length > 1) filePath = join(nativePath[0], file.name);
-      env.resolveFile(bucketId, file.id, filePath, {
+      let taskEnv = env.resolveFile(bucketId, file.id, filePath, {
         overwrite: true,
         progressCallback: (...params) => { },
         finishedCallback: cb,
+      });
+      this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
+
       });
     }, false).then(() => {
       this.messageService.success(this.i18n.instant("EDEN.DOWNLOAD_FILE_DONE"))

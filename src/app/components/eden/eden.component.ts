@@ -25,11 +25,11 @@ export class EdenComponent implements OnInit, OnDestroy {
   lastFileSelected: number = null;
   selectedIncludeFolder: boolean = false;
   edenServiceSub = this.edenService.events.subscribe(value => {
-    console.log(value)
     if (value === "refresh-done") this.clearSelect();
   })
 
   ngOnInit() {
+    // this.edenService.updateAll();
     let env = this.edenService.allEnvs[this.walletService.wallets.current]
     if (!env)
       this.edenService.generateEnv("111111");
@@ -51,7 +51,11 @@ export class EdenComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     if (i === -1) {
       this.clearSelect();
-    } else if (event.button !== 0) {
+      this.lastFileSelected = null;
+      this.appRef.tick();
+      return;
+    }
+    if (event.button !== 0) {
       if (this.fileSelected.has(i)) return;
       this.fileSelected = new Set();
       this.fileSelected.add(i);
