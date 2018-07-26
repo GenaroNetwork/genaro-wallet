@@ -104,6 +104,10 @@ export class SharerComponent implements OnInit {
   }
 
   getBindToken() {
+    if(this.bindTokenStep === 1) {
+      this.bindModalVisible = false;
+      return;
+    }
     this.sharer.getBindToken(this.bindNodeId, this.bindNodeAddress, (err, token) => {
       if (err) {
         return this.alert.error(err.message);
