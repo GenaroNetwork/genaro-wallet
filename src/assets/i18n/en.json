@@ -57,6 +57,7 @@
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
     "FORGET_PASSWORD_TIPS": "Forget password? Your can import mnemonic to reset your password. ",
     "IMPORT_MNEMONIC_NOW": "Import Now",
+    "BACK": "Back",
     "SETTING": {
       "SHOW": {
         "WALLET": "Dislay [My wallet]",
@@ -183,7 +184,8 @@
     "HEFT": "Current heft： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "Heft rank： <span>{{ rank }}<span> 名</span></span>",
     "STAKE_AMOUNT": "Stake amount：<span>{{ stake }}<span> GNX</span></span>",
-    "REMOVE_NODE": "remove"
+    "REMOVE_NODE": "remove",
+    "NO_BIND_ID": "Node is not in the list. Input token to bind."
   },
   "EDEN": {
     "HOME_DIR": "根目录",

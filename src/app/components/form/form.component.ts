@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
+import { SharerService } from '../../services/sharer.service';
 
 @Component({
   selector: 'app-form',
@@ -59,16 +60,36 @@ export class FormComponent implements OnInit {
   }
 
   // 绑定节点
+  selectBindNodes: string[] = [];
   bindNodeStep: number = 0;
+  bindNodeTokenFlg: boolean = false;
   bindNodeId: string = "";
-  bindNodeToken: string = "";
+  bindNodeToken: any = "";
   bindNodeGas: number[] = [null, 2100000];
   bindNodePassword: string = "";
   async bindNodeConfirm() {
     let address = this.walletService.wallets.current;
+    if(!this.bindNodeTokenFlg) {
+      this.bindNodeToken = await this.getNodeToken(this.bindNodeId, address);
+    }
     await this.txService.bindNode(address, this.bindNodePassword, this.bindNodeToken , this.bindNodeGas[1], this.bindNodeGas[0]);
     this.bindNodeStep++;
     this.onSubmit.emit();
+  }
+
+  setNodeId() {
+    if(this.bindNodeId === "0") {
+      this.bindNodeId = "";
+      this.bindNodeTokenFlg = true;
+    }
+  }
+
+  async getNodeToken(nodeId, address) {
+    return new Promise(res => {
+      this.sharerService.getBindToken(nodeId, address, (err, token) => {
+        res(token);
+      });
+    });
   }
 
   // 解绑节点
@@ -86,12 +107,19 @@ export class FormComponent implements OnInit {
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
+    private sharerService: SharerService
   ) {
   }
 
   ngOnInit() { 
     if (this.name === "removeNode") {
       this.removeNodeId = this.nodeId;
+    }
+    else if (this.name === "bindNode") {
+      this.selectBindNodes = this.sharerService.getSharerNodeIds();
+      if(this.selectBindNodes.length === 0) {
+        this.bindNodeTokenFlg = true;
+      }
     }
   }
 

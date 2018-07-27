@@ -57,6 +57,7 @@
     "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
     "FORGET_PASSWORD_TIPS": "忘记密码？导入助记词可重置密码。",
     "IMPORT_MNEMONIC_NOW": "现在导入",
+    "BACK": "返回",
     "SETTING": {
       "SHOW": {
         "WALLET": "显示【我的钱包】",
@@ -183,7 +184,8 @@
     "HEFT": "当前权重： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>",
     "STAKE_AMOUNT": "押注总额：<span>{{ stake }}<span> GNX</span></span>",
-    "REMOVE_NODE": "解绑"
+    "REMOVE_NODE": "解绑",
+    "NO_BIND_ID": "节点id不在列表中，输入token进行绑定"
   },
   "EDEN": {
     "HOME_DIR": "根目录",

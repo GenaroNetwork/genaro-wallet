@@ -12,6 +12,7 @@ export class InputComponent implements OnInit {
   @Input("name") name: string;
   @Input("ipt") ngModel: any;
   @Input("span") span: number[];
+  @Input("iptSelectOptions") iptSelectOptions: string[];
   @Output("iptChange") ngModelChange: EventEmitter<any> = new EventEmitter;
 
   // gas
@@ -49,5 +50,4 @@ export class InputComponent implements OnInit {
       this.ngModelChange.emit([this.ngModel[0], this.ngModel[1]]);
     }
   }
-
 }

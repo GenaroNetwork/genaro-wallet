@@ -7,21 +7,39 @@
 <!-- 更改钱包密码 -->
 <nz-modal nzTitle="{{ 'MODEL.WALLET_CHANGE_PASSWORD' | translate }}" [nzVisible]="dialogName==='walletChangePassword'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
-    [(ngModel)]="walletChangePassword.old">
-  <br/>
-  <br/>
-  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
-    [(ngModel)]="walletChangePassword.new">
-  <br/>
-  <br/>
-  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
-    [(ngModel)]="walletChangePassword.repeat">
-  <br/>
-  <br/>
-  <span *ngIf="false">{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}
-    <a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a>
-  </span>
+  <ng-container *ngIf="changePasswordStep===0">
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
+      [(ngModel)]="walletChangePassword.old">
+    <br/>
+    <br/>
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
+      [(ngModel)]="walletChangePassword.new">
+    <br/>
+    <br/>
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
+      [(ngModel)]="walletChangePassword.repeat">
+    <br/>
+    <br/>
+    <span>{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}
+      <a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a>
+    </span>
+  </ng-container>
+  <ng-container *ngIf="changePasswordStep===1">
+    <textarea row="4" nz-input [(ngModel)]="walletChangePassword.mnemonic" placeholder="{{ 'WALLETNEW.MNEMONIC_PLACEHOLDER' | translate }}"></textarea>
+    <br/>
+    <br/>
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
+      [(ngModel)]="walletChangePassword.new">
+    <br/>
+    <br/>
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
+      [(ngModel)]="walletChangePassword.repeat">
+    <br/>
+    <br/>
+    <span>
+      <a (click)="backToPassword()">{{ 'MODEL.BACK' | translate }}</a>
+    </span>
+  </ng-container>
 </nz-modal>
 
 <!-- 导出 JSON -->

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { generateMnemonic, validateMnemonic } from "jswallet-manager";
+import { generateMnemonic, validateMnemonic, addressFromMnemonic } from "jswallet-manager";
 import { BehaviorSubject } from 'rxjs';
 import { remote } from "electron"; // 有时间的话把界面功能统一挪到 component 中，service 不要涉及任何界面功能
 import { TranslateService } from '@ngx-translate/core';
@@ -89,6 +89,15 @@ export class WalletService {
     console.log(this.walletManager.listWallet());
     this.walletManager.changePassword(address, oldPassword, newPassword);
     console.log(this.walletManager.listWallet());
+    this.walletList.next(this.walletManager.listWallet());
+  }
+
+  changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {
+    let addr = addressFromMnemonic(mnemonic);
+    if(addr != '0x' + address) {
+      throw new Error('mnemonic error');
+    }
+    this.walletManager.importFromMnemonic(mnemonic, newPassword, '', true);
     this.walletList.next(this.walletManager.listWallet());
   }
 

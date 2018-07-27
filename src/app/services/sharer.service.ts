@@ -85,6 +85,13 @@ export class SharerService {
     );
   }
 
+  getSharerNodeIds() {
+    if(!this.configIds) {
+      this.initConfigs();
+    }
+    return this.configIds || [];
+  }
+
   create(shareSize, shareUnit, shareBasePath) {
     let configFileDescriptor;
     let storPath;
