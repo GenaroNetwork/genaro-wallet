@@ -48,11 +48,14 @@ export class DialogComponent implements OnChanges {
     new: "",
     repeat: "",
   }
+  changePasswordStep: number = 0;
   walletChangePasswordInit() {
+    this.changePasswordStep = 0;
     this.walletChangePassword = {
       old: "",
       new: "",
       repeat: "",
+      mnemonic: ""
     }
   }
   walletChangePasswordDone() {
@@ -68,18 +71,32 @@ export class DialogComponent implements OnChanges {
         return;
       }
       let address = this.walletService.wallets.current;
-      try {
-        this.walletService.changePassword(address, this.walletChangePassword.old, this.walletChangePassword.new);
-      } catch (e) {
-        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-        rej("PASSWORD_ERROR_OLD");
-        return;
+      if(this.changePasswordStep === 0) {
+        try {
+          this.walletService.changePassword(address, this.walletChangePassword.old, this.walletChangePassword.new);
+        } catch (e) {
+          this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
+          rej("PASSWORD_ERROR_OLD");
+          return;
+        }
+      }
+      else {
+        try {
+          this.walletService.changePasswordByMnemonic(address, this.walletChangePassword.mnemonic, this.walletChangePassword.new);
+        } catch (e) {
+          this.alert.error(e.message);
+          rej("MNEMONIC_ERROR");
+          return;
+        }
       }
       res();
     });
   }
   forgetPassword() {
-    
+    this.changePasswordStep = 1;
+  }
+  backToPassword() {
+    this.changePasswordStep = 0;
   }
 
   // wallet export json

@@ -57,6 +57,7 @@
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
     "FORGET_PASSWORD_TIPS": "Forget password? Your can import mnemonic to reset your password. ",
     "IMPORT_MNEMONIC_NOW": "Import Now",
+    "BACK": "Back",
     "SETTING": {
       "SHOW": {
         "WALLET": "Dislay [My wallet]",
