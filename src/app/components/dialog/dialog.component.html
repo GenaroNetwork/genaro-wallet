@@ -19,7 +19,9 @@
     [(ngModel)]="walletChangePassword.repeat">
   <br/>
   <br/>
-  <span *ngIf="false">{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}<a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a></span>
+  <span *ngIf="false">{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}
+    <a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a>
+  </span>
 </nz-modal>
 
 <!-- 导出 JSON -->
@@ -116,14 +118,14 @@
 
 <!-- eden 需要密码 -->
 <nz-modal nzTitle="{{ 'MODEL.EDEN_NEED_PASS' | translate }}" [nzVisible]="dialogName==='edenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
-  (nzOnOk)="dialogDone()">
+  (nzOnOk)="dialogDone()" [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzCancelText]="null" class="no-mask">
   <input nz-input type="password" nzSize="large" [(ngModel)]="edenNeedPass">
 </nz-modal>
 
 
 <!-- tx eden 需要密码 -->
 <nz-modal nzTitle="{{ 'MODEL.TXEDEN_NEED_PASS' | translate }}" [nzVisible]="dialogName==='txEdenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
-  (nzOnOk)="dialogDone()">
+  (nzOnOk)="dialogDone()" [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzCancelText]="null" class="no-mask">
   <input nz-input type="password" nzSize="large" [(ngModel)]="txEdenNeedPass">
 </nz-modal>
 

@@ -17,7 +17,7 @@ import { Subject } from '../../../node_modules/rxjs';
 export class EdenService {
 
   allEnvs: any = {};
-  requestEnv: boolean = false;
+  requestEnv: boolean = null;
   currentBuckets: any = [];
   currentFiles: any = [];
   private fs: any = [];
@@ -198,9 +198,10 @@ export class EdenService {
   }
 
   private async loadTask() {
-    this.zone.run(async () => {
-      this.tasks = await this.ipc.dbAll("task", "SELECT * FROM task");
-    })
+    let tasks = await this.ipc.dbAll("task", "SELECT * FROM task");
+    this.zone.run(() => {
+      this.tasks = tasks;
+    });
   }
 
   private async newTask(type: TASK_TYPE, obj: any) {

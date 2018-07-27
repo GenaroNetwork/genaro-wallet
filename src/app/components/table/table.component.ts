@@ -127,17 +127,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-
-  taskFilter() {
-    let data = this.edenService.tasks;
-    if (this.opt === "eden-inprocess") {
-      return data.filter(data => data.state === TASK_STATE.INPROCESS);
-    }
-    if (this.opt === "eden-done") {
-      return data.filter(data => data.state === TASK_STATE.DONE);
-    }
-  }
-
   ngOnDestroy() {
     if (this[`${this.name}Destroy`]) this[`${this.name}Destroy`]();
     this.allWalletSub.unsubscribe();

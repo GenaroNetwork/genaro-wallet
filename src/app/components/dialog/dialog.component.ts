@@ -79,7 +79,7 @@ export class DialogComponent implements OnChanges {
     });
   }
   forgetPassword() {
-    
+
   }
 
   // wallet export json
@@ -196,8 +196,8 @@ export class DialogComponent implements OnChanges {
 
   //txeden 需要密码
   txEdenNeedPass: string = "";
-  txEdenNeedPassDone() {
-    this.txEdenService.beforehandSign(this.txEdenNeedPass);
+  async txEdenNeedPassDone() {
+    await this.txEdenService.beforehandSign(this.txEdenNeedPass);
   }
 
   // setting

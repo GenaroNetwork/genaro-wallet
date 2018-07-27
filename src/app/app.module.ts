@@ -43,6 +43,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { TranserUnitPipe, ShortGNXPipe } from "./pipes/web3Util.pipe";
 import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
 import { HumanSizePipe } from './pipes/human.pipe';
+import { TablePipe } from './pipes/table.pipe';
 
 
 // AoT requires an exported function for factories
@@ -81,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranserUnitPipe,
     SpecialTxPipe,
     HumanSizePipe,
+    TablePipe,
   ],
   imports: [
     BrowserModule,

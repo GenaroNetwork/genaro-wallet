@@ -94,21 +94,17 @@ export class TxEdenService {
     this.getAll();
   }
 
-  private checkSig(force: boolean = false) {
-    return new Promise(async (res, rej) => {
-      if (this.bucketsSig && this.userSig && this.publicKey) res();
-      let data: any = await this.ipc.dbGet("txeden", `SELECT * FROM txeden WHERE address='${this.walletService.wallets.current}'`);
-      if (!data) {
-        this.requestPass(force);
-        rej(new Error("Need Password"));
-        return;
-      }
-      let sigs = JSON.parse(data.tokens);
-      this.publicKey = sigs.publicKey;
-      this.bucketsSig = sigs.bucketsSig;
-      this.userSig = sigs.userSig;
-      res();
-    });
+  private async checkSig(force: boolean = false) {
+    if (this.bucketsSig && this.userSig && this.publicKey) return;
+    let data: any = await this.ipc.dbGet("txeden", `SELECT * FROM txeden WHERE address='${this.walletService.wallets.current}'`);
+    if (!data) {
+      this.requestPass(force);
+      throw new Error("Need Password");
+    }
+    let sigs = JSON.parse(data.tokens);
+    this.publicKey = sigs.publicKey;
+    this.bucketsSig = sigs.bucketsSig;
+    this.userSig = sigs.userSig;
   }
 
   private async requestPass(force: boolean = false) {

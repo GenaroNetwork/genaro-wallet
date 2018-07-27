@@ -45,3 +45,12 @@
 .contact-email {
   color: #bfbfbf;
 }
+
+.no-mask {
+  ::ng-deep .ant-modal-wrap {
+    pointer-events: none;
+    .ant-modal-content {
+      pointer-events: all;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { TxEdenService } from '../../services/txEden.service';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
@@ -20,8 +20,10 @@ export class TxEdenComponent implements OnInit, OnDestroy {
 
   spacePer: number = 0;
   trafficPer: number = 0;
-  spaceDetail: string = "0/0 GB";
-  trafficDetail: string = "0/0 GB";
+  spaceUsed: number = 0;
+  spaceAll: number = 0;
+  trafficUsed: number = 0;
+  trafficAll: number = 0;
   dialogName: string = null;
   tableChangeIndex: number = 0;
 
@@ -47,19 +49,14 @@ export class TxEdenComponent implements OnInit, OnDestroy {
       allSpace += bucket.limitStorage;
       usedSpace += (bucket.usedSpaceStorage || 0);
     });
-    this.spacePer = usedSpace * 100 / allSpace;
-    this.spaceDetail = `${(usedSpace || 0) / 1024 / 1024 / 1024}/${allSpace / 1024 / 1024 / 1024} GB`;
-    this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0;
-    this.trafficDetail = `${(user.usedDownloadBytes || 0) / 1024 / 1024 / 1024
-      }/${user.limitBytes / 1024 / 1024 / 1024} GB`;
-    if (!allSpace) {
-      this.spacePer = 0;
-      this.spaceDetail = "0/0 GB"
-    }
-    if (!user.limitBytes) {
-      this.trafficPer = 0;
-      this.trafficDetail = "0/0 GB"
-    }
+    this.spaceUsed = usedSpace;
+    this.spaceAll = allSpace;
+    this.trafficUsed = user.usedDownloadBytes || 0;
+    this.trafficAll = user.limitBytes || 0;
+    if (!allSpace) this.spacePer = 0;
+    else this.spacePer = usedSpace * 100 / allSpace;
+    if (!user.limitBytes) this.trafficPer = 0;
+    else this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0;
   }
 
   ngOnDestroy() {

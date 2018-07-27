@@ -1,3 +1,5 @@
+<div class="mask" *ngIf="txEden.requestPassword"></div>
+
 <div class="header">
   <div class="card long-card">
     <div nz-row class="line" nzType="flex" nzAlign="middle">
@@ -10,7 +12,7 @@
     </div>
     <div nz-row nzType="flex" nzAlign="middle">
       <div nz-col nzSpan="17" nzOffset="5">
-        {{ spaceDetail }}
+        {{ spaceUsed | humanSize }}/{{ spaceAll | humanSize }}
       </div>
     </div>
     <div nz-row class="line" nzType="flex" nzAlign="middle">
@@ -23,7 +25,7 @@
     </div>
     <div nz-row nzType="flex" nzAlign="middle">
       <div nz-col nzSpan="17" nzOffset="5">
-        {{ trafficDetail }}
+        {{ trafficUsed | humanSize }}/{{ trafficAll | humanSize }}
       </div>
     </div>
   </div>

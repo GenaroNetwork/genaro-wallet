@@ -1,5 +1,5 @@
 <!-- 钱包 -->
-<nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
   class="tx" nzShowPagination="false">
   <thead>
     <tr>
@@ -53,7 +53,7 @@
   (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
-<nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
   <thead>
     <tr>
       <th></th>
@@ -67,17 +67,17 @@
   <tbody>
     <tr *ngFor="let data of txEdenTable.data">
       <th></th>
-      <th>{{ (data.timeStart*1000) | date:"yyyy-MM-dd HH:mm" }}</th>
+      <th>{{ data.timeStart*1000 | date:"yyyy-MM-dd HH:mm" }}</th>
       <th>{{ data.name }}</th>
-      <th>{{ (data.usedStorage||0)/1024/1024/1024 }}/{{ (data.limitStorage/1024/1024/1024) }} GB</th>
+      <th>{{ (data.usedStorage || 0) | humanSize }}/{{ data.limitStorage | humanSize }}</th>
       <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
-      <th>{{ (data.timeEnd*1000) | date:"yyyy-MM-dd HH:mm" }}</th>
+      <th>{{ data.timeEnd*1000 | date:"yyyy-MM-dd HH:mm" }}</th>
     </tr>
   </tbody>
 </nz-table>
 
 <!-- 抵押 -->
-<nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" nzShowPagination="false">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData">
   <thead>
     <tr>
       <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -104,12 +104,12 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage"
-  (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination>
+<!-- <nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage"
+  (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination> -->
 
 
 <!-- sharer -->
-<nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false">
   <thead>
     <tr>
       <th *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -209,7 +209,7 @@
 
 
 
-<nz-table *ngIf="name==='task'" [nzData]="taskFilter()" #taskTable>
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable>
   <thead>
     <tr>
       <th>{{ "TASK.FILE_NAME" | translate}}</th>

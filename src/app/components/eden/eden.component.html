@@ -1,3 +1,5 @@
+<div class="mask" *ngIf="edenService.requestEnv"></div>
+
 <div class="header">
   <nz-breadcrumb>
     <nz-breadcrumb-item>
@@ -27,5 +29,7 @@
   </div>
 </div>
 
-<app-dialog [name]="edenService.requestEnv ? 'edenNeedPass' : edenDialogName" [(name)]="edenDialogName" [opt]="edenDialogOpt">
+
+<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false"></app-dialog>
+<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt">
 </app-dialog>
