@@ -183,7 +183,8 @@
     "HEFT": "当前权重： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>",
     "STAKE_AMOUNT": "押注总额：<span>{{ stake }}<span> GNX</span></span>",
-    "REMOVE_NODE": "解绑"
+    "REMOVE_NODE": "解绑",
+    "NO_BIND_ID": "节点id不在列表中，输入token进行绑定"
   },
   "EDEN": {
     "HOME_DIR": "根目录",

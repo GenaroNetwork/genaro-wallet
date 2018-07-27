@@ -183,7 +183,8 @@
     "HEFT": "Current heft： <span>{{ heft }}<span> 分</span></span>",
     "HEFT_RANK": "Heft rank： <span>{{ rank }}<span> 名</span></span>",
     "STAKE_AMOUNT": "Stake amount：<span>{{ stake }}<span> GNX</span></span>",
-    "REMOVE_NODE": "remove"
+    "REMOVE_NODE": "remove",
+    "NO_BIND_ID": "Node is not in the list. Input token to bind."
   },
   "EDEN": {
     "HOME_DIR": "根目录",
