@@ -5,6 +5,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
+import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE } from '../../libs/config';
 
 
@@ -39,6 +40,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public walletService: WalletService,
     public txEdenService: TxEdenService,
     public edenService: EdenService,
+    public committeeService: CommitteeService
   ) { }
 
   txData: any[];
@@ -114,6 +116,29 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txSharerDataUpdate();
   }
 
+  // committee
+  committeeData: any[] = [];
+  committeeDataCurrentPage: number = 1;
+  committeeDataTotalPage: number = 0;
+  committeeAddress: string = "";
+  committeeInit() {
+    this.committeeDataUpdate("");
+  }
+  async committeeDataUpdate(addr) {
+    var datas = await this.committeeService.getSentinel(addr);
+    if (datas) {
+      this.committeeDataTotalPage = datas.length;
+      this.committeeData = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
+    }
+  };
+  committeeDataChangePage(page: number) {
+    this.committeeDataCurrentPage = page;
+    this.committeeDataUpdate("");
+  }
+  searchFarmer() {
+    this.committeeDataCurrentPage = 1;
+    this.committeeDataUpdate(this.committeeAddress);
+  }
 
   allWalletSub: any;
   allBlockSub: any;

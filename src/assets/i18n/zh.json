@@ -107,7 +107,8 @@
     "EDEN_DONE": "已完成",
     "TXEDEN": "空间管理",
     "SHARER": "我的分享",
-    "TXSHARER": "数据栈管理"
+    "TXSHARER": "数据栈管理",
+    "COMMITTEE": "本届委员会"
   },
   "WALLET": {
     "CONFIG": "管理钱包",
@@ -323,6 +324,15 @@
       "STAKE_TIME": "抵押时间",
       "INCOME": "收益",
       "REMOVE_NODE": "解绑节点"
+    },
+    "COMMITTEE": {
+      "RANK": "排名",
+      "NAME": "名称",
+      "STAKE": "stake",
+      "SPACE": "空间使用",
+      "SENTINEL": "sentinel",
+      "MEMBER": "成员",
+      "ADDRESS": "地址"
     }
   },
   "ERROR": {

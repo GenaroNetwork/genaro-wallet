@@ -26,6 +26,7 @@ export const SETTINGS = [];
 //     showEden: [false, false],
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
+//     showCommittee: [false, false],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }
@@ -37,6 +38,7 @@ export const SETTINGS = [];
 //     showEden: [true, true],
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
+//     showCommittee: [false, false],
 //     showTxSharer: [false, false],
 //     lang: ['en', true],
 // }
@@ -48,6 +50,7 @@ export const SETTINGS = [];
 //     showEden: [false, false],
 //     showTxEden: [false, false],
 //     showSharer: [true, true],
+//     showCommittee: [true, true],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }
@@ -86,6 +89,7 @@ export const DAEMON_CONFIG = require("./DAEMON_CONFIG.json");
 
 export const SENTINEL_WEB = 'http://118.31.61.119:8001';
 
+export const TOP_FARMER_URL = "http://118.31.61.119:8000/top-farmer";
 
 export enum TASK_TYPE {
     FILE_UPLOAD = 0,

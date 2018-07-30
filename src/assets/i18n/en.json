@@ -107,7 +107,8 @@
     "EDEN_DONE": "Completed",
     "TXEDEN": "Space management",
     "SHARER": "My sharing",
-    "TXSHARER": "Data stack management"
+    "TXSHARER": "Data stack management",
+    "COMMITTEE": "The current Committee"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
@@ -299,6 +300,15 @@
       "STAKE_TIME": "Stake time",
       "INCOME": "Income",
       "REMOVE_NODE": "Unbind node"
+    },
+    "COMMITTEE": {
+      "RANK": "rank",
+      "NAME": "name",
+      "STAKE": "stake",
+      "SPACE": "space",
+      "SENTINEL": "sentinel",
+      "MEMBER": "member",
+      "ADDRESS": "address"
     }
   },
   "ERROR": {

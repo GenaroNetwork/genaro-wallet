@@ -35,4 +35,8 @@
     <i class="anticon anticon-database"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>
+  <li nz-menu-item [routerLink]="['/committee']" [nzSelected]="page==='/committee'" *ngIf="settingService.showCommittee">
+    <i class="anticon anticon-database"></i>
+    {{ "SIDERBAR.COMMITTEE" | translate }}
+  </li>
 </ul>
