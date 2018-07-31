@@ -28,12 +28,27 @@ export class BrotherhoodService {
     const fetchingAddr = this.fetchingAddress.slice(0)
     const promises = fetchingAddr.map(this.fetchState)
     const states = await Promise.all(promises)
+    let somethingChanged = false;
     states.forEach(state => {
       // @ts-ignore
       //TODO: compare new value with old value. Send notification if necessary
-      this2.lastState.set(state.address, state)
+      const oldVal = this2.lastState.get(state.address)
+      const changd = !this.compareState(oldVal, state)
+      if(changd) {
+        somethingChanged = true;
+        this2.lastState.set(state.address, state)
+      }
+      // update value
+      if(somethingChanged) {
+        this.stateUpdate.next(this.lastState)
+      }
     })
     setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
+  }
+
+  // equal: return true, otherwise false
+  private compareState(oldVal, newVal): boolean {
+    return false
   }
   /*
     there are 3 phases to make brotherhood relation really take effect:
@@ -177,7 +192,5 @@ export class BrotherhoodService {
       tempState
     }
   }
-
-
 
 }
