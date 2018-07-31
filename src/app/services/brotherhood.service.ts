@@ -47,6 +47,7 @@ export class BrotherhoodService {
   }
 
   // equal: return true, otherwise false
+  // send 
   private compareState(oldVal, newVal): boolean {
     return false
   }
@@ -125,16 +126,14 @@ export class BrotherhoodService {
     return await web3.genaro.getCommitteeRank('latest');
   }
 
-  private defineRole(state) {
-    Object.defineProperty(state, 'role', { get: function() {
-      if(this.mainAccount) {
-        return Role.Sub
-      }
-      if(this.subAccounts && this.subAccounts.length > 0) {
-        return Role.Main
-      }
-      return Role.Free
-    } });
+  private getRole(state) {
+    if(state.mainAccount) {
+      return Role.Sub
+    }
+    if(state.subAccounts && state.subAccounts.length > 0) {
+      return Role.Main
+    }
+    return Role.Free
   }
 
   private async fetchCurrentState(address: string) {
@@ -161,7 +160,7 @@ export class BrotherhoodService {
       mainAccount: getMain(extra),
       subAccounts: getSubs(extra)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
@@ -170,7 +169,7 @@ export class BrotherhoodService {
       mainAccount: this.getCurrentMainAccount(address),
       subAccounts: this.getCurrentSubAccounts(address)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
@@ -179,7 +178,7 @@ export class BrotherhoodService {
       mainAccount: this.getTempMainAccount(address),
       subAccounts: this.getTempSubAccounts(address)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
