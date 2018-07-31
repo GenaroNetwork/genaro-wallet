@@ -1,1 +1,1 @@
-export * from "../../../libs/config";
+export * from '../../../libs/config';

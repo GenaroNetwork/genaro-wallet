@@ -3,13 +3,13 @@ import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { nextTick } from 'q';
-import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from "../../libs/config";
+import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from '../../libs/config';
 import { TransactionService } from '../../services/transaction.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
-import { shell } from "electron";
-import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from "../../libs/config";
+import { shell } from 'electron';
+import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from '../../libs/config';
 
 @Component({
   selector: 'app-dialog',
@@ -27,65 +27,64 @@ export class DialogComponent implements OnChanges {
     private txEdenService: TxEdenService,
     public settingService: SettingService,
   ) { }
-  @Input("name") dialogName: string = null;
-  @Output("nameChange") dialogNameChange: EventEmitter<string> = new EventEmitter;
-  @Input("opt") options: any = null;
+  @Input('name') dialogName: string = null;
+  @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
+  @Input('opt') options: any = null;
 
   //  Wallet change name
-  walletChangeName: string = "";
+  walletChangeName = '';
   walletChangeNameInit() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     this.walletChangeName = this.walletService.wallets.all[address].name;
   }
   walletChangeNameDone() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     this.walletService.changeName(address, this.walletChangeName);
   }
 
   // wallet change password
   walletChangePassword: any = {
-    old: "",
-    new: "",
-    repeat: "",
-  }
-  changePasswordStep: number = 0;
+    old: '',
+    new: '',
+    repeat: '',
+  };
+  changePasswordStep = 0;
   walletChangePasswordInit() {
     this.changePasswordStep = 0;
     this.walletChangePassword = {
-      old: "",
-      new: "",
-      repeat: "",
-      mnemonic: ""
-    }
+      old: '',
+      new: '',
+      repeat: '',
+      mnemonic: ''
+    };
   }
   walletChangePasswordDone() {
     return new Promise((res, rej) => {
       if (this.walletChangePassword.new.length < 6) {
-        this.alert.error(this.i18n.instant("WALLETNEW.PASSWORD_NOT_SAFE_LENGTH"));
-        rej("PASSWORD_ERROR_WEAK");
+        this.alert.error(this.i18n.instant('WALLETNEW.PASSWORD_NOT_SAFE_LENGTH'));
+        rej('PASSWORD_ERROR_WEAK');
         return;
       }
       if (this.walletChangePassword.new !== this.walletChangePassword.repeat) {
-        this.alert.error(this.i18n.instant("WALLETNEW.REPEAT_PASSWORD_ERROR"));
-        rej("PASSWORD_ERROR_REPEAT");
+        this.alert.error(this.i18n.instant('WALLETNEW.REPEAT_PASSWORD_ERROR'));
+        rej('PASSWORD_ERROR_REPEAT');
         return;
       }
-      let address = this.walletService.wallets.current;
+      const address = this.walletService.wallets.current;
       if (this.changePasswordStep === 0) {
         try {
           this.walletService.changePassword(address, this.walletChangePassword.old, this.walletChangePassword.new);
         } catch (e) {
-          this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-          rej("PASSWORD_ERROR_OLD");
+          this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
+          rej('PASSWORD_ERROR_OLD');
           return;
         }
-      }
-      else {
+      } else {
         try {
           this.walletService.changePasswordByMnemonic(address, this.walletChangePassword.mnemonic, this.walletChangePassword.new);
         } catch (e) {
           this.alert.error(e.message);
-          rej("MNEMONIC_ERROR");
+          rej('MNEMONIC_ERROR');
           return;
         }
       }
@@ -100,16 +99,16 @@ export class DialogComponent implements OnChanges {
   }
 
   // wallet export json
-  walletExportJson: string = "";
+  walletExportJson = '';
   walletExportJsonInit() {
-    this.walletExportJson = "";
+    this.walletExportJson = '';
   }
   walletExportJsonDone() {
     return new Promise((res, rej) => {
-      let address = this.walletService.wallets.current;
+      const address = this.walletService.wallets.current;
       if (!this.walletService.validatePassword(address, this.walletExportJson)) {
-        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-        rej("PASSWORD_ERROR_OLD");
+        this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
+        rej('PASSWORD_ERROR_OLD');
         return;
       }
       this.walletService.exportJson(address);
@@ -118,16 +117,16 @@ export class DialogComponent implements OnChanges {
   }
 
   // walelt delete
-  walletDelete: string = "";
+  walletDelete = '';
   walletDeleteInit() {
-    this.walletDelete = "";
+    this.walletDelete = '';
   }
   walletDeleteDone() {
     return new Promise((res, rej) => {
-      let address = this.walletService.wallets.current;
+      const address = this.walletService.wallets.current;
       if (!this.walletService.validatePassword(address, this.walletDelete)) {
-        this.alert.error(this.i18n.instant("WALLETNEW.OLD_PASSWORD_ERROR"));
-        rej("PASSWORD_ERROR_OLD");
+        this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
+        rej('PASSWORD_ERROR_OLD');
         return;
       }
       nextTick(() => {
@@ -138,66 +137,65 @@ export class DialogComponent implements OnChanges {
   }
 
   // 购买空间
-  buySpaceStep: number = 0;
-  buySpaceLimit: number = 0;
+  buySpaceStep = 0;
+  buySpaceLimit = 0;
   buySpaceLimitParams: number[] = [0, 30];
-  buySpaceRange: number = 0;
+  buySpaceRange = 0;
   buySpaceRangeParams: number[] = [0, 1];
-  buySpacePassword: string = "";
+  buySpacePassword = '';
   buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
   buySpaceInit() {
     this.buySpaceStep = 0;
     this.buySpaceLimit = 0;
     this.buySpaceRange = 0;
-    this.buySpacePassword = "";
+    this.buySpacePassword = '';
     this.buySpaceRangeParams = [0, 1];
     this.buySpaceLimitParams = [0, 30];
   }
   async buySpaceSubmit() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
     this.buySpaceStep++;
   }
 
   // 购买流量
-  buyTrafficPassword: string = "";
-  buyTrafficStep: number = 0;
-  buyTraffic: number = 0;
+  buyTrafficPassword = '';
+  buyTrafficStep = 0;
+  buyTraffic = 0;
   buyTrafficParams: number[] = [0, 1];
   buyTrafficGas: number[] = [null, 2100000];
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
   buyTrafficInit() {
-    this.buyTrafficPassword = "";
+    this.buyTrafficPassword = '';
     this.buyTrafficStep = 0;
     this.buyTraffic = 0;
     this.buyTrafficParams = [0, 1];
   }
   async buyTrafficSubmit() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
     this.buyTrafficStep++;
   }
 
 
-  //eden 需要密码
-  edenNeedPass: string = "";
+  // eden 需要密码
+  edenNeedPass = '';
   edenNeedPassInit() {
-    this.edenNeedPass = "";
+    this.edenNeedPass = '';
   }
   edenNeedPassDone() {
     return new Promise((res, rej) => {
-      if (this.edenService.generateEnv(this.edenNeedPass)) res();
-      else (rej());
-    })
+      if (this.edenService.generateEnv(this.edenNeedPass)) { res(); } else { (rej()); }
+    });
   }
   edenNeedPassDestroy() {
     this.edenService.requestEnv = false;
   }
 
   // eeden 容器改名
-  edenRenameBucket: string = "";
-  edenRenameBucketId: string = "";
+  edenRenameBucket = '';
+  edenRenameBucketId = '';
   edenRenameBucketInit() {
     this.options.forEach(value => {
       this.edenRenameBucket = this.edenService.currentView[value].name;
@@ -215,8 +213,8 @@ export class DialogComponent implements OnChanges {
   }
 
 
-  //txeden 需要密码
-  txEdenNeedPass: string = "";
+  // txeden 需要密码
+  txEdenNeedPass = '';
   async txEdenNeedPassDone() {
     await this.txEdenService.beforehandSign(this.txEdenNeedPass);
   }
@@ -224,9 +222,8 @@ export class DialogComponent implements OnChanges {
   // setting
   settingGetLanguageName(lang) {
     try {
-      let name = require(`../../../assets/i18n/${lang}.json`).LANGUAGE_NAME;
-      if (name) return name;
-      else return lang;
+      const name = require(`../../../assets/i18n/${lang}.json`).LANGUAGE_NAME;
+      if (name) { return name; } else { return lang; }
     } catch (e) {
       return lang;
     }
@@ -235,15 +232,17 @@ export class DialogComponent implements OnChanges {
   // common
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (changes.dialogName) {
-      if (this[`${changes.dialogName.previousValue}Destroy`])
+      if (this[`${changes.dialogName.previousValue}Destroy`]) {
         this[`${changes.dialogName.previousValue}Destroy`]();
-      if (this[`${changes.dialogName.currentValue}Init`])
+      }
+      if (this[`${changes.dialogName.currentValue}Init`]) {
         this[`${changes.dialogName.currentValue}Init`]();
+      }
     }
   }
   dialogDone() {
     if (this[`${this.dialogName}Done`]) {
-      let result = this[`${this.dialogName}Done`]();
+      const result = this[`${this.dialogName}Done`]();
       if (result instanceof Promise) {
         result.then(() => {
           this.dialogNameChange.emit(null);
@@ -268,8 +267,8 @@ export class DialogComponent implements OnChanges {
   }
 
   // about
-  isLastestVersion: boolean = true;
-  updateUrl: string = '';
+  isLastestVersion = true;
+  updateUrl = '';
   aboutInit() {
     this.checkUpdate();
   }
@@ -280,17 +279,17 @@ export class DialogComponent implements OnChanges {
     shell.openExternal(GET_TUTORIAL(this.i18n.currentLang));
   }
   openLogsWeb() {
-    //shell.openExternal();
+    // shell.openExternal();
   }
   async checkUpdate() {
     this.isLastestVersion = true;
-    let latestVersion = await this.settingService.getUpdateVersion();
+    const latestVersion = await this.settingService.getUpdateVersion();
     if (!latestVersion && latestVersion.version && latestVersion.url) {
-      let lv = latestVersion.split(".");
-      let cv = this.version.split(".");
+      const lv = latestVersion.split('.');
+      const cv = this.version.split('.');
       for (let index = 0, length = lv.length; index < length; index++) {
-        let lvn = parseInt(lv[index]);
-        let cvn = parseInt(cv[index]);
+        const lvn = parseInt(lv[index]);
+        const cvn = parseInt(cv[index]);
         if (lvn > cvn) {
           this.isLastestVersion = false;
           this.updateUrl = latestVersion.url;

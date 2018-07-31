@@ -1,102 +1,110 @@
 import { Injectable } from '@angular/core';
 import { IpcService } from './ipc.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SETTINGS, CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from "../libs/config";
-import { remote } from "electron";
+import { SETTINGS, CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from '../libs/config';
+import { remote } from 'electron';
 const axios = require('axios');
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingService {
-  private _showWallet: boolean = true;
+  private _showWallet = true;
   get showWallet() {
     return this._showWallet;
   }
   set showWallet(value) {
     this._showWallet = value;
-    if (value !== null)
-      this.update("showWallet");
+    if (value !== null) {
+      this.update('showWallet');
+    }
   }
 
-  private _showEden: boolean = true;
+  private _showEden = true;
   get showEden() {
     return this._showEden;
   }
   set showEden(value) {
     this._showEden = value;
-    if (value !== null)
-      this.update("showEden");
+    if (value !== null) {
+      this.update('showEden');
+    }
   }
 
-  private _showTxEden: boolean = true;
+  private _showTxEden = true;
   get showTxEden() {
     return this._showTxEden;
   }
   set showTxEden(value) {
     this._showTxEden = value;
-    if (value !== null)
-      this.update("showTxEden");
+    if (value !== null) {
+      this.update('showTxEden');
+    }
   }
 
-  private _showSharer: boolean = true;
+  private _showSharer = true;
   get showSharer() {
     return this._showSharer;
   }
   set showSharer(value) {
     this._showSharer = value;
-    if (value !== null)
-      this.update("showSharer");
+    if (value !== null) {
+      this.update('showSharer');
+    }
   }
 
-  private _showTxSharer: boolean = true;
+  private _showTxSharer = true;
   get showTxSharer() {
     return this._showTxSharer;
   }
   set showTxSharer(value) {
     this._showTxSharer = value;
-    if (value !== null)
-      this.update("showTxSharer");
+    if (value !== null) {
+      this.update('showTxSharer');
+    }
   }
 
-  private _edenListMode: boolean = false;
+  private _edenListMode = false;
   get edenListMode() {
     return this._edenListMode;
   }
   set edenListMode(value) {
     this._edenListMode = value;
-    if (value !== null)
-      this.update("edenListMode");
+    if (value !== null) {
+      this.update('edenListMode');
+    }
   }
 
-  private _lang: string = "en";
+  private _lang = 'en';
   get lang() {
     return this._lang;
   }
   set lang(value) {
     this._lang = value;
     this.i18n.use(value);
-    this.update("lang");
+    this.update('lang');
   }
 
-  private _showCommittee: boolean = true;
+  private _showCommittee = true;
   get showCommittee() {
     return this._showCommittee;
   }
   set showCommittee(value) {
     this._showCommittee = value;
-    if (value !== null)
-      this.update("showCommittee");
+    if (value !== null) {
+      this.update('showCommittee');
+    }
   }
 
-  private _showCurrentCommittee: boolean = true;
+  private _showCurrentCommittee = true;
   get showCurrentCommittee() {
     return this._showCurrentCommittee;
   }
   set showCurrentCommittee(value) {
     this._showCurrentCommittee = value;
-    if (value !== null)
-      this.update("showCurrentCommittee")
+    if (value !== null) {
+      this.update('showCurrentCommittee');
+    }
   }
 
   appName = remote.app.getName();
@@ -105,28 +113,26 @@ export class SettingService {
     private ipc: IpcService,
     private i18n: TranslateService,
   ) {
-    let names = ["showWallet", "showEden", "showTxEden", "showSharer", "showTxSharer", "lang"];
+    const names = ['showWallet', 'showEden', 'showTxEden', 'showSharer', 'showTxSharer', 'lang'];
     names.forEach(async name => {
-      let value: any = await this.ipc.dbGet("setting", `SELECT value FROM setting WHERE name = '${this.appName}-${name}'`);
-      if (SETTINGS.indexOf(name) > -1) this[name] = null;
-      else if (value) this[name] = JSON.parse(value.value);
-      else
-        await this.ipc.dbRun("setting", `INSERT INTO setting (name, value) VALUES ('${this.appName}-${name}', '${JSON.stringify(this[name])}')`);
+      const value: any = await this.ipc.dbGet('setting', `SELECT value FROM setting WHERE name = '${this.appName}-${name}'`);
+      if (SETTINGS.indexOf(name) > -1) { this[name] = null; } else if (value) { this[name] = JSON.parse(value.value); } else {
+        await this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${this.appName}-${name}', '${JSON.stringify(this[name])}')`);
+           }
     });
   }
   update(name) {
-    this.ipc.dbRun("setting", `UPDATE setting SET value='${JSON.stringify(this[name])}' WHERE name='${this.appName}-${name}'`);
+    this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(this[name])}' WHERE name='${this.appName}-${name}'`);
   }
 
   async getUpdateVersion() {
     try {
-      let res = await axios.get(CHECK_MAC_UPDATE_URL);
+      const res = await axios.get(CHECK_MAC_UPDATE_URL);
       if (res.status !== 200) {
         return '';
       }
       return res.data;
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
       return '';
     }

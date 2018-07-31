@@ -18,14 +18,14 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     this.txEden.getAll();
   }
 
-  spacePer: number = 0;
-  trafficPer: number = 0;
-  spaceUsed: number = 0;
-  spaceAll: number = 0;
-  trafficUsed: number = 0;
-  trafficAll: number = 0;
+  spacePer = 0;
+  trafficPer = 0;
+  spaceUsed = 0;
+  spaceAll = 0;
+  trafficUsed = 0;
+  trafficAll = 0;
   dialogName: string = null;
-  tableChangeIndex: number = 0;
+  tableChangeIndex = 0;
 
   walletSub: any;
   blockSub: any;
@@ -41,8 +41,8 @@ export class TxEdenComponent implements OnInit, OnDestroy {
 
   async txEdenUpdate(force: boolean = true) {
     await this.txEden.getAll(force);
-    let user = this.txEden.currentUser;
-    let buckets = this.txEden.bucketList;
+    const user = this.txEden.currentUser;
+    const buckets = this.txEden.bucketList;
     let allSpace = 0;
     let usedSpace = 0;
     buckets.forEach(bucket => {
@@ -53,10 +53,8 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     this.spaceAll = allSpace;
     this.trafficUsed = user.usedDownloadBytes || 0;
     this.trafficAll = user.limitBytes || 0;
-    if (!allSpace) this.spacePer = 0;
-    else this.spacePer = usedSpace * 100 / allSpace;
-    if (!user.limitBytes) this.trafficPer = 0;
-    else this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0;
+    if (!allSpace) { this.spacePer = 0; } else { this.spacePer = usedSpace * 100 / allSpace; }
+    if (!user.limitBytes) { this.trafficPer = 0; } else { this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0; }
   }
 
   ngOnDestroy() {

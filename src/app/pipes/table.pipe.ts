@@ -9,9 +9,9 @@ export class TablePipe implements PipeTransform {
     const INPROCESS = [TASK_STATE.INIT, TASK_STATE.INPROCESS];
     const DONE = [TASK_STATE.DONE, TASK_STATE.ERROR, TASK_STATE.CANCEL];
     switch (opt) {
-      case "eden-inprocess":
+      case 'eden-inprocess':
         return data.filter(data => INPROCESS.indexOf(data.state) > -1);
-      case "eden-done":
+      case 'eden-done':
         return data.filter(data => DONE.indexOf(data.state) > -1);
     }
   }

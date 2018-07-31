@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
-import { remote } from "electron";
+import { remote } from 'electron';
 import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
@@ -24,7 +24,7 @@ export class EdenComponent implements OnInit {
   edenDialogOpt: any = null;
   fileSelected: Set<number> = new Set();
   lastFileSelected: number = null;
-  selectedIncludeFolder: boolean = false;
+  selectedIncludeFolder = false;
   zone: NgZone;
 
   ngOnInit() {
@@ -34,10 +34,10 @@ export class EdenComponent implements OnInit {
     //   this.edenService.generateEnv("111111");
     // else
     //   this.edenService.updateAll();
-    let path = this.route.snapshot.params.path;
+    const path = this.route.snapshot.params.path;
     if (path) {
-      let pathArr = path.split("/");
-      pathArr.unshift("/");
+      const pathArr = path.split('/');
+      pathArr.unshift('/');
       this.edenService.changePath(pathArr);
     }
   }
@@ -56,7 +56,7 @@ export class EdenComponent implements OnInit {
       return;
     }
     if (event.button !== 0) {
-      if (this.fileSelected.has(i)) return;
+      if (this.fileSelected.has(i)) { return; }
       this.fileSelected = new Set();
       this.fileSelected.add(i);
       this.lastFileSelected = i;
@@ -72,22 +72,21 @@ export class EdenComponent implements OnInit {
         }
       }
     } else if (event.ctrlKey || event.metaKey) {
-      if (this.fileSelected.has(i)) this.fileSelected.delete(i);
-      else {
+      if (this.fileSelected.has(i)) { this.fileSelected.delete(i); } else {
         this.fileSelected.add(i);
       }
     }
     this.selectedIncludeFolder = false;
     this.fileSelected.forEach(i => {
-      if (this.edenService.currentView[i].type === "folder") this.selectedIncludeFolder = true;
+      if (this.edenService.currentView[i].type === 'folder') { this.selectedIncludeFolder = true; }
     });
     this.lastFileSelected = i;
   }
 
   dblclick(index: number) {
-    let file = this.edenService.currentView[index];
-    if (file.type !== "bucket" && file.type !== "folder") return;
-    this.edenService.changePath(["/", file.id]);
+    const file = this.edenService.currentView[index];
+    if (file.type !== 'bucket' && file.type !== 'folder') { return; }
+    this.edenService.changePath(['/', file.id]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
   }
@@ -95,23 +94,24 @@ export class EdenComponent implements OnInit {
   rightClick(event: MouseEvent) {
     const menu = new remote.Menu();
     if (this.edenService.currentPath.length === 0) {
-      if (this.fileSelected.size === 1) menu.append(new remote.MenuItem({
-        label: this.i18n.instant("EDEN.OPEN"), click: this.openBucket.bind(this)
+      if (this.fileSelected.size === 1) { menu.append(new remote.MenuItem({
+        label: this.i18n.instant('EDEN.OPEN'), click: this.openBucket.bind(this)
       }));
-      menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.CREATE_BUCKET"), click: this.createBucket.bind(this) }));
-      if (this.fileSelected.size > 0) menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.DELETE_BUCKET"), click: this.deleteBucket.bind(this) }));
+      }
+      menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.CREATE_BUCKET'), click: this.createBucket.bind(this) }));
+      if (this.fileSelected.size > 0) { menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.DELETE_BUCKET'), click: this.deleteBucket.bind(this) })); }
     } else {
-      if (this.fileSelected.size === 0)
-        menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.UPLOAD_FILE"), click: this.uploadFile.bind(this) }));
-      else {
-        menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.DOWNLOAD_FILE"), click: this.downloadFile.bind(this) }));
-        menu.append(new remote.MenuItem({ label: this.i18n.instant("EDEN.REMOVE_FILE"), click: this.removeFile.bind(this) }));
+      if (this.fileSelected.size === 0) {
+        menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.UPLOAD_FILE'), click: this.uploadFile.bind(this) }));
+      } else {
+        menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.DOWNLOAD_FILE'), click: this.downloadFile.bind(this) }));
+        menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.REMOVE_FILE'), click: this.removeFile.bind(this) }));
       }
     }
     menu.popup({ window: remote.getCurrentWindow() });
   }
   private getCurrentFiles() {
-    let files = [];
+    const files = [];
     this.fileSelected.forEach(i => {
       files.push(this.edenService.currentView[i]);
     });
@@ -128,75 +128,75 @@ export class EdenComponent implements OnInit {
   }
   createBucket() { }
   openBucket() {
-    let i = this.fileSelected.values().next().value;
-    let id = this.edenService.currentView[i].id;
+    const i = this.fileSelected.values().next().value;
+    const id = this.edenService.currentView[i].id;
     this.edenService.changePath([`/${id}`]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
   }
   deleteBucket() {
-    let bucketList = [];
+    const bucketList = [];
     this.fileSelected.forEach(i => {
       bucketList.push(this.edenService.currentView[i]);
     });
     this.edenDialogOpt = bucketList;
-    this.edenDialogName = "edenDeleteBucket";
+    this.edenDialogName = 'edenDeleteBucket';
   }
 
   type2icon(type: string, rotate: boolean = false) {
     type = type.toLowerCase();
-    let icon = "";
+    let icon = '';
     switch (type) {
-      case ".txt":
-        icon = "file-text";
+      case '.txt':
+        icon = 'file-text';
         break;
-      case ".pdf":
-        icon = "file-pdf";
+      case '.pdf':
+        icon = 'file-pdf';
         break;
-      case ".doc":
-      case ".docx":
-      case ".pages":
-        icon = "file-word";
+      case '.doc':
+      case '.docx':
+      case '.pages':
+        icon = 'file-word';
         break;
-      case ".xls":
-      case ".xlsx":
-      case ".numbers":
-        icon = "file-excel";
+      case '.xls':
+      case '.xlsx':
+      case '.numbers':
+        icon = 'file-excel';
         break;
-      case ".ppt":
-      case ".pptx":
-      case ".keynote":
-        icon = "file-ppt";
+      case '.ppt':
+      case '.pptx':
+      case '.keynote':
+        icon = 'file-ppt';
         break;
-      case ".jpg":
-      case ".jpeg":
-      case ".png":
-      case ".gif":
-      case ".webp":
-      case ".jpeg":
-        icon = "file-jpg";
+      case '.jpg':
+      case '.jpeg':
+      case '.png':
+      case '.gif':
+      case '.webp':
+      case '.jpeg':
+        icon = 'file-jpg';
         break;
-      case ".md":
-      case ".markdown":
-        icon = "file-markdown";
+      case '.md':
+      case '.markdown':
+        icon = 'file-markdown';
         break;
-      case "bucket":
-        icon = "hdd";
+      case 'bucket':
+        icon = 'hdd';
         break;
-      case "folder":
-        icon = "folder";
+      case 'folder':
+        icon = 'folder';
         break;
-      case "file":
-        icon = "file";
+      case 'file':
+        icon = 'file';
         break;
-      case "add":
-        icon = "add";
+      case 'add':
+        icon = 'add';
         break;
       default:
-        icon = "file-unknown";
+        icon = 'file-unknown';
         break;
     }
-    return `anticon anticon-${icon} ${rotate ? "anticon-spin" : ""}`;
+    return `anticon anticon-${icon} ${rotate ? 'anticon-spin' : ''}`;
   }
 
 }

@@ -15,26 +15,26 @@ export class SharerComponent implements OnInit {
     private alert: NzMessageService,
   ) { }
 
-  modalTitle: string = "";
-  modalMessage: string = "";
-  modalVisible: boolean = false;
-  modalType: number = 0;
-  modalDataId: string = "";
-  addShareFilePath: string = "";
-  addShareShareSize: string = "";
-  addShareSelectUnit: string = "GB";
-  visible: boolean = false;
-  hiddenVisible: boolean = false;
-  bindModalVisible: boolean = false;
-  bindNodeId: string = "";
-  bindNodeAddress: string = "";
-  bindToken: string = "";
-  bindTokenStep: number = 0;
+  modalTitle = '';
+  modalMessage = '';
+  modalVisible = false;
+  modalType = 0;
+  modalDataId = '';
+  addShareFilePath = '';
+  addShareShareSize = '';
+  addShareSelectUnit = 'GB';
+  visible = false;
+  hiddenVisible = false;
+  bindModalVisible = false;
+  bindNodeId = '';
+  bindNodeAddress = '';
+  bindToken = '';
+  bindTokenStep = 0;
 
   selectFile() {
-    var _this = this;
+    const _this = this;
     dialog.showOpenDialog({
-      title: "请选择待分享空间",
+      title: '请选择待分享空间',
       properties: ['openDirectory']
     }, function (res) {
       if (res && res[0]) {
@@ -46,9 +46,9 @@ export class SharerComponent implements OnInit {
   addShare() {
     this.visible = false;
     if (!this.addShareFilePath) {
-      return this.alert.error("请选择目录");
+      return this.alert.error('请选择目录');
     }
-    let nodeId = this.sharer.create(this.addShareShareSize, this.addShareSelectUnit, this.addShareFilePath);
+    const nodeId = this.sharer.create(this.addShareShareSize, this.addShareSelectUnit, this.addShareFilePath);
     this.sharer.start(nodeId, (err) => {
       if (err) {
         return this.alert.error(err.message);
@@ -59,32 +59,32 @@ export class SharerComponent implements OnInit {
   restartShare(data) {
     this.modalVisible = true;
     this.modalType = 1;
-    this.modalTitle = "DRIVE.RESTART";
-    this.modalMessage = "DRIVE.RESTART_CONFIRM_TIP";
+    this.modalTitle = 'DRIVE.RESTART';
+    this.modalMessage = 'DRIVE.RESTART_CONFIRM_TIP';
     this.modalDataId = data.id;
   }
 
   startShare(data) {
     this.modalVisible = true;
     this.modalType = 1;
-    this.modalTitle = "DRIVE.START";
-    this.modalMessage = "DRIVE.START_CONFIRM_TIP";
+    this.modalTitle = 'DRIVE.START';
+    this.modalMessage = 'DRIVE.START_CONFIRM_TIP';
     this.modalDataId = data.id;
   }
 
   stopShare(data) {
     this.modalVisible = true;
     this.modalType = 2;
-    this.modalTitle = "DRIVE.STOP";
-    this.modalMessage = "DRIVE.STOP_CONFIRM_TIP";
+    this.modalTitle = 'DRIVE.STOP';
+    this.modalMessage = 'DRIVE.STOP_CONFIRM_TIP';
     this.modalDataId = data.id;
   }
 
   deleteShare(data) {
     this.modalVisible = true;
     this.modalType = 3;
-    this.modalTitle = "DRIVE.DELETE";
-    this.modalMessage = "DRIVE.DELETE_CONFIRM_TIP";
+    this.modalTitle = 'DRIVE.DELETE';
+    this.modalMessage = 'DRIVE.DELETE_CONFIRM_TIP';
     this.modalDataId = data.id;
   }
 
@@ -98,13 +98,13 @@ export class SharerComponent implements OnInit {
 
   openBindTokenDialog(data) {
     this.bindNodeId = data.id;
-    this.bindNodeAddress = "";
+    this.bindNodeAddress = '';
     this.bindTokenStep = 0;
     this.bindModalVisible = true;
   }
 
   getBindToken() {
-    if(this.bindTokenStep === 1) {
+    if (this.bindTokenStep === 1) {
       this.bindModalVisible = false;
       return;
     }
@@ -120,13 +120,13 @@ export class SharerComponent implements OnInit {
   handleCancel() {
     this.modalVisible = false;
     this.modalType = 0;
-    this.modalTitle = "";
-    this.modalMessage = "";
-    this.modalDataId = "";
+    this.modalTitle = '';
+    this.modalMessage = '';
+    this.modalDataId = '';
   }
 
   handleOk() {
-    var id = this.modalDataId;
+    const id = this.modalDataId;
     switch (this.modalType) {
       case 1:
         this.sharer.restart(id, (err) => {
@@ -153,21 +153,21 @@ export class SharerComponent implements OnInit {
 
     this.modalVisible = false;
     this.modalType = 0;
-    this.modalTitle = "";
-    this.modalMessage = "";
-    this.modalDataId = "";
+    this.modalTitle = '';
+    this.modalMessage = '';
+    this.modalDataId = '';
   }
 
   tableAction(event) {
-    let name = event[0];
-    let args = event.slice(1);
-    if (this[name]) this[name](...args);
+    const name = event[0];
+    const args = event.slice(1);
+    if (this[name]) { this[name](...args); }
   }
 
   ngOnInit() {
     this.sharer.startAll((err) => {
       if (err) {
-        //return this.alert.error(err.message);
+        // return this.alert.error(err.message);
       }
       this.sharer.status();
     });

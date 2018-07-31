@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { generateMnemonic, validateMnemonic, addressFromMnemonic } from "jswallet-manager";
+import { generateMnemonic, validateMnemonic, addressFromMnemonic } from 'jswallet-manager';
 import { BehaviorSubject } from 'rxjs';
-import { remote } from "electron"; // 有时间的话把界面功能统一挪到 component 中，service 不要涉及任何界面功能
+import { remote } from 'electron'; // 有时间的话把界面功能统一挪到 component 中，service 不要涉及任何界面功能
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
@@ -18,7 +18,7 @@ export class WalletService {
     current: null,
     all: {},
   };
-  balances: any = {}
+  balances: any = {};
 
   constructor(
     private i18n: TranslateService,
@@ -28,11 +28,11 @@ export class WalletService {
     this.walletList.next(this.walletManager.listWallet());
     this.walletList.subscribe(walletList => {
       // 删除不存在的钱包的签名
-      let addrArr = walletList.map(wallet => `'${wallet.address}'`);
-      let addrs = addrArr.join(",");
+      const addrArr = walletList.map(wallet => `'${wallet.address}'`);
+      const addrs = addrArr.join(',');
 
       // 更改当前钱包
-      let allWallets = [];
+      const allWallets = [];
       walletList.forEach(wallet => {
         allWallets[wallet.address] = wallet;
       });
@@ -41,39 +41,38 @@ export class WalletService {
         this.currentWallet.next(null);
         return;
       }
-      let currentAddress = this.wallets.current;
-      if (currentAddress && walletList.find(wallet => wallet.address === currentAddress)) return;
+      const currentAddress = this.wallets.current;
+      if (currentAddress && walletList.find(wallet => wallet.address === currentAddress)) { return; }
       this.currentWallet.next(walletList[0]);
     });
 
     this.currentWallet.subscribe(wallet => {
-      if (wallet) this.wallets.current = wallet.address;
-      else this.wallets.current = null;
+      if (wallet) { this.wallets.current = wallet.address; } else { this.wallets.current = null; }
     });
 
     this.txService.newBlockHeaders.subscribe(async bh => {
-      if (!bh) return;
-      let address = this.wallets.current;
-      if (!address) return;
-      let balance = await this.txService.getBalance(address);
+      if (!bh) { return; }
+      const address = this.wallets.current;
+      if (!address) { return; }
+      const balance = await this.txService.getBalance(address);
       this.balances[address] = balance;
     });
   }
 
   async createWallet(mnemonic: string, password: string, name: string): Promise<any> {
-    let wallet = this.walletManager.importFromMnemonic(mnemonic, password, name, true);
+    const wallet = this.walletManager.importFromMnemonic(mnemonic, password, name, true);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
   }
 
   importWallet(json: any, password, name) {
-    let wallet = this.walletManager.importFromJson(json, password, name, true);
+    const wallet = this.walletManager.importFromJson(json, password, name, true);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
   }
 
   /**
-   * @param {string} name 
+   * @param {string} name
    * @returns {boolean} true 代表该名字存在
    */
   checkName(name: string) {
@@ -93,8 +92,8 @@ export class WalletService {
   }
 
   changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {
-    let addr = addressFromMnemonic(mnemonic);
-    if(addr != '0x' + address) {
+    const addr = addressFromMnemonic(mnemonic);
+    if (addr != '0x' + address) {
       throw new Error('mnemonic error');
     }
     this.walletManager.importFromMnemonic(mnemonic, newPassword, '', true);
@@ -106,12 +105,12 @@ export class WalletService {
   }
 
   /**
-   * 
+   *
    * @param {string} prefix 前缀，根据 i18n 决定
    */
-  generateName(prefix: string = "Wallet") {
+  generateName(prefix: string = 'Wallet') {
     let i = 0;
-    let wallets = this.walletManager.listWallet();
+    const wallets = this.walletManager.listWallet();
     while (wallets.find(wallet => wallet.name === `${prefix} ${++i}`) !== void 0) { }
     return `${prefix} ${i}`;
   }
@@ -126,13 +125,13 @@ export class WalletService {
 
   exportJson(address: string) {
     let path = remote.dialog.showSaveDialog({
-      title: this.i18n.instant("COMMON.SELECT_SAVE_PATH"),
+      title: this.i18n.instant('COMMON.SELECT_SAVE_PATH'),
       // @ts-ignore 该行用于忽略 typescript 报错，勿删
-      properties: ["openDirectory"],
+      properties: ['openDirectory'],
     });
-    if (!path) return;
-    if (!path.toLowerCase().endsWith(".json")) path += ".json";
-    let json = this.walletManager.exportJson(address);
+    if (!path) { return; }
+    if (!path.toLowerCase().endsWith('.json')) { path += '.json'; }
+    const json = this.walletManager.exportJson(address);
     writeFileSync(path, json);
   }
 

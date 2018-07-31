@@ -3,7 +3,7 @@ import { WalletService } from '../../services/wallet.service';
 import { clipboard } from 'electron';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
-//const storj = require("storj-lib");
+// const storj = require("storj-lib");
 
 @Component({
   selector: 'app-wallet',
@@ -17,7 +17,7 @@ export class WalletComponent implements OnInit {
     public txService: TransactionService, // 在 html 中使用
     public txDbService: TransactionDbService,  // 在 html 中使用
   ) { }
-  popoverSendVisible: boolean = false;
+  popoverSendVisible = false;
   dialogName: string = null;
 
 
