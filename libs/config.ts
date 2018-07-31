@@ -126,3 +126,4 @@ export enum Role {
     Main = "Main",
     Sub  = "Sub"
 }
+export const RELATION_FETCH_INTERVAL = 5000;

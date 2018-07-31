@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service'
-import { BLOCK_COUNT_OF_ROUND, Role } from "../libs/config";
+import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL } from "../libs/config";
+import { BehaviorSubject } from 'rxjs';
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -12,10 +13,44 @@ function add0x(addr: string) {
 })
 export class BrotherhoodService {
 
-constructor(
-  private TxService: TransactionService
-) { }
+  private lastState: Map<string, any> = new Map();
+  public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
+  private fetchingAddress: Array<string>;
 
+  constructor(
+    private TxService: TransactionService
+  ) { 
+    this.fetchingAddress = []
+    this.alwaysFetch()
+  }
+
+  private async alwaysFetch() {
+    const this2 = this
+    const promises = this.fetchingAddress.map(this.fetchState)
+    const states = await Promise.all(promises)
+    let somethingChanged = false;
+    states.forEach(state => {
+      // @ts-ignore
+      const oldVal = this2.lastState.get(state.address)
+      const equals = this2.compareState(oldVal, state)
+      if(!equals) {
+        somethingChanged = true;
+        this2.lastState.set(state.address, state)
+      }
+    })
+    // update value
+    if(somethingChanged) {
+      this.stateUpdate.next(this.lastState)
+    }
+    setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
+  }
+
+  // if equal return true, otherwise false
+  // send 
+  private compareState(oldVal, newVal): boolean {
+    //TODO: compare new value with old value. Send notification if necessary
+    return false
+  }
   /*
     there are 3 phases to make brotherhood relation really take effect:
     1. relation saved to temp table which is a smart contract.
@@ -36,11 +71,9 @@ constructor(
   }
 
   async applyBrotherhood(mainAddress: string) {
-
   }
 
   async approveBrotherhood() {
-
   }
 
   async unbindBrotherhood() {
@@ -93,16 +126,14 @@ constructor(
     return await web3.genaro.getCommitteeRank('latest');
   }
 
-  private defineRole(state) {
-    Object.defineProperty(state, 'role', { get: function() {
-      if(this.mainAccount) {
-        return Role.Sub
-      }
-      if(this.subAccounts && this.subAccounts.length > 0) {
-        return Role.Main
-      }
-      return Role.Free
-    } });
+  private getRole(state) {
+    if(state.mainAccount) {
+      return Role.Sub
+    }
+    if(state.subAccounts && state.subAccounts.length > 0) {
+      return Role.Main
+    }
+    return Role.Free
   }
 
   private async fetchCurrentState(address: string) {
@@ -129,7 +160,7 @@ constructor(
       mainAccount: getMain(extra),
       subAccounts: getSubs(extra)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
@@ -138,7 +169,7 @@ constructor(
       mainAccount: this.getCurrentMainAccount(address),
       subAccounts: this.getCurrentSubAccounts(address)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
@@ -147,15 +178,18 @@ constructor(
       mainAccount: this.getTempMainAccount(address),
       subAccounts: this.getTempSubAccounts(address)
     }
-    this.defineRole(state)
+    state['role'] = this.getRole(state)
     return state
   }
 
-  async fetchState(address: string) {
+  private async fetchState(address: string) {
+    let [currentState, pendingState, tempState] = await Promise.all([this.fetchCurrentState(address), this.fetchPendingState(address), this.fetchTempState(address)])
     return {
-      currentState: await this.fetchCurrentState(address),
-      pendingState: await this.fetchPendingState(address),
-      tempState:    await this.fetchTempState(address)
+      address,
+      currentState,
+      pendingState,
+      tempState
     }
   }
+
 }
