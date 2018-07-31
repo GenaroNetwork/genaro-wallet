@@ -5,11 +5,11 @@ import { BrotherhoodService } from '../../services/brotherhood.service';
 import { WalletService } from '../../services/wallet.service';
 
 @Component({
-  selector: 'app-committee',
-  templateUrl: './committee.component.html',
-  styleUrls: ['./committee.component.scss']
+  selector: 'app-joinCommittee',
+  templateUrl: './joinCommittee.component.html',
+  styleUrls: ['./joinCommittee.component.scss']
 })
-export class CommitteeComponent implements OnInit {
+export class JoinCommitteeComponent implements OnInit {
 
   constructor(
     private committeeService: CommitteeService,
@@ -17,6 +17,25 @@ export class CommitteeComponent implements OnInit {
     private brotherhoodService: BrotherhoodService,
     private walletService: WalletService
   ) { }
+
+  join(data) {
+   
+  }
+
+  getSubAccounts() {
+    if(this.walletService.wallets.current) {
+      this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);
+    }
+    
+    
+
+  }
+
+  tableAction(event) {
+    let name = event[0];
+    let args = event.slice(1);
+    if (this[name]) this[name](...args);
+  }
 
   ngOnInit() {
   }

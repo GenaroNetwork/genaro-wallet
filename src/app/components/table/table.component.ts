@@ -117,6 +117,33 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txSharerDataCurrentPage = page;
     this.txSharerDataUpdate();
   }
+  
+  // rank
+  rankData: any[] = [];
+  rankDataCurrentPage: number = 1;
+  rankDataTotalPage: number = 0;
+  rankAddress: string = "";
+  rankInit() {
+    this.rankDataUpdate("");
+  }
+  async rankDataUpdate(addr) {
+    var datas = await this.committeeService.getSentinel(addr);
+    if (datas) {
+      this.rankDataTotalPage = datas.length;
+      datas = datas.slice((this.rankDataCurrentPage - 1) * 10, this.rankDataCurrentPage * 10);
+      this.rankData = datas.map(d => {
+        return this.committeeService.getMembers(d)
+      });
+    }
+  };
+  rankDataChangePage(page: number) {
+    this.rankDataCurrentPage = page;
+    this.rankDataUpdate("");
+  }
+  searchRankFarmer() {
+    this.rankDataCurrentPage = 1;
+    this.rankDataUpdate(this.rankAddress);
+  }
 
   // committee
   committeeData: any[] = [];

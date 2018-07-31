@@ -4,6 +4,7 @@ import { TxEdenComponent } from "./components/txEden/txEden.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
 import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
+import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -44,6 +45,9 @@ const routes: Routes = [{
 }, {
     path: "committee",
     component: CommitteeComponent,
+}, {
+    path: "joinCommittee",
+    component: JoinCommitteeComponent,
 }];
 
 @NgModule({

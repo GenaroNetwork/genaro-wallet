@@ -108,7 +108,10 @@
     "TXEDEN": "空间管理",
     "SHARER": "我的分享",
     "TXSHARER": "数据栈管理",
-    "COMMITTEE": "本届委员会"
+    "COMMITTEE": "本届委员会",
+    "CO_CONSTRUCTION_NODES": "共建节点",
+    "CURRENT_RANKS": "当前排名",
+    "JOIN_COMMITTEE": "加入共建"
   },
   "WALLET": {
     "CONFIG": "管理钱包",

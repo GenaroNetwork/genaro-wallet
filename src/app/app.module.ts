@@ -34,7 +34,8 @@ import { CopyComponent } from './components/copy/copy.component';
 import { EdenComponent } from './components/eden/eden.component';
 import { TaskComponent } from './components/task/task.component';
 import { CommitteeComponent } from './components/committee/committee.component';
-import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component'
+import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
+import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 
 // services
 
@@ -73,6 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TaskComponent,
     CommitteeComponent,
     CurrentCommitteeComponent,
+    JoinCommitteeComponent,
     // common component
     DialogComponent,
     FormComponent,
