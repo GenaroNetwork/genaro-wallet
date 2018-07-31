@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service'
-import { BLOCK_COUNT_OF_ROUND, Role } from "../libs/config";
+import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL } from "../libs/config";
+import { BehaviorSubject } from 'rxjs';
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -12,10 +13,28 @@ function add0x(addr: string) {
 })
 export class BrotherhoodService {
 
-constructor(
-  private TxService: TransactionService
-) { }
+  private lastState: Map<string, any> = new Map();
+  public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
+  private fetchingAddress: Array<string> = []
 
+  constructor(
+    private TxService: TransactionService
+  ) { 
+    this.alwaysFetch()
+  }
+
+  private async alwaysFetch() {
+    const this2 = this
+    const fetchingAddr = this.fetchingAddress.slice(0)
+    const promises = fetchingAddr.map(this.fetchState)
+    const states = await Promise.all(promises)
+    states.forEach(state => {
+      // @ts-ignore
+      //TODO: compare new value with old value. Send notification if necessary
+      this2.lastState.set(state.address, state)
+    })
+    setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
+  }
   /*
     there are 3 phases to make brotherhood relation really take effect:
     1. relation saved to temp table which is a smart contract.
@@ -36,11 +55,9 @@ constructor(
   }
 
   async applyBrotherhood(mainAddress: string) {
-
   }
 
   async approveBrotherhood() {
-
   }
 
   async unbindBrotherhood() {
@@ -151,11 +168,16 @@ constructor(
     return state
   }
 
-  async fetchState(address: string) {
+  private async fetchState(address: string) {
+    let [currentState, pendingState, tempState] = await Promise.all([this.fetchCurrentState(address), this.fetchPendingState(address), this.fetchTempState(address)])
     return {
-      currentState: await this.fetchCurrentState(address),
-      pendingState: await this.fetchPendingState(address),
-      tempState:    await this.fetchTempState(address)
+      address,
+      currentState,
+      pendingState,
+      tempState
     }
   }
+
+
+
 }
