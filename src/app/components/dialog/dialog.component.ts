@@ -195,13 +195,17 @@ export class DialogComponent implements OnChanges {
     this.edenService.requestEnv = false;
   }
 
-  // eeden 新建容器
-  edenCreateBucket: string = "";
-  edenCreateBucketInit() {
-    this.edenCreateBucket = "";
+  // eeden 容器改名
+  edenRenameBucket: string = "";
+  edenRenameBucketId: string = "";
+  edenRenameBucketInit() {
+    this.options.forEach(value => {
+      this.edenRenameBucket = this.edenService.currentView[value].name;
+      this.edenRenameBucketId = this.edenService.currentView[value].id;
+    });
   }
-  edenCreateBucketDone() {
-    this.edenService.bucketCreateTask(this.edenCreateBucket);
+  edenRenameBucketDone() {
+    this.edenService.bucketRename(this.edenRenameBucketId, this.edenRenameBucket);
   }
 
 

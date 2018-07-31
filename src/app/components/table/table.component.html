@@ -35,7 +35,9 @@
         <i *ngIf="data.state===3" class="anticon anticon-close-circle"></i>
         <i *ngIf="data.state===4" class="anticon anticon-check-circle"></i>
       </td>
-      <td>{{ data.hash | shortAddr }}</td>
+      <td>{{ data.hash | shortAddr }}
+        <app-copy [data]="data.hash"></app-copy>
+      </td>
       <td>{{ txGetBlockNumber(data.receipt) }}</td>
       <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
       <td>{{ data.addrFrom | longAddr | shortAddr }}</td>
@@ -218,7 +220,7 @@
       <th>{{ "TASK.TYPE" | translate}}</th>
       <th>{{ "TASK.PATH" | translate}}</th>
       <th>{{ "TASK.PROCESS" | translate}}</th>
-      <th>{{ "TASK.STATUS" | translate}}</th>
+      <th>{{ "TASK.OPERATION" | translate}}</th>
     </tr>
   </thead>
   <tbody>
@@ -227,11 +229,16 @@
       <td>{{ task.allBytes | humanSize }}</td>
       <td>{{ task.created | date }}</td>
       <td>{{ task.type }}</td>
-      <td>{{ [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</td>
+      <td>
+        <a [routerLink]="['/eden', {path: task.onlinePath}]">{{ [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</a>
+      </td>
       <td>
         <nz-progress [nzPercent]="(task.process*100).toFixed(1)"></nz-progress>
       </td>
-      <td>{{ TASK_STATE[task.state] }}</td>
+      <td>
+        <!-- <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate" (nzOnConfirm)="edenService.cancelTask(task.id)">{{ 'TASK.STOP_TASK'| translate }}</a> -->
+        <a (click)="edenService.removeTask(task.id)">{{ 'TASK.REMOVE_TASK'| translate }}</a>
+      </td>
     </tr>
   </tbody>
 </nz-table>

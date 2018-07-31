@@ -8,7 +8,7 @@ import { IpcService } from './ipc.service';
 import { v1 as uuidv1 } from "uuid";
 import { remote } from "electron";
 import { basename, join } from "path";
-import { Subject } from '../../../node_modules/rxjs';
+import { Subject, throwError } from '../../../node_modules/rxjs';
 // &#47; => 正斜杠 
 
 @Injectable({
@@ -87,6 +87,8 @@ export class EdenService {
           id: bucket.id,
           name: bucket.name,
           created: bucket.created,
+          bucketUsedStorage: bucket.usedStorage || 0,
+          bucketLimitStorage: bucket.limitStorage || 0,
         });
       });
       if (this.currentPath.length === 0) this.updateView();
@@ -197,8 +199,23 @@ export class EdenService {
     this.updateAll();
   }
 
+  bucketRename(id: string, newName: string) {
+    return new Promise((res, rej) => {
+      let address = this.walletService.wallets.current;
+      let env = this.allEnvs[address];
+      env.renameBucket(id, newName, (err, result) => {
+        if (err) {
+          rej(err);
+          console.log(err);
+          return;
+        }
+        res();
+      });
+    });
+  }
+
   private async loadTask() {
-    let tasks = await this.ipc.dbAll("task", "SELECT * FROM task");
+    let tasks = await this.ipc.dbAll("task", `SELECT * FROM task WHERE wallet='${this.walletService.wallets.current}'`);
     this.zone.run(() => {
       this.tasks = tasks;
     });
@@ -207,9 +224,9 @@ export class EdenService {
   private async newTask(type: TASK_TYPE, obj: any) {
     let id = uuidv1();
     let insert = `
-    (id, bucketId, bucketName, fileId, fileName, onlinePath, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
+    (id, wallet, bucketId, bucketName, fileId, fileName, onlinePath, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
     VALUES
-    ('${id}', '${obj.bucketId}', '${obj.bucketName}', '${obj.fileId}', '${obj.fileName}', '${this.currentPathId.join("/")}', '${obj.nativePath}'
+    ('${id}', '${this.walletService.wallets.current}','${obj.bucketId}', '${obj.bucketName}', '${obj.fileId}', '${obj.fileName}', '${this.currentPathId.join("/")}', '${obj.nativePath}'
     , '${JSON.stringify(obj.env)}', '${Date.now()}', '${Date.now()}', 0, '${TASK_STATE.INIT}', '${type}', 0, ${obj.allBytes}, NULL)`;
     await this.ipc.dbRun("task", `INSERT INTO task ${insert}`);
     this.loadTask();
@@ -243,6 +260,10 @@ export class EdenService {
   private runAll(arr: any[], func: Function, reload: boolean = true) {
     let address = this.walletService.wallets.current;
     let env = this.allEnvs[address];
+    if (!env) {
+      this.requestEnv = true;
+      throw new Error("no env");
+    }
     return new Promise((res, rej) => {
       let times = 0;
       let errCount = 0;
@@ -283,6 +304,7 @@ export class EdenService {
         },
         finishedCallback: (err, fileId) => {
           if (err) {
+            console.log(err);
             this.updateTask(taskId, {
               state: TASK_STATE.ERROR,
             });
@@ -316,16 +338,23 @@ export class EdenService {
       files = [files];
     }
     let nativePath;
-    if (files.length === 1) nativePath = remote.dialog.showSaveDialog({});
+    if (files.length === 1) {
+      let filePath = nativePath;
+      let filename = files[0].name.split("/").pop();
+      filename = this.convertChar(filename, false);
+      nativePath = remote.dialog.showSaveDialog({
+        defaultPath: filename,
+      });
+    }
     else nativePath = remote.dialog.showOpenDialog({ properties: ["openDirectory", "createDirectory"] });
     if (!nativePath) return;
     let path = Array.from(this.currentPath);
     let bucketName = path.shift();
     let bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
-    this.runAll(files, (file, env, cb) => {
+    this.runAll(files, async (file, env, cb) => {
       let filePath = nativePath;
       let filename = file.name.split("/").pop();
-      filename = this.convertChar(filename, false)
+      filename = this.convertChar(filename, false);
       if (files.length > 1) filePath = join(nativePath[0], filename);
       let taskId = null;
       let taskEnv = env.resolveFile(bucketId, file.id, filePath, {
@@ -353,7 +382,7 @@ export class EdenService {
           }
         },
       });
-      taskId = this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
+      taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
         bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: path, env: taskEnv, allBytes: null,
       });
     }, false).then(errCount => {
@@ -366,35 +395,70 @@ export class EdenService {
     });
   }
 
-  fileRemoveTask(files: any[]) {
+  async fileRemoveTask(files: any[]) {
     let path = Array.from(this.currentPath);
     let bucketName = path.shift();
     let bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
     this.runAll(files, (file, env, cb) => {
       env.deleteFile(bucketId, file.id, cb);
-    }).then(() => {
-      this.messageService.success(this.i18n.instant("EDEN.REMOVE_FILE_DONE"))
+    });
+    this.messageService.success(this.i18n.instant("EDEN.REMOVE_FILE_DONE"));
+  }
+
+  async cancelTask(taskId: string | string[]) {
+    if (!(taskId instanceof Array)) taskId = [taskId];
+    await this.runAll(taskId, async (taskId, env, cb) => {
+      let task: any = await this.ipc.dbGet("task", `SELECT * FROM task WHERE id = '${taskId}'`);
+      if (task && task.state !== TASK_STATE.CANCEL) {
+        let taskEnv = JSON.parse(task.env);
+        switch (task.type) {
+          case TASK_TYPE.FILE_DOWNLOAD:
+            env.resolveFileCancel(taskEnv);
+            break;
+          case TASK_TYPE.FILE_UPLOAD:
+            env.storeFileCancel(taskEnv);
+            break;
+        }
+        await this.updateTask(taskId, {
+          state: TASK_STATE.CANCEL,
+        });
+      }
+      cb();
+    });
+    this.messageService.success(this.i18n.instant("EDEN.STOP_TASK_SUCCESS"))
+  }
+
+  removeTask(taskId: string | string[]) {
+    if (!(taskId instanceof Array)) taskId = [taskId];
+    let count = 0;
+    let allDone = () => {
+      if (++count < taskId.length) return;
+      this.loadTask();
+      this.messageService.success(this.i18n.instant("EDEN.REMOVE_TASK_SUCCESS"));
+    };
+    taskId.forEach(async taskId => {
+      console.log('task');
+      await this.ipc.dbRun("task", `DELETE FROM task WHERE id='${taskId}'`);
+      allDone();
     });
   }
 
-  bucketCreateTask(bucketName: string) {
+  async bucketCreateTask(bucketName: string) {
     if (this.currentBuckets.find(bucket => bucket.name === bucketName)) {
       this.messageService.error(this.i18n.instant("EDEN.CREATE_BUCKET_EXISTS"))
       return;
     }
-    this.runAll([bucketName], (bucketName, env, cb) => {
+    await this.runAll([bucketName], (bucketName, env, cb) => {
       bucketName = this.convertChar(bucketName, true);
       env.createBucket(bucketName, cb);
-    }).then(() => {
-      this.messageService.success(this.i18n.instant("EDEN.CREATE_BUCKET_DONE"))
-    });
+    })
+    this.messageService.success(this.i18n.instant("EDEN.CREATE_BUCKET_DONE"));
   }
 
-  bucketDeleteTask(buckets: any[]) {
+  async bucketDeleteTask(buckets: any[]) {
     this.runAll(buckets, (bucket, env, cb) => {
       env.deleteBucket(bucket.id, cb);
-    }).then(() => {
-      this.messageService.success(this.i18n.instant("EDEN.DELETE_BUCKET_DONE"))
     });
+    this.messageService.success(this.i18n.instant("EDEN.DELETE_BUCKET_DONE"));
   }
 }

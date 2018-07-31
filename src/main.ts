@@ -1,3 +1,10 @@
+Object.defineProperty(global, "_bitcore", {
+  get() {
+    return void 0
+  },
+  set() { },
+});
+
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

@@ -3,16 +3,16 @@
     <i class="anticon anticon-wallet"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
-  <li nz-submenu [nzOpen]="open(page,'/eden')" *ngIf="settingService.showEden">
+  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')" *ngIf="settingService.showEden">
+    <i class="anticon anticon-folder"></i>
+    {{ "SIDERBAR.EDEN_FILE" | translate }}
+  </li>
+  <li nz-submenu [nzOpen]="open(page,'/eden-')" *ngIf="settingService.showEden">
     <span title>
-      <i class="anticon anticon-folder"></i>
-      {{ "SIDERBAR.EDEN" | translate }}
+      <i class="anticon anticon-clock-circle-o"></i>
+      {{ "SIDERBAR.EDEN_TASK" | translate }}
     </span>
     <ul>
-      <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden'">
-        <i class="anticon anticon-file"></i>
-        {{ "SIDERBAR.EDEN_FILE" | translate }}
-      </li>
       <li nz-menu-item [routerLink]="['/eden-inprocess']" [nzSelected]="page==='/eden-inprocess'">
         <i class="anticon anticon-spin anticon-loading"></i>
         {{ "SIDERBAR.EDEN_INPROCESS" | translate }}

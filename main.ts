@@ -1,3 +1,11 @@
+
+Object.defineProperty(global, "_bitcore", {
+  get() {
+    return void 0
+  },
+  set() { },
+});
+
 import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
