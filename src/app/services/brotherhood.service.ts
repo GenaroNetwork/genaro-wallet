@@ -42,7 +42,7 @@ export class BrotherhoodService {
     if(somethingChanged) {
       this.stateUpdate.next(this.lastState)
     }
-    setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
+    setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL)
   }
 
   // if equal return true, otherwise false
