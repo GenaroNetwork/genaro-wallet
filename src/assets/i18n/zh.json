@@ -199,7 +199,7 @@
     "DOWNLOAD_FILE": "下载文件",
     "DOWNLOAD_FILE_DONE": "下载文件完成",
     "DOWNLOAD_FILE_ERROR": "下载完成，其中有 {{ errCount }} 个文件下载失败",
-    "DOWNLOAD_FILE_ERROR_ALL": "下载完成失败",
+    "DOWNLOAD_FILE_ERROR_ALL": "下载失败",
     "REMOVE_FILE": "删除文件",
     "REMOVE_FILE_DONE": "文件已删除",
     "CREATE_BUCKET": "新建空间",
@@ -212,7 +212,9 @@
     "DELETE_BUCKET_DONE": "空间已删除",
     "DELETE_BUCKET_CONFIRM": "确定删除下列空间",
     "CREATE_FOLDER": "新建文件夹",
-    "DELETE_FOLDER": "删除文件夹"
+    "DELETE_FOLDER": "删除文件夹",
+    "REMOVE_TASK_SUCCESS": "已删除任务记录",
+    "STOP_TASK_SUCCESS": "已停止任务"
   },
   "TASK": {
     "FILE_NAME": "文件名",
@@ -223,7 +225,11 @@
     "TYPE_DOWNLOAD": "下载任务",
     "PATH": "文件路径",
     "PROCESS": "任务进度",
-    "STATUS": "任务状态"
+    "STATUS": "任务状态",
+    "OPERATION": "操作",
+    "STOP_TASK": "停止任务",
+    "STOP_TASK_TIP": "确认停止任务？\n任务停止后无法恢复。",
+    "REMOVE_TASK": "删除任务记录"
   },
   "DRIVE": {
     "CANCEL": "取消",

@@ -1,6 +1,6 @@
 {
   "name": "genaro-wallet",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Genaro Wallet",
   "homepage": "https://genaro.network",
   "author": {
@@ -46,7 +46,7 @@
     "hdkey": "^1.0.0",
     "jdenticon": "^2.1.0",
     "jswallet-manager": "^0.5.4",
-    "libgenaro": "^2.0.0-alpha.2",
+    "libgenaro": "^2.0.0-alpha.5",
     "ng-zorro-antd": "^1.1.0",
     "pretty-ms": "^3.1.0",
     "qrcode": "^1.2.0",

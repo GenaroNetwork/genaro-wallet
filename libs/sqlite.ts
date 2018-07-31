@@ -45,6 +45,7 @@ export default class {
         sql.task = new DB(join(SQLITE_CONFIG_PATH, "task.sqlite"));
         sql.task.prepare(`CREATE TABLE IF NOT EXISTS task (
             id TEXT UNIQUE,
+            wallet TEXT,
             bucketId TEXT,
             bucketName TEXT,
             fileId TEXT,

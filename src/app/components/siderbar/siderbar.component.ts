@@ -22,7 +22,7 @@ export class SiderbarComponent implements OnInit {
     this.router.events.subscribe(value => {
       if (!(value instanceof NavigationEnd)) return;
       this.page = value.urlAfterRedirects;
-    })
+    });
   }
 
 

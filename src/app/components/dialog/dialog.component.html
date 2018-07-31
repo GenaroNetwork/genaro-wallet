@@ -194,17 +194,10 @@
   </div>
 </nz-modal>
 
-<!-- 新建容器 -->
-<nz-modal nzTitle="{{ 'EDEN.NEW_BUCKET' | translate }}" [nzVisible]="dialogName==='edenCreateBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
+<!-- 容器重命名 -->
+<nz-modal nzTitle="{{ 'EDEN.RENAME_BUCKET' | translate }}" [nzVisible]="dialogName==='edenRenameBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <div nz-row class="setting">
-    <div nz-col nzSpan="8" nzOffset="1">
-      {{ 'EDEN.CREATE_BUCKET_TIP' | translate}} {{ 'COMMON.COLON' | translate}}
-    </div>
-    <div nz-col nzSpan="14">
-      <input nz-input [(ngModel)]="edenCreateBucket">
-    </div>
-  </div>
+  <input nz-input [(ngModel)]="edenRenameBucket">
 </nz-modal>
 
 <!-- 删除容器 -->
