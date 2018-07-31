@@ -36,6 +36,7 @@ import { TaskComponent } from './components/task/task.component';
 import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
+import { PanelComponent } from './components/panel/panel.component';
 
 // services
 
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormComponent,
     InputComponent,
     CopyComponent,
+    PanelComponent,
     // pipe
     LongAddrPipe,
     ShortAddrPipe,
