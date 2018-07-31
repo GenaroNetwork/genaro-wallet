@@ -308,7 +308,8 @@
       "SPACE": "space",
       "SENTINEL": "sentinel",
       "MEMBER": "member",
-      "ADDRESS": "address"
+      "ADDRESS": "address",
+      "JOIN": "join"
     }
   },
   "ERROR": {

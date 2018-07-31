@@ -128,7 +128,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     var datas = await this.committeeService.getSentinel(addr);
     if (datas) {
       this.committeeDataTotalPage = datas.length;
-      this.committeeData = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
+      datas = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
+      this.committeeData = datas.map(d => {
+        return this.committeeService.getMembers(d)
+      });
     }
   };
   committeeDataChangePage(page: number) {
@@ -139,6 +142,30 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.committeeDataCurrentPage = 1;
     this.committeeDataUpdate(this.committeeAddress);
   }
+
+  // currentCommittee
+  currentCommitteeData: any[] = [];
+  currentCommitteeInit() {
+    this.currentCommitteeDataUpdate();
+  }
+  async currentCommitteeDataUpdate() {
+    let committees = await this.txService.getCommitteeRank() || [];
+    let arr = [];
+    for(let i = 0, length = committees.length; i < length; i++) {
+      let datas = await this.committeeService.getSentinel(committees[i]);
+      let data = {
+        order: i,
+        address: committees[i],
+        nickName: ''
+      };
+      if(datas.length > 0) {
+        data.nickName = datas[0].nickName;
+      }
+      arr.push(data);
+    }
+
+    this.currentCommitteeData = arr;
+  };
 
   allWalletSub: any;
   allBlockSub: any;

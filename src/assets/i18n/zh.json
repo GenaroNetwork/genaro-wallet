@@ -332,7 +332,8 @@
       "SPACE": "空间使用",
       "SENTINEL": "sentinel",
       "MEMBER": "成员",
-      "ADDRESS": "地址"
+      "ADDRESS": "地址",
+      "JOIN": "申请加入"
     }
   },
   "ERROR": {

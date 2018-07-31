@@ -27,6 +27,7 @@ export const SETTINGS = [];
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
 //     showCommittee: [false, false],
+//     showCurrentCommittee: [false, false],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }
@@ -39,6 +40,7 @@ export const SETTINGS = [];
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
 //     showCommittee: [false, false],
+//     showCurrentCommittee: [false, false],
 //     showTxSharer: [false, false],
 //     lang: ['en', true],
 // }
@@ -51,6 +53,7 @@ export const SETTINGS = [];
 //     showTxEden: [false, false],
 //     showSharer: [true, true],
 //     showCommittee: [true, true],
+//     showCurrentCommittee: [true, true],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }

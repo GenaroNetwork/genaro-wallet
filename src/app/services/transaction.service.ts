@@ -342,6 +342,10 @@ export class TransactionService {
     }
   }
 
+  async getCommitteeRank() {
+    // @ts-ignore
+    return await web3.genaro.getCommitteeRank('latest');
+  }
 
   alertError(error: Error) {
     if (!error) {

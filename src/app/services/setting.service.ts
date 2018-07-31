@@ -89,6 +89,16 @@ export class SettingService {
       this.update("showCommittee");
   }
 
+  private _showCurrentCommittee: boolean = true;
+  get showCurrentCommittee() {
+    return this._showCurrentCommittee;
+  }
+  set showCurrentCommittee(value) {
+    this._showCurrentCommittee = value;
+    if (value !== null)
+      this.update("showCurrentCommittee")
+  }
+
   appName = remote.app.getName();
   appVersion = remote.app.getVersion();
   constructor(

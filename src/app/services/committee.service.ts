@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { TOP_FARMER_URL } from "../libs/config";
+import { TransactionService } from "./transaction.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommitteeService {
 
-  private getMembers (obj) {
-
+  getMembers (obj) {
+    let subAccounts = this.txService.getCurrentSubAccounts(obj.address);
+    obj.subAccounts = subAccounts || [];
     return obj;
   }
 
@@ -17,12 +19,11 @@ export class CommitteeService {
       url += "?address=" + addr; 
     }
     let res = await fetch(url);
-    let datas = await res.json();
-    return datas.map(d => {
-      this.getMembers(d)
-    });
+    return await res.json();
   }
 
-  constructor() { }
+  constructor(
+    private txService: TransactionService,
+  ) { }
 
 }
