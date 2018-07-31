@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service'
-import { BLOCK_COUNT_OF_ROUND } from "../libs/config";
+import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL } from "../libs/config";
+import { BehaviorSubject } from 'rxjs';
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -12,23 +13,53 @@ function add0x(addr: string) {
 })
 export class BrotherhoodService {
 
-constructor(
-  private TxService: TransactionService
-) { }
+  private lastState: Map<string, any> = new Map();
+  public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
+  private fetchingAddress: Array<string> = []
 
-/*
-  there are 3 phases to make brotherhood relation really take effect:
-  1. relation saved to temp table which is a smart contract.
-  2. relation saved to pending table by official account through some special transaction.
-  3. relation takes effect when next round commitee begins
+  constructor(
+    private TxService: TransactionService
+  ) { 
+    this.alwaysFetch()
+  }
 
-  user can only make changes to temp table directly only
-*/
+  private async alwaysFetch() {
+    const this2 = this
+    const fetchingAddr = this.fetchingAddress.slice(0)
+    const promises = fetchingAddr.map(this.fetchState)
+    const states = await Promise.all(promises)
+    let somethingChanged = false;
+    states.forEach(state => {
+      // @ts-ignore
+      //TODO: compare new value with old value. Send notification if necessary
+      const oldVal = this2.lastState.get(state.address)
+      const equals = this.compareState(oldVal, state)
+      if(!equals) {
+        somethingChanged = true;
+        this2.lastState.set(state.address, state)
+      }
+    })
+    // update value
+    if(somethingChanged) {
+      this.stateUpdate.next(this.lastState)
+    }
+    setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
+  }
 
-// read relation
+  // equal: return true, otherwise false
+  // send 
+  private compareState(oldVal, newVal): boolean {
+    return false
+  }
+  /*
+    there are 3 phases to make brotherhood relation really take effect:
+    1. relation saved to temp table which is a smart contract.
+    2. relation saved to pending table by official account through some special transaction.
+    3. relation takes effect when next round commitee begins
 
+    user can only make changes to temp table directly only
+  */
 
-  // brotherhood
   private async getCurrentRoundExtra() {
     const web3 = await this.TxService.getWeb3Instance()
     // @ts-ignore
@@ -40,11 +71,9 @@ constructor(
   }
 
   async applyBrotherhood(mainAddress: string) {
-
   }
 
   async approveBrotherhood() {
-
   }
 
   async unbindBrotherhood() {
@@ -96,4 +125,71 @@ constructor(
     // @ts-ignore
     return await web3.genaro.getCommitteeRank('latest');
   }
+
+  private getRole(state) {
+    if(state.mainAccount) {
+      return Role.Sub
+    }
+    if(state.subAccounts && state.subAccounts.length > 0) {
+      return Role.Main
+    }
+    return Role.Free
+  }
+
+  private async fetchCurrentState(address: string) {
+    function getSubs(extra) {
+      if(extra && extra.CommitteeAccountBinding) {
+        return extra.CommitteeAccountBinding[add0x(address)]
+      }
+      return null
+    }
+    function getMain(extra) {
+      if(extra && extra.CommitteeAccountBinding) {
+        const binding = extra.CommitteeAccountBinding
+        for (let mainAccount in binding) {
+          if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(add0x(address))) {
+            return mainAccount
+          }
+        }
+      }
+      return null
+    }
+    // get current state
+    const extra = await this.getCurrentRoundExtra()
+    const state = {
+      mainAccount: getMain(extra),
+      subAccounts: getSubs(extra)
+    }
+    state['role'] = this.getRole(state)
+    return state
+  }
+
+  private async fetchPendingState(address: string) {
+    const state = {
+      mainAccount: this.getCurrentMainAccount(address),
+      subAccounts: this.getCurrentSubAccounts(address)
+    }
+    state['role'] = this.getRole(state)
+    return state
+  }
+
+  private async fetchTempState(address: string) {
+    const state = {
+      mainAccount: this.getTempMainAccount(address),
+      subAccounts: this.getTempSubAccounts(address)
+    }
+    state['role'] = this.getRole(state)
+    return state
+  }
+
+  private async fetchState(address: string) {
+    let [currentState, pendingState, tempState] = await Promise.all([this.fetchCurrentState(address), this.fetchPendingState(address), this.fetchTempState(address)])
+    return {
+      address,
+      currentState,
+      pendingState,
+      tempState
+    }
+  }
+
 }

@@ -121,3 +121,9 @@ export const DOWNLOAD_EDEN_URL = "";
 export const DOWNLOAD_SHARER_URL = "";
 
 export const BLOCK_COUNT_OF_ROUND = 86400;
+export enum Role {
+    Free = "Free",
+    Main = "Main",
+    Sub  = "Sub"
+}
+export const RELATION_FETCH_INTERVAL = 5000;
