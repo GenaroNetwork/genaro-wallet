@@ -33,16 +33,16 @@ export class BrotherhoodService {
       // @ts-ignore
       //TODO: compare new value with old value. Send notification if necessary
       const oldVal = this2.lastState.get(state.address)
-      const changd = !this.compareState(oldVal, state)
-      if(changd) {
+      const equals = this.compareState(oldVal, state)
+      if(!equals) {
         somethingChanged = true;
         this2.lastState.set(state.address, state)
       }
-      // update value
-      if(somethingChanged) {
-        this.stateUpdate.next(this.lastState)
-      }
     })
+    // update value
+    if(somethingChanged) {
+      this.stateUpdate.next(this.lastState)
+    }
     setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
   }
 
