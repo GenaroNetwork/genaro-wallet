@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommitteeService } from '../../services/committee.service';
 import { TransactionService } from '../../services/transaction.service';
+import { BrotherhoodService } from '../../services/brotherhood.service';
 import { WalletService } from '../../services/wallet.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class CommitteeComponent implements OnInit {
   constructor(
     private committeeService: CommitteeService,
     private transactionService: TransactionService,
+    private brotherhoodService: BrotherhoodService,
     private walletService: WalletService
   ) { }
 
@@ -22,7 +24,7 @@ export class CommitteeComponent implements OnInit {
 
   getSubAccounts() {
     if(this.walletService.wallets.current) {
-      this.transactionService.getCurrentSubAccounts(this.walletService.wallets.current.address);
+      this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);
     }
     
     

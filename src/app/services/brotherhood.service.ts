@@ -30,7 +30,7 @@ constructor(
 
   // brotherhood
   private async getCurrentRoundExtra() {
-    const web3 = this.TxService.getWeb3Instance()
+    const web3 = await this.TxService.getWeb3Instance()
     // @ts-ignore
     const bno = await web3.eth.getBlockNumber()
     const thisRoundFirstBlock = bno - bno % BLOCK_COUNT_OF_ROUND
@@ -58,13 +58,13 @@ constructor(
   }
 
   async getPendingMainAccount(address: string) {
-    const web3 = this.TxService.getWeb3Instance()
+    const web3 = await this.TxService.getWeb3Instance()
     // @ts-ignore
     return await web3.genaro.getMainAccount(address, 'latest');
   }
 
   async getPendingSubAccounts(address: string) {
-    const web3 = this.TxService.getWeb3Instance()
+    const web3 = await this.TxService.getWeb3Instance()
     // @ts-ignore
     return await web3.genaro.getSubAccounts(address, 'latest');
   }
@@ -92,7 +92,7 @@ constructor(
   }
 
   async getCommitteeRank() {
-    const web3 = this.TxService.getWeb3Instance()
+    const web3 = await this.TxService.getWeb3Instance()
     // @ts-ignore
     return await web3.genaro.getCommitteeRank('latest');
   }
