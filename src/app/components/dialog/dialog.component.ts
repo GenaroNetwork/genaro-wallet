@@ -205,7 +205,7 @@ export class DialogComponent implements OnChanges {
     });
   }
   edenRenameBucketDone() {
-    this.edenService.bucketRename(this.edenRenameBucketId, this.edenRenameBucket);
+    return this.edenService.bucketRename(this.edenRenameBucketId, this.edenRenameBucket);
   }
 
 

@@ -209,6 +209,7 @@ export class EdenService {
           console.log(err);
           return;
         }
+        this.updateAll();
         res();
       });
     });
