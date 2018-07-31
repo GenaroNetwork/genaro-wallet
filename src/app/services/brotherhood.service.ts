@@ -15,25 +15,24 @@ export class BrotherhoodService {
 
   private lastState: Map<string, any> = new Map();
   public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
-  private fetchingAddress: Array<string> = []
+  private fetchingAddress: Array<string>;
 
   constructor(
     private TxService: TransactionService
   ) { 
+    this.fetchingAddress = []
     this.alwaysFetch()
   }
 
   private async alwaysFetch() {
     const this2 = this
-    const fetchingAddr = this.fetchingAddress.slice(0)
-    const promises = fetchingAddr.map(this.fetchState)
+    const promises = this.fetchingAddress.map(this.fetchState)
     const states = await Promise.all(promises)
     let somethingChanged = false;
     states.forEach(state => {
       // @ts-ignore
-      //TODO: compare new value with old value. Send notification if necessary
       const oldVal = this2.lastState.get(state.address)
-      const equals = this.compareState(oldVal, state)
+      const equals = this2.compareState(oldVal, state)
       if(!equals) {
         somethingChanged = true;
         this2.lastState.set(state.address, state)
@@ -46,9 +45,10 @@ export class BrotherhoodService {
     setTimeout(this.alwaysFetch, RELATION_FETCH_INTERVAL)
   }
 
-  // equal: return true, otherwise false
+  // if equal return true, otherwise false
   // send 
   private compareState(oldVal, newVal): boolean {
+    //TODO: compare new value with old value. Send notification if necessary
     return false
   }
   /*
