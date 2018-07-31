@@ -7,8 +7,8 @@ import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
-import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd';
+import { TranslateService } from '@ngx-translate/core';
 import { newWalletManager } from "jswallet-manager";
 
 let web3: Web3;

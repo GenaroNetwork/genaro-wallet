@@ -2,13 +2,13 @@ import { Injectable, ApplicationRef, NgZone } from '@angular/core';
 import { Environment } from "libgenaro";
 import { WalletService } from './wallet.service';
 import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE } from '../libs/config';
-import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd';
+import { TranslateService } from '@ngx-translate/core';
 import { IpcService } from './ipc.service';
 import { v1 as uuidv1 } from "uuid";
 import { remote } from "electron";
 import { basename, join } from "path";
-import { Subject, throwError } from '../../../node_modules/rxjs';
+import { Subject, throwError } from 'rxjs';
 // &#47; => 正斜杠 
 
 @Injectable({

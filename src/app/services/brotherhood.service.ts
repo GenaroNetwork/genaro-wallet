@@ -15,12 +15,11 @@ export class BrotherhoodService {
 
   private lastState: Map<string, any> = new Map();
   public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
-  private fetchingAddress: Array<string>;
+  private fetchingAddress: Array<string> = [];
 
   constructor(
     private TxService: TransactionService
   ) { 
-    this.fetchingAddress = []
     this.alwaysFetch()
   }
 

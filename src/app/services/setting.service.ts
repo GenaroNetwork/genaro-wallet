@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IpcService } from './ipc.service';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SETTINGS, CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from "../libs/config";
 import { remote } from "electron";
 const axios = require('axios');

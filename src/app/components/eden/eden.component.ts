@@ -2,8 +2,8 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { remote } from "electron";
 import { WalletService } from '../../services/wallet.service';
-import { TranslateService } from '../../../../node_modules/@ngx-translate/core';
-import { ActivatedRoute } from '../../../../node_modules/@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 

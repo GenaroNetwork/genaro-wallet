@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ipcRenderer } from "electron";
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
