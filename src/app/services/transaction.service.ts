@@ -16,7 +16,6 @@ let connectedWeb3: any = null;
 let web3Provider: any;
 const SyncTimer = 2000;
 const TIMEOUT_LIMIT = 30 * 1000;
-const BLOCK_COUNT_OF_ROUND = 86400;
 
 function add0x(addr: string) {
   if (!addr.startsWith("0x")) addr = "0x" + addr;
@@ -62,6 +61,13 @@ export class TransactionService {
     this.newBlockHeaders.subscribe(bh => {
       this.keepConnect();
     });
+  }
+
+  async getWeb3Instance() {
+    if (!this.readyState) {
+      await this.connect()
+    }
+    return web3
   }
 
   async connect() {
@@ -292,59 +298,6 @@ export class TransactionService {
   async getHeft(address: string) {
     // @ts-ignore
     return await web3.genaro.getHeft(address, 'latest');
-  }
-
-  // brotherhood
-  private async getCurrentRoundExtra() {
-    const bno = await web3.eth.getBlockNumber()
-    const thisRoundFirstBlock = bno - bno % BLOCK_COUNT_OF_ROUND
-    // @ts-ignore
-    const extraInfo = await web3.genaro.getExtra(thisRoundFirstBlock)
-    return extraInfo
-  }
-
-
-  async getTempMainAccount(address: string) {
-  }
-
-  async getTempSubAccounts(address: string) {
-  }
-
-  async getPendingMainAccount(address: string) {
-    // @ts-ignore
-    return await web3.genaro.getMainAccount(address, 'latest');
-  }
-
-  async getPendingSubAccounts(address: string) {
-    // @ts-ignore
-    return await web3.genaro.getSubAccounts(address, 'latest');
-  }
-
-  async getCurrentMainAccount(address: string) {
-    const extra = await this.getCurrentRoundExtra()
-    if(extra && extra.CommitteeAccountBinding) {
-      const binding = extra.CommitteeAccountBinding
-      for (let mainAccount in binding) {
-        if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(add0x(address))) {
-          return mainAccount
-        }
-      }
-    }
-    return null
-  }
-
-  async getCurrentSubAccounts(address: string) {
-    const extra = await this.getCurrentRoundExtra()
-    if(extra && extra.CommitteeAccountBinding) {
-      return extra.CommitteeAccountBinding[add0x(address)]
-    } else {
-      return null
-    }
-  }
-
-  async getCommitteeRank() {
-    // @ts-ignore
-    return await web3.genaro.getCommitteeRank('latest');
   }
 
   alertError(error: Error) {

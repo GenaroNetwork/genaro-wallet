@@ -119,3 +119,5 @@ export const CHECK_WIN_UPDATE_URL = "";
 export const INSTRUCTIONS_URL = "";
 export const DOWNLOAD_EDEN_URL = "";
 export const DOWNLOAD_SHARER_URL = "";
+
+export const BLOCK_COUNT_OF_ROUND = 86400;

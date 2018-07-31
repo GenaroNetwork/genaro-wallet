@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChange
 import { SharerService } from '../../services/sharer.service';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
+import { BrotherhoodService } from '../../services/brotherhood.service';
 import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
@@ -40,7 +41,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public walletService: WalletService,
     public txEdenService: TxEdenService,
     public edenService: EdenService,
-    public committeeService: CommitteeService
+    public committeeService: CommitteeService,
+    public BrotherhoodService: BrotherhoodService
   ) { }
 
   txData: any[];
@@ -149,7 +151,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.currentCommitteeDataUpdate();
   }
   async currentCommitteeDataUpdate() {
-    let committees = await this.txService.getCommitteeRank() || [];
+    let committees = await this.BrotherhoodService.getCommitteeRank() || [];
     let arr = [];
     for(let i = 0, length = committees.length; i < length; i++) {
       let datas = await this.committeeService.getSentinel(committees[i]);
