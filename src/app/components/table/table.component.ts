@@ -2,9 +2,11 @@ import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChange
 import { SharerService } from '../../services/sharer.service';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';
+import { BrotherhoodService } from '../../services/brotherhood.service';
 import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
+import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE } from '../../libs/config';
 
 
@@ -39,6 +41,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public walletService: WalletService,
     public txEdenService: TxEdenService,
     public edenService: EdenService,
+    public committeeService: CommitteeService,
+    public BrotherhoodService: BrotherhoodService
   ) { }
 
   txData: any[];
@@ -114,6 +118,56 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txSharerDataUpdate();
   }
 
+  // committee
+  committeeData: any[] = [];
+  committeeDataCurrentPage: number = 1;
+  committeeDataTotalPage: number = 0;
+  committeeAddress: string = "";
+  committeeInit() {
+    this.committeeDataUpdate("");
+  }
+  async committeeDataUpdate(addr) {
+    var datas = await this.committeeService.getSentinel(addr);
+    if (datas) {
+      this.committeeDataTotalPage = datas.length;
+      datas = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
+      this.committeeData = datas.map(d => {
+        return this.committeeService.getMembers(d)
+      });
+    }
+  };
+  committeeDataChangePage(page: number) {
+    this.committeeDataCurrentPage = page;
+    this.committeeDataUpdate("");
+  }
+  searchFarmer() {
+    this.committeeDataCurrentPage = 1;
+    this.committeeDataUpdate(this.committeeAddress);
+  }
+
+  // currentCommittee
+  currentCommitteeData: any[] = [];
+  currentCommitteeInit() {
+    this.currentCommitteeDataUpdate();
+  }
+  async currentCommitteeDataUpdate() {
+    let committees = await this.BrotherhoodService.getCommitteeRank() || [];
+    let arr = [];
+    for(let i = 0, length = committees.length; i < length; i++) {
+      let datas = await this.committeeService.getSentinel(committees[i]);
+      let data = {
+        order: i,
+        address: committees[i],
+        nickName: ''
+      };
+      if(datas.length > 0) {
+        data.nickName = datas[0].nickName;
+      }
+      arr.push(data);
+    }
+
+    this.currentCommitteeData = arr;
+  };
 
   allWalletSub: any;
   allBlockSub: any;

@@ -2,6 +2,8 @@ import { WalletComponent } from './components/wallet/wallet.component';
 import { TxSharerComponent } from "./components/txSharer/txSharer.component";
 import { TxEdenComponent } from "./components/txEden/txEden.component";
 import { SharerComponent } from "./components/sharer/sharer.component";
+import { CommitteeComponent } from './components/committee/committee.component';
+import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -36,6 +38,12 @@ const routes: Routes = [{
     path: "",
     pathMatch: "full",
     redirectTo: "/wallet",
+}, {
+    path: "currentCommittee",
+    component: CurrentCommitteeComponent,
+}, {
+    path: "committee",
+    component: CommitteeComponent,
 }];
 
 @NgModule({

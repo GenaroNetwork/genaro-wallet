@@ -33,6 +33,8 @@ import { TableComponent } from './components/table/table.component';
 import { CopyComponent } from './components/copy/copy.component';
 import { EdenComponent } from './components/eden/eden.component';
 import { TaskComponent } from './components/task/task.component';
+import { CommitteeComponent } from './components/committee/committee.component';
+import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component'
 
 // services
 
@@ -44,6 +46,7 @@ import { TranserUnitPipe, ShortGNXPipe } from "./pipes/web3Util.pipe";
 import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
 import { HumanSizePipe } from './pipes/human.pipe';
 import { TablePipe } from './pipes/table.pipe';
+import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
 
 
 // AoT requires an exported function for factories
@@ -68,6 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WalletNewComponent,
     SharerComponent,
     TaskComponent,
+    CommitteeComponent,
+    CurrentCommitteeComponent,
     // common component
     DialogComponent,
     FormComponent,
@@ -83,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SpecialTxPipe,
     HumanSizePipe,
     TablePipe,
+    FormatSentinelPipe,
   ],
   imports: [
     BrowserModule,

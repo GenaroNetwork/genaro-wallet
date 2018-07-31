@@ -79,6 +79,26 @@ export class SettingService {
     this.update("lang");
   }
 
+  private _showCommittee: boolean = true;
+  get showCommittee() {
+    return this._showCommittee;
+  }
+  set showCommittee(value) {
+    this._showCommittee = value;
+    if (value !== null)
+      this.update("showCommittee");
+  }
+
+  private _showCurrentCommittee: boolean = true;
+  get showCurrentCommittee() {
+    return this._showCurrentCommittee;
+  }
+  set showCurrentCommittee(value) {
+    this._showCurrentCommittee = value;
+    if (value !== null)
+      this.update("showCurrentCommittee")
+  }
+
   appName = remote.app.getName();
   appVersion = remote.app.getVersion();
   constructor(

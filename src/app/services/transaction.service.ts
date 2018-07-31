@@ -63,6 +63,13 @@ export class TransactionService {
     });
   }
 
+  async getWeb3Instance() {
+    if (!this.readyState) {
+      await this.connect()
+    }
+    return web3
+  }
+
   async connect() {
     this.ready.next(null);
     web3Provider = new Web3.providers.WebsocketProvider(WEB3_URL);
@@ -292,7 +299,6 @@ export class TransactionService {
     // @ts-ignore
     return await web3.genaro.getHeft(address, 'latest');
   }
-
 
   alertError(error: Error) {
     if (!error) {

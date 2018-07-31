@@ -242,3 +242,66 @@
     </tr>
   </tbody>
 </nz-table>
+
+<!-- committee -->
+<div *ngIf="name==='committee'">
+  <div>
+    <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+      <input type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="committeeAddress">
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="searchFarmer()">
+        <i class="anticon anticon-search"></i>
+      </button>
+    </ng-template>
+  </div>
+  <br>
+  <nz-table #committeeTable [nzData]="committeeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' nzShowPagination="false">
+    <thead>
+      <tr>
+        <th nzWidth="8%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+        <th nzWidth="12%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of committeeTable.data">
+        <td nzWidth="8%">{{ data.order + 1 }}</td>
+        <td nzWidth="15%">{{ data.nickName }}</td>
+        <td nzWidth="15%">{{ data.stake }}</td>
+        <td nzWidth="20%">{{ data.data_size }}</td>
+        <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
+        <td nzWidth="12%">{{ data.subAccounts.length || 0}} / 10</td>
+        <td nzWidth="15%">
+          <a nz-dropdown (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination class="tx-pg" [(nzPageIndex)]="committeeDataCurrentPage" [(nzTotal)]="committeeDataTotalPage"
+    (nzPageIndexChange)="committeeDataChangePage($event)"></nz-pagination>
+</div>
+
+
+<!-- currentCommittee -->
+<nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzData]="currentCommitteeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+  nzShowPagination="false" [nzPageSize]="31" class="tx">
+  <thead>
+    <tr>
+      <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+      <th nzWidth="30%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+      <th nzWidth="60%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of currentCommitteeTable.data">
+      <td nzWidth="10%">{{ data.order + 1 }}</td>
+      <td nzWidth="30%">{{ data.nickName }}</td>
+      <td nzWidth="60%">{{ data.address }}</td>
+    </tr>
+  </tbody>
+</nz-table>

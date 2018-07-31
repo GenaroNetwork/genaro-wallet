@@ -26,6 +26,8 @@ export const SETTINGS = [];
 //     showEden: [false, false],
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
+//     showCommittee: [false, false],
+//     showCurrentCommittee: [false, false],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }
@@ -37,6 +39,8 @@ export const SETTINGS = [];
 //     showEden: [true, true],
 //     showTxEden: [true, true],
 //     showSharer: [false, false],
+//     showCommittee: [false, false],
+//     showCurrentCommittee: [false, false],
 //     showTxSharer: [false, false],
 //     lang: ['en', true],
 // }
@@ -48,6 +52,8 @@ export const SETTINGS = [];
 //     showEden: [false, false],
 //     showTxEden: [false, false],
 //     showSharer: [true, true],
+//     showCommittee: [true, true],
+//     showCurrentCommittee: [true, true],
 //     showTxSharer: [true, true],
 //     lang: ['en', true],
 // }
@@ -86,6 +92,7 @@ export const DAEMON_CONFIG = require("./DAEMON_CONFIG.json");
 
 export const SENTINEL_WEB = 'http://118.31.61.119:8001';
 
+export const TOP_FARMER_URL = "http://118.31.61.119:8000/top-farmer";
 
 export enum TASK_TYPE {
     FILE_UPLOAD = 0,
@@ -112,3 +119,5 @@ export const CHECK_WIN_UPDATE_URL = "";
 export const INSTRUCTIONS_URL = "";
 export const DOWNLOAD_EDEN_URL = "";
 export const DOWNLOAD_SHARER_URL = "";
+
+export const BLOCK_COUNT_OF_ROUND = 86400;

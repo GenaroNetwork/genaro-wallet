@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
-import { STAKE_PER_NODE, SENTINEL_WEB } from "../../libs/config";
+import { STAKE_PER_NODE, SENTINEL_WEB, TOP_FARMER_URL } from "../../libs/config";
 import { shell } from "electron";
 
 @Component({
@@ -45,7 +45,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       if (!val) this.staked = 0;
       else this.staked = val.length;
     });
-    let res = await fetch("http://118.31.61.119:8000/top-farmer");
+    let res = await fetch(TOP_FARMER_URL);
     let json = await res.json();
     let addr = address;
     if (!addr.startsWith("0x")) addr = "0x" + addr;
