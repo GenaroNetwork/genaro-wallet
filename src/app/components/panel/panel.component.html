@@ -1,5 +1,19 @@
 <!-- rank -->
 <div *ngIf="name==='rank'">
+    <nz-dropdown [nzPlacement]="'bottom'" [nzTrigger]="'click'">
+        <button nz-button nz-dropdown>
+            <i class="anticon anticon-team"></i>
+        </button>
+        <app-treeTable nz-menu name="rankTree"></app-treeTable>
+    </nz-dropdown>
+</div>
 
-
+<!-- committee -->
+<div *ngIf="name==='committee'">
+    <nz-dropdown [nzPlacement]="'bottom'" [nzTrigger]="'click'">
+        <button nz-button nz-dropdown>
+            <i class="anticon anticon-team"></i>
+        </button>
+        <app-treeTable nz-menu name="committeeTree"></app-treeTable>
+    </nz-dropdown>
 </div>

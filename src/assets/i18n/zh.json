@@ -342,7 +342,8 @@
       "SENTINEL": "sentinel",
       "MEMBER": "成员",
       "ADDRESS": "地址",
-      "JOIN": "申请加入"
+      "JOIN": "申请加入",
+      "AGREE": "同意"
     }
   },
   "ERROR": {

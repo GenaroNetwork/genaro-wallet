@@ -312,7 +312,8 @@
       "SENTINEL": "sentinel",
       "MEMBER": "member",
       "ADDRESS": "address",
-      "JOIN": "join"
+      "JOIN": "join",
+      "AGREE": "agree"
     }
   },
   "ERROR": {

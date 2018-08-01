@@ -22,7 +22,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   accountRankInfo: any = {};
   async rankInit() {
     this.brotherhoodService.stateUpdate.subscribe(states => {
-      debugger;
+
       
     });
   }
