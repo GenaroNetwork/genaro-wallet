@@ -24,7 +24,7 @@ export class JoinCommitteeComponent implements OnInit {
 
   getSubAccounts() {
     if(this.walletService.wallets.current) {
-      this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);
+      //this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);
     }
     
     

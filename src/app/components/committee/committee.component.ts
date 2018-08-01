@@ -18,6 +18,25 @@ export class CommitteeComponent implements OnInit {
     private walletService: WalletService
   ) { }
 
+  join(data) {
+
+  }
+
+  getSubAccounts() {
+    if (this.walletService.wallets.current) {
+      //this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);
+    }
+
+
+
+  }
+
+  tableAction(event) {
+    const name = event[0];
+    const args = event.slice(1);
+    if (this[name]) { this[name](...args); }
+  }
+
   ngOnInit() {
   }
 

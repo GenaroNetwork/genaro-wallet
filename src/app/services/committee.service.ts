@@ -9,8 +9,8 @@ import { BrotherhoodService } from './brotherhood.service';
 export class CommitteeService {
 
   getMembers (obj) {
-    const subAccounts = this.brotherhoodService.getCurrentSubAccounts(obj.address);
-    obj.subAccounts = subAccounts || [];
+    //const subAccounts = this.brotherhoodService.getCurrentSubAccounts(obj.address);
+    //obj.subAccounts = subAccounts || [];
     return obj;
   }
 
