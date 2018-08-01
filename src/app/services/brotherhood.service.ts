@@ -38,7 +38,7 @@ class LastStateStorage {
   }
 
   private SaveAll() {
-    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState))
+    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState, null, 4))
   }
 
   public deleteEntry(addr) {
@@ -88,10 +88,11 @@ export class BrotherhoodService {
   ) {
     this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService)
     this.alwaysFetch();
+    //this.addFetchingAddress("0xe6be07488eddce660214cf5e1a4058766df1cee7");
   }
 
   private async alwaysFetch() {
-    const promises = this.lastState.getAllAddress().map(this.fetchState);
+    const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
     const states = await Promise.all(promises);
     this.lastState.SetAll(states)
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
@@ -219,8 +220,8 @@ export class BrotherhoodService {
 
   private async fetchPendingState(address: string) {
     const state = {
-      mainAccount: this.getPendingMainAccount(address),
-      subAccounts: this.getPendingSubAccounts(address)
+      mainAccount: await this.getPendingMainAccount(address),
+      subAccounts: await this.getPendingSubAccounts(address)
     };
     state['role'] = this.getRole(state);
     return state;
@@ -228,8 +229,8 @@ export class BrotherhoodService {
 
   private async fetchTempState(address: string) {
     const state = {
-      mainAccount: this.getTempMainAccount(address),
-      subAccounts: this.getTempSubAccounts(address)
+      mainAccount: await this.getTempMainAccount(address),
+      subAccounts: await this.getTempSubAccounts(address)
     };
     state['role'] = this.getRole(state);
     return state;
