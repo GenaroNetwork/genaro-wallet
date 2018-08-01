@@ -1,0 +1,59 @@
+<!-- rankTree -->
+<div *ngIf="name==='rankTree'">
+  <nz-table #nzTable [nzData]="rankTreeData" [nzShowPagination]="false" [nzSize]="small">
+    <thead>
+      <tr>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+        <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+        <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <ng-template ngFor let-item [ngForOf]="rankTreeExpandDataCache[data.address]">
+          <tr>
+            <td nzWidth="20%" [nzIndentSize]="item.level*20" [nzShowExpand]="false" [nzExpand]="true">
+              {{item.nickName}}
+            </td>
+            <td nzWidth="20%">{{item.stake}}</td>
+            <td nzWidth="30%">{{item.data_size}}</td>
+            <td nzWidth="30%">{{item.sentinel * 10000 | formatSentinel }}</td>
+          </tr>
+        </ng-template>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</div>
+
+<!-- committeeTree -->
+<div *ngIf="name==='committeeTree'">
+    <nz-table #nzTable [nzData]="committeeTreeData" [nzShowPagination]="false" [nzSize]="small">
+        <thead>
+          <tr>
+            <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+            <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+            <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+            <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+            <th nzWidth="20"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="nzTable.data">
+            <ng-template ngFor let-item [ngForOf]="committeeTreeExpandDataCache[data.address]">
+              <tr>
+                <td nzWidth="15%" [nzIndentSize]="item.level*20" [nzShowExpand]="false" [nzExpand]="true">
+                  {{item.nickName}}
+                </td>
+                <td nzWidth="15%">{{item.stake}}</td>
+                <td nzWidth="20%">{{item.data_size}}</td>
+                <td nzWidth="30%">{{item.sentinel * 10000 | formatSentinel }}</td>
+                <td nzWidth="20%">
+                    <a nz-dropdown (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</a>
+                </td>
+              </tr>
+            </ng-template>
+          </ng-template>
+        </tbody>
+      </nz-table>
+  </div>
