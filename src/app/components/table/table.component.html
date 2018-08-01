@@ -249,6 +249,44 @@
   </tbody>
 </nz-table>
 
+<!-- rank -->
+<div *ngIf="name==='rank'">
+  <div>
+    <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+      <input type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="rankAddress">
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="searchRankFarmer()">
+        <i class="anticon anticon-search"></i>
+      </button>
+    </ng-template>
+  </div>
+  <br>
+  <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' nzShowPagination="false">
+    <thead>
+      <tr>
+        <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of rankTable.data">
+        <td nzWidth="10%">{{ data.order + 1 }}</td>
+        <td nzWidth="15%">{{ data.nickName }}</td>
+        <td nzWidth="15%">{{ data.stake }}</td>
+        <td nzWidth="20%">{{ data.data_size }}</td>
+        <td nzWidth="20%">{{ data.sentinel * 10000 | formatSentinel }}</td>
+        <td nzWidth="20%">{{ data.subAccounts.length || 0}} / 10</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination class="tx-pg" [(nzPageIndex)]="rankDataCurrentPage" [(nzTotal)]="rankDataTotalPage" (nzPageIndexChange)="rankDataChangePage($event)"></nz-pagination>
+</div>
+
 <!-- committee -->
 <div *ngIf="name==='committee'">
   <div>

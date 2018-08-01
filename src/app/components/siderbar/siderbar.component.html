@@ -36,11 +36,23 @@
     {{ "SIDERBAR.SHARER" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/currentCommittee']" [nzSelected]="page==='/currentCommittee'" *ngIf="settingService.showCurrentCommittee">
-    <i class="anticon anticon-database"></i>
+    <i class="anticon anticon-team"></i>
     {{ "SIDERBAR.COMMITTEE" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/committee']" [nzSelected]="page==='/committee'" *ngIf="settingService.showCommittee">
-    <i class="anticon anticon-database"></i>
-    {{ "SIDERBAR.COMMITTEE" | translate }}
+  <li nz-menu-group *ngIf="settingService.showCommittee">
+    <span title>
+      <i class="anticon anticon-appstore-o"></i>
+      {{ "SIDERBAR.CO_CONSTRUCTION_NODES" | translate }}
+    </span>
+    <ul>
+      <li nz-menu-item [routerLink]="['/committee']" [nzSelected]="page==='/committee'">
+        <i class="anticon anticon-solution"></i>
+        {{ "SIDERBAR.CURRENT_RANKS" | translate }}
+      </li>
+      <li nz-menu-item [routerLink]="['/joinCommittee']" [nzSelected]="page==='/joinCommittee'">
+        <i class="anticon anticon-usergroup-add"></i>
+        {{ "SIDERBAR.JOIN_COMMITTEE" | translate }}
+      </li>
+    </ul>
   </li>
 </ul>

@@ -7,15 +7,15 @@ export class HumanSizePipe implements PipeTransform {
 
   transform(value: any, length: number = 2): any {
     if (value === null || value === void 0) return "--";
-    if (value < 1024) return value + " B";
+    if (value < 1024) { return value + " B"; }
     value /= 1024;
-    if (value < 1024) return value.toFixed(length) + " KB";
+    if (value < 1024) { return value.toFixed(length) + ' KB'; }
     value /= 1024;
-    if (value < 1024) return value.toFixed(length) + " MB";
+    if (value < 1024) { return value.toFixed(length) + ' MB'; }
     value /= 1024;
-    if (value < 1024) return value.toFixed(length) + " GB";
+    if (value < 1024) { return value.toFixed(length) + ' GB'; }
     value /= 1024;
-    if (value < 1024) return value.toFixed(length) + " TB";
+    if (value < 1024) { return value.toFixed(length) + ' TB'; }
   }
 
 }

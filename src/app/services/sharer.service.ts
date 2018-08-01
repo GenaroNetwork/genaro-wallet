@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { shell } from "electron";
-import Dnode from "dnode";
-import prettyms from "pretty-ms";
+import { shell } from 'electron';
+import Dnode from 'dnode';
+import prettyms from 'pretty-ms';
 import { TransactionService } from './transaction.service';
-import { DAEMON_CONFIG } from "../libs/config";
+import { DAEMON_CONFIG } from '../libs/config';
 import { IpcService } from './ipc.service';
 
 const path = require('path');
@@ -35,7 +35,7 @@ export class SharerService {
   private configIds: any[] = [];
   private interval: any = null;
   private mkdirPSync(dirpath, made) {
-    if (!made) made = null;
+    if (!made) { made = null; }
     dirpath = path.normalize(dirpath);
     try {
       fs.mkdirSync(dirpath);
@@ -46,7 +46,7 @@ export class SharerService {
         this.mkdirPSync(dirpath, made);
       } else {
         try {
-          let stat = fs.statSync(dirpath);
+          const stat = fs.statSync(dirpath);
           if (!stat.isDirectory()) {
             throw err;
           }
@@ -60,7 +60,7 @@ export class SharerService {
 
   private initConfigs() {
     fs.readdirSync(CONFIG_DIR).forEach(file => {
-      let fileobj = path.parse(file);
+      const fileobj = path.parse(file);
       if (fileobj.ext === '.json' && fileobj.name.length === 40) {
         this.configIds.push(fileobj.name);
       }
@@ -68,15 +68,15 @@ export class SharerService {
   }
 
   private getPrivateKey() {
-    return this.ipc.ipcSync("storj.lib.getPrivateKey");
+    return this.ipc.ipcSync('storj.lib.getPrivateKey');
   }
 
   private getNodeID(key) {
-    return this.ipc.ipcSync("storj.lib.getNodeID", [key]);
+    return this.ipc.ipcSync('storj.lib.getNodeID', [key]);
   }
 
   private validateConfig(config) {
-    return this.ipc.ipcSync("storj.lib.validateConfig", [config]);
+    return this.ipc.ipcSync('storj.lib.validateConfig', [config]);
   }
   private getConfigPathById(nodeId) {
     return path.join(
@@ -86,7 +86,7 @@ export class SharerService {
   }
 
   getSharerNodeIds() {
-    if(!this.configIds) {
+    if (!this.configIds) {
       this.initConfigs();
     }
     return this.configIds || [];
@@ -95,9 +95,9 @@ export class SharerService {
   create(shareSize, shareUnit, shareBasePath) {
     let configFileDescriptor;
     let storPath;
-    let config = DAEMON_CONFIG.prodConfig;
+    const config = DAEMON_CONFIG.prodConfig;
     config.networkPrivateKey = this.getPrivateKey();
-    let nodeID = this.getNodeID(config.networkPrivateKey);
+    const nodeID = this.getNodeID(config.networkPrivateKey);
     config.storagePath = shareBasePath;
     try {
       this.mkdirPSync(shareBasePath, null);
@@ -112,16 +112,16 @@ export class SharerService {
     config.storagePath = storPath;
     config.storageAllocation = shareSize + shareUnit;
 
-    let configFilePath = path.join(
+    const configFilePath = path.join(
       CONFIG_DIR,
       `${nodeID}.json`
     );
 
     config.loggerOutputFile = LOG_DIR;
-    let configArray = JSON.stringify(config, null, 2).split('\n');
-    let configBuffer = Buffer.from(configArray.join('\n'));
+    const configArray = JSON.stringify(config, null, 2).split('\n');
+    const configBuffer = Buffer.from(configArray.join('\n'));
     try {
-      let err = this.validateConfig(config);
+      const err = this.validateConfig(config);
       if (err) {
         throw err;
       }
@@ -136,18 +136,18 @@ export class SharerService {
     }
     this.initConfigs();
     return nodeID;
-  };
+  }
 
   private remove(nodeId) {
-    const configPath = this.getConfigPathById(nodeId)
-    fs.unlinkSync(configPath)
+    const configPath = this.getConfigPathById(nodeId);
+    fs.unlinkSync(configPath);
   }
 
   start(nodeId, cb) {
-    let dnode = new Dnode(undefined, { weak: false });
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    const dnode = new Dnode(undefined, { weak: false });
+    const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
-      let configPath = this.getConfigPathById(nodeId);
+      const configPath = this.getConfigPathById(nodeId);
       remote.start(configPath, (err) => {
         if (cb) {
           cb(err);
@@ -158,7 +158,7 @@ export class SharerService {
   }
 
   startAll(cb) {
-    let errs = [];
+    const errs = [];
     let len = this.configIds.length;
     this.configIds.forEach(nodeId => {
       this.start(nodeId, err => {
@@ -177,11 +177,11 @@ export class SharerService {
         }
       });
     });
-  };
+  }
 
   stop(nodeId, cb) {
-    let dnode = new Dnode(undefined, { weak: false });
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    const dnode = new Dnode(undefined, { weak: false });
+    const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.stop(nodeId, (err) => {
         if (cb) {
@@ -190,11 +190,11 @@ export class SharerService {
         d.end();
       });
     });
-  };
+  }
 
   restart(nodeId, cb) {
-    let dnode = new Dnode(undefined, { weak: false });
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    const dnode = new Dnode(undefined, { weak: false });
+    const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.restart(nodeId, (err) => {
         if (cb) {
@@ -203,7 +203,7 @@ export class SharerService {
         d.end();
       });
     });
-  };
+  }
 
   status() {
     if (this.interval) {
@@ -211,8 +211,8 @@ export class SharerService {
     }
     let datas = [];
     this.interval = setInterval(() => {
-      let dnode = new Dnode(undefined, { weak: false });
-      let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+      const dnode = new Dnode(undefined, { weak: false });
+      const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
       d.on('remote', (remote) => {
         remote.status((err, statuses) => {
           if (!err) {
@@ -239,7 +239,7 @@ export class SharerService {
               data.id = share.id;
               data.location = config.storagePath;
               data.shareBasePath = config.shareBasePath;
-              data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? "0KB" : farmerState.spaceUsed;
+              data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
               data.storageAllocation = config.storageAllocation;
               data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) || 0;
               data.time = prettyms(share.meta.uptimeMs);
@@ -248,7 +248,7 @@ export class SharerService {
               data.contractCount = farmerState.contractCount || 0;
               data.dataReceivedCount = farmerState.dataReceivedCount || 0;
               data.bridges = farmerState.bridgesConnectionStatus || 0;
-              data.allocs = data.bridges === 0 ? "0" : data.contractCount + '(' + data.dataReceivedCount + 'received)';
+              data.allocs = data.bridges === 0 ? '0' : data.contractCount + '(' + data.dataReceivedCount + 'received)';
 
               data.listenPort = portStatus.listenPort;
               data.connectionType = portStatus.connectionType;
@@ -276,19 +276,18 @@ export class SharerService {
               return !d.delete;
             });
             this.driversData.next(datas);
-          }
-          else {
+          } else {
             clearInterval(this.interval);
           }
           d.end();
         });
       });
     }, 5000);
-  };
+  }
 
   destroy(nodeId, cb) {
-    let dnode = new Dnode(undefined, { weak: false });
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    const dnode = new Dnode(undefined, { weak: false });
+    const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.destroy(nodeId, (err) => {
         this.remove(nodeId);
@@ -298,22 +297,22 @@ export class SharerService {
         d.end();
       });
     });
-  };
+  }
 
   openLogFolder() {
     shell.showItemInFolder(LOG_DIR);
-  };
+  }
 
   openConfig(nodeId) {
     const configPath = this.getConfigPathById(nodeId);
     shell.openItem(configPath);
-  };
+  }
 
   getBindToken(nodeId, address, cb) {
-    let dnode = new Dnode(undefined, { weak: false });
-    let d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
+    const dnode = new Dnode(undefined, { weak: false });
+    const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
-      let configPath = this.getConfigPathById(nodeId);
+      const configPath = this.getConfigPathById(nodeId);
       remote.getNodeToken(configPath, address, (err, token) => {
         d.end();
         if (err) {
@@ -322,7 +321,7 @@ export class SharerService {
         cb(null, token);
       });
     });
-  };
+  }
 
   constructor(
     private txService: TransactionService,

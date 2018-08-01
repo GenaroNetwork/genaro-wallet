@@ -1,9 +1,10 @@
 import { WalletComponent } from './components/wallet/wallet.component';
-import { TxSharerComponent } from "./components/txSharer/txSharer.component";
-import { TxEdenComponent } from "./components/txEden/txEden.component";
-import { SharerComponent } from "./components/sharer/sharer.component";
+import { TxSharerComponent } from './components/txSharer/txSharer.component';
+import { TxEdenComponent } from './components/txEden/txEden.component';
+import { SharerComponent } from './components/sharer/sharer.component';
 import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
+import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -35,15 +36,18 @@ const routes: Routes = [{
     path: 'sharer',
     component: SharerComponent,
 }, {
-    path: "",
-    pathMatch: "full",
-    redirectTo: "/wallet",
+    path: '',
+    pathMatch: 'full',
+    redirectTo: '/wallet',
 }, {
-    path: "currentCommittee",
+    path: 'currentCommittee',
     component: CurrentCommitteeComponent,
 }, {
-    path: "committee",
+    path: 'committee',
     component: CommitteeComponent,
+}, {
+    path: "joinCommittee",
+    component: JoinCommitteeComponent,
 }];
 
 @NgModule({

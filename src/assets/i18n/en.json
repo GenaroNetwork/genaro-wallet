@@ -108,7 +108,10 @@
     "TXEDEN": "Space management",
     "SHARER": "My sharing",
     "TXSHARER": "Data stack management",
-    "COMMITTEE": "The current Committee"
+    "COMMITTEE": "The current Committee",
+    "CO_CONSTRUCTION_NODES": "Co construction nodes",
+    "CURRENT_RANKS": "Current Ranks",
+    "JOIN_COMMITTEE": "Join Construction"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
@@ -309,7 +312,8 @@
       "SENTINEL": "sentinel",
       "MEMBER": "member",
       "ADDRESS": "address",
-      "JOIN": "join"
+      "JOIN": "join",
+      "AGREE": "agree"
     }
   },
   "ERROR": {

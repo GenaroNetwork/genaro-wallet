@@ -7,12 +7,12 @@ import { clipboard } from 'electron';
   styleUrls: ['./copy.component.scss']
 })
 export class CopyComponent implements OnDestroy {
-  @Input("data") data: any = null;
+  @Input('data') data: any = null;
 
-  copied: boolean = false;
+  copied = false;
   timer: any;
   copy() {
-    if (this.copied) return;
+    if (this.copied) { return; }
     this.copied = true;
     clipboard.writeText(this.data);
     this.timer = setTimeout(() => {

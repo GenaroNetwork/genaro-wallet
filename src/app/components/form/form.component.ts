@@ -10,13 +10,13 @@ import { SharerService } from '../../services/sharer.service';
 })
 export class FormComponent implements OnInit {
 
-  @Input("name") name: string = null;
-  @Input("opts") options: any = {};
-  @Input("nodeId") nodeId: string = null;
+  @Input('name') name: string = null;
+  @Input('opts') options: any = {};
+  @Input('nodeId') nodeId: string = null;
 
-  @Output("submit") onSubmit: EventEmitter<any> = new EventEmitter;
-  @Output("cancel") onCancel: EventEmitter<any> = new EventEmitter;
-  @Output("error") onError: EventEmitter<any> = new EventEmitter;
+  @Output('submit') onSubmit: EventEmitter<any> = new EventEmitter;
+  @Output('cancel') onCancel: EventEmitter<any> = new EventEmitter;
+  @Output('error') onError: EventEmitter<any> = new EventEmitter;
 
   cancel() {
     this.onCancel.emit();
@@ -29,29 +29,29 @@ export class FormComponent implements OnInit {
     gasDetail: false,
     loading: false,
     // ==
-    address: "",
+    address: '',
     amount: 0,
     gas: [null, 21000],
-    password: "",
+    password: '',
   };
   async submitSendTx() {
-    let from = this.walletService.wallets.current;
+    const from = this.walletService.wallets.current;
     let to = this.formSendTx.address;
-    if (to.startsWith("0x")) to = to.substr(2);
+    if (to.startsWith('0x')) { to = to.substr(2); }
     await this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gas[1], this.formSendTx.gas[0]);
     this.onSubmit.emit();
   }
 
   // 压注
-  stakeType: number = 0; // stake or unstake
-  stakeStep: number = 0;
-  stakeGNX: number = 0;
+  stakeType = 0; // stake or unstake
+  stakeStep = 0;
+  stakeGNX = 0;
   stakeGas: number[] = [null, 2100000];
-  stakePassword: string = "";
+  stakePassword = '';
   async  stakeConfirm() {
     switch (this.stakeType) {
       case 0:
-        let address = this.walletService.wallets.current;
+        const address = this.walletService.wallets.current;
         await this.txService.stake(address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]);
         this.stakeStep++;
         this.onSubmit.emit();
@@ -61,15 +61,15 @@ export class FormComponent implements OnInit {
 
   // 绑定节点
   selectBindNodes: string[] = [];
-  bindNodeStep: number = 0;
-  bindNodeTokenFlg: boolean = false;
-  bindNodeId: string = "";
-  bindNodeToken: any = "";
+  bindNodeStep = 0;
+  bindNodeTokenFlg = false;
+  bindNodeId = '';
+  bindNodeToken: any = '';
   bindNodeGas: number[] = [null, 2100000];
-  bindNodePassword: string = "";
+  bindNodePassword = '';
   async bindNodeConfirm() {
-    let address = this.walletService.wallets.current;
-    if(!this.bindNodeTokenFlg) {
+    const address = this.walletService.wallets.current;
+    if (!this.bindNodeTokenFlg) {
       this.bindNodeToken = await this.getNodeToken(this.bindNodeId, address);
     }
     await this.txService.bindNode(address, this.bindNodePassword, this.bindNodeToken , this.bindNodeGas[1], this.bindNodeGas[0]);
@@ -78,8 +78,8 @@ export class FormComponent implements OnInit {
   }
 
   setNodeId() {
-    if(this.bindNodeId === "0") {
-      this.bindNodeId = "";
+    if (this.bindNodeId === '0') {
+      this.bindNodeId = '';
       this.bindNodeTokenFlg = true;
     }
   }
@@ -93,12 +93,12 @@ export class FormComponent implements OnInit {
   }
 
   // 解绑节点
-  removeNodeStep: number = 0;
-  removeNodeId: string = "";
+  removeNodeStep = 0;
+  removeNodeId = '';
   removeNodeGas: number[] = [null, 2100000];
-  removeNodePassword: string = "";
+  removeNodePassword = '';
   async removeNodeConfirm() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     await this.txService.removeNode(address, this.removeNodePassword, this.removeNodeId, this.removeNodeGas[1], this.removeNodeGas[0]);
     this.removeNodeStep++;
     this.onSubmit.emit();
@@ -111,13 +111,12 @@ export class FormComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() { 
-    if (this.name === "removeNode") {
+  ngOnInit() {
+    if (this.name === 'removeNode') {
       this.removeNodeId = this.nodeId;
-    }
-    else if (this.name === "bindNode") {
+    } else if (this.name === 'bindNode') {
       this.selectBindNodes = this.sharerService.getSharerNodeIds();
-      if(this.selectBindNodes.length === 0) {
+      if (this.selectBindNodes.length === 0) {
         this.bindNodeTokenFlg = true;
       }
     }

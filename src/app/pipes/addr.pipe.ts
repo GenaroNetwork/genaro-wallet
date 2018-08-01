@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LongAddrPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    if (typeof value !== "string") return "";
-    if (value.startsWith("0x")) return value;
+    if (typeof value !== 'string') { return ''; }
+    if (value.startsWith('0x')) { return value; }
     return `0x${value}`;
   }
 }
@@ -18,7 +18,7 @@ export class LongAddrPipe implements PipeTransform {
 export class ShortAddrPipe implements PipeTransform {
 
   transform(value: any, starts: number = 8, ends: number = 8): any {
-    if (typeof value !== "string") return "";
+    if (typeof value !== 'string') { return ''; }
     return `${value.substr(0, starts)}...${value.substr(-ends)}`;
 
   }

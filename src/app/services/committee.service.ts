@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TOP_FARMER_URL } from "../libs/config";
-import { TransactionService } from "./transaction.service";
-import { BrotherhoodService } from "./brotherhood.service";
+import { TOP_FARMER_URL } from '../libs/config';
+import { TransactionService } from './transaction.service';
+import { BrotherhoodService } from './brotherhood.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +9,17 @@ import { BrotherhoodService } from "./brotherhood.service";
 export class CommitteeService {
 
   getMembers (obj) {
-    let subAccounts = this.brotherhoodService.getCurrentSubAccounts(obj.address);
-    obj.subAccounts = subAccounts || [];
+    //const subAccounts = this.brotherhoodService.getCurrentSubAccounts(obj.address);
+    //obj.subAccounts = subAccounts || [];
     return obj;
   }
 
   async getSentinel(addr) {
     let url = TOP_FARMER_URL;
-    if(addr) {
-      url += "?address=" + addr; 
+    if (addr) {
+      url += '?address=' + addr;
     }
-    let res = await fetch(url);
+    const res = await fetch(url);
     return await res.json();
   }
 

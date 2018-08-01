@@ -7,8 +7,8 @@ import * as numeral from 'numeral';
 export class FormatSentinelPipe implements PipeTransform {
 
   transform(value: any): any {
-    if (value === null || value === void 0) return "--";
-    return numeral(value).format('0,0')
+    if (value === null || value === void 0) { return '--'; }
+    return numeral(value).format('0,0');
   }
 
 }
