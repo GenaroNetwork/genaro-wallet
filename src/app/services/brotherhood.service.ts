@@ -11,13 +11,9 @@ function add0x(addr: string) {
 }
 
 class LastStateStorage {
-  private allState = null;
+  private allState = {};
   constructor(private bs: BehaviorSubject<[string, any]>, private NotiService: NzNotificationService) {
     this.ReadAll()
-  }
-
-  public get(addr) {
-    return this.allState[addr]
   }
 
   public SetAll(states) {
@@ -25,12 +21,11 @@ class LastStateStorage {
     let sthChanged = false
     states.forEach(state => {
       const addr = state.address
-      // @ts-ignore
-      const oldVal = this2.lastState.get(addr);
+      const oldVal = this2.allState[addr];
       const equals = this2.compareState(oldVal, state);
       if (!equals) {
         sthChanged = true
-        this.allState[addr] = state
+        this2.allState[addr] = state
         this2.bs.next([addr, state]);
       }
     });
@@ -47,6 +42,9 @@ class LastStateStorage {
     if(existsSync(BROTHER_STATE_FILE)) {
       const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' })
       this.allState = JSON.parse(content)
+    }
+    for (const addr in this.allState) {
+      this.bs.next([addr, this.allState[addr]])
     }
   }
 
