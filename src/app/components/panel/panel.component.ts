@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
-import { BrotherhoodService } from "../../services/brotherhood.service";
+import { BrotherhoodService } from '../../services/brotherhood.service';
 
 @Component({
   selector: 'app-panel',
@@ -10,9 +10,9 @@ import { BrotherhoodService } from "../../services/brotherhood.service";
 })
 export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input("name") name: string;
-  @Input("opt") opt: any;
-  @Output("action") action: EventEmitter<any> = new EventEmitter;
+  @Input('name') name: string;
+  @Input('opt') opt: any;
+  @Output('action') action: EventEmitter<any> = new EventEmitter;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -23,7 +23,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   async rankInit() {
     this.brotherhoodService.stateUpdate.subscribe(states => {
 
-      
+
     });
   }
 
@@ -41,7 +41,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
     if (changes.change) {
-      if (this[`${name}Change`]) this[`${name}Change`]();
+      if (this[`${name}Change`]) { this[`${name}Change`](); }
     }
   }
 

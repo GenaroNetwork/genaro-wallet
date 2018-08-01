@@ -13,62 +13,62 @@ function add0x(addr: string) {
 class LastStateStorage {
   private allState = {};
   constructor(
-    private bs: BehaviorSubject<[string, any]>, 
+    private bs: BehaviorSubject<[string, any]>,
     private NotiService: NzNotificationService
   ) {
-    this.ReadAll()
+    this.ReadAll();
   }
 
   public SetAll(states) {
-    const this2 = this
-    let sthChanged = false
+    const this2 = this;
+    let sthChanged = false;
     states.forEach(state => {
-      const addr = state.address
+      const addr = state.address;
       const oldVal = this2.allState[addr];
       const equals = this2.compareState(oldVal, state);
       if (!equals) {
-        sthChanged = true
-        this2.allState[addr] = state
+        sthChanged = true;
+        this2.allState[addr] = state;
         this2.bs.next([addr, state]);
       }
     });
-    if(sthChanged) {
+    if (sthChanged) {
       this.SaveAll();
     }
   }
 
   private SaveAll() {
-    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState, null, 4))
+    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState, null, 4));
   }
 
   public deleteEntry(addr) {
-    delete this.allState[addr]
-    this.SaveAll()
+    delete this.allState[addr];
+    this.SaveAll();
   }
 
   public addEntry(addr: string) {
-    if(!this.allState[addr]) {
-      this.allState[addr] = null
+    if (!this.allState[addr]) {
+      this.allState[addr] = null;
     }
   }
 
   public getAllAddress(): Array<string> {
-    return Object.keys(this.allState)
+    return Object.keys(this.allState);
   }
 
   private ReadAll() {
-    if(existsSync(BROTHER_STATE_FILE)) {
-      const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' })
-      this.allState = JSON.parse(content)
+    if (existsSync(BROTHER_STATE_FILE)) {
+      const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' });
+      this.allState = JSON.parse(content);
     }
     for (const addr in this.allState) {
-      this.bs.next([addr, this.allState[addr]])
+      this.bs.next([addr, this.allState[addr]]);
     }
   }
 
   // if equal return true, otherwise false
   private compareState(oldVal, newVal): boolean {
-    this.NotiService.info("haha", "hahahahha")
+    this.NotiService.info('haha', 'hahahahha');
     // TODO: compare new value with old value. Send notification if necessary
     return false;
   }
@@ -86,24 +86,24 @@ export class BrotherhoodService {
     private TxService: TransactionService,
     private NotiService: NzNotificationService
   ) {
-    this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService)
+    this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService);
     this.alwaysFetch();
-    //this.addFetchingAddress("0xe6be07488eddce660214cf5e1a4058766df1cee7");
+    // this.addFetchingAddress("0xe6be07488eddce660214cf5e1a4058766df1cee7");
   }
 
   private async alwaysFetch() {
     const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
     const states = await Promise.all(promises);
-    this.lastState.SetAll(states)
+    this.lastState.SetAll(states);
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
   }
-  
+
   public addFetchingAddress(address: string) {
-    this.lastState.addEntry(address)
+    this.lastState.addEntry(address);
   }
 
   public deleteFetchingAddress(address: string) {
-    this.lastState.deleteEntry(address)
+    this.lastState.deleteEntry(address);
   }
   /*
     there are 3 phases to make brotherhood relation really take effect:
