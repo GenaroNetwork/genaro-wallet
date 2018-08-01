@@ -369,6 +369,7 @@ export class EdenService {
         },
         finishedCallback: (err, fileId) => {
           if (err) {
+            console.log(err);
             this.updateTask(taskId, {
               state: TASK_STATE.ERROR,
             });

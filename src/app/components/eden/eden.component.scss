@@ -77,6 +77,13 @@
       height: 5.5rem;
       font-size: 4rem;
       line-height: 6.5rem;
+      &.bucket-icon {
+        background-image: url(assets/img/bucket_icon.png);
+        display: block;
+        background-size: auto 70%;
+        background-position: 50% 90%;
+        background-repeat: no-repeat;
+      }
     }
     .name {
       font-size: 0.75rem;
@@ -116,6 +123,7 @@
       position: absolute;
       top: 0;
       transition: ease .1s all;
+      color: $theme-color;
       background: rgba(255, 255, 255, .2);
       opacity: 0;
       z-index: 2;

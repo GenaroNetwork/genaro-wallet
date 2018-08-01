@@ -224,6 +224,8 @@
     "TYPE": "任务类型",
     "TYPE_UPLOAD": "上传任务",
     "TYPE_DOWNLOAD": "下载任务",
+    "FILE_UPLOAD": "上传",
+    "FILE_DOWNLOAD": "下载",
     "PATH": "文件路径",
     "PROCESS": "任务进度",
     "STATUS": "任务状态",

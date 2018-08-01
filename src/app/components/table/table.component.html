@@ -228,16 +228,22 @@
       <td>{{ task.fileName.split("/").pop() }}</td>
       <td>{{ task.allBytes | humanSize }}</td>
       <td>{{ task.created | date }}</td>
-      <td>{{ task.type }}</td>
+      <td>{{ ('TASK.' + TASK_TYPE[task.type]) | translate }}</td>
       <td>
         <a [routerLink]="['/eden', {path: task.onlinePath}]">{{ [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</a>
       </td>
       <td>
-        <nz-progress [nzPercent]="(task.process*100).toFixed(1)"></nz-progress>
+        <nz-progress *ngIf="task.state===TASK_STATE.INIT || task.state===TASK_STATE.INPROCESS" [nzPercent]="(task.process*100).toFixed(1)"
+          nzStatus="active"></nz-progress>
+        <nz-progress *ngIf="task.state===TASK_STATE.ERROR" [nzPercent]="(task.process*100).toFixed(1)" nzStatus="exception"></nz-progress>
+        <nz-progress *ngIf="task.state===TASK_STATE.SUCCESS" [nzPercent]="100"></nz-progress>
       </td>
       <td>
         <!-- <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate" (nzOnConfirm)="edenService.cancelTask(task.id)">{{ 'TASK.STOP_TASK'| translate }}</a> -->
-        <a (click)="edenService.removeTask(task.id)">{{ 'TASK.REMOVE_TASK'| translate }}</a>
+        <a (click)="edenService.removeTask(task.id)">
+          <i class="anticon anticon-delete"></i>
+        </a>
+
       </td>
     </tr>
   </tbody>
@@ -282,8 +288,7 @@
       </tr>
     </tbody>
   </nz-table>
-  <nz-pagination class="tx-pg" [(nzPageIndex)]="committeeDataCurrentPage" [(nzTotal)]="committeeDataTotalPage"
-    (nzPageIndexChange)="committeeDataChangePage($event)"></nz-pagination>
+  <nz-pagination class="tx-pg" [(nzPageIndex)]="committeeDataCurrentPage" [(nzTotal)]="committeeDataTotalPage" (nzPageIndexChange)="committeeDataChangePage($event)"></nz-pagination>
 </div>
 
 

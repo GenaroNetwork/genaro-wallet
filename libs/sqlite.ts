@@ -10,7 +10,7 @@ export default class {
         // transactions
         sql.tx = new DB(join(SQLITE_CONFIG_PATH, "transactions.sqlite"));
         sql.tx.prepare(`CREATE TABLE IF NOT EXISTS transactions (
-            transactionId TEXT,
+            transactionId TEXT UNIQUE,
             txType TEXT,
             addrFrom TEXT,
             addrTo TEXT,
@@ -66,8 +66,12 @@ export default class {
         for (let name in sql) {
             let env = sql[name];
             ipcMain.on(`db.${name}.run`, (event, ipcId, sql) => {
-                env.prepare(sql).run();
-                event.sender.send(`db.${name}.run.${ipcId}`);
+                try {
+                    env.prepare(sql).run();
+                    event.sender.send(`db.${name}.run.${ipcId}`);
+                } catch (e) {
+                    console.log(e);
+                }
             });
             ipcMain.on(`db.${name}.get`, (event, ipcId, sql) => {
                 let data = env.prepare(sql).get();
