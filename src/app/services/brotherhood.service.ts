@@ -219,8 +219,8 @@ export class BrotherhoodService {
 
   private async fetchPendingState(address: string) {
     const state = {
-      mainAccount: this.getCurrentMainAccount(address),
-      subAccounts: this.getCurrentSubAccounts(address)
+      mainAccount: this.getPendingMainAccount(address),
+      subAccounts: this.getPendingSubAccounts(address)
     };
     state['role'] = this.getRole(state);
     return state;
