@@ -12,7 +12,10 @@ function add0x(addr: string) {
 
 class LastStateStorage {
   private allState = {};
-  constructor(private bs: BehaviorSubject<[string, any]>, private NotiService: NzNotificationService) {
+  constructor(
+    private bs: BehaviorSubject<[string, any]>, 
+    private NotiService: NzNotificationService
+  ) {
     this.ReadAll()
   }
 
@@ -36,6 +39,21 @@ class LastStateStorage {
 
   private SaveAll() {
     writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState))
+  }
+
+  public deleteEntry(addr) {
+    delete this.allState[addr]
+    this.SaveAll()
+  }
+
+  public addEntry(addr: string) {
+    if(!this.allState[addr]) {
+      this.allState[addr] = null
+    }
+  }
+
+  public getAllAddress(): Array<string> {
+    return Object.keys(this.allState)
   }
 
   private ReadAll() {
@@ -63,7 +81,6 @@ export class BrotherhoodService {
 
   private lastState: LastStateStorage;
   public stateUpdate: BehaviorSubject<[string, any]> = new BehaviorSubject(null);
-  private fetchingAddress: Array<string> = [];
 
   constructor(
     private TxService: TransactionService,
@@ -74,12 +91,19 @@ export class BrotherhoodService {
   }
 
   private async alwaysFetch() {
-    const promises = this.fetchingAddress.map(this.fetchState);
+    const promises = this.lastState.getAllAddress().map(this.fetchState);
     const states = await Promise.all(promises);
     this.lastState.SetAll(states)
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
   }
   
+  public addFetchingAddress(address: string) {
+    this.lastState.addEntry(address)
+  }
+
+  public deleteFetchingAddress(address: string) {
+    this.lastState.deleteEntry(address)
+  }
   /*
     there are 3 phases to make brotherhood relation really take effect:
     1. relation saved to temp table which is a smart contract.
@@ -115,19 +139,19 @@ export class BrotherhoodService {
   async getTempSubAccounts(address: string) {
   }
 
-  async getPendingMainAccount(address: string) {
+  private async getPendingMainAccount(address: string) {
     const web3 = await this.TxService.getWeb3Instance();
     // @ts-ignore
     return await web3.genaro.getMainAccount(address, 'latest');
   }
 
-  async getPendingSubAccounts(address: string) {
+  private async getPendingSubAccounts(address: string) {
     const web3 = await this.TxService.getWeb3Instance();
     // @ts-ignore
     return await web3.genaro.getSubAccounts(address, 'latest');
   }
 
-  async getCurrentMainAccount(address: string) {
+  private async getCurrentMainAccount(address: string) {
     const extra = await this.getCurrentRoundExtra();
     if (extra && extra.CommitteeAccountBinding) {
       const binding = extra.CommitteeAccountBinding;
@@ -140,7 +164,7 @@ export class BrotherhoodService {
     return null;
   }
 
-  async getCurrentSubAccounts(address: string) {
+  private async getCurrentSubAccounts(address: string) {
     const extra = await this.getCurrentRoundExtra();
     if (extra && extra.CommitteeAccountBinding) {
       return extra.CommitteeAccountBinding[add0x(address)];
