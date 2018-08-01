@@ -1,11 +1,59 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service';
-import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL } from '../libs/config';
+import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL, BROTHER_STATE_FILE } from '../libs/config';
 import { BehaviorSubject } from 'rxjs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 function add0x(addr: string) {
   if (!addr.startsWith('0x')) { addr = '0x' + addr; }
   return addr;
+}
+
+class LastStateStorage {
+  private allState = {};
+  constructor(private bs: BehaviorSubject<[string, any]>, private NotiService: NzNotificationService) {
+    this.ReadAll()
+  }
+
+  public SetAll(states) {
+    const this2 = this
+    let sthChanged = false
+    states.forEach(state => {
+      const addr = state.address
+      const oldVal = this2.allState[addr];
+      const equals = this2.compareState(oldVal, state);
+      if (!equals) {
+        sthChanged = true
+        this2.allState[addr] = state
+        this2.bs.next([addr, state]);
+      }
+    });
+    if(sthChanged) {
+      this.SaveAll();
+    }
+  }
+
+  private SaveAll() {
+    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState))
+  }
+
+  private ReadAll() {
+    if(existsSync(BROTHER_STATE_FILE)) {
+      const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' })
+      this.allState = JSON.parse(content)
+    }
+    for (const addr in this.allState) {
+      this.bs.next([addr, this.allState[addr]])
+    }
+  }
+
+  // if equal return true, otherwise false
+  private compareState(oldVal, newVal): boolean {
+    this.NotiService.info("haha", "hahahahha")
+    // TODO: compare new value with old value. Send notification if necessary
+    return false;
+  }
 }
 
 @Injectable({
@@ -13,43 +61,25 @@ function add0x(addr: string) {
 })
 export class BrotherhoodService {
 
-  private lastState: Map<string, any> = new Map();
-  public stateUpdate: BehaviorSubject<Map<string, any>> = new BehaviorSubject(null);
+  private lastState: LastStateStorage;
+  public stateUpdate: BehaviorSubject<[string, any]> = new BehaviorSubject(null);
   private fetchingAddress: Array<string> = [];
 
   constructor(
-    private TxService: TransactionService
+    private TxService: TransactionService,
+    private NotiService: NzNotificationService
   ) {
     this.alwaysFetch();
+    this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService)
   }
 
   private async alwaysFetch() {
-    const this2 = this;
     const promises = this.fetchingAddress.map(this.fetchState);
     const states = await Promise.all(promises);
-    let somethingChanged = false;
-    states.forEach(state => {
-      // @ts-ignore
-      const oldVal = this2.lastState.get(state.address);
-      const equals = this2.compareState(oldVal, state);
-      if (!equals) {
-        somethingChanged = true;
-        this2.lastState.set(state.address, state);
-      }
-    });
-    // update value
-    if (somethingChanged) {
-      this.stateUpdate.next(this.lastState);
-    }
+    this.lastState.SetAll(states)
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
   }
-
-  // if equal return true, otherwise false
-  // send
-  private compareState(oldVal, newVal): boolean {
-    // TODO: compare new value with old value. Send notification if necessary
-    return false;
-  }
+  
   /*
     there are 3 phases to make brotherhood relation really take effect:
     1. relation saved to temp table which is a smart contract.
