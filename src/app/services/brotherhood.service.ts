@@ -86,8 +86,8 @@ export class BrotherhoodService {
     private TxService: TransactionService,
     private NotiService: NzNotificationService
   ) {
-    this.alwaysFetch();
     this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService)
+    this.alwaysFetch();
   }
 
   private async alwaysFetch() {
@@ -151,27 +151,27 @@ export class BrotherhoodService {
     return await web3.genaro.getSubAccounts(address, 'latest');
   }
 
-  private async getCurrentMainAccount(address: string) {
-    const extra = await this.getCurrentRoundExtra();
-    if (extra && extra.CommitteeAccountBinding) {
-      const binding = extra.CommitteeAccountBinding;
-      for (const mainAccount in binding) {
-        if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(add0x(address))) {
-          return mainAccount;
-        }
-      }
-    }
-    return null;
-  }
+  // private async getCurrentMainAccount(address: string) {
+  //   const extra = await this.getCurrentRoundExtra();
+  //   if (extra && extra.CommitteeAccountBinding) {
+  //     const binding = extra.CommitteeAccountBinding;
+  //     for (const mainAccount in binding) {
+  //       if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(add0x(address))) {
+  //         return mainAccount;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  private async getCurrentSubAccounts(address: string) {
-    const extra = await this.getCurrentRoundExtra();
-    if (extra && extra.CommitteeAccountBinding) {
-      return extra.CommitteeAccountBinding[add0x(address)];
-    } else {
-      return null;
-    }
-  }
+  // private async getCurrentSubAccounts(address: string) {
+  //   const extra = await this.getCurrentRoundExtra();
+  //   if (extra && extra.CommitteeAccountBinding) {
+  //     return extra.CommitteeAccountBinding[add0x(address)];
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   async getCommitteeRank() {
     const web3 = await this.TxService.getWeb3Instance();
