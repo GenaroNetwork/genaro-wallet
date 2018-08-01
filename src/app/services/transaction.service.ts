@@ -1,15 +1,15 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from "../libs/config";
+import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from '../libs/config';
 import { toHex, toWei, toBN } from 'web3-utils';
-import { v1 as uuidv1 } from 'uuid'
+import { v1 as uuidv1 } from 'uuid';
 import { BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
-import { NzMessageService } from '../../../node_modules/ng-zorro-antd';
-import { TranslateService } from '../../../node_modules/@ngx-translate/core';
-import { newWalletManager } from "jswallet-manager";
+import { NzMessageService } from 'ng-zorro-antd';
+import { TranslateService } from '@ngx-translate/core';
+import { newWalletManager } from 'jswallet-manager';
 
 let web3: Web3;
 let connectedWeb3: any = null;
@@ -18,12 +18,12 @@ const SyncTimer = 2000;
 const TIMEOUT_LIMIT = 30 * 1000;
 
 function add0x(addr: string) {
-  if (!addr.startsWith("0x")) addr = "0x" + addr;
-  return addr
+  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+  return addr;
 }
 
 function sha256(input) {
-  return createHash('sha256').update(input).digest('hex')
+  return createHash('sha256').update(input).digest('hex');
 }
 @Injectable({
   providedIn: 'root'
@@ -47,10 +47,9 @@ export class TransactionService {
     this.connect();
     this.ready.subscribe(async (state: boolean) => {
       this.readyState = state;
-      if (state === null) return;
-      if (!LITE_WALLET) GethService.addFullNode();
-      if (state) this.afterConnected();
-      else {
+      if (state === null) { return; }
+      if (!LITE_WALLET) { GethService.addFullNode(); }
+      if (state) { this.afterConnected(); } else {
         this.newBlockHeaders.next(null);
         try {
           web3.eth.clearSubscriptions();
@@ -65,9 +64,9 @@ export class TransactionService {
 
   async getWeb3Instance() {
     if (!this.readyState) {
-      await this.connect()
+      await this.connect();
     }
-    return web3
+    return web3;
   }
 
   async connect() {
@@ -82,7 +81,7 @@ export class TransactionService {
     // web3 is not connected
     if (LITE_WALLET) {
       this.ready.next(false);
-      throw new Error("Can not connect to mordred."); // is lite wallet
+      throw new Error('Can not connect to mordred.'); // is lite wallet
     }
     try {
       await GethService.startGeth();
@@ -90,30 +89,30 @@ export class TransactionService {
       this.ready.next(true);
     } catch (e) {
       this.ready.next(false);
-      throw new Error("Can not start geth."); // is lite wallet
+      throw new Error('Can not start geth.'); // is lite wallet
     }
   }
 
   async afterConnected() {
     this.keepConnect();
-    if (connectedWeb3) connectedWeb3.connection.close();
+    if (connectedWeb3) { connectedWeb3.connection.close(); }
     connectedWeb3 = web3Provider;
-    let baseNumber = await web3.eth.getBlockNumber();
-    let syncInterval = setInterval(async () => {
-      let blockNumber = await web3.eth.getBlockNumber();
+    const baseNumber = await web3.eth.getBlockNumber();
+    const syncInterval = setInterval(async () => {
+      const blockNumber = await web3.eth.getBlockNumber();
       if (blockNumber === baseNumber) {
         this.chainSyncing = [true, blockNumber];
         return;
       }
       this.keepConnect();
-      let syncing: any = await web3.eth.isSyncing();
+      const syncing: any = await web3.eth.isSyncing();
       if (syncing !== false) {
         this.chainSyncing = [true, syncing.currentBlock];
         return;
       }
       clearInterval(syncInterval);
-      web3.eth.subscribe("newBlockHeaders", (err, bh) => {
-        if (err) return;
+      web3.eth.subscribe('newBlockHeaders', (err, bh) => {
+        if (err) { return; }
         this.newBlockHeaders.next(bh);
         // @ts-ignore
         this.chainSyncing = [false, bh.number];
@@ -122,38 +121,39 @@ export class TransactionService {
   }
 
   keepConnect() {
-    if (this.newBlockHeadersTimer !== null)
+    if (this.newBlockHeadersTimer !== null) {
       clearTimeout(this.newBlockHeadersTimer);
+    }
     this.newBlockHeadersTimer = setTimeout(() => {
       this.ready.next(false);
     }, TIMEOUT_LIMIT);
   }
 
   async getGas() {
-    let gas = await web3.eth.getGasPrice();
+    const gas = await web3.eth.getGasPrice();
     // @ts-ignore
-    return web3.utils.fromWei(gas, "Gwei");
+    return web3.utils.fromWei(gas, 'Gwei');
   }
 
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
-    fromAddr = add0x(fromAddr)
-    toAddr = add0x(toAddr)
-    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
-    const amountInWei = toWei(toBN(amountInEther), 'ether')
-    const nonceval = await this.getNonce(fromAddr)
-    let txOptions = {
+    fromAddr = add0x(fromAddr);
+    toAddr = add0x(toAddr);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const amountInWei = toWei(toBN(amountInEther), 'ether');
+    const nonceval = await this.getNonce(fromAddr);
+    const txOptions = {
       gasPrice: toHex(gasPriceInWei),
       gasLimit: toHex(gasLimit),
       value: toHex(amountInWei),
       nonce: toHex(nonceval),
       from: fromAddr,
       to: toAddr
-    }
-    return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER')
+    };
+    return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER');
   }
 
   async getNonce(address) {
-    return await web3.eth.getTransactionCount(address)
+    return await web3.eth.getTransactionCount(address);
   }
 
   private async generateTxOptions(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any) {
@@ -166,7 +166,7 @@ export class TransactionService {
       from: fromAddr,
       to: STX_ADDR,
       data: JSON.stringify(inputData)
-    }
+    };
   }
 
   private sendTransaction(fromAddr, password, txOptions, transactionType) {
@@ -179,42 +179,42 @@ export class TransactionService {
         rej(e);
         return;
       }
-      txOptions.transactionId = uuidv1()
-      txOptions.created = Date.now()
-      const tdb = this.transactionDb
-      this.transactionDb.addNewTransaction(transactionType, txOptions)
+      txOptions.transactionId = uuidv1();
+      txOptions.created = Date.now();
+      const tdb = this.transactionDb;
+      this.transactionDb.addNewTransaction(transactionType, txOptions);
       web3.eth.sendSignedTransaction(rawTx)
         .once('transactionHash', async hash => {
-          console.log('hash get, transaction sent: ' + hash)
-          await tdb.updateTxHash(txOptions.transactionId, hash)
+          console.log('hash get, transaction sent: ' + hash);
+          await tdb.updateTxHash(txOptions.transactionId, hash);
           res();
         })
         .on('receipt', async receipt => {
           // will be fired once the receipt its mined
-          console.log('receipt mined, transaction success: ')
-          console.log('receipt:\n' + JSON.stringify(receipt))
-          await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt))
+          console.log('receipt mined, transaction success: ');
+          console.log('receipt:\n' + JSON.stringify(receipt));
+          await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt));
         })
         .on('error', async error => {
-          await tdb.txError(txOptions.transactionId, error.message)
+          await tdb.txError(txOptions.transactionId, error.message);
           this.alertError(error);
           rej(error.message);
-        })
+        });
     });
   }
 
   async getBalance(address) {
-    return await web3.eth.getBalance(address)
+    return await web3.eth.getBalance(address);
   }
 
   async buyBucket(address: string, password: string, spaceInGB: number, durationInDay: number, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address)
-    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
-    const nowTime = Math.round(Date.now() / 1000)
-    const bid = sha256(uuidv1())
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const nowTime = Math.round(Date.now() / 1000);
+    const bid = sha256(uuidv1());
     const inputData = {
       address,
-      type: "0x3",
+      type: '0x3',
       buckets: [{
         bucketId: bid,
         backup: 6,
@@ -222,21 +222,21 @@ export class TransactionService {
         timeStart: nowTime,
         timeEnd: nowTime + durationInDay * 86400
       }]
-    }
-    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
-    return this.sendTransaction(address, password, txOptions, 'BUY_BUCKET')
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'BUY_BUCKET');
   }
 
   async buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address)
-    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei')
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
     const inputData = {
       address: address,
-      type: "0x4",
+      type: '0x4',
       traffic: amountInGB
-    }
-    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData)
-    return this.sendTransaction(address, password, txOptions, 'BUY_TRAFFIC')
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'BUY_TRAFFIC');
   }
 
   async stake(address: string, password: string, stakeGNX: number, gasLimit: number, gasPriceInGwei: string | number) {
@@ -245,9 +245,9 @@ export class TransactionService {
     stakeGNX = Number(stakeGNX);
     const inputData = {
       address: address,
-      type: "0x1",
+      type: '0x1',
       stake: stakeGNX,
-    }
+    };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
   }
@@ -265,7 +265,7 @@ export class TransactionService {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
     const inputData = {
-      type: "0x8",
+      type: '0x8',
       nodeId: token.split('--')[1],
       address: address,
       sign: token.split('--')[0],
@@ -278,9 +278,9 @@ export class TransactionService {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
     const inputData = {
-      type: "0xe",
+      type: '0xe',
       nodeId: nodeId
-    }
+    };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'REMOVE_NODE');
   }
@@ -305,10 +305,10 @@ export class TransactionService {
       return;
     } else if (!error.message) {
       console.log(error);
-    } else if (error.message.indexOf("wrong passphrase") > -1) {
-      this.alert.error(this.i18n.instant("ERROR.PASSWORD"));
-    } else if (error.message.indexOf("insufficient funds") > -1) {
-      this.alert.error(this.i18n.instant("ERROR.BALANCE"));
+    } else if (error.message.indexOf('wrong passphrase') > -1) {
+      this.alert.error(this.i18n.instant('ERROR.PASSWORD'));
+    } else if (error.message.indexOf('insufficient funds') > -1) {
+      this.alert.error(this.i18n.instant('ERROR.BALANCE'));
     } else {
       this.alert.error(error.message.toString());
     }

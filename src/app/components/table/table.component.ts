@@ -17,10 +17,10 @@ import { TASK_STATE, TASK_TYPE } from '../../libs/config';
 })
 export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input("name") name: string;
-  @Input("opt") opt: any;
-  @Input("change") change: number;
-  @Output("action") action: EventEmitter<any> = new EventEmitter;
+  @Input('name') name: string;
+  @Input('opt') opt: any;
+  @Input('change') change: number;
+  @Output('action') action: EventEmitter<any> = new EventEmitter;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -29,7 +29,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
     if (changes.change) {
-      if (this[`${name}Change`]) this[`${name}Change`]();
+      if (this[`${name}Change`]) { this[`${name}Change`](); }
     }
   }
 
@@ -47,28 +47,28 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   txData: any[];
   txDisplayData: any[];
-  txType: string = "TYPE_ALL";
+  txType = 'TYPE_ALL';
   transactionChange = this.txUpdateData;
   transactionWalletSub = this.txUpdateData;
   transactionBlockSub = this.txUpdateData;
-  txDataCurrentPage: number = 1;
-  txDataTotalPage: number = 0;
+  txDataCurrentPage = 1;
+  txDataTotalPage = 0;
   TASK_STATE = TASK_STATE;
   TASK_TYPE = TASK_TYPE;
   async txUpdateData() {
-    let address = this.walletService.wallets.current;
+    const address = this.walletService.wallets.current;
     // @ts-ignore
     this.txData = await this.txdb.getTransactions(null, null);
     let data = this.txData;
     data = data.filter(tx => tx.addrFrom === address || tx.addrTo === address);
-    if (this.txType !== "TYPE_ALL") {
+    if (this.txType !== 'TYPE_ALL') {
       const types = {
-        "TYPE_SEND": "TRANSFER",
-        "TYPE_BUY_SPACE": "BUY_BUCKET",
-        "TYPE_BUY_TRAFFIC": "BUY_TRAFFIC",
-        "TYPE_STAKE": "STAKE_GNX",
-        "TYPE_BIND_NODE": "BIND_NODE",
-      }
+        'TYPE_SEND': 'TRANSFER',
+        'TYPE_BUY_SPACE': 'BUY_BUCKET',
+        'TYPE_BUY_TRAFFIC': 'BUY_TRAFFIC',
+        'TYPE_STAKE': 'STAKE_GNX',
+        'TYPE_BIND_NODE': 'BIND_NODE',
+      };
       data = data.filter(tx => tx.txType === types[this.txType]);
     }
     data = data.sort((a, b) => b.created - a.created);
@@ -77,7 +77,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txDisplayData = data;
   }
   txGetBlockNumber(receipt) {
-    if (!receipt) return "-";
+    if (!receipt) { return '-'; }
     return JSON.parse(receipt).blockNumber;
   }
   txChangeType(type: string) {
@@ -101,18 +101,18 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // tx sharer
   txSharerData: any[] = [];
-  txSharerDataCurrentPage: number = 1;
-  txSharerDataTotalPage: number = 0;
+  txSharerDataCurrentPage = 1;
+  txSharerDataTotalPage = 0;
   txSharerWalletSub = this.txSharerDataUpdate;
   txSharerBlockSub = this.txSharerDataUpdate;
   async txSharerDataUpdate() {
-    let address = this.walletService.wallets.current;
-    let nodes = await this.txService.getNodes(address);
+    const address = this.walletService.wallets.current;
+    const nodes = await this.txService.getNodes(address);
     if (nodes) {
       this.txSharerDataTotalPage = nodes.length;
       this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
     }
-  };
+  }
   txSharerChangePage(page: number) {
     this.txSharerDataCurrentPage = page;
     this.txSharerDataUpdate();
@@ -147,25 +147,25 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // committee
   committeeData: any[] = [];
-  committeeDataCurrentPage: number = 1;
-  committeeDataTotalPage: number = 0;
-  committeeAddress: string = "";
+  committeeDataCurrentPage = 1;
+  committeeDataTotalPage = 0;
+  committeeAddress = '';
   committeeInit() {
-    this.committeeDataUpdate("");
+    this.committeeDataUpdate('');
   }
   async committeeDataUpdate(addr) {
-    var datas = await this.committeeService.getSentinel(addr);
+    let datas = await this.committeeService.getSentinel(addr);
     if (datas) {
       this.committeeDataTotalPage = datas.length;
       datas = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
       this.committeeData = datas.map(d => {
-        return this.committeeService.getMembers(d)
+        return this.committeeService.getMembers(d);
       });
     }
-  };
+  }
   committeeDataChangePage(page: number) {
     this.committeeDataCurrentPage = page;
-    this.committeeDataUpdate("");
+    this.committeeDataUpdate('');
   }
   searchFarmer() {
     this.committeeDataCurrentPage = 1;
@@ -178,38 +178,38 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.currentCommitteeDataUpdate();
   }
   async currentCommitteeDataUpdate() {
-    let committees = await this.BrotherhoodService.getCommitteeRank() || [];
-    let arr = [];
-    for(let i = 0, length = committees.length; i < length; i++) {
-      let datas = await this.committeeService.getSentinel(committees[i]);
-      let data = {
+    const committees = await this.BrotherhoodService.getCommitteeRank() || [];
+    const arr = [];
+    for (let i = 0, length = committees.length; i < length; i++) {
+      const datas = await this.committeeService.getSentinel(committees[i]);
+      const data = {
         order: i,
         address: committees[i],
         nickName: ''
       };
-      if(datas.length > 0) {
+      if (datas.length > 0) {
         data.nickName = datas[0].nickName;
       }
       arr.push(data);
     }
 
     this.currentCommitteeData = arr;
-  };
+  }
 
   allWalletSub: any;
   allBlockSub: any;
   ngOnInit() {
-    if (this[`${this.name}Init`]) this[`${this.name}Init`]();
+    if (this[`${this.name}Init`]) { this[`${this.name}Init`](); }
     this.allWalletSub = this.walletService.currentWallet.subscribe(() => {
-      if (this[`${this.name}WalletSub`]) this[`${this.name}WalletSub`]();
+      if (this[`${this.name}WalletSub`]) { this[`${this.name}WalletSub`](); }
     });
     this.allBlockSub = this.txService.newBlockHeaders.subscribe(() => {
-      if (this[`${this.name}BlockSub`]) this[`${this.name}BlockSub`]();
+      if (this[`${this.name}BlockSub`]) { this[`${this.name}BlockSub`](); }
     });
   }
 
   ngOnDestroy() {
-    if (this[`${this.name}Destroy`]) this[`${this.name}Destroy`]();
+    if (this[`${this.name}Destroy`]) { this[`${this.name}Destroy`](); }
     this.allWalletSub.unsubscribe();
     this.allBlockSub.unsubscribe();
   }

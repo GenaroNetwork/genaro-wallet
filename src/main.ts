@@ -1,6 +1,6 @@
-Object.defineProperty(global, "_bitcore", {
+Object.defineProperty(global, '_bitcore', {
   get() {
-    return void 0
+    return void 0;
   },
   set() { },
 });
@@ -18,6 +18,6 @@ if (AppConfig.production) {
 platformBrowserDynamic()
   .bootstrapModule(AppModule, {
     preserveWhitespaces: false,
-    //ngZone: 'noop',
+    // ngZone: 'noop',
   })
   .catch(err => { });

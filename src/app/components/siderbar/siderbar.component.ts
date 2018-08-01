@@ -14,13 +14,13 @@ export class SiderbarComponent implements OnInit {
     public settingService: SettingService,
   ) { }
 
-  page: string = "/wallet";
+  page = '/wallet';
   open(url: string, string: string) {
     return url.startsWith(string);
   }
   ngOnInit() {
     this.router.events.subscribe(value => {
-      if (!(value instanceof NavigationEnd)) return;
+      if (!(value instanceof NavigationEnd)) { return; }
       this.page = value.urlAfterRedirects;
     });
   }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ipcRenderer } from "electron";
-import { Observable } from '../../../node_modules/rxjs';
+import { ipcRenderer } from 'electron';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IpcService {
-  private ipcId: number = 0;
+  private ipcId = 0;
 
   // 直接接触 ipc ，不应该暴露出去
   // 单次 ipc 使用 promise，有持续返回的 ipc 使用 Observable
@@ -25,10 +25,10 @@ export class IpcService {
     return new Observable(ob => {
       ipcRenderer.on(`${name}.${this.ipcId}`, (sender, ...datas) => {
         ob.next(...datas);
-      })
+      });
       ipcRenderer.on(`${name}.${this.ipcId}.done`, (sender, ...datas) => {
         ob.complete();
-      })
+      });
       ipcRenderer.send(name, this.ipcId++, ...datas);
     });
   }

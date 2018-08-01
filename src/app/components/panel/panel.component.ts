@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
+import { BrotherhoodService } from "../../services/brotherhood.service";
 
 @Component({
   selector: 'app-panel',
@@ -20,12 +21,16 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   accountRankInfo: any = {};
   async rankInit() {
-
+    this.brotherhoodService.stateUpdate.subscribe(states => {
+      debugger;
+      
+    });
   }
 
   constructor(
     public walletService: WalletService,
-    public committeeService: CommitteeService
+    public committeeService: CommitteeService,
+    public brotherhoodService: BrotherhoodService
   ) { }
 
   ngOnInit() {
