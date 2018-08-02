@@ -348,6 +348,20 @@
       "AGREE": "同意"
     }
   },
+  "PANEL": {
+    "RANK": {
+      "MY_TEAM": "我的战队",
+      "TEAM_LIST": "战队列表",
+      "RANK": "排名",
+      "TEAM_NAME": "团队名称",
+      "SENTINEL_SCORE": "Sentinel分数",
+      "VIEW_MEMBER": "查看团队成员",
+      "GNX_STAKE": "GNX Stake量",
+      "SPACE_USED": "空间使用量",
+      "MEMBER_COUNT": "战队人数",
+      "APPLICATION_RECORD": "申请记录"
+    }
+  },
   "ERROR": {
     "PASSWORD": "密码输入错误",
     "GAS": "燃料费太低",

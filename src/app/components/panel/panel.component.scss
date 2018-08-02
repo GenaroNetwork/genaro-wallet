@@ -1,0 +1,16 @@
+@import "../../config";
+
+.panel {
+    flex: 0 26rem;
+    background: $content-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+
+    >.header {
+        padding-top: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+}

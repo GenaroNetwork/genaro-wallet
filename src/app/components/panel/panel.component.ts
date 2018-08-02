@@ -20,6 +20,9 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   accountRankInfo: any = {};
+  showCurrentTeam: boolean = false;
+  showPaddingTeam: boolean = false;
+  showApplyTeam: boolean = false;
   async rankInit() {
     this.brotherhoodService.stateUpdate.subscribe(states => {
 

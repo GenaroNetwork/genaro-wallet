@@ -68,7 +68,7 @@ class LastStateStorage {
 
   // if equal return true, otherwise false
   private compareState(oldVal, newVal): boolean {
-    this.NotiService.info('haha', 'hahahahha');
+    // this.NotiService.info('haha', 'hahahahha');
     // TODO: compare new value with old value. Send notification if necessary
     return false;
   }
