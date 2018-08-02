@@ -201,9 +201,6 @@ export class BrotherhoodService {
     this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPROVE_BROTHER', gasLimit, gasPriceInGwei)
   }
 
-  async unbindBrotherhood() {
-  }
-
   async getTempMainAccount(address: string) {
     const web3 = await this.TxService.getWeb3Instance();
     const contract = new BrotherContract(web3)

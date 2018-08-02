@@ -289,6 +289,28 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'REMOVE_NODE');
   }
 
+  async unBrotherSingle(address: string, password: string, brotherAddr: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    brotherAddr = add0x(brotherAddr);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x11',
+      address: brotherAddr
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'UNBROTHER');
+  }
+
+  async unBrotherAll(address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x11'
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'UNBROTHER_ALL');
+  }
+
   async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
