@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HumanSizePipe implements PipeTransform {
 
   transform(value: any, length: number = 2): any {
-    if (value === null || value === void 0) return "--";
-    if (value < 1024) { return value + " B"; }
+    if (value === null || value === void 0) { return '--'; }
+    if (value < 1024) { return value + ' B'; }
     value /= 1024;
     if (value < 1024) { return value.toFixed(length) + ' KB'; }
     value /= 1024;

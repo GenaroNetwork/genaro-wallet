@@ -46,7 +46,7 @@ const routes: Routes = [{
     path: 'committee',
     component: CommitteeComponent,
 }, {
-    path: "joinCommittee",
+    path: 'joinCommittee',
     component: JoinCommitteeComponent,
 }];
 
