@@ -37,7 +37,6 @@ import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 import { PanelComponent } from './components/panel/panel.component';
-import { TreeTableComponent } from './components/treeTable/treeTable.component';
 
 // services
 
@@ -83,7 +82,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputComponent,
     CopyComponent,
     PanelComponent,
-    TreeTableComponent,
     // pipe
     LongAddrPipe,
     ShortAddrPipe,

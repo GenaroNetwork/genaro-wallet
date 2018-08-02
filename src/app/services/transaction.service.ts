@@ -63,9 +63,9 @@ export class TransactionService {
   }
 
   async getWeb3Instance() {
-    if (!this.readyState) {
-      await this.connect();
-    }
+    // if (!this.readyState) {
+    //   await this.connect();
+    // }
     return web3;
   }
 

@@ -1,19 +1,101 @@
 <!-- rank -->
-<div *ngIf="name==='rank'">
-    <nz-dropdown [nzPlacement]="'bottom'" [nzTrigger]="'click'">
-        <button nz-button nz-dropdown>
-            <i class="anticon anticon-team"></i>
-        </button>
-        <app-treeTable nz-menu name="rankTree"></app-treeTable>
-    </nz-dropdown>
+<div *ngIf="name==='rank'" class="panel">
+    <div class="header">{{ 'PANEL.RANK.MY_TEAM' | translate }}</div>
+    <form nz-form class="ant-advanced-search-form">
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-control>
+                        <button nz-button [nzType]="'primary'" (click)="showCurrentTeam=!showCurrentTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+    <app-table *ngIf="showCurrentTeam" name="currentTeam"></app-table>
 </div>
 
 <!-- committee -->
-<div *ngIf="name==='committee'">
-    <nz-dropdown [nzPlacement]="'bottom'" [nzTrigger]="'click'">
-        <button nz-button nz-dropdown>
-            <i class="anticon anticon-team"></i>
-        </button>
-        <app-treeTable nz-menu name="committeeTree"></app-treeTable>
-    </nz-dropdown>
+<div *ngIf="name==='committee'" class="panel">
+    <div class="header">{{ 'PANEL.RANK.MY_TEAM' | translate }}</div>
+    <form nz-form class="ant-advanced-search-form">
+        <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-control>
+                        <button nz-button [nzType]="'primary'" (click)="showApplyTeam=false;showPaddingTeam=!showPaddingTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
+                </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                    <nz-form-control>
+                        <button nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </form>
+    <app-table *ngIf="showPaddingTeam" name="paddingTeam"></app-table>
+    <app-table *ngIf="showApplyTeam" name="applyTeam"></app-table>
 </div>

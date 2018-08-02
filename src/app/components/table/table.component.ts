@@ -42,7 +42,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public txEdenService: TxEdenService,
     public edenService: EdenService,
     public committeeService: CommitteeService,
-    public BrotherhoodService: BrotherhoodService
+    public brotherhoodService: BrotherhoodService
   ) { }
 
   txData: any[];
@@ -120,56 +120,78 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // rank
   rankData: any[] = [];
-  rankDataCurrentPage = 1;
-  rankDataTotalPage = 0;
   rankAddress = '';
+  rankState: any;
   rankInit() {
     this.rankDataUpdate('');
+    const self = this;
+    this.rankState = this.brotherhoodService.stateUpdate.subscribe(states => {
+      if (states && self.rankData) {
+        for (let i = 0, length = self.rankData.length; i < length; i++) {
+          const rd = self.rankData[i];
+          if (rd.address == states[0]) {
+            rd.subAccounts = states[1].currentState.subAccounts;
+            break;
+          }
+        }
+      }
+    });
   }
   async rankDataUpdate(addr) {
-    let datas = await this.committeeService.getSentinel(addr);
+    if (addr) {
+      this.brotherhoodService.addFetchingAddress(addr);
+    }
+    const datas = await this.committeeService.getSentinel(addr);
     if (datas) {
-      this.rankDataTotalPage = datas.length;
-      datas = datas.slice((this.rankDataCurrentPage - 1) * 10, this.rankDataCurrentPage * 10);
-      this.rankData = datas.map(d => {
-        return this.committeeService.getMembers(d);
+      datas.forEach(d => {
+        this.brotherhoodService.addFetchingAddress(d.address);
       });
+      this.rankData = datas;
     }
   }
-  rankDataChangePage(page: number) {
-    this.rankDataCurrentPage = page;
-    this.rankDataUpdate('');
-  }
   searchRankFarmer() {
-    this.rankDataCurrentPage = 1;
     this.rankDataUpdate(this.rankAddress);
+  }
+  rankDestroy() {
+    this.rankState.unsubscribe();
   }
 
   // committee
   committeeData: any[] = [];
-  committeeDataCurrentPage = 1;
-  committeeDataTotalPage = 0;
   committeeAddress = '';
+  committeeState: any;
   committeeInit() {
     this.committeeDataUpdate('');
+    const self = this;
+    this.committeeState = this.brotherhoodService.stateUpdate.subscribe(states => {
+      if (states && self.committeeData) {
+        for (let i = 0, length = self.committeeData.length; i < length; i++) {
+          const rd = self.committeeData[i];
+          if (rd.address == states[0]) {
+            rd.subAccounts = states[1].currentState.subAccounts;
+            break;
+          }
+        }
+      }
+    });
   }
   async committeeDataUpdate(addr) {
-    let datas = await this.committeeService.getSentinel(addr);
+    if (addr) {
+      this.brotherhoodService.addFetchingAddress(addr);
+    }
+    const datas = await this.committeeService.getSentinel(addr);
     if (datas) {
-      this.committeeDataTotalPage = datas.length;
-      datas = datas.slice((this.committeeDataCurrentPage - 1) * 10, this.committeeDataCurrentPage * 10);
-      this.committeeData = datas.map(d => {
-        return this.committeeService.getMembers(d);
+      datas.forEach(d => {
+        this.brotherhoodService.addFetchingAddress(d.address);
       });
+      this.committeeData = datas;
     }
   }
-  committeeDataChangePage(page: number) {
-    this.committeeDataCurrentPage = page;
-    this.committeeDataUpdate('');
-  }
   searchFarmer() {
-    this.committeeDataCurrentPage = 1;
     this.committeeDataUpdate(this.committeeAddress);
+  }
+  committeeDestroy() {
+    this.committeeState.unsubscribe();
   }
 
   // currentCommittee
@@ -178,7 +200,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.currentCommitteeDataUpdate();
   }
   async currentCommitteeDataUpdate() {
-    const committees = await this.BrotherhoodService.getCommitteeRank() || [];
+    const committees = await this.brotherhoodService.getCommitteeRank() || [];
     const arr = [];
     for (let i = 0, length = committees.length; i < length; i++) {
       const datas = await this.committeeService.getSentinel(committees[i]);
@@ -194,6 +216,24 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.currentCommitteeData = arr;
+  }
+
+  // currentTeam
+  currentTeamData: any[] = [];
+  currentTeamInit() {
+
+  }
+
+  // paddingTeam
+  paddingTeamData: any[] = [];
+  paddingTeamInit() {
+
+  }
+
+  // paddingTeam
+  applyTeamData: any[] = [];
+  applyTeamInit() {
+
   }
 
   allWalletSub: any;

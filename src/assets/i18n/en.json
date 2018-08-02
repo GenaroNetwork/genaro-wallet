@@ -316,6 +316,20 @@
       "AGREE": "agree"
     }
   },
+  "PANEL": {
+    "RANK": {
+      "MY_TEAM": "My team",
+      "TEAM_LIST": "Team List",
+      "RANK": "rank",
+      "TEAM_NAME": "Team Name",
+      "SENTINEL_SCORE": "Sentinel",
+      "VIEW_MEMBER": "Members",
+      "GNX_STAKE": "GNX Stake",
+      "SPACE_USED": "Space",
+      "MEMBER_COUNT": "Team number",
+      "APPLICATION_RECORD": "Application record"
+    }
+  },
   "ERROR": {
     "PASSWORD": "Wrong password",
     "GAS": "Gas fee is too low",
