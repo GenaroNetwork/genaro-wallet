@@ -127,4 +127,6 @@ export enum Role {
     Main = 'Main',
     Sub  = 'Sub'
 }
+// brother hood:
 export const RELATION_FETCH_INTERVAL = 5000;
+export const BROTHER_CONTRACT_ADDR = "0xf132a8db8044cfad4785b46749e24e29943cc901"

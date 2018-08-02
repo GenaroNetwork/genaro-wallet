@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service';
-import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL, BROTHER_STATE_FILE } from '../libs/config';
+import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL, BROTHER_STATE_FILE, BROTHER_CONTRACT_ADDR } from '../libs/config';
 import { BehaviorSubject } from 'rxjs';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { NzNotificationService } from 'ng-zorro-antd';
@@ -8,6 +8,69 @@ import { NzNotificationService } from 'ng-zorro-antd';
 function add0x(addr: string) {
   if (!addr.startsWith('0x')) { addr = '0x' + addr; }
   return addr;
+}
+
+class BrotherContract {
+  private abi = require('../libs/StakeLink.json').abi;
+  private contract;
+  constructor(private web3) {
+    this.contract = new web3.eth.Contract(this.abi, BROTHER_CONTRACT_ADDR);
+  }
+
+  public getApplyInputData(address: string) {
+    return this.contract.methods.link(address).encodeABI()
+  }
+
+  public getApproveInputData(address: string) {
+    return this.contract.methods.agree(address).encodeABI()
+  }
+
+  public getTempMain(addr) {
+    return new Promise((resolve, reject) => {
+      this.contract.methods.bind(addr).call(function (err, res) {
+        if (err) {
+            reject(err)
+            return
+        }
+        resolve(res)
+      })
+    })
+  }
+
+  public getTempSub(addr) {
+    function getSub(index) {
+      return new Promise((resolve, reject) => {
+        this.contract.methods.stakelink(addr, index).call(function (err, res) {
+          if (err) {
+              reject(err)
+              return
+          }
+          resolve(res)
+        })
+      })
+    }
+    return new Promise((resolve, reject) => {
+      this.contract.methods.totalworkers(addr).call(function (err, count) {
+        if (err) {
+          reject(err)
+          return
+        }
+        count = parseInt(count)
+        if(count && count > 0) {
+          let subPromi = []
+          for(let i = 0; i < count ; i ++) {
+            subPromi.push(getSub(i))
+          }
+          Promise.all(subPromi).then(function(values) {
+            console.log(values);
+            resolve(values)
+          });
+        } else {
+          resolve(null)
+        }
+      })
+    })
+  }
 }
 
 class LastStateStorage {
@@ -124,20 +187,33 @@ export class BrotherhoodService {
     return extraInfo;
   }
 
-  async applyBrotherhood(mainAddress: string) {
+  async applyBrotherhood(mainAddress: string, address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const web3 = await this.TxService.getWeb3Instance();
+    const contract = new BrotherContract(web3)
+    const inputData = contract.getApplyInputData(mainAddress)
+    this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPLY_BROTHER', gasLimit, gasPriceInGwei)
   }
 
-  async approveBrotherhood() {
+  async approveBrotherhood(subAddress: string, address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const web3 = await this.TxService.getWeb3Instance();
+    const contract = new BrotherContract(web3)
+    const inputData = contract.getApproveInputData(subAddress)
+    this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPROVE_BROTHER', gasLimit, gasPriceInGwei)
   }
 
   async unbindBrotherhood() {
-
   }
 
   async getTempMainAccount(address: string) {
+    const web3 = await this.TxService.getWeb3Instance();
+    const contract = new BrotherContract(web3)
+    return await contract.getTempMain(address)
   }
 
   async getTempSubAccounts(address: string) {
+    const web3 = await this.TxService.getWeb3Instance();
+    const contract = new BrotherContract(web3)
+    return await contract.getTempSub(address)
   }
 
   private async getPendingMainAccount(address: string) {
