@@ -294,3 +294,23 @@
     </div>
   </div>
 </nz-modal>
+
+<!-- 申请加入共建 -->
+<nz-modal [nzVisible]="dialogName==='joinCommittee'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate" [nzFooter]="joinCommitteeFooter" class="buy-space">
+  <ng-container *ngIf="joinCommitteeStep===0">
+    <app-input name="gas" [(ipt)]="joinCommitteeGas"></app-input>
+    <app-input name="password" [(ipt)]="joinCommitteePassword"></app-input>
+  </ng-container>
+  <ng-container *ngIf="joinCommitteeStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #joinCommitteeFooter>
+  <ng-container *ngIf="joinCommitteeStep===0">
+    <button nz-button nzSize="large" nzType="primary" (click)="joinCommitteeSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="joinCommitteeStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+  </ng-container>
+</ng-template>

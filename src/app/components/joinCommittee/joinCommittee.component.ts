@@ -18,8 +18,11 @@ export class JoinCommitteeComponent implements OnInit {
     private walletService: WalletService
   ) { }
 
+  dialogName = '';
+  mainAddress = '';
   join(data) {
-
+    this.dialogName = 'joinCommittee';
+    this.mainAddress = data.address;
   }
 
   getSubAccounts() {

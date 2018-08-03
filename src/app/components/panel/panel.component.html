@@ -6,16 +6,31 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ accountTeamInfo.order + 1 || '300+' }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ accountTeamInfo.nickName }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ accountTeamInfo.sentinel * 10000 | formatSentinel }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
@@ -28,16 +43,31 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ accountTeamInfo.stake }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ accountTeamInfo.data_size }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ (accountTeamInfo.subAccounts || []).length }} / 10
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
@@ -53,16 +83,31 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ paddingTeamInfo.order + 1 || '300+' }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ paddingTeamInfo.nickName }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ paddingTeamInfo.sentinel * 10000 | formatSentinel }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
@@ -75,16 +120,31 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ paddingTeamInfo.stake }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ paddingTeamInfo.data_size }}
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
+                    <nz-form-control>
+                        <nz-form-text>
+                            {{ (accountTeamInfo.subAccounts || []).length }} / 10
+                        </nz-form-text>
+                    </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">

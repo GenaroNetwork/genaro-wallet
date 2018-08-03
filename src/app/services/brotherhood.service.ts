@@ -119,6 +119,10 @@ class LastStateStorage {
     return Object.keys(this.allState);
   }
 
+  public getStateByAddress(addr) {
+    return this.allState[addr];
+  }
+
   private ReadAll() {
     if (existsSync(BROTHER_STATE_FILE)) {
       const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' });
@@ -167,6 +171,11 @@ export class BrotherhoodService {
 
   public deleteFetchingAddress(address: string) {
     this.lastState.deleteEntry(address);
+  }
+
+  public getStateByAddress(address: string) {
+    address = add0x(address);
+    return [address, this.lastState.getStateByAddress(address)];
   }
   /*
     there are 3 phases to make brotherhood relation really take effect:

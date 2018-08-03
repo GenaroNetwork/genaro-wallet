@@ -8,6 +8,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
+import { BrotherhoodService } from '../../services/brotherhood.service';
 import { shell } from 'electron';
 import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from '../../libs/config';
 
@@ -26,10 +27,12 @@ export class DialogComponent implements OnChanges {
     private edenService: EdenService,
     private txEdenService: TxEdenService,
     public settingService: SettingService,
+    private brotherhoodService: BrotherhoodService,
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
   @Input('opt') options: any = null;
+  @Input('address') address: string = null;
 
   //  Wallet change name
   walletChangeName = '';
@@ -302,4 +305,18 @@ export class DialogComponent implements OnChanges {
     shell.openExternal(GET_TUTORIAL(this.updateUrl));
   }
 
+  // joinCommittee
+  joinCommitteeGas: number[] = [null, 2100000];
+  joinCommitteeStep: number = 0;
+  joinCommitteePassword: string = '';
+  joinCommitteeMainAddress: string = '';
+  joinCommitteeInit() {
+    this.joinCommitteeStep = 0;
+    this.joinCommitteeMainAddress = this.address;
+  }
+  async joinCommitteeSubmit() {
+    const address = this.walletService.wallets.current;
+    await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
+    this.joinCommitteeStep++;
+  }
 }
