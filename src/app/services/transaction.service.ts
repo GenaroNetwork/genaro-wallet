@@ -156,7 +156,7 @@ export class TransactionService {
     return await web3.eth.getTransactionCount(address);
   }
 
-  private async generateTxOptions(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any) {
+  private async generateTxOptions2(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any, toAddr: string) {
     const nonceval = await this.getNonce(fromAddr);
     return {
       gasPrice: toHex(gasPriceInWei),
@@ -164,9 +164,13 @@ export class TransactionService {
       value: toHex(0),
       nonce: toHex(nonceval),
       from: fromAddr,
-      to: STX_ADDR,
+      to: toAddr,
       data: JSON.stringify(inputData)
     };
+  }
+
+  private async generateTxOptions(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any) {
+    return await this.generateTxOptions2(fromAddr, gasLimit, gasPriceInWei, inputData, STX_ADDR)
   }
 
   private sendTransaction(fromAddr, password, txOptions, transactionType) {
@@ -283,6 +287,35 @@ export class TransactionService {
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'REMOVE_NODE');
+  }
+
+  async unBrotherSingle(address: string, password: string, brotherAddr: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    brotherAddr = add0x(brotherAddr);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x11',
+      address: brotherAddr
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'UNBROTHER');
+  }
+
+  async unBrotherAll(address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x11'
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'UNBROTHER_ALL');
+  }
+
+  async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const txOptions = await this.generateTxOptions2(address, gasLimit, gasPriceInWei, inputData, contractAddr)
+    return this.sendTransaction(address, password, txOptions, TxType);
   }
 
   async getNodes(address: string) {
