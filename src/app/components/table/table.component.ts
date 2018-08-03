@@ -221,19 +221,76 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // currentTeam
   currentTeamData: any[] = [];
   currentTeamInit() {
-
+    let self = this;
+    this.brotherhoodService.stateUpdate.subscribe(async states => {
+      let currentAddr = self.walletService.wallets.current;
+      if(currentAddr === states[0]) {
+        self.currentTeamData = [];
+        let subAccounts = states[1].currentState.subAccounts;
+        for (let i = 0, length = subAccounts.length; i < length; i++) {
+          const datas = await self.committeeService.getSentinel(subAccounts[i]);
+          const data = {
+            order: i,
+            address: subAccounts[i],
+            nickName: ''
+          };
+          if (datas.length > 0) {
+            data.nickName = datas[0].nickName;
+          }
+          self.currentTeamData.push(data);
+        }
+      }
+    });
   }
 
   // paddingTeam
   paddingTeamData: any[] = [];
   paddingTeamInit() {
-
+    let self = this;
+    this.brotherhoodService.stateUpdate.subscribe(async states => {
+      let currentAddr = self.walletService.wallets.current;
+      if(currentAddr === states[0]) {
+        self.paddingTeamData = [];
+        let subAccounts = states[1].paddingState.subAccounts;
+        for (let i = 0, length = subAccounts.length; i < length; i++) {
+          const datas = await self.committeeService.getSentinel(subAccounts[i]);
+          const data = {
+            order: i,
+            address: subAccounts[i],
+            nickName: ''
+          };
+          if (datas.length > 0) {
+            data.nickName = datas[0].nickName;
+          }
+          self.paddingTeamData.push(data);
+        }
+      }
+    });
   }
 
-  // paddingTeam
+  // tempTeam
   applyTeamData: any[] = [];
   applyTeamInit() {
-
+    let self = this;
+    this.brotherhoodService.stateUpdate.subscribe(async states => {
+      let currentAddr = self.walletService.wallets.current;
+      if(currentAddr === states[0]) {
+        self.applyTeamData = [];
+        let subAccounts = states[1].tempState.subAccounts;
+        for (let i = 0, length = subAccounts.length; i < length; i++) {
+          const datas = await self.committeeService.getSentinel(subAccounts[i]);
+          const data = {
+            order: i,
+            address: subAccounts[i],
+            nickName: ''
+          };
+          if (datas.length > 0) {
+            data.nickName = datas[0].nickName;
+          }
+          self.applyTeamData.push(data);
+        }
+      }
+    });
   }
 
   allWalletSub: any;

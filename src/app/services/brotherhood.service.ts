@@ -32,15 +32,19 @@ class BrotherContract {
             reject(err)
             return
         }
-        resolve(res)
+        if(res === '0x0000000000000000000000000000000000000000') {
+          res = '';
+        }
+        resolve(res);
       })
     })
   }
 
   public getTempSub(addr) {
+    let self = this;
     function getSub(index) {
       return new Promise((resolve, reject) => {
-        this.contract.methods.stakelink(addr, index).call(function (err, res) {
+        self.contract.methods.stakelink(addr, index).call(function (err, res) {
           if (err) {
               reject(err)
               return
@@ -58,7 +62,7 @@ class BrotherContract {
         count = parseInt(count)
         if(count && count > 0) {
           let subPromi = []
-          for(let i = 0; i < count ; i ++) {
+          for(let i = 1; i < count ; i ++) {
             subPromi.push(getSub(i))
           }
           Promise.all(subPromi).then(function(values) {

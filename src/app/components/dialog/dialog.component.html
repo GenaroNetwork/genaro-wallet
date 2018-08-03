@@ -314,3 +314,23 @@
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
   </ng-container>
 </ng-template>
+
+<!-- 同意加入共建 -->
+<nz-modal [nzVisible]="dialogName==='approveJoin'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate" [nzFooter]="approveJoinFooter" class="buy-space">
+  <ng-container *ngIf="approveJoinStep===0">
+    <app-input name="gas" [(ipt)]="approveJoinGas"></app-input>
+    <app-input name="password" [(ipt)]="approveJoinPassword"></app-input>
+  </ng-container>
+  <ng-container *ngIf="approveJoinStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #approveJoinFooter>
+  <ng-container *ngIf="approveJoinStep===0">
+    <button nz-button nzSize="large" nzType="primary" (click)="approveJoinSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="approveJoinStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+  </ng-container>
+</ng-template>

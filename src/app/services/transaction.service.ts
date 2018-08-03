@@ -165,12 +165,12 @@ export class TransactionService {
       nonce: toHex(nonceval),
       from: fromAddr,
       to: toAddr,
-      data: JSON.stringify(inputData)
+      data: inputData
     };
   }
 
   private async generateTxOptions(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any) {
-    return await this.generateTxOptions2(fromAddr, gasLimit, gasPriceInWei, inputData, STX_ADDR)
+    return await this.generateTxOptions2(fromAddr, gasLimit, gasPriceInWei, JSON.stringify(inputData), STX_ADDR)
   }
 
   private sendTransaction(fromAddr, password, txOptions, transactionType) {
