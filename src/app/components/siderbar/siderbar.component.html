@@ -14,7 +14,7 @@
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden-inprocess']" [nzSelected]="page==='/eden-inprocess'">
-        <i class="anticon anticon-spin anticon-loading"></i>
+        <i class="anticon anticon-sync" [class.anticon-spin]="(this.edenService.tasks | tableTask:'eden-inprocess').length>0"></i>
         {{ "SIDERBAR.EDEN_INPROCESS" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-done']" [nzSelected]="page==='/eden-done'">

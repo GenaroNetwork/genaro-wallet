@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { SettingService } from '../../services/setting.service';
+import { EdenService } from '../../services/eden.service';
 
 @Component({
   selector: 'app-siderbar',
@@ -12,6 +13,7 @@ export class SiderbarComponent implements OnInit {
   constructor(
     private router: Router,
     public settingService: SettingService,
+    public edenService: EdenService,
   ) { }
 
   page = '/wallet';
