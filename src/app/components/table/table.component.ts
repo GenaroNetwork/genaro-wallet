@@ -200,10 +200,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // currentCommittee
   currentCommitteeData: any[] = [];
-  currentCommitteeInit() {
-    this.currentCommitteeDataUpdate();
-  }
-  async currentCommitteeDataUpdate() {
+  async currentCommitteeInit() {
     const committees = await this.brotherhoodService.getCommitteeRank() || [];
     const arr = [];
     for (let i = 0, length = committees.length; i < length; i++) {
@@ -217,9 +214,21 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
         data.nickName = datas[0].nickName;
       }
       arr.push(data);
+      this.brotherhoodService.addFetchingAddress(committees[i]);
     }
 
     this.currentCommitteeData = arr;
+    let self = this;
+    this.brotherhoodService.stateUpdate.subscribe(states => {
+      if (states && self.currentCommitteeData && self.currentCommitteeData.length > 0) {
+        for (let i = 0, length = self.currentCommitteeData.length; i < length; i++) {
+          let data = self.currentCommitteeData[i];
+          if (data.address === states[0] && states[1].currentState) {
+            data.subAccounts = states[1].currentState.subAccounts;
+          }
+        }
+      }
+    });
   }
 
   allWalletSub: any;

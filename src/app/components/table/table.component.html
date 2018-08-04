@@ -329,20 +329,22 @@
 
 
 <!-- currentCommittee -->
-<nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzData]="currentCommitteeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+<nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzData]="currentCommitteeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 64 + "px"}'
   nzShowPagination="false" [nzPageSize]="31" class="tx">
   <thead>
     <tr>
       <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
-      <th nzWidth="30%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
-      <th nzWidth="60%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+      <th nzWidth="20%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+      <th nzWidth="55%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+      <th nzWidth="15%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of currentCommitteeTable.data">
       <td nzWidth="10%">{{ data.order + 1 }}</td>
-      <td nzWidth="30%">{{ data.nickName }}</td>
-      <td nzWidth="60%">{{ data.address }}</td>
+      <td nzWidth="20%">{{ data.nickName }}</td>
+      <td nzWidth="55%">{{ data.address }}</td>
+      <td nzWidth="15%">{{ (data.subAccounts || []).length || 0}} / 10</td>
     </tr>
   </tbody>
 </nz-table>

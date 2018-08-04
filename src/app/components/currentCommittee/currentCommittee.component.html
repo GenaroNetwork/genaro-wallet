@@ -1,1 +1,9 @@
-<app-table name="currentCommittee"></app-table>
+<nz-card [nzBordered]="false">
+    <div class="header">
+        {{ 'SIDERBAR.COMMITTEE' | translate }}
+        <span>{{ 'TABLE.COMMITTEE.UPDATE_BLOCK' | translate }}: {{ thisRoundFirstBlock }}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ nextRoundFirstBlock }}</span>
+    </div>
+    <app-table name="currentCommittee"></app-table>
+</nz-card>

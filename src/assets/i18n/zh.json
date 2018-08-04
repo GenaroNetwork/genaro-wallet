@@ -345,7 +345,9 @@
       "MEMBER": "成员",
       "ADDRESS": "地址",
       "JOIN": "申请加入",
-      "AGREE": "同意"
+      "AGREE": "同意",
+      "UPDATE_BLOCK": "更新区块",
+      "NEXT_UPDATE_BLOCK": "次届委员会更新区块"
     }
   },
   "PANEL": {

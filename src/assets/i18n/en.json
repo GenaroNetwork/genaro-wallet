@@ -313,7 +313,9 @@
       "MEMBER": "member",
       "ADDRESS": "address",
       "JOIN": "join",
-      "AGREE": "agree"
+      "AGREE": "agree",
+      "UPDATE_BLOCK": "Update Block",
+      "NEXT_UPDATE_BLOCK": "Next Update Block of Committee"
     }
   },
   "PANEL": {
