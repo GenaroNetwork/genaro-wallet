@@ -25,6 +25,11 @@ export class JoinCommitteeComponent implements OnInit {
     this.mainAddress = data.address;
   }
 
+  agree(data) {
+    this.dialogName = 'approveJoin';
+    this.mainAddress = data.address;
+  }
+
   getSubAccounts() {
     if (this.walletService.wallets.current) {
       // this.brotherhoodService.getCurrentSubAccounts(this.walletService.wallets.current.address);

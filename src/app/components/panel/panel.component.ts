@@ -65,8 +65,8 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
           let subAccounts = [];
           for(let i = 0, length = subs.length; i < length; i++) {
             let subAccount = await this.committeeService.getSentinel(subs[i]);
-            if(subAccount) {
-              subAccounts.push(subAccount);
+            if (subAccount.length > 0) {
+              subAccounts.push(subAccount[0]);
             }
           }
           self.accountTeamInfo.subAccounts = subAccounts;
@@ -127,6 +127,17 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
             }
           }
           self.paddingTeamInfo.subAccounts = subAccounts;
+
+          let tempState = states[1].tempState;
+          let tempSubs = tempState.subAccounts || [];
+          let tempAccounts = [];
+          for(let i = 0, length = tempSubs.length; i < length; i++) {
+            let subAccount = await this.committeeService.getSentinel(subs[i]);
+            if(subAccount) {
+              tempAccounts.push(subAccount);
+            }
+          }
+          self.paddingTeamInfo.tempAccounts = tempAccounts;
         }
       }
     });

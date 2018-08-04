@@ -1,5 +1,5 @@
 
-<app-panel name="committee"></app-panel>
+<app-panel name="committee" (action)="tableAction($event)"></app-panel>
 <app-table name="committee" (action)="tableAction($event)"></app-table>
 
 <app-dialog [(name)]="dialogName" [(address)]="mainAddress"></app-dialog>
