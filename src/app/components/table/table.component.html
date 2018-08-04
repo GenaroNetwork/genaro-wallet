@@ -265,22 +265,24 @@
   <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
-        <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
-        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
-        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
-        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
-        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
-        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
+        <th nzWidth="5%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+        <th nzWidth="10%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+        <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+        <th nzWidth="10%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of rankTable.data">
-        <td nzWidth="10%">{{ data.order + 1 }}</td>
-        <td nzWidth="15%">{{ data.nickName }}</td>
-        <td nzWidth="15%">{{ data.stake }}</td>
-        <td nzWidth="20%">{{ data.data_size }}</td>
-        <td nzWidth="20%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="20%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="5%">{{ data.order + 1 }}</td>
+        <td nzWidth="10%">{{ data.nickName }}</td>
+        <td nzWidth="30%">{{ data.address | longAddr | shortAddr}}</td>
+        <td nzWidth="10%">{{ data.stake }}</td>
+        <td nzWidth="15%">{{ data.data_size }}</td>
+        <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
+        <td nzWidth="15%">{{ (data.subAccounts || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>
@@ -320,7 +322,7 @@
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
         <td nzWidth="12%">{{ (data.subAccounts || []).length || 0}} / 10</td>
         <td nzWidth="15%">
-          <a nz-dropdown (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</a>
+          <button nz-button nzType="primary" nzSize="small" [(disabled)]="!canApplyJoin" (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
         </td>
       </tr>
     </tbody>

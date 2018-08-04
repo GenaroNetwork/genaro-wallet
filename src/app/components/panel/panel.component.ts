@@ -132,9 +132,12 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
           let tempSubs = tempState.subAccounts || [];
           let tempAccounts = [];
           for(let i = 0, length = tempSubs.length; i < length; i++) {
-            let subAccount = await this.committeeService.getSentinel(subs[i]);
-            if(subAccount) {
-              tempAccounts.push(subAccount);
+            let subAccount = await this.committeeService.getSentinel(tempSubs[i]['0']);
+            if(subAccount.length > 0) {
+              tempAccounts.push(subAccount[0]);
+            }
+            else {
+              tempAccounts.push({address: tempSubs[i]['0']});
             }
           }
           self.paddingTeamInfo.tempAccounts = tempAccounts;

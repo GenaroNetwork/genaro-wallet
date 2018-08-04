@@ -162,6 +162,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // committee
   committeeData: any[] = [];
+  canApplyJoin: boolean = true;
   committeeAddress = '';
   committeeState: any;
   committeeInit() {
