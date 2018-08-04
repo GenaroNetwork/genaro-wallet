@@ -101,22 +101,26 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
   // tx sharer
   txSharerData: any[] = [];
-  txSharerDataCurrentPage = 1;
-  txSharerDataTotalPage = 0;
+  // txSharerDataCurrentPage = 1;
+  // txSharerDataTotalPage = 0;
   txSharerWalletSub = this.txSharerDataUpdate;
   txSharerBlockSub = this.txSharerDataUpdate;
   async txSharerDataUpdate() {
     const address = this.walletService.wallets.current;
     const nodes = await this.txService.getNodes(address);
-    if (nodes) {
-      this.txSharerDataTotalPage = nodes.length;
-      this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
-    }
+    if (nodes)
+      this.txSharerData = nodes;
+    else
+      this.txSharerData = [];
+    // if (nodes) {
+    //   this.txSharerDataTotalPage = nodes.length;
+    //   this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
+    // }
   }
-  txSharerChangePage(page: number) {
-    this.txSharerDataCurrentPage = page;
-    this.txSharerDataUpdate();
-  }
+  // txSharerChangePage(page: number) {
+  //   this.txSharerDataCurrentPage = page;
+  //   this.txSharerDataUpdate();
+  // }
 
   // rank
   rankData: any[] = [];
