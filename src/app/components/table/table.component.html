@@ -322,7 +322,7 @@
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
         <td nzWidth="12%">{{ (data.subAccounts || []).length || 0}} / 10</td>
         <td nzWidth="15%">
-          <button nz-button nzType="primary" nzSize="small" [(disabled)]="!canApplyJoin" (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
+          <button nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin" (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
         </td>
       </tr>
     </tbody>

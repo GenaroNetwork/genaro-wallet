@@ -214,7 +214,7 @@
                 <td nzWidth="20%">{{data.data_size}}</td>
                 <td nzWidth="30%">{{data.sentinel * 10000 | formatSentinel }}</td>
                 <td nzWidth="15%">
-                    <button nz-button nzType="primary" nzSize="small" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>
+                    <button nz-button nzType="primary" nzSize="small" [disabled]="data.flag" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>
                 </td>
             </tr>
         </tbody>
