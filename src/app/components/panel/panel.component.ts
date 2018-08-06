@@ -39,8 +39,8 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
         states = self.brotherhoodService.getStateByAddress(currentAddr);
       }
       firstIn = false;
-      if(states) {
-        if(currentAddr === states[0]) {
+      if(states && states.length > 1) {
+        if(currentAddr === states[0] && states[1]) {
           let currentState = states[1].currentState;
           if(currentState.role === Role.Sub) {
             self.accountTeamInfo.address = currentState.mainAccount;
@@ -96,8 +96,8 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
         states = self.brotherhoodService.getStateByAddress(currentAddr);
       }
       firstIn = false;
-      if(states) {
-        if(currentAddr === states[0]) {
+      if(states && states.length > 1) {
+        if(currentAddr === states[0] && states[1]) {
           let pendingState = states[1].pendingState;
           if(pendingState.role === Role.Sub) {
             self.paddingTeamInfo.address = pendingState.mainAccount;

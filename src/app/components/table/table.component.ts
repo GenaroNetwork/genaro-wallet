@@ -7,7 +7,7 @@ import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
 import { CommitteeService } from '../../services/committee.service';
-import { TASK_STATE, TASK_TYPE } from '../../libs/config';
+import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
 
 
 @Component({
@@ -169,6 +169,16 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.committeeDataUpdate('');
     const self = this;
     this.committeeState = this.brotherhoodService.stateUpdate.subscribe(states => {
+      let currentAddr = self.walletService.wallets.current;
+      if (states && currentAddr === states[0]) {
+        let s = states[1];
+        if (s.pendingState.role === Role.Free && s.tempState.role === Role.Free) {
+          self.canApplyJoin = true;
+        }
+        else {
+          self.canApplyJoin = false;
+        }
+      }
       if (states && self.committeeData) {
         for (let i = 0, length = self.committeeData.length; i < length; i++) {
           const rd = self.committeeData[i];
@@ -226,6 +236,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           let data = self.currentCommitteeData[i];
           if (data.address === states[0] && states[1].currentState) {
             data.subAccounts = states[1].currentState.subAccounts;
+            self.brotherhoodService.deleteFetchingAddress(states[0]);
+            break;
           }
         }
       }
