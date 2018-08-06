@@ -9,6 +9,10 @@ import { EdenService } from '../../services/eden.service';
 import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
 
+function add0x(addr: string) {
+  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+  return addr;
+}
 
 @Component({
   selector: 'app-table',
@@ -127,121 +131,78 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   rankAddress = '';
   rankState: any;
   rankInit() {
-    this.rankDataUpdate('');
-    const self = this;
-    this.rankState = this.brotherhoodService.stateUpdate.subscribe(states => {
-      if (states && self.rankData) {
-        for (let i = 0, length = self.rankData.length; i < length; i++) {
-          const rd = self.rankData[i];
-          if (rd.address == states[0]) {
-            rd.subAccounts = states[1].currentState.subAccounts;
-            break;
-          }
-        }
-      }
+    this.rankDataUpdate();
+  }
+  async rankDataUpdate() {
+    let self = this;
+    this.rankState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
+      self.rankData = ranks;
     });
   }
-  async rankDataUpdate(addr) {
-    if (addr) {
-      this.brotherhoodService.addFetchingAddress(addr);
+  async searchRankFarmer() {
+    if(this.rankState) {
+      this.rankState.unsubscribe();
     }
-    const datas = await this.committeeService.getSentinel(addr);
-    if (datas) {
-      datas.forEach(d => {
-        this.brotherhoodService.addFetchingAddress(d.address);
-      });
-      this.rankData = datas;
+    if(this.rankAddress) {
+      this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
     }
-  }
-  searchRankFarmer() {
-    this.rankDataUpdate(this.rankAddress);
-  }
-  rankDestroy() {
-    this.rankState.unsubscribe();
+    else {
+      this.rankDataUpdate();
+    }
   }
 
   // committee
   committeeData: any[] = [];
   canApplyJoin: boolean = true;
-  committeeAddress = '';
+  committeeAddress: string = '';
   committeeState: any;
   committeeInit() {
-    this.committeeDataUpdate('');
-    const self = this;
-    this.committeeState = this.brotherhoodService.stateUpdate.subscribe(states => {
-      let currentAddr = self.walletService.wallets.current;
-      if (states && currentAddr === states[0]) {
-        let s = states[1];
-        if (s.pendingState.role === Role.Free && s.tempState.role === Role.Free) {
+    this.committeeAddress = '';
+    this.committeeDataUpdate();
+    let self = this;
+    let broSub = null;
+    this.walletService.currentWallet.subscribe(w => {
+      self.canApplyJoin = false;
+      if(broSub) {
+        broSub.unsubscribe();
+      }
+      let currentWalletAddr = add0x(self.walletService.wallets.current);
+      self.brotherhoodService.addFetchingAddress(currentWalletAddr);
+      broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
+        if (states 
+          && states.length > 1 
+          && states[0] === currentWalletAddr 
+          && states[1]
+          && states[1].pendingState.role === Role.Free
+          && states[1].tempState.role === Role.Free
+        ) {
           self.canApplyJoin = true;
         }
-        else {
-          self.canApplyJoin = false;
-        }
-      }
-      if (states && self.committeeData) {
-        for (let i = 0, length = self.committeeData.length; i < length; i++) {
-          const rd = self.committeeData[i];
-          if (rd.address == states[0]) {
-            rd.subAccounts = states[1].currentState.subAccounts;
-            break;
-          }
-        }
-      }
+      });
     });
   }
-  async committeeDataUpdate(addr) {
-    if (addr) {
-      this.brotherhoodService.addFetchingAddress(addr);
-    }
-    const datas = await this.committeeService.getSentinel(addr);
-    if (datas) {
-      datas.forEach(d => {
-        this.brotherhoodService.addFetchingAddress(d.address);
-      });
-      this.committeeData = datas;
-    }
+  async committeeDataUpdate() {
+    let self = this;
+    this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
+      self.committeeData = ranks;
+    });
   }
-  searchFarmer() {
-    this.committeeDataUpdate(this.committeeAddress);
-  }
-  committeeDestroy() {
-    this.committeeState.unsubscribe();
+  async searchFarmer() {
+    if(this.committeeState) {
+      this.committeeState.unsubscribe();
+    }
+    if(this.committeeAddress) {
+      this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
+    }
+    else {
+      this.committeeDataUpdate();
+    }
   }
 
   // currentCommittee
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
-    const committees = await this.brotherhoodService.getCommitteeRank() || [];
-    const arr = [];
-    for (let i = 0, length = committees.length; i < length; i++) {
-      const datas = await this.committeeService.getSentinel(committees[i]);
-      const data = {
-        order: i,
-        address: committees[i],
-        nickName: ''
-      };
-      if (datas.length > 0) {
-        data.nickName = datas[0].nickName;
-      }
-      arr.push(data);
-      this.brotherhoodService.addFetchingAddress(committees[i]);
-    }
-
-    this.currentCommitteeData = arr;
-    let self = this;
-    this.brotherhoodService.stateUpdate.subscribe(states => {
-      if (states && self.currentCommitteeData && self.currentCommitteeData.length > 0) {
-        for (let i = 0, length = self.currentCommitteeData.length; i < length; i++) {
-          let data = self.currentCommitteeData[i];
-          if (data.address === states[0] && states[1].currentState) {
-            data.subAccounts = states[1].currentState.subAccounts;
-            self.brotherhoodService.deleteFetchingAddress(states[0]);
-            break;
-          }
-        }
-      }
-    });
+    this.currentCommitteeData = await this.committeeService.getCurrentCommittee();
   }
 
   allWalletSub: any;

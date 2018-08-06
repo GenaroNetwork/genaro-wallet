@@ -276,6 +276,24 @@ export class BrotherhoodService {
     return Role.Free;
   }
 
+  private getTempRole(state) {
+    if (state.mainAccount) {
+      return Role.Sub;
+    }
+    let hasAgreed = false;
+    if (state.subAccounts && state.subAccounts.length > 0) {
+      state.subAccounts.forEach(sa => {
+        if (sa.flag) {
+          hasAgreed = true;
+        }
+      });
+      if (hasAgreed) {
+        return Role.Main;
+      }
+    }
+    return Role.Free;
+  }
+
   private async fetchCurrentState(address: string) {
     function getSubs(extra) {
       if (extra && extra.CommitteeAccountBinding) {
@@ -318,11 +336,11 @@ export class BrotherhoodService {
       mainAccount: await this.getTempMainAccount(address),
       subAccounts: await this.getTempSubAccounts(address)
     };
-    state['role'] = this.getRole(state);
+    state['role'] = this.getTempRole(state);
     return state;
   }
 
-  private async fetchState(address: string) {
+  async fetchState(address: string) {
     const [currentState, pendingState, tempState] = await Promise.all([this.fetchCurrentState(address), this.fetchPendingState(address), this.fetchTempState(address)]);
     return {
       address,
