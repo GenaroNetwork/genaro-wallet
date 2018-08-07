@@ -5,7 +5,7 @@
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                    <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ accountTeamInfo.order + 1 || '300+' }}
@@ -15,7 +15,7 @@
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                    <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ accountTeamInfo.nickName }}
@@ -25,7 +25,7 @@
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                    <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ accountTeamInfo.sentinel * 10000 | formatSentinel }}
@@ -73,7 +73,7 @@
         </div>
     </form>
     <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subAccounts" nzShowPagination="false" [nzPageSize]="31"
-        class="tx">
+        class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
                 <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
@@ -102,7 +102,7 @@
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
+                    <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ paddingTeamInfo.order + 1 || '300+' }}
@@ -112,7 +112,7 @@
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
+                    <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ paddingTeamInfo.nickName }}
@@ -122,7 +122,7 @@
             </div>
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
-                    <nz-form-label>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
+                    <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
                             {{ paddingTeamInfo.sentinel * 10000 | formatSentinel }}
@@ -177,7 +177,7 @@
         </div>
     </form>
     <nz-table *ngIf="showPaddingTeam" #paddingTeamTable [nzData]="paddingTeamInfo.subAccounts" nzShowPagination="false" [nzPageSize]="31"
-        class="tx">
+        class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
@@ -197,7 +197,7 @@
     </nz-table>
 
     <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="paddingTeamInfo.tempAccounts" nzShowPagination="false" [nzPageSize]="31"
-        class="tx">
+        class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
                 <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>

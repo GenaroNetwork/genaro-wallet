@@ -95,6 +95,8 @@ export const SENTINEL_WEB = 'http://118.31.61.119:8001';
 
 export const TOP_FARMER_URL = 'http://118.31.61.119:8000/top-farmer';
 
+export const FARMER_URL = 'http://118.31.61.119:8000/farmer/';
+
 export enum TASK_TYPE {
     FILE_UPLOAD = 0,
     FILE_DOWNLOAD = 1,
@@ -128,5 +130,5 @@ export enum Role {
     Sub  = 'Sub'
 }
 // brother hood:
-export const RELATION_FETCH_INTERVAL = 5000;
-export const BROTHER_CONTRACT_ADDR = "0xe1cf955d0a6ff208664551d403c8e16266d38c71"
+export const RELATION_FETCH_INTERVAL = 10 * 1000;
+export const BROTHER_CONTRACT_ADDR = '0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e';

@@ -250,9 +250,10 @@
 </nz-table>
 
 <!-- rank -->
-<div *ngIf="name==='rank'">
-  <div>
-    <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+<div *ngIf="name==='rank'" class="panel">
+  <div class="header">
+    <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
+    <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
       <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="rankAddress">
     </nz-input-group>
     <ng-template #suffixIconButton>
@@ -289,10 +290,11 @@
 </div>
 
 <!-- committee -->
-<div *ngIf="name==='committee'">
-  <div>
-    <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
-      <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}">
+<div *ngIf="name==='committee'" class="panel">
+  <div class="header">
+    <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
+    <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
+      <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="committeeAddress">
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" nzSearch (click)="searchFarmer()">

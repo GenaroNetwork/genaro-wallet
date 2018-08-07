@@ -14,3 +14,23 @@
         font-weight: bold;
     }
 }
+
+i {
+    height: 1rem;
+    width: 1rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    display: inline-block;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    &.rank-icon {
+        background-image:url('assets/img/rank_icon.png');
+    }
+    &.team-icon {
+        width: 2rem;
+        background-image:url('assets/img/team_icon.png');
+    }
+    &.sentinel-icon {
+        background-image:url('assets/img/sentinel_icon.png');
+    }
+}

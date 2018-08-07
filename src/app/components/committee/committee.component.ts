@@ -19,7 +19,7 @@ export class CommitteeComponent implements OnInit {
   ) { }
 
   join(data) {
-    
+
 
   }
 
