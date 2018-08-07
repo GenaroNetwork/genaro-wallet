@@ -5,7 +5,10 @@ import { remote } from 'electron'; // 有时间的话把界面功能统一挪到
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
-
+import { SENTINEL_API } from '../libs/config';
+const axios = require('axios');
+const secp256k1 = require('secp256k1');
+const crypto = require('crypto');
 
 @Injectable({
   providedIn: 'root'
@@ -60,15 +63,59 @@ export class WalletService {
   }
 
   async createWallet(mnemonic: string, password: string, name: string): Promise<any> {
-    const wallet = this.walletManager.importFromMnemonic(mnemonic, password, name, true);
+    const wallet = this.walletManager.importFromMnemonic(mnemonic, password, this.setNewWalletName.bind(this), true);
+    // this.sendNick(wallet.address, password, wallet.name);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
   }
 
   importWallet(json: any, password, name) {
-    const wallet = this.walletManager.importFromJson(json, password, name, true);
+    const wallet = this.walletManager.importFromJson(json, password, this.setNewWalletName.bind(this), true);
     this.walletList.next(this.walletManager.listWallet());
     return wallet;
+  }
+
+  private setNewWalletName(v3json) {
+    let address = v3json.address;
+    return this.i18n.instant('WALLETNEW.WALLET_NAME_PREFIX') + ' 0x' + address.slice(0,2);
+  }
+
+  private sendNick(address, password, name) {
+    const method = 'POST';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/farmer/' + address + '/nick';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const hash = this.getHash(method, url, name);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    debugger;
+    axios({
+      method: method,
+      url: SENTINEL_API + url,
+      data: name,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    }).then(function (res) {
+      console.log(res);
+    }).catch(function (err) {
+      console.log(err);
+    });
+  }
+
+  private getHash(method, url, data) {
+    let contract = new Buffer([
+      method,
+      url,
+      data
+    ].join('\n'), 'utf8');
+    return crypto.createHash('sha256').update(contract).digest('hex');
   }
 
   /**
