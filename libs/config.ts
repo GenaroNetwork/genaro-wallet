@@ -131,4 +131,4 @@ export enum Role {
 }
 // brother hood:
 export const RELATION_FETCH_INTERVAL = 10 * 1000;
-export const BROTHER_CONTRACT_ADDR = "0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e"
+export const BROTHER_CONTRACT_ADDR = '0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e';
