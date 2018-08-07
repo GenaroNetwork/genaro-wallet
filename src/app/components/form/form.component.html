@@ -22,7 +22,9 @@
       <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
-      UNSTAKE NOT AVALIABLE NOW
+      <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
+      <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
+      <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
     </nz-tab>
   </nz-tabset>
   <div *ngIf="stakeStep===1">
