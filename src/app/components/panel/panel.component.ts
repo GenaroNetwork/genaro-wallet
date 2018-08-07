@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChange
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
-import { Role } from '../../libs/config';
 
 function add0x(addr: string) {
   if (!addr.startsWith('0x')) { addr = '0x' + addr; }
