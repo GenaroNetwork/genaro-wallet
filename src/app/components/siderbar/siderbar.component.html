@@ -27,11 +27,11 @@
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.showSharer">
+  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.showTxSharer">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXSHARER" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.showTxSharer">
+  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.showSharer">
     <i class="anticon anticon-database"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>

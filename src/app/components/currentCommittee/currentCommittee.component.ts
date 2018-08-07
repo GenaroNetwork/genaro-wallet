@@ -13,8 +13,8 @@ export class CurrentCommitteeComponent implements OnInit {
     private txService: TransactionService
   ) { }
 
-  thisRoundFirstBlock: number = 0;
-  nextRoundFirstBlock: number = 0;
+  thisRoundFirstBlock = 0;
+  nextRoundFirstBlock = 0;
   async initBlockNumber() {
     const web3 = await this.txService.getWeb3Instance();
     // @ts-ignore

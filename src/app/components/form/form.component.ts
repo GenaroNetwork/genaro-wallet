@@ -45,14 +45,19 @@ export class FormComponent implements OnInit {
   // 压注
   stakeType = 0; // stake or unstake
   stakeStep = 0;
-  stakeGNX = 0;
+  stakeGNX = 5000;
   stakeGas: number[] = [null, 2100000];
   stakePassword = '';
   async  stakeConfirm() {
+    const address = this.walletService.wallets.current;
     switch (this.stakeType) {
       case 0:
-        const address = this.walletService.wallets.current;
         await this.txService.stake(address, this.stakePassword, this.stakeGNX, this.stakeGas[1], this.stakeGas[0]);
+        this.stakeStep++;
+        this.onSubmit.emit();
+        break;
+      case 1:
+        await this.txService.unStake(address, this.stakePassword, this.stakeGas[1], this.stakeGas[0]);
         this.stakeStep++;
         this.onSubmit.emit();
         break;
@@ -72,7 +77,7 @@ export class FormComponent implements OnInit {
     if (!this.bindNodeTokenFlg) {
       this.bindNodeToken = await this.getNodeToken(this.bindNodeId, address);
     }
-    await this.txService.bindNode(address, this.bindNodePassword, this.bindNodeToken , this.bindNodeGas[1], this.bindNodeGas[0]);
+    await this.txService.bindNode(address, this.bindNodePassword, this.bindNodeToken, this.bindNodeGas[1], this.bindNodeGas[0]);
     this.bindNodeStep++;
     this.onSubmit.emit();
   }

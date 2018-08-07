@@ -127,7 +127,7 @@
     {{ 'TXSHARER.STAKE' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]-4" class="preview">
-    <input [value]="ngModel" type="number" nz-input (input)="ngModelChange.emit($event.target.value)" min="0">
+    <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)" min="0"></nz-input-number>
   </div>
   <div nz-col [nzSpan]="4">&nbsp;&nbsp;GNX</div>
 </div>

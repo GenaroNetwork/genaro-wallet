@@ -256,8 +256,16 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'STAKE_GNX');
   }
 
-  async unStake() {
+  async unStake(address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
     // not avliable
+    address = add0x(address);
+    const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
+    const inputData = {
+      address: address,
+      type: '0xb',
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'UNSTAKE_GNX');
   }
 
   async getStake(address: string) {
