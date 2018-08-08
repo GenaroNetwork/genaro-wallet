@@ -93,9 +93,11 @@ export const DAEMON_CONFIG = require('./DAEMON_CONFIG.json');
 
 export const SENTINEL_WEB = 'http://118.31.61.119:8001';
 
-export const TOP_FARMER_URL = 'http://118.31.61.119:8000/top-farmer';
+export const SENTINEL_API = 'http://118.31.61.119:8000';
 
-export const FARMER_URL = 'http://118.31.61.119:8000/farmer/';
+export const TOP_FARMER_URL = SENTINEL_API + '/top-farmer/all';
+
+export const FARMER_URL = SENTINEL_API + '/farmer/';
 
 export enum TASK_TYPE {
     FILE_UPLOAD = 0,

@@ -18,7 +18,7 @@
                     <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ accountTeamInfo.nickName }}
+                            {{ accountTeamInfo.shortAddr }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -76,8 +76,8 @@
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
-                <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
-                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+                <!-- <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
+                <th nzWidth="45%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
                 <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
@@ -85,8 +85,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of currentTeamTable.data">
-                <td nzWidth="15%">{{data.nickName}}</td>
-                <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
+                <!-- <td nzWidth="15%">{{data.nickName}}</td> -->
+                <td nzWidth="45%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
                 <td nzWidth="20%">{{data.data_size}}</td>
                 <td nzWidth="20%">{{data.sentinel * 10000 | formatSentinel }}</td>
@@ -115,7 +115,7 @@
                     <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.nickName }}
+                            {{ paddingTeamInfo.shortAddr }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -170,7 +170,10 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-control>
-                        <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                        <nz-badge nzDot *ngIf="hasTempSubAccount">
+                            <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                        </nz-badge>
+                        <button *ngIf="!hasTempSubAccount" style="width: 120px" nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -180,18 +183,18 @@
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
-                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+                <th nzWidth="40%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
-                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
-                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data of paddingTeamTable.data">
-                <td nzWidth="20%">{{data.nickName}}</td>
+                <td nzWidth="40%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="20%">{{data.stake}}</td>
-                <td nzWidth="30%">{{data.data_size}}</td>
-                <td nzWidth="30%">{{data.sentinel * 10000 | formatSentinel }}</td>
+                <td nzWidth="20%">{{data.data_size}}</td>
+                <td nzWidth="20%">{{data.sentinel * 10000 | formatSentinel }}</td>
             </tr>
         </tbody>
     </nz-table>
@@ -200,19 +203,19 @@
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
-                <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th>
+                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
-                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+                <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
                 <th nzWidth="15%">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data of applyTeamTable.data">
-                <td nzWidth="15%">{{data.nickName}}</td>
+                <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="20%">{{data.stake}}</td>
                 <td nzWidth="20%">{{data.data_size}}</td>
-                <td nzWidth="30%">{{data.sentinel * 10000 | formatSentinel }}</td>
+                <td nzWidth="15%">{{data.sentinel * 10000 | formatSentinel }}</td>
                 <td nzWidth="15%">
                     <button nz-button nzType="primary" nzSize="small" [disabled]="data.flag" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>
                 </td>
