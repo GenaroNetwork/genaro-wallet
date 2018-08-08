@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IpcService } from './ipc.service';
 import { TOP_FARMER_URL, FARMER_URL, Role } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
@@ -189,9 +190,22 @@ export class CommitteeService {
     });
   }
 
+  update(address, applyAddress) {
+    this.ipc.dbRun('committee', `INSERT INTO committee (address, applyAddress) VALUES ('${address}', '${applyAddress}')`);
+  }
+
+  async get(address) {
+    return await this.ipc.dbAll('committee', `SELECT * FROM committee WHERE address='${address}'`);
+  }
+
+  delete(address) {
+    this.ipc.dbRun('committee', `DELETE * FROM committee WHERE address='${address}'`);
+  }
+
   constructor(
     private brotherhoodService: BrotherhoodService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private ipc: IpcService
   ) { 
     this.initCurrentSentinelRank();
     this.initCurrentWalletState();

@@ -174,10 +174,14 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           && states[0] === currentWalletAddr 
           && states[1]
           && states[1].pendingState.role === Role.Free
-          && states[1].tempState.role === Role.Free
+          && states[1].tempState.role !== Role.Main
         ) {
           self.canApplyJoin = true;
+          if(states[1].tempState.role !== Role.Sub) {
+            self.committeeService.delete(currentWalletAddr);
+          }
         }
+        self.activateJoinButton.apply(self);
       });
     });
   }
@@ -185,6 +189,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     let self = this;
     this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
       self.committeeData = ranks;
+      self.activateJoinButton.apply(self);
     });
   }
   async searchFarmer() {
@@ -193,11 +198,30 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
     if(this.committeeAddress) {
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
+      this.activateJoinButton();
     }
     else {
       this.committeeDataUpdate();
     }
   }
+  async activateJoinButton() {
+    if(this.committeeData) {
+      let currentWalletAddr = this.walletService.wallets.current;
+      let hasAppliedAccounts = await this.committeeService.get(currentWalletAddr) || [];
+      let acs = hasAppliedAccounts.map(a => {
+        return a.applyAddress;
+      })
+      this.committeeData.forEach(cd => {
+        if(acs.indexOf(cd.address) > -1) {
+          cd.canApplyJoin = false;
+        }
+        else {
+          cd.canApplyJoin = true;
+        }
+      })
+    }
+  }
+
 
   // currentCommittee
   currentCommitteeData: any[] = [];

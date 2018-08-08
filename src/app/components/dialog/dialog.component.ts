@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
+import { CommitteeService } from '../../services/committee.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { nextTick } from 'q';
@@ -28,6 +29,7 @@ export class DialogComponent implements OnChanges {
     private txEdenService: TxEdenService,
     public settingService: SettingService,
     private brotherhoodService: BrotherhoodService,
+    private committeeService: CommitteeService,
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -318,6 +320,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
     this.joinCommitteeStep++;
+    this.committeeService.update(address, this.joinCommitteeMainAddress);
   }
 
   // approveJoin
