@@ -42,11 +42,16 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   paddingTeamInfo: any = {};
   showPaddingTeam = false;
   showApplyTeam = false;
+  hasTempSubAccount = false;
   paddingSubscribe: any;
   async committeeInit() {
     let self = this;
     this.paddingSubscribe = this.committeeService.paddingMainWalletState.subscribe((data) => {
       self.paddingTeamInfo = data || {};
+      self.hasTempSubAccount = false;
+      if(self.paddingTeamInfo.tempAccounts && self.paddingTeamInfo.tempAccounts.length > 0) {
+        self.hasTempSubAccount = true;
+      }
     });
   }
   committeeDestroy() {

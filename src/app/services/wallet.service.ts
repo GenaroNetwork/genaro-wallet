@@ -93,7 +93,6 @@ export class WalletService {
     const hash = this.getHash(method, url, name);
     const msg = new Buffer(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
-    debugger;
     axios({
       method: method,
       url: SENTINEL_API + url,

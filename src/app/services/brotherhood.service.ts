@@ -204,14 +204,14 @@ export class BrotherhoodService {
     const web3 = await this.TxService.getWeb3Instance();
     const contract = new BrotherContract(web3)
     const inputData = contract.getApplyInputData(mainAddress)
-    this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPLY_BROTHER', gasLimit, gasPriceInGwei)
+    return await this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPLY_BROTHER', gasLimit, gasPriceInGwei)
   }
 
   async approveBrotherhood(subAddress: string, address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
     const web3 = await this.TxService.getWeb3Instance();
     const contract = new BrotherContract(web3)
     const inputData = contract.getApproveInputData(subAddress)
-    this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPROVE_BROTHER', gasLimit, gasPriceInGwei)
+    return await this.TxService.sendContractTransaction(address, password, BROTHER_CONTRACT_ADDR, inputData, 'APPROVE_BROTHER', gasLimit, gasPriceInGwei)
   }
 
   async getTempMainAccount(address: string) {

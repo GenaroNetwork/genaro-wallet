@@ -163,7 +163,9 @@ export class CommitteeService {
             let subAccounts = [];
             for(let i = 0, length = subAccountIds.length; i < length; i++) {
               if(subAccountIds[i]) {
-                subAccounts.push(await self.getFarmer(subAccountIds[i]));
+                let sa = await self.getFarmer(subAccountIds[i]) || {};
+                sa.address = subAccountIds[i];
+                subAccounts.push(sa);
               }
             }
             data.subAccounts = subAccounts;
@@ -173,6 +175,7 @@ export class CommitteeService {
               for(let i = 0, length = tempSubAccountIds.length; i < length; i++) {
                 if(tempSubAccountIds[i] && tempSubAccountIds[i].worker) {
                   let tsa = await self.getFarmer(tempSubAccountIds[i].worker) || {};
+                  tsa.address = tempSubAccountIds[i].worker;
                   tsa.flag = tempSubAccountIds[i].flag;
                   tempSubAccounts.push(tsa);
                 }
