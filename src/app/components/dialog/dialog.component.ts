@@ -40,7 +40,8 @@ export class DialogComponent implements OnChanges {
   walletChangeName = '';
   walletChangeNameInit() {
     const address = this.walletService.wallets.current;
-    this.walletChangeName = this.walletService.wallets.all[address].name;
+    let wallet = this.walletService.wallets.all.find(wallet => wallet.address === address);
+    this.walletChangeName = wallet.name;
   }
   walletChangeNameDone() {
     const address = this.walletService.wallets.current;

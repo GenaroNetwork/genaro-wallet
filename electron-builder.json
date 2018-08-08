@@ -19,6 +19,7 @@
     "!tsconfig.json",
     "!tslint.json"
   ],
+  "npmRebuild": false,
   "win": {
     "icon": "dist",
     "target": [

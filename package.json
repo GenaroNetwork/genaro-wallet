@@ -49,16 +49,16 @@
     "jasmine": "^3.1.0",
     "jdenticon": "^2.1.0",
     "jswallet-manager": "^0.5.6",
-    "libgenaro": "^2.0.0-alpha.15",
+    "libgenaro": "^2.0.0-alpha.16",
     "ng-zorro-antd": "^1.1.0",
     "numeral": "^2.0.6",
     "pretty-ms": "^3.1.0",
     "qrcode": "^1.2.0",
+    "rxjs": "6.1.0",
     "secp256k1": "^3.3.0",
     "storj-lib": "^8.7.2",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
-    "rxjs": "6.1.0",
     "web3-utils": "^1.0.0-beta.34"
   },
   "devDependencies": {
