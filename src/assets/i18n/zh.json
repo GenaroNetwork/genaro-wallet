@@ -212,7 +212,7 @@
     "CREATE_BUCKET_EXISTS": "该空间名已存在",
     "CREATE_BUCKET_DONE": "创建空间成功",
     "DELETE_BUCKET": "删除空间",
-    "DELETE_BUCKET_TIP": "删除该空间后，购买空间所用 GNX 无法退回，且其内部保存文件将全部丢失。是否确认删除？",
+    "DELETE_BUCKET_TIP": "确定要删除您已经购买的存储空间么？删除后，您将丢失该存储空间内的所有的文件，并且需要再次购买才能继续上传。",
     "DELETE_BUCKET_DONE": "空间已删除",
     "DELETE_BUCKET_CONFIRM": "确定删除下列空间",
     "CREATE_FOLDER": "新建文件夹",

@@ -53,7 +53,9 @@
       {{ 'INPUT.GAS' | translate }} {{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]">
-      <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (input)="ngModelChange.emit([$event.target.value, gasLimit])">
+      <nz-input-group nzAddOnAfter="Gan">
+        <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (input)="ngModelChange.emit([$event.target.value, gasLimit])">
+      </nz-input-group>
     </div>
   </div>
   <div nz-row nzType="flex" nzAlign="middle">

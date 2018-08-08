@@ -7,6 +7,14 @@
   background: $content-bg;
 }
 
+app-copy {
+  display: none;
+}
+
+td:hover app-copy {
+  display: inline;
+}
+
 nz-table {
   ::ng-deep nz-pagination>ul {
     position: relative;
@@ -64,7 +72,7 @@ nz-table {
   color: orange;
 }
 
-.addr-input{
+.addr-input {
   float: right;
   width: 300px;
 }
@@ -76,16 +84,14 @@ nz-table {
   box-shadow: $box-shadow;
   padding-left: 1rem;
   margin-bottom: 1rem;
-
   >.header {
-      padding-top: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-
-      >.searchInput{
-        width: 60%;
-        float: right;
-        margin-right: 1rem;
-      }
+    padding-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    >.searchInput {
+      width: 60%;
+      float: right;
+      margin-right: 1rem;
+    }
   }
 }
