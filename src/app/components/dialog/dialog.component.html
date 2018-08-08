@@ -203,8 +203,9 @@
 <!-- 删除容器 -->
 <nz-modal nzTitle="{{ 'EDEN.DELETE_BUCKET_CONFIRM' | translate }}" [nzVisible]="dialogName==='edenDeleteBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <div nz-col>
-    <div nz-row *ngFor="let bucket of options">{{ bucket.name }}</div>
+  <app-input name="password" [(ipt)]="edenDeleteBucket"></app-input>
+  <div nz-row>
+    <div nz-col nzOffset="6">{{ "EDEN.DELETE_BUCKET_TIP" | translate }}</div>
   </div>
 </nz-modal>
 
@@ -316,8 +317,8 @@
 </ng-template>
 
 <!-- 同意加入共建 -->
-<nz-modal [nzVisible]="dialogName==='approveJoin'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate" [nzFooter]="approveJoinFooter" class="buy-space">
+<nz-modal [nzVisible]="dialogName==='approveJoin'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate"
+  [nzFooter]="approveJoinFooter" class="buy-space">
   <ng-container *ngIf="approveJoinStep===0">
     <app-input name="gas" [(ipt)]="approveJoinGas"></app-input>
     <app-input name="password" [(ipt)]="approveJoinPassword"></app-input>

@@ -66,13 +66,11 @@ export class DialogComponent implements OnChanges {
   walletChangePasswordDone() {
     return new Promise((res, rej) => {
       if (this.walletChangePassword.new.length < 6) {
-        this.alert.error(this.i18n.instant('WALLETNEW.PASSWORD_NOT_SAFE_LENGTH'));
-        rej('PASSWORD_ERROR_WEAK');
+        rej(this.i18n.instant('WALLETNEW.PASSWORD_NOT_SAFE_LENGTH'));
         return;
       }
       if (this.walletChangePassword.new !== this.walletChangePassword.repeat) {
-        this.alert.error(this.i18n.instant('WALLETNEW.REPEAT_PASSWORD_ERROR'));
-        rej('PASSWORD_ERROR_REPEAT');
+        rej(this.i18n.instant('WALLETNEW.REPEAT_PASSWORD_ERROR'));
         return;
       }
       const address = this.walletService.wallets.current;
@@ -80,16 +78,14 @@ export class DialogComponent implements OnChanges {
         try {
           this.walletService.changePassword(address, this.walletChangePassword.old, this.walletChangePassword.new);
         } catch (e) {
-          this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
-          rej('PASSWORD_ERROR_OLD');
+          rej(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
           return;
         }
       } else {
         try {
           this.walletService.changePasswordByMnemonic(address, this.walletChangePassword.mnemonic, this.walletChangePassword.new);
         } catch (e) {
-          this.alert.error(e.message);
-          rej('MNEMONIC_ERROR');
+          rej(e.message);
           return;
         }
       }
@@ -112,8 +108,7 @@ export class DialogComponent implements OnChanges {
     return new Promise((res, rej) => {
       const address = this.walletService.wallets.current;
       if (!this.walletService.validatePassword(address, this.walletExportJson)) {
-        this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
-        rej('PASSWORD_ERROR_OLD');
+        rej(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
         return;
       }
       this.walletService.exportJson(address);
@@ -130,8 +125,7 @@ export class DialogComponent implements OnChanges {
     return new Promise((res, rej) => {
       const address = this.walletService.wallets.current;
       if (!this.walletService.validatePassword(address, this.walletDelete)) {
-        this.alert.error(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
-        rej('PASSWORD_ERROR_OLD');
+        rej(this.i18n.instant('WALLETNEW.OLD_PASSWORD_ERROR'));
         return;
       }
       nextTick(() => {
@@ -213,8 +207,20 @@ export class DialogComponent implements OnChanges {
 
 
   // eden 删除容器
+  edenDeleteBucket: string = "";
+  edenDeleteBucketInit() {
+    this.edenDeleteBucket = "";
+  };
   edenDeleteBucketDone() {
-    this.edenService.bucketDeleteTask(this.options);
+    return new Promise((res, rej) => {
+      let address = this.walletService.wallets.current;
+      if (this.walletService.validatePassword(address, this.edenDeleteBucket)) {
+        this.edenService.bucketDeleteTask(this.options);
+        res();
+      } else {
+        rej(this.i18n.instant("ERROR.PASSWORD"));
+      }
+    });
   }
 
 
@@ -249,10 +255,11 @@ export class DialogComponent implements OnChanges {
     if (this[`${this.dialogName}Done`]) {
       const result = this[`${this.dialogName}Done`]();
       if (result instanceof Promise) {
-        result.then(() => {
+        result.then(msg => {
+          if (msg) this.alert.success(msg);
           this.dialogNameChange.emit(null);
-        }).catch(e => {
-          console.log(e);
+        }).catch(msg => {
+          if (msg) this.alert.error(msg);
         });
       } else {
         this.dialogNameChange.emit(null);
