@@ -44,7 +44,7 @@
     "dnode": "^1.2.2",
     "ethereumjs-wallet": "^0.6.0",
     "genaro-web3": "^0.6.1",
-    "genaroshare-daemon": "^1.4.7",
+    "genaroshare-daemon": "^1.4.8",
     "hdkey": "^1.0.0",
     "jasmine": "^3.1.0",
     "jdenticon": "^2.1.0",
