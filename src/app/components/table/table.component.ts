@@ -173,7 +173,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           && states.length > 1 
           && states[0] === currentWalletAddr 
           && states[1]
-          && states[1].pendingState.role === Role.Free
+          && states[1].pendingState.role !== Role.Main
           && states[1].tempState.role !== Role.Main
         ) {
           self.canApplyJoin = true;
