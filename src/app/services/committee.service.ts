@@ -199,7 +199,7 @@ export class CommitteeService {
   }
 
   delete(address) {
-    this.ipc.dbRun('committee', `DELETE * FROM committee WHERE address='${address}'`);
+    this.ipc.dbRun('committee', `DELETE FROM committee WHERE address='${address}'`);
   }
 
   constructor(
