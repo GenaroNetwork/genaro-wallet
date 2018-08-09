@@ -183,18 +183,22 @@
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
-                <th nzWidth="40%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
-                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
-                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
+                <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+                <th nzWidth="15%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
+                <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
                 <th nzWidth="20%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
+                <th nzWidth="20%">{{ 'TABLE.COMMITTEE.RELIEVE' | translate }}</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data of paddingTeamTable.data">
-                <td nzWidth="40%">{{data.address | longAddr | shortAddr}}</td>
-                <td nzWidth="20%">{{data.stake}}</td>
-                <td nzWidth="20%">{{data.data_size}}</td>
+                <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
+                <td nzWidth="15%">{{data.stake}}</td>
+                <td nzWidth="15%">{{data.data_size}}</td>
                 <td nzWidth="20%">{{data.sentinel * 10000 | formatSentinel }}</td>
+                <td nzWidth="20%">
+                    <button nz-button *ngIf="data.showRelieve" nzType="primary" nzSize="small" (click)="action.emit(['relieve',data])">{{ 'TABLE.COMMITTEE.RELIEVE' | translate }}</button>
+                </td>
             </tr>
         </tbody>
     </nz-table>

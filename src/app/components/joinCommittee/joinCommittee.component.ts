@@ -22,6 +22,11 @@ export class JoinCommitteeComponent implements OnInit {
     this.mainAddress = data.address;
   }
 
+  relieve(data) {
+    this.dialogName = 'relieve';
+    this.mainAddress = data.address;
+  }
+
   tableAction(event) {
     const name = event[0];
     const args = event.slice(1);

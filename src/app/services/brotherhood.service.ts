@@ -66,7 +66,6 @@ class BrotherContract {
             subPromi.push(getSub(i))
           }
           Promise.all(subPromi).then(function(values) {
-            console.log(values);
             resolve(values)
           });
         } else {

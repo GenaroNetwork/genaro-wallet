@@ -345,4 +345,23 @@ export class DialogComponent implements OnChanges {
     await this.brotherhoodService.approveBrotherhood(this.approveJoinMainAddress, address, this.approveJoinPassword, this.approveJoinGas[1], this.approveJoinGas[0]);
     this.approveJoinStep++;
   }
+
+  // relieve
+  relieveGas: number[] = [null, 2100000];
+  relieveStep: number = 0;
+  relievePassword: string = '';
+  relieveMainAddress: string = '';
+  relieveInit() {
+    this.relieveStep = 0;
+    this.relieveMainAddress = this.address;
+  }
+  async relieveSubmit() {
+    const address = this.walletService.wallets.current;
+    if(address === this.relieveMainAddress) {
+      await this.txService.unBrotherAll(address, this.relievePassword, this.relieveGas[1], this.relieveGas[0]);
+    } else {
+      await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);
+    }
+    this.relieveStep++;
+  }
 }

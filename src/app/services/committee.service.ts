@@ -166,6 +166,12 @@ export class CommitteeService {
               if(subAccountIds[i]) {
                 let sa = await self.getFarmer(subAccountIds[i].toLowerCase()) || {};
                 sa.address = subAccountIds[i].toLowerCase();
+                if(states[0] === currentWalletAddr || sa.address === currentWalletAddr) {
+                  sa.showRelieve = true;
+                }
+                else {
+                  sa.showRelieve = false;
+                }
                 subAccounts.push(sa);
               }
             }
