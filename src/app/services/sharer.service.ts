@@ -85,6 +85,23 @@ export class SharerService {
     );
   }
 
+  private getNewPort(defaultPort) {
+    let ids = this.getSharerNodeIds();
+    let usedPorts = ids.map(id => {
+      let path = this.getConfigPathById(id);
+      try {
+        let config = JSON.parse(fs.readFileSync(path).toString());
+        return config.rpcPort;
+      } catch (err) {
+        return 0;
+      }
+    });
+    while(usedPorts.indexOf(defaultPort) > -1) {
+      defaultPort++;
+    }
+    return defaultPort;
+  }
+
   getSharerNodeIds() {
     if (!this.configIds) {
       this.initConfigs();
@@ -111,6 +128,7 @@ export class SharerService {
 
     config.storagePath = storPath;
     config.storageAllocation = shareSize + shareUnit;
+    config.rpcPort = this.getNewPort(config.rpcPort);
 
     const configFilePath = path.join(
       CONFIG_DIR,

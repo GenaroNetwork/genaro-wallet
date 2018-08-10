@@ -281,9 +281,9 @@
         <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
         <td nzWidth="30%">{{ data.address | longAddr | shortAddr}}</td>
         <td nzWidth="10%">{{ data.stake }}</td>
-        <td nzWidth="15%">{{ data.data_size }}</td>
+        <td nzWidth="15%">{{ data.data_size | formatSize }}</td>
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="15%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="15%">{{ (data.currentSubAccounts || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>
@@ -322,7 +322,7 @@
         <!-- <td nzWidth="15%">{{ data.nickName }}</td> -->
         <td nzWidth="15%">{{ data.address | longAddr | shortAddr}}</td>
         <td nzWidth="15%">{{ data.stake }}</td>
-        <td nzWidth="20%">{{ data.data_size }}</td>
+        <td nzWidth="20%">{{ data.data_size | formatSize }}</td>
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
         <td nzWidth="12%">{{ (data.subAccounts || []).length || 0}} / 10</td>
         <td nzWidth="15%">

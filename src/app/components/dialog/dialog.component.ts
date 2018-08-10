@@ -145,6 +145,7 @@ export class DialogComponent implements OnChanges {
   buySpacePassword = '';
   buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
+  buyLoading = false;
   buySpaceInit() {
     this.buySpaceStep = 0;
     this.buySpaceLimit = 0;
@@ -154,6 +155,7 @@ export class DialogComponent implements OnChanges {
     this.buySpaceLimitParams = [0, 30];
   }
   async buySpaceSubmit() {
+    this.buyLoading = true
     const address = this.walletService.wallets.current;
     await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
     this.buySpaceStep++;
@@ -166,6 +168,7 @@ export class DialogComponent implements OnChanges {
   buyTrafficParams: number[] = [0, 1];
   buyTrafficGas: number[] = [null, 2100000];
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
+  buySpaceLoading = false;
   buyTrafficInit() {
     this.buyTrafficPassword = '';
     this.buyTrafficStep = 0;
@@ -173,6 +176,7 @@ export class DialogComponent implements OnChanges {
     this.buyTrafficParams = [0, 1];
   }
   async buyTrafficSubmit() {
+    this.buySpaceLoading = true
     const address = this.walletService.wallets.current;
     await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
     this.buyTrafficStep++;
@@ -344,5 +348,24 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.approveBrotherhood(this.approveJoinMainAddress, address, this.approveJoinPassword, this.approveJoinGas[1], this.approveJoinGas[0]);
     this.approveJoinStep++;
+  }
+
+  // relieve
+  relieveGas: number[] = [null, 2100000];
+  relieveStep: number = 0;
+  relievePassword: string = '';
+  relieveMainAddress: string = '';
+  relieveInit() {
+    this.relieveStep = 0;
+    this.relieveMainAddress = this.address;
+  }
+  async relieveSubmit() {
+    const address = this.walletService.wallets.current;
+    if(address === this.relieveMainAddress) {
+      await this.txService.unBrotherAll(address, this.relievePassword, this.relieveGas[1], this.relieveGas[0]);
+    } else {
+      await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);
+    }
+    this.relieveStep++;
   }
 }

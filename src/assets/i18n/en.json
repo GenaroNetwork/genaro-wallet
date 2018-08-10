@@ -353,7 +353,8 @@
       "AGREE": "agree",
       "UPDATE_BLOCK": "Update Block",
       "NEXT_UPDATE_BLOCK": "Next Update Block of Committee",
-      "NODE_LIST": "Node List"
+      "NODE_LIST": "Node List",
+      "RELIEVE": "Relieve"
     }
   },
   "PANEL": {

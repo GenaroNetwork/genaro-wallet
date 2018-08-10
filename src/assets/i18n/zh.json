@@ -353,7 +353,8 @@
       "AGREE": "同意",
       "UPDATE_BLOCK": "更新区块",
       "NEXT_UPDATE_BLOCK": "次届委员会更新区块",
-      "NODE_LIST": "节点列表"
+      "NODE_LIST": "节点列表",
+      "RELIEVE": "解除"
     }
   },
   "PANEL": {
