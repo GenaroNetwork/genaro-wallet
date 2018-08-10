@@ -91,7 +91,7 @@ export const BRIDGE_API_URL = 'http://118.31.61.119:8080';
 // export const BRIDGE_API_URL = 'http://192.168.0.55:8080';
 export const DAEMON_CONFIG = require('./DAEMON_CONFIG.json');
 
-export const SENTINEL_WEB = 'http://118.31.61.119:8001';
+export const SENTINEL_WEB = 'http://sentinel.genaro.network';
 
 export const SENTINEL_API = 'http://118.31.61.119:8000';
 
