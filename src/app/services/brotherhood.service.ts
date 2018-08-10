@@ -29,10 +29,10 @@ class BrotherContract {
     return new Promise((resolve, reject) => {
       this.contract.methods.bind(addr).call(function (err, res) {
         if (err) {
-            reject(err)
-            return
+          reject(err)
+          return
         }
-        if(res === '0x0000000000000000000000000000000000000000') {
+        if (res === '0x0000000000000000000000000000000000000000') {
           res = '';
         }
         resolve(res);
@@ -46,8 +46,8 @@ class BrotherContract {
       return new Promise((resolve, reject) => {
         self.contract.methods.stakelink(addr, index).call(function (err, res) {
           if (err) {
-              reject(err)
-              return
+            reject(err)
+            return
           }
           resolve(res)
         })
@@ -60,13 +60,12 @@ class BrotherContract {
           return
         }
         count = parseInt(count)
-        if(count && count > 0) {
+        if (count && count > 0) {
           let subPromi = []
-          for(let i = 1; i < count ; i ++) {
+          for (let i = 1; i < count; i++) {
             subPromi.push(getSub(i))
           }
-          Promise.all(subPromi).then(function(values) {
-            console.log(values);
+          Promise.all(subPromi).then(function (values) {
             resolve(values)
           });
         } else {
@@ -325,7 +324,8 @@ export class BrotherhoodService {
   private async fetchPendingState(address: string) {
     const state = {
       mainAccount: await this.getPendingMainAccount(address),
-      subAccounts: await this.getPendingSubAccounts(address)
+      subAccounts: await this.getPendingSubAccounts(address),
+      role: null,
     };
     state['role'] = this.getRole(state);
     return state;
@@ -334,7 +334,8 @@ export class BrotherhoodService {
   private async fetchTempState(address: string) {
     const state = {
       mainAccount: await this.getTempMainAccount(address),
-      subAccounts: await this.getTempSubAccounts(address)
+      subAccounts: await this.getTempSubAccounts(address),
+      role: null,
     };
     state['role'] = this.getTempRole(state);
     return state;

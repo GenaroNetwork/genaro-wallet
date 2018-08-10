@@ -46,9 +46,9 @@ function createWindow() {
     y: 0,
     width: size.width,
     height: size.height,
-    webPreferences: {
-      experimentalFeatures: true,
-    }
+    // webPreferences: {
+    //   experimentalFeatures: true,
+    // }
   });
 
   // set menu

@@ -126,8 +126,8 @@ export class TxEdenService {
   async getAll(force: boolean = false) {
     try {
       await this.checkSig(force);
-      this.getBuckets(force);
-      this.getUserInfo(force);
+      await this.getBuckets(force);
+      await this.getUserInfo(force);
     } catch (e) {
       console.log(e);
     }

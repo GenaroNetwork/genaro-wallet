@@ -36,6 +36,11 @@
       </div>
     </ng-container>
   </div>
+  <div *ngIf="edenService.currentView.length === 0">
+    <div *ngIf="edenService.currentPath.length === 0">
+      {{ "EDEN.EMPTY_BUCKET_TIP" | translate }}
+    </div>
+  </div>
 </div>
 
 

@@ -55,7 +55,7 @@
   (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
-<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []" [nzNoResult]="'EDEN.EMPTY_BUCKET_TIP' | translate">
   <thead>
     <tr>
       <th></th>
@@ -79,7 +79,7 @@
 </nz-table>
 
 <!-- 抵押 -->
-<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate">
   <thead>
     <tr>
       <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -100,7 +100,7 @@
           {{ 'TXSHARER.REMOVE_NODE' | translate }}
         </button>
         <ng-template #removeNodePopover>
-          <app-form name="removeNode" [nodeId]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
+          <app-form name="removeNode" [opts]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
         </ng-template>
       </th>
     </tr>

@@ -210,3 +210,11 @@
     <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </div>
 </div>
+
+
+<!-- 文字 -->
+<div *ngIf="name==='text'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
+    {{ ngModel }}
+  </div>
+</div>
