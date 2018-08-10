@@ -55,7 +55,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ accountTeamInfo.data_size }}
+                            {{ accountTeamInfo.data_size | formatSize }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -88,7 +88,7 @@
                 <!-- <td nzWidth="15%">{{data.nickName}}</td> -->
                 <td nzWidth="45%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
-                <td nzWidth="20%">{{data.data_size}}</td>
+                <td nzWidth="20%">{{data.data_size | formatSize}}</td>
                 <td nzWidth="20%">{{data.sentinel * 10000 | formatSentinel }}</td>
             </tr>
         </tbody>
@@ -152,7 +152,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.data_size }}
+                            {{ paddingTeamInfo.data_size | formatSize }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -194,7 +194,7 @@
             <tr *ngFor="let data of paddingTeamTable.data">
                 <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
-                <td nzWidth="15%">{{data.data_size}}</td>
+                <td nzWidth="15%">{{data.data_size | formatSize}}</td>
                 <td nzWidth="20%">{{data.sentinel * 10000 | formatSentinel }}</td>
                 <td nzWidth="20%">
                     <button nz-button *ngIf="data.showRelieve" nzType="primary" nzSize="small" (click)="action.emit(['relieve',data])">{{ 'TABLE.COMMITTEE.RELIEVE' | translate }}</button>
@@ -218,7 +218,7 @@
             <tr *ngFor="let data of applyTeamTable.data">
                 <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="20%">{{data.stake}}</td>
-                <td nzWidth="20%">{{data.data_size}}</td>
+                <td nzWidth="20%">{{data.data_size | formatSize}}</td>
                 <td nzWidth="15%">{{data.sentinel * 10000 | formatSentinel }}</td>
                 <td nzWidth="15%">
                     <button nz-button nzType="primary" nzSize="small" [disabled]="data.flag" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>

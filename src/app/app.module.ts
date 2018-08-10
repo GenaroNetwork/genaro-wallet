@@ -49,6 +49,7 @@ import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
 import { HumanSizePipe } from './pipes/human.pipe';
 import { TablePipe } from './pipes/table.pipe';
 import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
+import { FormatSizePipe } from './pipes/formatSize.pipe';
 
 
 // AoT requires an exported function for factories
@@ -93,6 +94,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HumanSizePipe,
     TablePipe,
     FormatSentinelPipe,
+    FormatSizePipe,
     GetWalletPipe,
   ],
   imports: [
