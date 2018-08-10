@@ -75,30 +75,9 @@ export class CommitteeService {
     return arr;
   }
 
-  private async initCurrentSentinelRank() {
+  async getCurrentSentinelRank() {
     this.currentSentinelRanks = [];
     const datas = await this.getSentinel();
-    // if (datas) {
-    //   datas.forEach((d, i) => {
-    //     d.order = i;
-    //     this.currentSentinelRanks.push(d.address);
-    //     this.brotherhoodService.addFetchingAddress(d.address);
-    //   });
-
-    //   let self = this;
-    //   this.brotherhoodService.stateUpdate.subscribe(states => {
-    //     if (states && states.length > 1) {
-    //       for (let i = 0, length = datas.length; i < length; i++) {
-    //         const d = datas[i];
-    //         if (d.address === states[0] && states[1].paddingState) {
-    //           d.subAccounts = states[1].paddingState.subAccounts;
-    //           break;
-    //         }
-    //       }
-    //       self.currentSentinelRank.next(datas);
-    //     }
-    //   });
-    // }
     if (datas) {
       datas.forEach(async (d, i) => {
         d.order = i;
@@ -107,7 +86,17 @@ export class CommitteeService {
         if(state.pendingState) {
           d.subAccounts = state.pendingState.subAccounts;
         }
+        if(state.currentState) {
+          d.currentSubAccounts = state.currentState.subAccounts;
+        }
       });
+    }
+    return datas;
+  }
+
+  private async initCurrentSentinelRank() {
+    const datas = await this.getCurrentSentinelRank();
+    if (datas) {
       this.currentSentinelRank.next(datas);
     }
   }

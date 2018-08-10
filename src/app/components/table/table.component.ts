@@ -129,25 +129,30 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // rank
   rankData: any[] = [];
   rankAddress = '';
-  rankState: any;
+  rankInterval: any;
   rankInit() {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
     let self = this;
-    this.rankState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.rankData = ranks;
-    });
+    this.rankInterval = setInterval(async () => {
+      self.rankData = await self.committeeService.getCurrentSentinelRank();
+    }, 10 * 1000);
   }
   async searchRankFarmer() {
-    if(this.rankState) {
-      this.rankState.unsubscribe();
+    if(this.rankInterval) {
+      clearInterval(this.rankInterval);
     }
     if(this.rankAddress) {
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
     }
     else {
       this.rankDataUpdate();
+    }
+  }
+  rankDestroy() {
+    if(this.rankInterval) {
+      clearInterval(this.rankInterval);
     }
   }
 
@@ -219,6 +224,11 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           cd.canApplyJoin = true;
         }
       })
+    }
+  }
+  committeeDestroy() {
+    if(this.committeeState) {
+      this.committeeState.unsubscribe();
     }
   }
 

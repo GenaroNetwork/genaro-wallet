@@ -283,7 +283,7 @@
         <td nzWidth="10%">{{ data.stake }}</td>
         <td nzWidth="15%">{{ data.data_size | formatSize }}</td>
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="15%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="15%">{{ (data.currentSubAccounts || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>
