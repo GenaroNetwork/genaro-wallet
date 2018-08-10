@@ -65,11 +65,7 @@ class BrotherContract {
           for (let i = 1; i < count; i++) {
             subPromi.push(getSub(i))
           }
-<<<<<<< HEAD
           Promise.all(subPromi).then(function (values) {
-=======
-          Promise.all(subPromi).then(function(values) {
->>>>>>> 9e5bd586edc827a8793688bc56411835da8f939d
             resolve(values)
           });
         } else {
