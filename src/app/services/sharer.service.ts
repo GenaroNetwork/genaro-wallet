@@ -257,9 +257,9 @@ export class SharerService {
               data.id = share.id;
               data.location = config.storagePath;
               data.shareBasePath = config.shareBasePath;
-              data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
               data.storageAllocation = config.storageAllocation;
-              data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) || 0;
+              data.spaceUsed = ((!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed) > data.storageAllocation ? data.storageAllocation : farmerState.spaceUsed;
+              data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) > 100 ? 100 : farmerState.percentUsed;
               data.time = prettyms(share.meta.uptimeMs);
               data.restarts = share.meta.numRestarts || 0;
               data.peers = farmerState.totalPeers;
