@@ -102,6 +102,20 @@ export class SharerService {
     return defaultPort;
   }
 
+  private convert(space){
+    var start=space.match(/([KMGT]?)B/);
+    var head=parseInt(space.substring(0,start.index));
+    var tail=space.substring(start.index)
+    var vmap=new Map();
+    vmap.set("B",1);
+    vmap.set("KB",Math.pow(10,3));
+    vmap.set("MB",Math.pow(10,6));
+    vmap.set("GB",Math.pow(10,9));
+    vmap.set("TB",Math.pow(10,312));
+  
+    return(vmap.get(tail)*head);
+  }
+
   getSharerNodeIds() {
     if (!this.configIds) {
       this.initConfigs();
@@ -258,8 +272,10 @@ export class SharerService {
               data.location = config.storagePath;
               data.shareBasePath = config.shareBasePath;
               data.storageAllocation = config.storageAllocation;
-              data.spaceUsed = ((!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed) > data.storageAllocation ? data.storageAllocation : farmerState.spaceUsed;
-              data.percentUsed = (farmerState.percentUsed == '...' ? 0 : farmerState.percentUsed) > 100 ? 100 : farmerState.percentUsed;
+              data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
+              data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
+              var percentUsed= parseInt(farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
+              data.percentUsed =  percentUsed > 100 ? 100 : percentUsed;
               data.time = prettyms(share.meta.uptimeMs);
               data.restarts = share.meta.numRestarts || 0;
               data.peers = farmerState.totalPeers;
