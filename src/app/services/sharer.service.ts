@@ -6,6 +6,7 @@ import prettyms from 'pretty-ms';
 import { TransactionService } from './transaction.service';
 import { DAEMON_CONFIG } from '../libs/config';
 import { IpcService } from './ipc.service';
+import { parse } from 'url';
 
 const path = require('path');
 const fs = require('fs');
@@ -104,7 +105,7 @@ export class SharerService {
 
   private convert(space){
     var start=space.match(/([KMGT]?)B/);
-    var head=parseInt(space.substring(0,start.index));
+    var head=parseFloat(space.substring(0,start.index));
     var tail=space.substring(start.index)
     var vmap=new Map();
     vmap.set("B",1);
@@ -274,7 +275,7 @@ export class SharerService {
               data.storageAllocation = config.storageAllocation;
               data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
               data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
-              var percentUsed= parseInt(farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
+              var percentUsed= parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
               data.percentUsed =  percentUsed > 100 ? 100 : percentUsed;
               data.time = prettyms(share.meta.uptimeMs);
               data.restarts = share.meta.numRestarts || 0;
