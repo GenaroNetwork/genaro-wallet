@@ -1,4 +1,4 @@
-<div>
+<nz-card [nzBordered]="false">
   <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()" (nzOnCancel)="modalVisible=false">
     <p>{{modalMessage | translate}}</p>
   </nz-modal>
@@ -92,5 +92,5 @@
       </ng-template>
     </div>
   </div>
-</div>
-<app-table name="sharer" [opt]="sharer.tableOpt" (action)="tableAction($event)"></app-table>
+  <app-table name="sharer" [opt]="sharer.tableOpt" (action)="tableAction($event)"></app-table>
+</nz-card>
