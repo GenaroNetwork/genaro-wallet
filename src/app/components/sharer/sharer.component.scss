@@ -1,6 +1,6 @@
 @import "../../config.scss";
 :host {
-  display: flex;
+  //display: flex;
   flex-direction: column;
   &>div {
     flex: 0 3rem;
@@ -55,6 +55,19 @@ nz-switch {
   border: 1px solid #dddee1;
 }
 
-.layout-header {
-  height: 48px;
+nz-card {
+  height: 100%;
+  border-radius: $border-radius;
+
+  .layout-header {
+    height: 48px;
+  }
+
+  app-table {
+      width: 100%;
+      height: calc(100% - 72px);
+      position: absolute;
+      left: 0;
+      right: 0;
+  }
 }
