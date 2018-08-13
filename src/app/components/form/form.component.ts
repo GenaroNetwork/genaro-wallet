@@ -1,18 +1,18 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { SharerService } from '../../services/sharer.service';
+import { BrotherhoodService } from '../../services/brotherhood.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnChanges {
 
   @Input('name') name: string = null;
   @Input('opts') options: any = {};
-  @Input('nodeId') nodeId: string = null;
 
   @Output('submit') onSubmit: EventEmitter<any> = new EventEmitter;
   @Output('cancel') onCancel: EventEmitter<any> = new EventEmitter;
@@ -44,10 +44,18 @@ export class FormComponent implements OnInit {
 
   // 压注
   stakeType = 0; // stake or unstake
+  stakeUnstakable: Number = 0;
   stakeStep = 0;
   stakeGNX = 5000;
   stakeGas: number[] = [null, 2100000];
   stakePassword = '';
+  async stakeInit() {
+    let addr = this.walletService.wallets.current;
+    let state = await this.bhService.fetchState(addr);
+    this.stakeUnstakable = 0;
+    if (state.pendingState.role === "Free") this.stakeUnstakable = 0;
+    else this.stakeUnstakable = -1;
+  }
   async  stakeConfirm() {
     const address = this.walletService.wallets.current;
     switch (this.stakeType) {
@@ -72,6 +80,12 @@ export class FormComponent implements OnInit {
   bindNodeToken: any = '';
   bindNodeGas: number[] = [null, 2100000];
   bindNodePassword = '';
+  bindNodeInit() {
+    this.selectBindNodes = this.sharerService.getSharerNodeIds();
+    if (this.selectBindNodes.length === 0) {
+      this.bindNodeTokenFlg = true;
+    }
+  }
   async bindNodeConfirm() {
     const address = this.walletService.wallets.current;
     if (!this.bindNodeTokenFlg) {
@@ -102,6 +116,9 @@ export class FormComponent implements OnInit {
   removeNodeId = '';
   removeNodeGas: number[] = [null, 2100000];
   removeNodePassword = '';
+  removeNodeInit() {
+    this.removeNodeId = this.options;
+  }
   async removeNodeConfirm() {
     const address = this.walletService.wallets.current;
     await this.txService.removeNode(address, this.removeNodePassword, this.removeNodeId, this.removeNodeGas[1], this.removeNodeGas[0]);
@@ -112,18 +129,15 @@ export class FormComponent implements OnInit {
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
-    private sharerService: SharerService
+    private sharerService: SharerService,
+    private bhService: BrotherhoodService,
   ) {
   }
 
-  ngOnInit() {
-    if (this.name === 'removeNode') {
-      this.removeNodeId = this.nodeId;
-    } else if (this.name === 'bindNode') {
-      this.selectBindNodes = this.sharerService.getSharerNodeIds();
-      if (this.selectBindNodes.length === 0) {
-        this.bindNodeTokenFlg = true;
-      }
+  ngOnChanges(changes: { [prop: string]: SimpleChange }) {
+    if (changes.name) {
+      let newValue = changes.name.currentValue;
+      if (this[`${newValue}Init`]) this[`${newValue}Init`]();
     }
   }
 

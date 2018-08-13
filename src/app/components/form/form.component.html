@@ -14,17 +14,21 @@
     <nz-tab nzTitle="{{ 'TXSHARER.STAKE' | translate }}">
       <app-input name="stake" [(ipt)]="stakeGNX"></app-input>
       <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
-      <div nz-row class="preview">
-        <div nz-col nzSpan="18" nzOffset="6">
-          {{ 'TXSHARER.MAX_STAKE_NODE' | translate }} {{ stakeGNX | maxNode }}</div>
-      </div>
+      <app-input name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + (stakeGNX | maxNode)"></app-input>
       <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
       <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
-      <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
-      <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-      <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
+      <app-input [span]="[2,20]" *ngIf="stakeUnstakable===-1" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_DISABLED' | translate"></app-input>
+      <ng-container *ngIf="stakeUnstakable===0">
+        <app-input [span]="[2,20]" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_ENABLED' | translate"></app-input>
+        <app-input [span]="[2,20]" name="confirm" (iptChange)="stakeUnstakable=1"></app-input>
+      </ng-container>
+      <ng-container *ngIf="stakeUnstakable===1">
+        <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
+        <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
+        <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
+      </ng-container>
     </nz-tab>
   </nz-tabset>
   <div *ngIf="stakeStep===1">

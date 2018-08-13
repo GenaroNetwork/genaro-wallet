@@ -1,4 +1,4 @@
-import { Injectable, ApplicationRef, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Environment } from 'libgenaro';
 import { WalletService } from './wallet.service';
 import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE } from '../libs/config';
@@ -8,7 +8,7 @@ import { IpcService } from './ipc.service';
 import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';
 import { basename, join } from 'path';
-import { Subject, throwError } from 'rxjs';
+import { TransactionService } from './transaction.service';
 // &#47; => 正斜杠
 
 @Injectable({
@@ -31,7 +31,6 @@ export class EdenService {
     page: 1,
   };
   tasks: any[] = [];
-  events: Subject<any> = new Subject;
 
   constructor(
     private walletService: WalletService,
@@ -39,11 +38,16 @@ export class EdenService {
     private i18n: TranslateService,
     private ipc: IpcService,
     private zone: NgZone,
+    private txService: TransactionService,
   ) {
     this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) { return; }
       this.updateAll();
       this.loadTask();
+    });
+
+    this.txService.newBlockHeaders.subscribe(() => {
+      if (this.currentPath.length === 0) this.updateAll();
     });
   }
 
@@ -326,15 +330,22 @@ export class EdenService {
         this.messageService.error(this.i18n.instant('EDEN.UPLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
         this.messageService.warning(this.i18n.instant('EDEN.UPLOAD_FILE_ERROR', { errCount }));
-           } else {
+      } else {
         this.messageService.success(this.i18n.instant('EDEN.UPLOAD_FILE_DONE'));
-           }
+      }
     });
   }
 
-  fileDownloadTask(files: any | any[]) {
+  fileDownloadTask(files: any | any[], traffic: number) {
     if (!(files instanceof Array)) {
       files = [files];
+    }
+    files.forEach(file => {
+      traffic -= file.size;
+    });
+    if (traffic < 0) {
+      this.messageService.error(this.i18n.instant("EDEN.DOWNLOAD_FILE_TRAFFIC_ERROR"));
+      return;
     }
     let nativePath;
     if (files.length === 1) {
@@ -388,9 +399,9 @@ export class EdenService {
         this.messageService.error(this.i18n.instant('EDEN.DOWNLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
         this.messageService.warning(this.i18n.instant('EDEN.DOWNLOAD_FILE_ERROR', { errCount }));
-           } else {
+      } else {
         this.messageService.success(this.i18n.instant('EDEN.DOWNLOAD_FILE_DONE'));
-           }
+      }
     });
   }
 

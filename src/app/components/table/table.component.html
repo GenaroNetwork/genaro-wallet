@@ -55,7 +55,7 @@
   (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
-<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []" [nzNoResult]="'EDEN.EMPTY_BUCKET_TIP' | translate">
   <thead>
     <tr>
       <th></th>
@@ -79,7 +79,7 @@
 </nz-table>
 
 <!-- 抵押 -->
-<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate">
   <thead>
     <tr>
       <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -100,7 +100,7 @@
           {{ 'TXSHARER.REMOVE_NODE' | translate }}
         </button>
         <ng-template #removeNodePopover>
-          <app-form name="removeNode" [nodeId]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
+          <app-form name="removeNode" [opts]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
         </ng-template>
       </th>
     </tr>
@@ -281,9 +281,9 @@
         <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
         <td nzWidth="30%">{{ data.address | longAddr | shortAddr}}</td>
         <td nzWidth="10%">{{ data.stake }}</td>
-        <td nzWidth="15%">{{ data.data_size }}</td>
+        <td nzWidth="15%">{{ data.data_size | formatSize }}</td>
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="15%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="15%">{{ (data.currentSubAccounts || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>
@@ -322,11 +322,11 @@
         <!-- <td nzWidth="15%">{{ data.nickName }}</td> -->
         <td nzWidth="15%">{{ data.address | longAddr | shortAddr}}</td>
         <td nzWidth="15%">{{ data.stake }}</td>
-        <td nzWidth="20%">{{ data.data_size }}</td>
+        <td nzWidth="20%">{{ data.data_size | formatSize }}</td>
         <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
         <td nzWidth="12%">{{ (data.subAccounts || []).length || 0}} / 10</td>
         <td nzWidth="15%">
-          <button nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin" (click)="action.emit(['join',data])">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
+          <button nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin || !data.canApplyJoin" (click)="action.emit(['join',data]);activateJoinButton();">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
         </td>
       </tr>
     </tbody>

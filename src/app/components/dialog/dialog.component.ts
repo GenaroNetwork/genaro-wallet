@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
+import { CommitteeService } from '../../services/committee.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { nextTick } from 'q';
@@ -28,6 +29,7 @@ export class DialogComponent implements OnChanges {
     private txEdenService: TxEdenService,
     public settingService: SettingService,
     private brotherhoodService: BrotherhoodService,
+    private committeeService: CommitteeService,
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -38,7 +40,8 @@ export class DialogComponent implements OnChanges {
   walletChangeName = '';
   walletChangeNameInit() {
     const address = this.walletService.wallets.current;
-    this.walletChangeName = this.walletService.wallets.all[address].name;
+    let wallet = this.walletService.wallets.all.find(wallet => wallet.address === address);
+    this.walletChangeName = wallet.name;
   }
   walletChangeNameDone() {
     const address = this.walletService.wallets.current;
@@ -142,6 +145,7 @@ export class DialogComponent implements OnChanges {
   buySpacePassword = '';
   buySpaceGas: number[] = [null, 2100000];
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
+  buyLoading = false;
   buySpaceInit() {
     this.buySpaceStep = 0;
     this.buySpaceLimit = 0;
@@ -151,6 +155,7 @@ export class DialogComponent implements OnChanges {
     this.buySpaceLimitParams = [0, 30];
   }
   async buySpaceSubmit() {
+    this.buyLoading = true
     const address = this.walletService.wallets.current;
     await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
     this.buySpaceStep++;
@@ -163,6 +168,7 @@ export class DialogComponent implements OnChanges {
   buyTrafficParams: number[] = [0, 1];
   buyTrafficGas: number[] = [null, 2100000];
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
+  buySpaceLoading = false;
   buyTrafficInit() {
     this.buyTrafficPassword = '';
     this.buyTrafficStep = 0;
@@ -170,6 +176,7 @@ export class DialogComponent implements OnChanges {
     this.buyTrafficParams = [0, 1];
   }
   async buyTrafficSubmit() {
+    this.buySpaceLoading = true
     const address = this.walletService.wallets.current;
     await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
     this.buyTrafficStep++;
@@ -325,6 +332,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
     this.joinCommitteeStep++;
+    this.committeeService.update(address, this.joinCommitteeMainAddress);
   }
 
   // approveJoin
@@ -340,5 +348,24 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.approveBrotherhood(this.approveJoinMainAddress, address, this.approveJoinPassword, this.approveJoinGas[1], this.approveJoinGas[0]);
     this.approveJoinStep++;
+  }
+
+  // relieve
+  relieveGas: number[] = [null, 2100000];
+  relieveStep: number = 0;
+  relievePassword: string = '';
+  relieveMainAddress: string = '';
+  relieveInit() {
+    this.relieveStep = 0;
+    this.relieveMainAddress = this.address;
+  }
+  async relieveSubmit() {
+    const address = this.walletService.wallets.current;
+    if(address === this.relieveMainAddress) {
+      await this.txService.unBrotherAll(address, this.relievePassword, this.relieveGas[1], this.relieveGas[0]);
+    } else {
+      await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);
+    }
+    this.relieveStep++;
   }
 }

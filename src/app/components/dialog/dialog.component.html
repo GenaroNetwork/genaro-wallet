@@ -90,7 +90,7 @@
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" (click)="buySpaceSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [(nzLoading)]="buyLoading" (click)="buySpaceSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
@@ -126,7 +126,7 @@
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [(nzLoading)]="buySpaceLoading" (click)="buyTrafficSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
@@ -332,6 +332,26 @@
     <button nz-button nzSize="large" nzType="primary" (click)="approveJoinSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="approveJoinStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+  </ng-container>
+</ng-template>
+
+<!-- relieve -->
+<nz-modal [nzVisible]="dialogName==='relieve'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TABLE.COMMITTEE.RELIEVE' | translate"
+  [nzFooter]="relieveFooter" class="buy-space">
+  <ng-container *ngIf="relieveStep===0">
+    <app-input name="gas" [(ipt)]="relieveGas"></app-input>
+    <app-input name="password" [(ipt)]="relievePassword"></app-input>
+  </ng-container>
+  <ng-container *ngIf="relieveStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #relieveFooter>
+  <ng-container *ngIf="relieveStep===0">
+    <button nz-button nzSize="large" nzType="primary" (click)="relieveSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="relieveStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
   </ng-container>
 </ng-template>

@@ -189,7 +189,10 @@
     "HEFT_RANK": "权重排名： <span>{{ rank }}<span> 名</span></span>",
     "STAKE_AMOUNT": "押注总额：<span>{{ stake }}<span> GNX</span></span>",
     "REMOVE_NODE": "解绑",
-    "NO_BIND_ID": "节点id不在列表中，输入token进行绑定"
+    "NO_BIND_ID": "节点id不在列表中，输入token进行绑定",
+    "NONE_BINDED_TIP": "暂无绑定的节点，“押注”成功后，绑定分享的节点，获取存储收益。",
+    "UNSTAKE_TIP_ENABLED": "解注申请发出后，将无法再次进行押注操作，同时不再获得任何权重和收益奖励。\n在 4 到 5 天后，押注资产将自动解除锁定。\n你的资产将恢复可用，可以再次进行押注或转账。",
+    "UNSTAKE_TIP_DISABLED": "你当前处于组队状态，无法解除押注，请先解除组队关系，再次申请。"
   },
   "EDEN": {
     "HOME_DIR": "根目录",
@@ -202,6 +205,7 @@
     "UPLOAD_FILE_ERROR_ALL": "上传文件失败",
     "DOWNLOAD_FILE": "下载文件",
     "DOWNLOAD_FILE_DONE": "下载文件完成",
+    "DOWNLOAD_FILE_TRAFFIC_ERROR": "下载失败，流量不足。",
     "DOWNLOAD_FILE_ERROR": "下载完成，其中有 {{ errCount }} 个文件下载失败",
     "DOWNLOAD_FILE_ERROR_ALL": "下载失败",
     "REMOVE_FILE": "删除文件",
@@ -218,7 +222,8 @@
     "CREATE_FOLDER": "新建文件夹",
     "DELETE_FOLDER": "删除文件夹",
     "REMOVE_TASK_SUCCESS": "已删除任务记录",
-    "STOP_TASK_SUCCESS": "已停止任务"
+    "STOP_TASK_SUCCESS": "已停止任务",
+    "EMPTY_BUCKET_TIP": "暂无存储空间，点击“购买空间”按钮，购买存储空间，上传需要存储的文件。"
   },
   "TASK": {
     "FILE_NAME": "文件名",
@@ -348,7 +353,8 @@
       "AGREE": "同意",
       "UPDATE_BLOCK": "更新区块",
       "NEXT_UPDATE_BLOCK": "次届委员会更新区块",
-      "NODE_LIST": "节点列表"
+      "NODE_LIST": "节点列表",
+      "RELIEVE": "解除"
     }
   },
   "PANEL": {

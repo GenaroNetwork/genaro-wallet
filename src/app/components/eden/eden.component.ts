@@ -4,6 +4,7 @@ import { remote } from 'electron';
 import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { TxEdenService } from '../../services/txEden.service';
 
 
 
@@ -15,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 export class EdenComponent implements OnInit {
   constructor(
     public edenService: EdenService,
+    private txEdenService: TxEdenService,
     public walletService: WalletService,
     private i18n: TranslateService,
     private route: ActivatedRoute,
@@ -94,9 +96,10 @@ export class EdenComponent implements OnInit {
   rightClick(event: MouseEvent) {
     const menu = new remote.Menu();
     if (this.edenService.currentPath.length === 0) {
-      if (this.fileSelected.size === 1) { menu.append(new remote.MenuItem({
-        label: this.i18n.instant('EDEN.OPEN'), click: this.openBucket.bind(this)
-      }));
+      if (this.fileSelected.size === 1) {
+        menu.append(new remote.MenuItem({
+          label: this.i18n.instant('EDEN.OPEN'), click: this.openBucket.bind(this)
+        }));
       }
       menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.CREATE_BUCKET'), click: this.createBucket.bind(this) }));
       if (this.fileSelected.size > 0) { menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.DELETE_BUCKET'), click: this.deleteBucket.bind(this) })); }
@@ -120,8 +123,12 @@ export class EdenComponent implements OnInit {
   uploadFile() {
     this.edenService.fileUploadTask();
   }
-  downloadFile() {
-    this.edenService.fileDownloadTask(this.getCurrentFiles());
+  async downloadFile() {
+    await this.txEdenService.getAll()
+    let user = this.txEdenService.currentUser;
+    let used = user.usedDownloadBytes || 0;
+    let all = user.limitBytes || 0;
+    this.edenService.fileDownloadTask(this.getCurrentFiles(), all - used);
   }
   removeFile() {
     this.edenService.fileRemoveTask(this.getCurrentFiles());

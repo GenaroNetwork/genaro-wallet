@@ -14,12 +14,16 @@
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
-          {{ walletService.wallets.all[walletService.wallets.current].name || ("HEADER.NO_ACCOUNT" | translate) }}
+          <nz-avatar [nzSrc]="('avatar://' + walletService.wallets.current) | safe"></nz-avatar>
+          {{ (walletService.wallets.all | getWallet:walletService.wallets.current).name || ("HEADER.NO_ACCOUNT" | translate) }}
           <i class="anticon anticon-down"></i>
         </a>
         <ul nz-menu>
-          <li nz-menu-item *ngFor="let wallet of walletService.walletList | async | slice:0:10">
-            <a nz-row nzSpan="14" (click)="walletService.currentWallet.next(wallet)">{{ wallet.name }} {{ i }}</a>
+          <li nz-menu-item *ngFor="let wallet of walletService.wallets.all">
+            <a nz-row nzSpan="14" (click)="walletService.currentWallet.next(wallet)">
+              <nz-avatar nzSize="small" [nzSrc]="('avatar://' + wallet.address) | safe"></nz-avatar>
+              {{ wallet.name }}
+            </a>
           </li>
           <li nz-menu-divider></li>
           <li nz-menu-item (click)="walletNewShown=true">

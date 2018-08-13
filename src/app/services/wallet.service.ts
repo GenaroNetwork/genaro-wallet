@@ -35,11 +35,7 @@ export class WalletService {
       const addrs = addrArr.join(',');
 
       // 更改当前钱包
-      const allWallets = [];
-      walletList.forEach(wallet => {
-        allWallets[wallet.address] = wallet;
-      });
-      this.wallets.all = allWallets;
+      this.wallets.all = walletList;
       if (walletList.length === 0) {
         this.currentWallet.next(null);
         return;
@@ -77,7 +73,7 @@ export class WalletService {
 
   private setNewWalletName(v3json) {
     let address = v3json.address;
-    return this.i18n.instant('WALLETNEW.WALLET_NAME_PREFIX') + ' 0x' + address.slice(0,2);
+    return this.i18n.instant('WALLETNEW.WALLET_NAME_PREFIX') + ' 0x' + address.slice(0, 2);
   }
 
   private sendNick(address, password, name) {

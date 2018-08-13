@@ -42,13 +42,14 @@ import { PanelComponent } from './components/panel/panel.component';
 
 
 // pipes
-import { LongAddrPipe, ShortAddrPipe } from './pipes/addr.pipe';
+import { LongAddrPipe, ShortAddrPipe, GetWalletPipe } from './pipes/addr.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { TranserUnitPipe, ShortGNXPipe } from './pipes/web3Util.pipe';
 import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
 import { HumanSizePipe } from './pipes/human.pipe';
 import { TablePipe } from './pipes/table.pipe';
 import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
+import { FormatSizePipe } from './pipes/formatSize.pipe';
 
 
 // AoT requires an exported function for factories
@@ -93,6 +94,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HumanSizePipe,
     TablePipe,
     FormatSentinelPipe,
+    FormatSizePipe,
+    GetWalletPipe,
   ],
   imports: [
     BrowserModule,

@@ -8,9 +8,7 @@
 }
 
 .stake {
-  .preview {
-    margin-bottom: 1rem;
-  }
+  max-width: 30rem;
 }
 
 .bind-node {
@@ -21,4 +19,8 @@
   font-size: 5rem;
   margin: 1rem 2rem;
   color: $success-color;
+}
+
+.tip {
+  width: 20rem;
 }

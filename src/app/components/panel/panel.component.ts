@@ -30,7 +30,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   async rankInit() {
     let self = this;
     this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
-      if(data.address) {
+      if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
       }
       self.accountTeamInfo = data || {};
@@ -50,7 +50,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   async committeeInit() {
     let self = this;
     this.paddingSubscribe = this.committeeService.paddingMainWalletState.subscribe((data) => {
-      if(data.address) {
+      if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
       }
       self.paddingTeamInfo = data || {};

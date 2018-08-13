@@ -63,6 +63,13 @@ export default class {
             error TEXT
         )`).run();
 
+        // committee
+        sql.committee = new DB(join(SQLITE_CONFIG_PATH, "committee.sqlite"));
+        sql.committee.prepare(`CREATE TABLE IF NOT EXISTS committee (
+            address TEXT,
+            applyAddress TEXT
+        )`).run();
+
         for (let name in sql) {
             let env = sql[name];
             ipcMain.on(`db.${name}.run`, (event, ipcId, sql) => {
@@ -70,6 +77,7 @@ export default class {
                     env.prepare(sql).run();
                     event.sender.send(`db.${name}.run.${ipcId}`);
                 } catch (e) {
+                    console.log(sql);
                     console.log(e);
                 }
             });

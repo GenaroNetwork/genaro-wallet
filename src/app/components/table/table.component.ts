@@ -129,25 +129,30 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // rank
   rankData: any[] = [];
   rankAddress = '';
-  rankState: any;
+  rankInterval: any;
   rankInit() {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
     let self = this;
-    this.rankState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.rankData = ranks;
-    });
+    this.rankInterval = setInterval(async () => {
+      self.rankData = await self.committeeService.getCurrentSentinelRank();
+    }, 10 * 1000);
   }
   async searchRankFarmer() {
-    if(this.rankState) {
-      this.rankState.unsubscribe();
+    if(this.rankInterval) {
+      clearInterval(this.rankInterval);
     }
     if(this.rankAddress) {
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
     }
     else {
       this.rankDataUpdate();
+    }
+  }
+  rankDestroy() {
+    if(this.rankInterval) {
+      clearInterval(this.rankInterval);
     }
   }
 
@@ -173,11 +178,15 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           && states.length > 1 
           && states[0] === currentWalletAddr 
           && states[1]
-          && states[1].pendingState.role === Role.Free
-          && states[1].tempState.role === Role.Free
+          && states[1].pendingState.role !== Role.Main
+          && states[1].tempState.role !== Role.Main
         ) {
           self.canApplyJoin = true;
+          if(states[1].tempState.role !== Role.Sub) {
+            self.committeeService.delete(currentWalletAddr);
+          }
         }
+        self.activateJoinButton.apply(self);
       });
     });
   }
@@ -185,6 +194,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     let self = this;
     this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
       self.committeeData = ranks;
+      self.activateJoinButton.apply(self);
     });
   }
   async searchFarmer() {
@@ -193,11 +203,35 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
     if(this.committeeAddress) {
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
+      this.activateJoinButton();
     }
     else {
       this.committeeDataUpdate();
     }
   }
+  async activateJoinButton() {
+    if(this.committeeData) {
+      let currentWalletAddr = this.walletService.wallets.current;
+      let hasAppliedAccounts = await this.committeeService.get(currentWalletAddr) || [];
+      let acs = hasAppliedAccounts.map(a => {
+        return a.applyAddress;
+      })
+      this.committeeData.forEach(cd => {
+        if(acs.indexOf(cd.address) > -1) {
+          cd.canApplyJoin = false;
+        }
+        else {
+          cd.canApplyJoin = true;
+        }
+      })
+    }
+  }
+  committeeDestroy() {
+    if(this.committeeState) {
+      this.committeeState.unsubscribe();
+    }
+  }
+
 
   // currentCommittee
   currentCommitteeData: any[] = [];

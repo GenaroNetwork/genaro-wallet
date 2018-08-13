@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IpcService } from './ipc.service';
 import { TOP_FARMER_URL, FARMER_URL, Role } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
@@ -74,30 +75,9 @@ export class CommitteeService {
     return arr;
   }
 
-  private async initCurrentSentinelRank() {
+  async getCurrentSentinelRank() {
     this.currentSentinelRanks = [];
     const datas = await this.getSentinel();
-    // if (datas) {
-    //   datas.forEach((d, i) => {
-    //     d.order = i;
-    //     this.currentSentinelRanks.push(d.address);
-    //     this.brotherhoodService.addFetchingAddress(d.address);
-    //   });
-
-    //   let self = this;
-    //   this.brotherhoodService.stateUpdate.subscribe(states => {
-    //     if (states && states.length > 1) {
-    //       for (let i = 0, length = datas.length; i < length; i++) {
-    //         const d = datas[i];
-    //         if (d.address === states[0] && states[1].paddingState) {
-    //           d.subAccounts = states[1].paddingState.subAccounts;
-    //           break;
-    //         }
-    //       }
-    //       self.currentSentinelRank.next(datas);
-    //     }
-    //   });
-    // }
     if (datas) {
       datas.forEach(async (d, i) => {
         d.order = i;
@@ -106,7 +86,17 @@ export class CommitteeService {
         if(state.pendingState) {
           d.subAccounts = state.pendingState.subAccounts;
         }
+        if(state.currentState) {
+          d.currentSubAccounts = state.currentState.subAccounts;
+        }
       });
+    }
+    return datas;
+  }
+
+  private async initCurrentSentinelRank() {
+    const datas = await this.getCurrentSentinelRank();
+    if (datas) {
       this.currentSentinelRank.next(datas);
     }
   }
@@ -165,6 +155,12 @@ export class CommitteeService {
               if(subAccountIds[i]) {
                 let sa = await self.getFarmer(subAccountIds[i].toLowerCase()) || {};
                 sa.address = subAccountIds[i].toLowerCase();
+                if(states[0] === currentWalletAddr || sa.address === currentWalletAddr) {
+                  sa.showRelieve = true;
+                }
+                else {
+                  sa.showRelieve = false;
+                }
                 subAccounts.push(sa);
               }
             }
@@ -189,9 +185,22 @@ export class CommitteeService {
     });
   }
 
+  update(address, applyAddress) {
+    this.ipc.dbRun('committee', `INSERT INTO committee (address, applyAddress) VALUES ('${address}', '${applyAddress}')`);
+  }
+
+  async get(address) {
+    return await this.ipc.dbAll('committee', `SELECT * FROM committee WHERE address='${address}'`);
+  }
+
+  delete(address) {
+    this.ipc.dbRun('committee', `DELETE FROM committee WHERE address='${address}'`);
+  }
+
   constructor(
     private brotherhoodService: BrotherhoodService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private ipc: IpcService
   ) { 
     this.initCurrentSentinelRank();
     this.initCurrentWalletState();
