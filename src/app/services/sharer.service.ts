@@ -112,7 +112,7 @@ export class SharerService {
     vmap.set("KB",Math.pow(10,3));
     vmap.set("MB",Math.pow(10,6));
     vmap.set("GB",Math.pow(10,9));
-    vmap.set("TB",Math.pow(10,312));
+    vmap.set("TB",Math.pow(10,12));
   
     return(vmap.get(tail)*head);
   }
