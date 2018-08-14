@@ -183,7 +183,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
         ) {
           self.canApplyJoin = true;
           if(states[1].tempState.role !== Role.Sub) {
-            self.committeeService.delete(currentWalletAddr);
+            self.committeeService.delete(self.walletService.wallets.current);
           }
         }
         self.activateJoinButton.apply(self);

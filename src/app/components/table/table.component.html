@@ -111,7 +111,8 @@
 
 
 <!-- sharer -->
-<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false">
+<nz-table [nzHideOnSinglePage]="true" *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
+      [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'>
   <thead>
     <tr>
       <th *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -161,6 +162,11 @@
         <span *ngIf="data.deltaStatus === 2" class="text-red">{{data.delta}}</span>
       </td>
       <td *ngIf="opt.portColShow">
+        <div *ngIf="data.connectionStatus===-1">
+          <span>{{data.listenPort}}</span>
+          <br/>
+          <span>{{data.connectionType}}</span>
+        </div>
         <div *ngIf="data.connectionStatus===0" class="text-green">
           <span>{{data.listenPort}}</span>
           <br/>

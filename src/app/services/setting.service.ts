@@ -107,6 +107,17 @@ export class SettingService {
     }
   }
 
+  private _showDownloadMiner = true;
+  get showDownloadMiner() {
+    return this._showDownloadMiner;
+  }
+  set showDownloadMiner(value) {
+    this._showDownloadMiner = value;
+    if (value !== null) {
+      this.update('showDownloadMiner');
+    }
+  }
+
   appName = remote.app.getName();
   appVersion = remote.app.getVersion();
   constructor(

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd';
+import { TransactionService } from '../../services/transaction.service';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-joinCommittee',
@@ -8,11 +12,19 @@ import { Component, OnInit } from '@angular/core';
 export class JoinCommitteeComponent implements OnInit {
 
   constructor(
+    private alert: NzMessageService,
+    private translate: TranslateService,
+    private txService: TransactionService,
+    private walletService: WalletService,
   ) { }
 
   dialogName = '';
   mainAddress = '';
-  join(data) {
+  async join(data) {
+    const stake = await this.txService.getStake(this.walletService.wallets.current);
+    if(parseInt(stake) === 0) {
+      return this.alert.error(this.translate.instant('DRIVE.STAKE_FIRST_TIP'));
+    }
     this.dialogName = 'joinCommittee';
     this.mainAddress = data.address;
   }

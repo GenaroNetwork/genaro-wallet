@@ -22,8 +22,11 @@
   "npmRebuild": false,
   "win": {
     "icon": "dist",
+    "extraFiles": [
+      "msvcr110.dll"
+    ],
     "target": [
-      "portable"
+      "nsis"
     ]
   },
   "mac": {
