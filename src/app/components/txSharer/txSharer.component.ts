@@ -46,9 +46,11 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     const json = await res.json();
     let addr = address;
     if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-    const me = json.filter(farmer => farmer.address === addr);
-    if (me.length === 0) { this.heftRank = '300+'; } else {
-      this.heftRank = me[0].order + 1;
+    const addrs = json.map(farmer => farmer.address);
+    if (addrs.indexOf(addr) === -1) { 
+      this.heftRank = '300+'; 
+    } else {
+      this.heftRank = addrs.indexOf(addr) + 1;
     }
   }
 
