@@ -13,7 +13,7 @@ export class IpcService {
   public ipcSync(name: string, ...datas) { // [fixable] 此处应改为 private，并且不应该出现同步ipc方法
     return ipcRenderer.sendSync(name, ...datas);
   }
-  private ipcOnce(name: string, ...datas) {
+  public ipcOnce(name: string, ...datas) {
     return new Promise((res, rej) => {
       ipcRenderer.once(`${name}.${this.ipcId}`, (sender, ...datas) => {
         res(...datas);

@@ -116,11 +116,26 @@ export class SettingService {
     const names = ['showWallet', 'showEden', 'showTxEden', 'showSharer', 'showTxSharer', 'lang'];
     names.forEach(async name => {
       const value: any = await this.ipc.dbGet('setting', `SELECT value FROM setting WHERE name = '${this.appName}-${name}'`);
-      if (SETTINGS.indexOf(name) > -1) { this[name] = null; } else if (value) { this[name] = JSON.parse(value.value); } else {
-        await this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${this.appName}-${name}', '${JSON.stringify(this[name])}')`);
-           }
+      if (SETTINGS.indexOf(name) > -1) {
+        this[name] = null;
+      } else if (value) {
+        this[name] = JSON.parse(value.value);
+      } else {
+        this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${this.appName}-${name}', '${JSON.stringify(this[name])}')`);
+      }
+
+
+      if (name === "lang") {
+        this.i18n.setDefaultLang("zh");
+        this.i18n.use(this.lang).subscribe(() => {
+          this.ipc.ipcOnce("app.loaded.lang");
+        });
+      }
     });
   }
+
+  doNothing() { }
+
   update(name) {
     this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(this[name])}' WHERE name='${this.appName}-${name}'`);
   }

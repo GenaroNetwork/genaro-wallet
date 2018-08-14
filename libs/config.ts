@@ -125,11 +125,11 @@ export const INSTRUCTIONS_URL = '';
 export const DOWNLOAD_EDEN_URL = '';
 export const DOWNLOAD_SHARER_URL = '';
 
-export const BLOCK_COUNT_OF_ROUND = 86400;
+export const BLOCK_COUNT_OF_ROUND = 7200;
 export enum Role {
     Free = 'Free',
     Main = 'Main',
-    Sub  = 'Sub'
+    Sub = 'Sub'
 }
 // brother hood:
 export const RELATION_FETCH_INTERVAL = 10 * 1000;

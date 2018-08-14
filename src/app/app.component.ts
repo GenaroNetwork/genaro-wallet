@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ElectronService } from './providers/electron.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingService } from './services/setting.service';
 const LANGS = ['en', 'zh'];
 
 @Component({
@@ -9,14 +9,11 @@ const LANGS = ['en', 'zh'];
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public electronService: ElectronService,
-    private i18n: TranslateService) {
+  constructor(
+    private i18n: TranslateService,
+    private setting: SettingService,
+  ) {
     this.i18n.addLangs(LANGS);
-    this.i18n.setDefaultLang('en');
-
-    if (electronService.isElectron()) {
-    } else {
-      console.log('Mode web');
-    }
+    this.setting.doNothing();
   }
 }

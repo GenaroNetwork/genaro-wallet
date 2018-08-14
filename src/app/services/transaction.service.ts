@@ -1,4 +1,4 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from '../libs/config';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid';
@@ -41,7 +41,6 @@ export class TransactionService {
     private transactionDb: TransactionDbService,
     private alert: NzMessageService,
     private i18n: TranslateService,
-    private appRef: ApplicationRef,
   ) {
     this.walletManager = newWalletManager(WALLET_CONFIG_PATH);
     this.connect();
