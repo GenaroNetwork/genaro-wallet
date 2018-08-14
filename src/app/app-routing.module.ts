@@ -5,6 +5,7 @@ import { SharerComponent } from './components/sharer/sharer.component';
 import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
+import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -48,6 +49,9 @@ const routes: Routes = [{
 }, {
     path: 'joinCommittee',
     component: JoinCommitteeComponent,
+}, {
+    path: 'downloadMiner',
+    component: DownloadMinerComponent,
 }];
 
 @NgModule({

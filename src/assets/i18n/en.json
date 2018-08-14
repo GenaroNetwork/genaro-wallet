@@ -26,7 +26,9 @@
     "BUY_NOW": "Buy now",
     "PAY_NOW": "Pay now",
     "YEAR(S)": "Year(s)",
-    "MONTH(S)": "Month(s)"
+    "MONTH(S)": "Month(s)",
+    "DOWNLOADMINER_TIPS": "如果你已经进入委员会,可以下载miner程序,同步全网区块,获得挖矿（链上）奖励",
+    "DOWNLOADMINER_TIPS2": "点击<a target=\"_blank\" href=\"https://genaro.network/hk/genaro_eden/#down-top-box\">“下载”</a>安装程序和miner使用说明。"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
@@ -111,7 +113,8 @@
     "COMMITTEE": "The current Committee",
     "CO_CONSTRUCTION_NODES": "Co construction nodes",
     "CURRENT_RANKS": "Current Ranks",
-    "JOIN_COMMITTEE": "Join Construction"
+    "JOIN_COMMITTEE": "Join Construction",
+    "DOWNLOAD_MINER": "Download Miner"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
