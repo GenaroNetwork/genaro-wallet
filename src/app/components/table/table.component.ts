@@ -49,6 +49,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public brotherhoodService: BrotherhoodService
   ) { }
 
+  isSpinning: boolean = true;
+
   txData: any[];
   txDisplayData: any[];
   txType = 'TYPE_ALL';
@@ -60,6 +62,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   TASK_STATE = TASK_STATE;
   TASK_TYPE = TASK_TYPE;
   async txUpdateData() {
+    this.isSpinning = true;
     const address = this.walletService.wallets.current;
     // @ts-ignore
     this.txData = await this.txdb.getTransactions(null, null);
@@ -79,6 +82,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txDataTotalPage = data.length;
     data = data.slice((this.txDataCurrentPage - 1) * 10, this.txDataCurrentPage * 10);
     this.txDisplayData = data;
+    this.isSpinning = false;
   }
   txGetBlockNumber(receipt) {
     if (!receipt) { return '-'; }
@@ -110,12 +114,14 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   txSharerWalletSub = this.txSharerDataUpdate;
   txSharerBlockSub = this.txSharerDataUpdate;
   async txSharerDataUpdate() {
+    this.isSpinning = true;
     const address = this.walletService.wallets.current;
     const nodes = await this.txService.getNodes(address);
     if (nodes)
       this.txSharerData = nodes;
     else
       this.txSharerData = [];
+    this.isSpinning = false;
     // if (nodes) {
     //   this.txSharerDataTotalPage = nodes.length;
     //   this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
@@ -136,15 +142,19 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   async rankDataUpdate() {
     let self = this;
     this.rankInterval = setInterval(async () => {
+      self.isSpinning = true;
       self.rankData = await self.committeeService.getCurrentSentinelRank();
-    }, 10 * 1000);
+      self.isSpinning = false;
+    }, 5 * 60 * 1000);
   }
   async searchRankFarmer() {
     if(this.rankInterval) {
       clearInterval(this.rankInterval);
     }
     if(this.rankAddress) {
+      this.isSpinning = true;
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
+      this.isSpinning = false;
     }
     else {
       this.rankDataUpdate();
@@ -162,11 +172,13 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeAddress: string = '';
   committeeState: any;
   committeeInit() {
+    this.isSpinning = true;
     this.committeeAddress = '';
     this.committeeDataUpdate();
     let self = this;
     let broSub = null;
     this.walletService.currentWallet.subscribe(w => {
+      self.isSpinning = true;
       self.canApplyJoin = false;
       if(broSub) {
         broSub.unsubscribe();
@@ -174,6 +186,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       let currentWalletAddr = add0x(self.walletService.wallets.current);
       self.brotherhoodService.addFetchingAddress(currentWalletAddr);
       broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
+        self.isSpinning = true;
         if (states 
           && states.length > 1 
           && states[0] === currentWalletAddr 
@@ -187,14 +200,17 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
         self.activateJoinButton.apply(self);
+        self.isSpinning = false;
       });
     });
   }
   async committeeDataUpdate() {
     let self = this;
     this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
+      self.isSpinning = true;
       self.committeeData = ranks;
       self.activateJoinButton.apply(self);
+      self.isSpinning = false;
     });
   }
   async searchFarmer() {
@@ -236,7 +252,33 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // currentCommittee
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
+    this.isSpinning = true;
     this.currentCommitteeData = await this.committeeService.getCurrentCommittee();
+    this.isSpinning = false;
+  }
+
+  // sharer
+  sharerSubscribe: any;
+  sharerInit() {
+    let self = this;
+    if(this.sharer.getSharerNodeIds().length > 0) {
+      this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
+        if(data && data.length > 0) {
+          self.isSpinning = false;
+          if(self.sharerSubscribe) {
+            self.sharerSubscribe.unsubscribe();
+          }
+        }
+      });
+    }
+    else {
+      this.isSpinning = false;
+    }
+  }
+  sharerDestroy() {
+    if(this.sharerSubscribe) {
+      this.sharerSubscribe.unsubscribe();
+    }
   }
 
   allWalletSub: any;

@@ -1,3 +1,4 @@
+<nz-spin [nzSpinning]="isSpinning">
 <!-- 钱包 -->
 <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
   class="tx" nzShowPagination="false">
@@ -51,8 +52,6 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage"
-  (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
 
 <!-- 买空间买流量 -->
 <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []" [nzNoResult]="'EDEN.EMPTY_BUCKET_TIP' | translate">
@@ -360,3 +359,7 @@
     </tr>
   </tbody>
 </nz-table>
+</nz-spin>
+
+<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage"
+  (nzPageIndexChange)="txChangePage($event)"></nz-pagination>

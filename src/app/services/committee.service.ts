@@ -135,6 +135,7 @@ export class CommitteeService {
 
           if(states[0] === currentMainAddr) {
             let data = await self.getFarmer(currentMainAddr) || {};
+            data.address = currentMainAddr;
             data.order = self.currentSentinelRanks.indexOf(currentMainAddr);
             let subAccountIds = (states[1].currentState || {}).subAccounts || [];
             let subAccounts = [];
@@ -148,6 +149,7 @@ export class CommitteeService {
           }
           if(states[0] === pendingMainAddr) {
             let data = await self.getFarmer(pendingMainAddr) || {};
+            data.address = pendingMainAddr;
             data.order = self.currentSentinelRanks.indexOf(pendingMainAddr);
             let subAccountIds = (states[1].pendingState || {}).subAccounts || [];
             let subAccounts = [];
