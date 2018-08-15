@@ -1,4 +1,3 @@
-
 Object.defineProperty(global, "_bitcore", {
   get() {
     return void 0
@@ -6,7 +5,7 @@ Object.defineProperty(global, "_bitcore", {
   set() { },
 });
 
-import { app, BrowserWindow, screen, Menu } from 'electron';
+import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { fork } from 'child_process';
@@ -27,6 +26,16 @@ const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
+  let preWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    frame: false,
+  });
+  preWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'prewindow/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
 
   // start libs;
   new Sqlite;
@@ -44,6 +53,7 @@ function createWindow() {
   win = new BrowserWindow({
     x: 0,
     y: 0,
+    show: false,
     width: size.width,
     height: size.height,
     // webPreferences: {
@@ -99,6 +109,11 @@ function createWindow() {
 
   if (process.env.NODE_ENV === "development")
     win.webContents.openDevTools();
+
+  ipcMain.once('app.loaded.lang', () => {
+    preWindow.destroy();
+    win.show();
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {

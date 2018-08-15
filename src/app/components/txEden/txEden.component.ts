@@ -47,12 +47,14 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     let usedSpace = 0;
     buckets.forEach(bucket => {
       allSpace += bucket.limitStorage;
-      usedSpace += (bucket.usedSpaceStorage || 0);
+      usedSpace += (bucket.usedStorage || 0);
     });
     this.spaceUsed = usedSpace;
     this.spaceAll = allSpace;
+    if (this.spaceUsed > this.spaceAll) this.spaceUsed = this.spaceAll;
     this.trafficUsed = user.usedDownloadBytes || 0;
     this.trafficAll = user.limitBytes || 0;
+    if (this.trafficUsed > this.trafficAll) this.trafficUsed = this.trafficAll;
     if (!allSpace) { this.spacePer = 0; } else { this.spacePer = usedSpace * 100 / allSpace; }
     if (!user.limitBytes) { this.trafficPer = 0; } else { this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0; }
   }
