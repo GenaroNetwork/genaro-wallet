@@ -27,9 +27,9 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   async updateValue() {
     const address = this.walletService.wallets.current;
     if (!address) { return; }
-    this.txService.getHeft(address).then(heft => {
-      if (!heft) { this.heft = 0; } else { this.heft = Number(heft); }
-    });
+    // this.txService.getHeft(address).then(heft => {
+    //   if (!heft) { this.heft = 0; } else { this.heft = Number(heft); }
+    // });
     this.txService.getStake(address).then(val => {
       if (!val) {
         this.stakeAll = 0;
@@ -46,7 +46,14 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     const json = await res.json();
     let addr = address;
     if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-    const addrs = json.map(farmer => farmer.address);
+    this.heft = 0;
+    const addrs = json.map(farmer => {
+      if(farmer.address === addr) {
+        this.heft = farmer.sentinel;
+      }
+      return farmer.address;
+    });
+    console.log(this.heft);
     if (addrs.indexOf(addr) === -1) { 
       this.heftRank = '300+'; 
     } else {
