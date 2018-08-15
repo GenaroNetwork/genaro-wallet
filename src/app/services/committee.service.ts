@@ -24,6 +24,8 @@ export class CommitteeService {
 
   private currentSentinelRanks: any = [];
 
+  private currentSentinelRankDatas: any = [];
+
   async getSentinel() {
     const res = await axios({
       method: 'GET',
@@ -79,26 +81,34 @@ export class CommitteeService {
     this.currentSentinelRanks = [];
     const datas = await this.getSentinel();
     if (datas) {
+      let fetchStates = [];
       datas.forEach(async (d, i) => {
         d.order = i;
         this.currentSentinelRanks.push(d.address);
-        let state = await this.brotherhoodService.fetchState(d.address);
+        fetchStates.push(this.brotherhoodService.fetchState(d.address));
+      });
+      let states = await Promise.all(fetchStates);
+      for(let i = 0, length = datas.length; i< length; i++) {
+        let state = states[i];
+        let d = datas[i];
         if(state.pendingState) {
           d.subAccounts = state.pendingState.subAccounts;
         }
         if(state.currentState) {
           d.currentSubAccounts = state.currentState.subAccounts;
         }
-      });
+      }
     }
     return datas;
   }
 
+  getCurrentSentinelRankDatas() {
+    return this.currentSentinelRankDatas;
+  }
+
   private async initCurrentSentinelRank() {
-    const datas = await this.getCurrentSentinelRank();
-    if (datas) {
-      this.currentSentinelRank.next(datas);
-    }
+    this.currentSentinelRankDatas = await this.getCurrentSentinelRank();
+    this.currentSentinelRank.next(this.currentSentinelRankDatas);
   }
 
   private async initCurrentWalletState() {
@@ -205,6 +215,7 @@ export class CommitteeService {
     private ipc: IpcService
   ) { 
     this.initCurrentSentinelRank();
+    setInterval(this.initCurrentSentinelRank.bind(this), 5 * 60 * 1000);
     this.initCurrentWalletState();
   }
 }

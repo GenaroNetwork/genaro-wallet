@@ -135,21 +135,21 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // rank
   rankData: any[] = [];
   rankAddress = '';
-  rankInterval: any;
+  rankSubscribe: any;
   rankInit() {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
     let self = this;
-    this.rankInterval = setInterval(async () => {
+    this.rankSubscribe = this.committeeService.currentSentinelRank.subscribe((ranks) => {
       self.isSpinning = true;
-      self.rankData = await self.committeeService.getCurrentSentinelRank();
+      self.rankData = ranks;
       self.isSpinning = false;
-    }, 5 * 60 * 1000);
+    });
   }
   async searchRankFarmer() {
-    if(this.rankInterval) {
-      clearInterval(this.rankInterval);
+    if(this.rankSubscribe) {
+      this.rankSubscribe.unsubscribe();
     }
     if(this.rankAddress) {
       this.isSpinning = true;
@@ -161,8 +161,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   rankDestroy() {
-    if(this.rankInterval) {
-      clearInterval(this.rankInterval);
+    if(this.rankSubscribe) {
+      this.rankSubscribe.unsubscribe();
     }
   }
 
@@ -170,7 +170,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeData: any[] = [];
   canApplyJoin: boolean = true;
   committeeAddress: string = '';
-  committeeState: any;
   committeeInit() {
     this.isSpinning = true;
     this.committeeAddress = '';
@@ -205,18 +204,12 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
   async committeeDataUpdate() {
-    let self = this;
-    this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.isSpinning = true;
-      self.committeeData = ranks;
-      self.activateJoinButton.apply(self);
-      self.isSpinning = false;
-    });
+    this.isSpinning = true;
+    this.committeeData = this.committeeService.getCurrentSentinelRankDatas();
+    this.activateJoinButton.apply(self);
+    this.isSpinning = false;
   }
   async searchFarmer() {
-    if(this.committeeState) {
-      this.committeeState.unsubscribe();
-    }
     if(this.committeeAddress) {
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
       this.activateJoinButton();
@@ -243,9 +236,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   committeeDestroy() {
-    if(this.committeeState) {
-      this.committeeState.unsubscribe();
-    }
+
   }
 
 

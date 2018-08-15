@@ -63,9 +63,9 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     this.paddingSubscribe = this.committeeService.paddingMainWalletState.subscribe((data) => {
       if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-      }
-      if(data.address === '0x' + self.walletService.wallets.current) {
-        self.isSpinning = false;
+        if(data.address === '0x' + self.walletService.wallets.current) {
+          self.isSpinning = false;
+        }
       }
       self.paddingTeamInfo = data || {};
       self.hasTempSubAccount = false;
