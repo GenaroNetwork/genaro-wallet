@@ -29,7 +29,7 @@
                     <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ accountTeamInfo.sentinel * 10000 | formatSentinel }}
+                            {{ accountTeamInfo.currentSentinel * 10000 | formatSentinel }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -46,7 +46,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ accountTeamInfo.stake }}
+                            {{ accountTeamInfo.currentStake }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -56,7 +56,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ accountTeamInfo.data_size | formatSize }}
+                            {{ accountTeamInfo.currentDataSize | formatSize }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -66,14 +66,14 @@
                     <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ (accountTeamInfo.subAccounts || []).length }} / 10
+                            {{ (accountTeamInfo.subFarmers || []).length }} / 10
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
     </form>
-    <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subAccounts" nzShowPagination="false" [nzPageSize]="31"
+    <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subFarmers" nzShowPagination="false" [nzPageSize]="31"
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
@@ -106,7 +106,7 @@
                     <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.order + 1 || '300+' }}
+                            {{ pendingTeamInfo.order + 1 || '300+' }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -116,7 +116,7 @@
                     <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.shortAddr }}
+                            {{ pendingTeamInfo.shortAddr }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -126,7 +126,7 @@
                     <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.sentinel * 10000 | formatSentinel }}
+                            {{ pendingTeamInfo.pendingSentinel * 10000 | formatSentinel }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -134,7 +134,7 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-control>
-                        <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showApplyTeam=false;showPaddingTeam=!showPaddingTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
+                        <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showApplyTeam=false;showPendingTeam=!showPendingTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -143,7 +143,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.stake }}
+                            {{ pendingTeamInfo.pendingStake }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -153,7 +153,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ paddingTeamInfo.data_size | formatSize }}
+                            {{ pendingTeamInfo.pendingDataSize | formatSize }}
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -163,7 +163,7 @@
                     <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
                     <nz-form-control>
                         <nz-form-text>
-                            {{ (accountTeamInfo.subAccounts || []).length }} / 10
+                            {{ (pendingTeamInfo.pendingSubFarmers || []).length }} / 10
                         </nz-form-text>
                     </nz-form-control>
                 </nz-form-item>
@@ -172,15 +172,15 @@
                 <nz-form-item nzFlex>
                     <nz-form-control>
                         <nz-badge nzDot *ngIf="hasTempSubAccount">
-                            <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                            <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
                         </nz-badge>
-                        <button *ngIf="!hasTempSubAccount" style="width: 120px" nz-button [nzType]="'primary'" (click)="showPaddingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                        <button *ngIf="!hasTempSubAccount" style="width: 120px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
         </div>
     </form>
-    <nz-table *ngIf="showPaddingTeam" #paddingTeamTable [nzData]="paddingTeamInfo.subAccounts" nzShowPagination="false" [nzPageSize]="31"
+    <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="pendingTeamInfo.pendingSubFarmers" nzShowPagination="false" [nzPageSize]="31"
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>
@@ -192,7 +192,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of paddingTeamTable.data">
+            <tr *ngFor="let data of pendingTeamTable.data">
                 <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
                 <td nzWidth="15%">{{data.data_size | formatSize}}</td>
@@ -204,7 +204,7 @@
         </tbody>
     </nz-table>
 
-    <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="paddingTeamInfo.tempAccounts" nzShowPagination="false" [nzPageSize]="31"
+    <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="pendingTeamInfo.tempAccounts" nzShowPagination="false" [nzPageSize]="31"
         class="tx" [nzScroll]='{ y: "240px"}'>
         <thead>
             <tr>

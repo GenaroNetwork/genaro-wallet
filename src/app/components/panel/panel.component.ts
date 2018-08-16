@@ -33,7 +33,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
       if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-        if(data.address === '0x' + self.walletService.wallets.current) {
+        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
           self.isSpinning = false;
         }
       }
@@ -49,37 +49,37 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  paddingTeamInfo: any = {};
-  showPaddingTeam = false;
+  pendingTeamInfo: any = {};
+  showPendingTeam = false;
   showApplyTeam = false;
   hasTempSubAccount = false;
-  paddingSubscribe: any;
-  paddingWalletSubscribe: any;
+  pendingSubscribe: any;
+  pendingWalletSubscribe: any;
   async committeeInit() {
     let self = this;
-    this.paddingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
+    this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
     });
-    this.paddingSubscribe = this.committeeService.paddingMainWalletState.subscribe((data) => {
+    this.pendingSubscribe = this.committeeService.pendingMainWalletState.subscribe((data) => {
       if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-        if(data.address === '0x' + self.walletService.wallets.current) {
+        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
           self.isSpinning = false;
         }
       }
-      self.paddingTeamInfo = data || {};
+      self.pendingTeamInfo = data || {};
       self.hasTempSubAccount = false;
-      if(self.paddingTeamInfo.tempAccounts && self.paddingTeamInfo.tempAccounts.length > 0) {
+      if(self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
         self.hasTempSubAccount = true;
       }
     });
   }
   committeeDestroy() {
-    if(this.paddingSubscribe) {
-      this.paddingSubscribe.unsubscribe();
+    if(this.pendingSubscribe) {
+      this.pendingSubscribe.unsubscribe();
     }
-    if(this.paddingWalletSubscribe) {
-      this.paddingWalletSubscribe.unsubscribe();
+    if(this.pendingWalletSubscribe) {
+      this.pendingWalletSubscribe.unsubscribe();
     }
   }
 

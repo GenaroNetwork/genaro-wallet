@@ -20,11 +20,15 @@ export class CommitteeService {
 
   public currentMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
 
-  public paddingMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
+  public pendingMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
 
   private currentSentinelRanks: any = [];
 
+  private pendingSentinelRanks: any = [];
+
   private currentSentinelRankDatas: any = [];
+
+  private pendingSentinelRankDatas: any = [];
 
   async getSentinel() {
     const res = await axios({
@@ -78,26 +82,32 @@ export class CommitteeService {
   }
 
   async getCurrentSentinelRank() {
-    this.currentSentinelRanks = [];
     const datas = await this.getSentinel();
     if (datas) {
-      let fetchStates = [];
       datas.forEach(async (d, i) => {
-        d.order = i;
-        this.currentSentinelRanks.push(d.address);
-        fetchStates.push(this.brotherhoodService.fetchState(d.address));
+        let subFarmers = d.subFarmers || [],
+            pendingSubFarmers = d.pendingSubFarmers || [];
+        d.currentSentinel = d.sentinel || 0;
+        d.currentStake = d.stake || 0;
+        d.currentDataSize = d.data_size || 0;
+        d.currentHeft = d.heft || 0;
+        subFarmers.forEach(sf => {
+          d.currentSentinel += sf.sentinel || 0;
+          d.currentStake += sf.stake || 0;
+          d.currentDataSize += sf.data_size || 0;
+          d.currentHeft += sf.heft || 0;
+        });
+        d.pendingSentinel = d.sentinel || 0;
+        d.pendingStake = d.stake || 0;
+        d.pendingDataSize = d.data_size || 0;
+        d.pendingHeft = d.heft || 0;
+        pendingSubFarmers.forEach(psf => {
+          d.pendingSentinel += psf.sentinel || 0;
+          d.pendingStake += psf.stake || 0;
+          d.pendingDataSize += psf.data_size || 0;
+          d.pendingHeft += psf.heft || 0;
+        });
       });
-      let states = await Promise.all(fetchStates);
-      for(let i = 0, length = datas.length; i< length; i++) {
-        let state = states[i];
-        let d = datas[i];
-        if(state.pendingState) {
-          d.subAccounts = state.pendingState.subAccounts;
-        }
-        if(state.currentState) {
-          d.currentSubAccounts = state.currentState.subAccounts;
-        }
-      }
     }
     return datas;
   }
@@ -106,8 +116,28 @@ export class CommitteeService {
     return this.currentSentinelRankDatas;
   }
 
-  private async initCurrentSentinelRank() {
-    this.currentSentinelRankDatas = await this.getCurrentSentinelRank();
+  getPendingSentinelRankDatas() {
+    return this.pendingSentinelRankDatas;
+  }
+
+  private async initSentinelRank() {
+    let datas = await this.getCurrentSentinelRank();
+    this.currentSentinelRankDatas = datas.sort((a, b) => {
+      return b.currentSentinel - a.currentSentinel;
+    });
+    this.currentSentinelRanks = [];
+    this.currentSentinelRankDatas.forEach((csrd, i) => {
+      csrd.order = i;
+      this.currentSentinelRanks.push(csrd.address);
+    });
+    this.pendingSentinelRankDatas = datas.sort((a, b) => {
+      return b.pendingSentinel - a.pendingSentinel;
+    });
+    this.pendingSentinelRanks = [];
+    this.pendingSentinelRankDatas.forEach((psrd, i) => {
+      psrd.order = i;
+      this.pendingSentinelRanks.push(psrd.address);
+    });
     this.currentSentinelRank.next(this.currentSentinelRankDatas);
   }
 
@@ -144,39 +174,47 @@ export class CommitteeService {
           }
 
           if(states[0] === currentMainAddr) {
-            let data = await self.getFarmer(currentMainAddr) || {};
-            data.address = currentMainAddr;
-            data.order = self.currentSentinelRanks.indexOf(currentMainAddr);
-            let subAccountIds = (states[1].currentState || {}).subAccounts || [];
-            let subAccounts = [];
-            for(let i = 0, length = subAccountIds.length; i < length; i++) {
-              if(subAccountIds[i]) {
-                subAccounts.push(await self.getFarmer(subAccountIds[i].toLowerCase()));
+            let data;
+            for(let i = 0, length = self.currentSentinelRankDatas.length; i< length; i++) {
+              if(self.currentSentinelRankDatas[i].address === currentMainAddr) {
+                data = self.currentSentinelRankDatas[i];
+                break;
               }
             }
-            data.subAccounts = subAccounts;
+            if(!data) {
+              data = await self.getFarmer(currentMainAddr) || {};
+              data.address = currentMainAddr;
+            }
+            data.order = self.currentSentinelRanks.indexOf(currentMainAddr);
+            data.currentAddress = currentWalletAddr;
             self.currentMainWalletState.next(data);
           }
           if(states[0] === pendingMainAddr) {
-            let data = await self.getFarmer(pendingMainAddr) || {};
-            data.address = pendingMainAddr;
-            data.order = self.currentSentinelRanks.indexOf(pendingMainAddr);
-            let subAccountIds = (states[1].pendingState || {}).subAccounts || [];
-            let subAccounts = [];
-            for(let i = 0, length = subAccountIds.length; i < length; i++) {
-              if(subAccountIds[i]) {
-                let sa = await self.getFarmer(subAccountIds[i].toLowerCase()) || {};
-                sa.address = subAccountIds[i].toLowerCase();
-                if(states[0] === currentWalletAddr || sa.address === currentWalletAddr) {
-                  sa.showRelieve = true;
-                }
-                else {
-                  sa.showRelieve = false;
-                }
-                subAccounts.push(sa);
+            let data;
+            for(let i = 0, length = self.pendingSentinelRankDatas.length; i< length; i++) {
+              if(self.pendingSentinelRankDatas[i].address === currentMainAddr) {
+                data = self.pendingSentinelRankDatas[i];
+                break;
               }
             }
-            data.subAccounts = subAccounts;
+            if(!data) {
+              data = await self.getFarmer(pendingMainAddr) || {};
+              data.address = pendingMainAddr;
+            }
+            data.order = self.pendingSentinelRanks.indexOf(pendingMainAddr);
+
+            let subAccounts = data.pendingSubFarmers || [];
+            for(let i = 0, length = subAccounts.length; i < length; i++) {
+              if(subAccounts[i]) {
+                if(states[0] === currentWalletAddr || subAccounts[i].address.toLowerCase() === currentWalletAddr) {
+                  subAccounts[i].showRelieve = true;
+                }
+                else {
+                  subAccounts[i].showRelieve = false;
+                }
+              }
+            }
+
             if(pendingMainAddr === currentWalletAddr) {
               let tempSubAccountIds = (states[1].tempState || {}).subAccounts || [];
               let tempSubAccounts = [];
@@ -190,7 +228,8 @@ export class CommitteeService {
               }
               data.tempAccounts = tempSubAccounts;
             }
-            self.paddingMainWalletState.next(data);
+            data.currentAddress = currentWalletAddr;
+            self.pendingMainWalletState.next(data);
           }
         }
       });
@@ -214,8 +253,8 @@ export class CommitteeService {
     private walletService: WalletService,
     private ipc: IpcService
   ) { 
-    this.initCurrentSentinelRank();
-    setInterval(this.initCurrentSentinelRank.bind(this), 5 * 60 * 1000);
+    this.initSentinelRank();
+    setInterval(this.initSentinelRank.bind(this), 5 * 60 * 1000);
     this.initCurrentWalletState();
   }
 }

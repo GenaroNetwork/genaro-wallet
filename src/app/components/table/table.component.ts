@@ -49,7 +49,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public brotherhoodService: BrotherhoodService
   ) { }
 
-  isSpinning: boolean = true;
+  isSpinning: boolean = false;
 
   txData: any[];
   txDisplayData: any[];
@@ -62,7 +62,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   TASK_STATE = TASK_STATE;
   TASK_TYPE = TASK_TYPE;
   async txUpdateData() {
-    this.isSpinning = true;
     const address = this.walletService.wallets.current;
     // @ts-ignore
     this.txData = await this.txdb.getTransactions(null, null);
@@ -82,7 +81,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.txDataTotalPage = data.length;
     data = data.slice((this.txDataCurrentPage - 1) * 10, this.txDataCurrentPage * 10);
     this.txDisplayData = data;
-    this.isSpinning = false;
   }
   txGetBlockNumber(receipt) {
     if (!receipt) { return '-'; }
@@ -114,14 +112,12 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   txSharerWalletSub = this.txSharerDataUpdate;
   txSharerBlockSub = this.txSharerDataUpdate;
   async txSharerDataUpdate() {
-    this.isSpinning = true;
     const address = this.walletService.wallets.current;
     const nodes = await this.txService.getNodes(address);
     if (nodes)
       this.txSharerData = nodes;
     else
       this.txSharerData = [];
-    this.isSpinning = false;
     // if (nodes) {
     //   this.txSharerDataTotalPage = nodes.length;
     //   this.txSharerData = nodes.slice((this.txSharerDataCurrentPage - 1) * 10, this.txSharerDataCurrentPage * 10);
@@ -251,6 +247,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // sharer
   sharerSubscribe: any;
   sharerInit() {
+    this.isSpinning = true;
     let self = this;
     if(this.sharer.getSharerNodeIds().length > 0) {
       this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {

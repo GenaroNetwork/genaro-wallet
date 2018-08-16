@@ -285,10 +285,10 @@
         <td nzWidth="5%">{{ data.order + 1 }}</td>
         <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
         <td nzWidth="30%">{{ data.address | longAddr | shortAddr}}</td>
-        <td nzWidth="10%">{{ data.stake }}</td>
-        <td nzWidth="15%">{{ data.data_size | formatSize }}</td>
-        <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="15%">{{ (data.currentSubAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="10%">{{ data.currentStake }}</td>
+        <td nzWidth="15%">{{ data.currentDataSize | formatSize }}</td>
+        <td nzWidth="15%">{{ data.currentSentinel * 10000 | formatSentinel }}</td>
+        <td nzWidth="15%">{{ (data.subFarmers || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>
@@ -326,10 +326,10 @@
         <td nzWidth="8%">{{ data.order + 1 }}</td>
         <!-- <td nzWidth="15%">{{ data.nickName }}</td> -->
         <td nzWidth="15%">{{ data.address | longAddr | shortAddr}}</td>
-        <td nzWidth="15%">{{ data.stake }}</td>
-        <td nzWidth="20%">{{ data.data_size | formatSize }}</td>
-        <td nzWidth="15%">{{ data.sentinel * 10000 | formatSentinel }}</td>
-        <td nzWidth="12%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="15%">{{ data.pendingStake }}</td>
+        <td nzWidth="20%">{{ data.pendingDataSize | formatSize }}</td>
+        <td nzWidth="15%">{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
+        <td nzWidth="12%">{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
         <td nzWidth="15%">
           <button nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin || !data.canApplyJoin" (click)="action.emit(['join',data]);activateJoinButton();">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
         </td>

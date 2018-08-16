@@ -95,7 +95,7 @@ export const SENTINEL_WEB = 'http://sentinel.genaro.network';
 
 export const SENTINEL_API = 'http://118.31.61.119:8000';
 
-export const TOP_FARMER_URL = SENTINEL_API + '/top-farmer/all';
+export const TOP_FARMER_URL = SENTINEL_API + '/farmers';
 
 export const FARMER_URL = SENTINEL_API + '/farmer/';
 
