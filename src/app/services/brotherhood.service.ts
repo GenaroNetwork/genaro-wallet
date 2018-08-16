@@ -36,7 +36,7 @@ class BrotherContract {
           res = '';
         }
         resolve(res);
-      })
+      });
     })
   }
 
@@ -86,16 +86,15 @@ class LastStateStorage {
   }
 
   public SetAll(states) {
-    const this2 = this;
     let sthChanged = false;
     states.forEach(state => {
       const addr = state.address;
-      const oldVal = this2.allState[addr];
-      const equals = this2.compareState(oldVal, state);
+      const oldVal = this.allState[addr];
+      const equals = this.compareState(oldVal, state);
       if (!equals) {
         sthChanged = true;
-        this2.allState[addr] = state;
-        this2.bs.next([addr, state]);
+        this.allState[addr] = state;
+        this.bs.next([addr, state]);
       }
     });
     if (sthChanged) {

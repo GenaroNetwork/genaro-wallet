@@ -9,6 +9,8 @@ import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';
 import { basename, join } from 'path';
 import { TransactionService } from './transaction.service';
+
+const TIP_FILE_LENGTH = 10;
 // &#47; => 正斜杠
 
 @Injectable({
@@ -239,13 +241,16 @@ export class EdenService {
 
   private async updateTask(id: string, obj: any) {
     const updateArr = [];
+    let task = this.tasks.find(task => task.id === id);
     for (const key in obj) {
       updateArr.push(`${key}='${obj[key]}'`);
+      this.zone.run(() => {
+        task[key] = obj[key];
+      });
     }
     if (!updateArr.length) { return; }
     const update = updateArr.join(',');
     await this.ipc.dbRun('task', `UPDATE task SET ${update} WHERE id='${id}'`);
-    await this.loadTask();
   }
 
   private convertChar(html: string, encode: boolean = true) {
@@ -291,17 +296,19 @@ export class EdenService {
       properties: ['openFile', 'multiSelections']
     });
     if (!nativePaths) { return; }
+    let tipFileName;
     this.runAll(nativePaths, async (path, env, cb) => {
       let filename = basename(path);
+      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
       filename = this.convertChar(filename, true);
       filename = folderPrefix + filename;
       let taskId = null;
       const taskEnv = env.storeFile(bucketId, path, {
         filename,
-        progressCallback: (process, doneBytes, allBytes) => {
+        progressCallback: (process, allBytes) => {
           if (!taskId) { return; }
           this.updateTask(taskId, {
-            process, doneBytes, allBytes,
+            process, allBytes,
             state: TASK_STATE.INPROCESS,
           });
         },
@@ -334,6 +341,9 @@ export class EdenService {
         this.messageService.success(this.i18n.instant('EDEN.UPLOAD_FILE_DONE'));
       }
     });
+    if (nativePaths.length > 1) tipFileName = "";
+    else tipFileName = ` ${tipFileName} `;
+    this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
   fileDownloadTask(files: any | any[], traffic: number) {
@@ -360,18 +370,20 @@ export class EdenService {
     const path = Array.from(this.currentPath);
     const bucketName = path.shift();
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
+    let tipFileName;
     this.runAll(files, async (file, env, cb) => {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
       filename = this.convertChar(filename, false);
+      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
       let taskId = null;
       const taskEnv = env.resolveFile(bucketId, file.id, filePath, {
         overwrite: true,
-        progressCallback: (process, doneBytes, allBytes) => {
+        progressCallback: (process, allBytes) => {
           if (!taskId) { return; }
           this.updateTask(taskId, {
-            process, doneBytes, allBytes,
+            process, allBytes,
             state: TASK_STATE.INPROCESS,
           });
         },
@@ -403,6 +415,9 @@ export class EdenService {
         this.messageService.success(this.i18n.instant('EDEN.DOWNLOAD_FILE_DONE'));
       }
     });
+    if (files.length > 1) tipFileName = "";
+    else tipFileName = ` ${tipFileName} `;
+    this.messageService.info(this.i18n.instant('TASK.DOWNLOAD_START_TIP', { filename: tipFileName }));
   }
 
   async fileRemoveTask(files: any[]) {

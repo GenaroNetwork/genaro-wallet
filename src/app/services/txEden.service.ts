@@ -1,5 +1,4 @@
 import { Injectable, ApplicationRef } from '@angular/core';
-const axios = require('axios');
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
@@ -27,22 +26,21 @@ export class TxEdenService {
       // return await this.send(method, url, data, sig, pubKey);
       throw new Error('missing signature or pubkey');
     }
-    const res = await axios({
+    let res = await fetch(BRIDGE_API_URL + url, {
       method: method,
-      url: BRIDGE_API_URL + url,
-      data: data,
       headers: {
         'x-signature': sig,
         'x-pubkey': pubKey,
-      }
+      },
+      body: data,
     });
-    if (res.status !== 200) {
+    if (!res.ok || res.status !== 200) {
       // this.askForPass();
       // return await this.send(method, url, data, sig, pubKey);
       console.error(res);
       throw new Error(`${method} ${url} error: ${res.status}`);
     }
-    return res.data;
+    return await res.json();
   }
 
   private getPublicKey(privKeyBuffer) {

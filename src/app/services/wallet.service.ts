@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
 import { SENTINEL_API } from '../libs/config';
-const axios = require('axios');
+import { NzMessageService } from 'ng-zorro-antd';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 
@@ -26,6 +26,7 @@ export class WalletService {
   constructor(
     private i18n: TranslateService,
     private txService: TransactionService,
+    private alert: NzMessageService,
   ) {
     this.walletManager = this.txService.walletManager;
     this.walletList.next(this.walletManager.listWallet());
@@ -76,7 +77,7 @@ export class WalletService {
     return this.i18n.instant('WALLETNEW.WALLET_NAME_PREFIX') + ' 0x' + address.slice(0, 2);
   }
 
-  private sendNick(address, password, name) {
+  private async sendNick(address, password, name) {
     const method = 'POST';
     if (!address.startsWith('0x')) {
       address = '0x' + address;
@@ -89,18 +90,13 @@ export class WalletService {
     const hash = this.getHash(method, url, name);
     const msg = new Buffer(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
-    axios({
+    await fetch(SENTINEL_API + url, {
       method: method,
-      url: SENTINEL_API + url,
-      data: name,
+      body: name,
       headers: {
         'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
         'x-pubkey': publicKeyBuffer.toString('hex')
       }
-    }).then(function (res) {
-      console.log(res);
-    }).catch(function (err) {
-      console.log(err);
     });
   }
 
@@ -127,10 +123,9 @@ export class WalletService {
   }
 
   changePassword(address: string, oldPassword: string, newPassword: string) {
-    console.log(this.walletManager.listWallet());
     this.walletManager.changePassword(address, oldPassword, newPassword);
-    console.log(this.walletManager.listWallet());
     this.walletList.next(this.walletManager.listWallet());
+    this.alert.success(this.i18n.instant("WALLET.CHANGE_PASSWORD_SUCCESS"));
   }
 
   changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {
