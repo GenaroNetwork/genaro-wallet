@@ -49,6 +49,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public brotherhoodService: BrotherhoodService
   ) { }
 
+  isSpinning: boolean = false;
+
   txData: any[];
   txDisplayData: any[];
   txType = 'TYPE_ALL';
@@ -129,30 +131,34 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // rank
   rankData: any[] = [];
   rankAddress = '';
-  rankInterval: any;
+  rankSubscribe: any;
   rankInit() {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
     let self = this;
-    this.rankInterval = setInterval(async () => {
-      self.rankData = await self.committeeService.getCurrentSentinelRank();
-    }, 10 * 1000);
+    this.rankSubscribe = this.committeeService.currentSentinelRank.subscribe((ranks) => {
+      self.isSpinning = true;
+      self.rankData = ranks;
+      self.isSpinning = false;
+    });
   }
   async searchRankFarmer() {
-    if(this.rankInterval) {
-      clearInterval(this.rankInterval);
+    if(this.rankSubscribe) {
+      this.rankSubscribe.unsubscribe();
     }
     if(this.rankAddress) {
+      this.isSpinning = true;
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
+      this.isSpinning = false;
     }
     else {
       this.rankDataUpdate();
     }
   }
   rankDestroy() {
-    if(this.rankInterval) {
-      clearInterval(this.rankInterval);
+    if(this.rankSubscribe) {
+      this.rankSubscribe.unsubscribe();
     }
   }
 
@@ -160,13 +166,14 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeData: any[] = [];
   canApplyJoin: boolean = true;
   committeeAddress: string = '';
-  committeeState: any;
   committeeInit() {
+    this.isSpinning = true;
     this.committeeAddress = '';
     this.committeeDataUpdate();
     let self = this;
     let broSub = null;
     this.walletService.currentWallet.subscribe(w => {
+      self.isSpinning = true;
       self.canApplyJoin = false;
       if(broSub) {
         broSub.unsubscribe();
@@ -174,6 +181,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       let currentWalletAddr = add0x(self.walletService.wallets.current);
       self.brotherhoodService.addFetchingAddress(currentWalletAddr);
       broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
+        self.isSpinning = true;
         if (states 
           && states.length > 1 
           && states[0] === currentWalletAddr 
@@ -187,20 +195,17 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
         self.activateJoinButton.apply(self);
+        self.isSpinning = false;
       });
     });
   }
   async committeeDataUpdate() {
-    let self = this;
-    this.committeeState = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.committeeData = ranks;
-      self.activateJoinButton.apply(self);
-    });
+    this.isSpinning = true;
+    this.committeeData = this.committeeService.getCurrentSentinelRankDatas();
+    this.activateJoinButton.apply(self);
+    this.isSpinning = false;
   }
   async searchFarmer() {
-    if(this.committeeState) {
-      this.committeeState.unsubscribe();
-    }
     if(this.committeeAddress) {
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
       this.activateJoinButton();
@@ -227,16 +232,41 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   committeeDestroy() {
-    if(this.committeeState) {
-      this.committeeState.unsubscribe();
-    }
+
   }
 
 
   // currentCommittee
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
+    this.isSpinning = true;
     this.currentCommitteeData = await this.committeeService.getCurrentCommittee();
+    this.isSpinning = false;
+  }
+
+  // sharer
+  sharerSubscribe: any;
+  sharerInit() {
+    this.isSpinning = true;
+    let self = this;
+    if(this.sharer.getSharerNodeIds().length > 0) {
+      this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
+        if(data && data.length > 0) {
+          self.isSpinning = false;
+          if(self.sharerSubscribe) {
+            self.sharerSubscribe.unsubscribe();
+          }
+        }
+      });
+    }
+    else {
+      this.isSpinning = false;
+    }
+  }
+  sharerDestroy() {
+    if(this.sharerSubscribe) {
+      this.sharerSubscribe.unsubscribe();
+    }
   }
 
   allWalletSub: any;

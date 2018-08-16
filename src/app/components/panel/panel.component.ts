@@ -3,11 +3,6 @@ import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
 
-function add0x(addr: string) {
-  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr;
-}
-
 @Component({
   selector: 'app-panel',
   templateUrl: './panel.component.html',
@@ -24,14 +19,23 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
+  isSpinning: boolean = true;
+
   accountTeamInfo: any = {};
   showCurrentTeam = false;
   currentSubscribe: any;
+  currentWalletSubscribe: any;
   async rankInit() {
     let self = this;
+    this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
+      self.isSpinning = true;
+    });
     this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
       if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
+        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
+          self.isSpinning = false;
+        }
       }
       self.accountTeamInfo = data || {};
     });
@@ -40,29 +44,42 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     if(this.currentSubscribe) {
       this.currentSubscribe.unsubscribe();
     }
+    if(this.currentWalletSubscribe) {
+      this.currentWalletSubscribe.unsubscribe();
+    }
   }
 
-  paddingTeamInfo: any = {};
-  showPaddingTeam = false;
+  pendingTeamInfo: any = {};
+  showPendingTeam = false;
   showApplyTeam = false;
   hasTempSubAccount = false;
-  paddingSubscribe: any;
+  pendingSubscribe: any;
+  pendingWalletSubscribe: any;
   async committeeInit() {
     let self = this;
-    this.paddingSubscribe = this.committeeService.paddingMainWalletState.subscribe((data) => {
+    this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
+      self.isSpinning = true;
+    });
+    this.pendingSubscribe = this.committeeService.pendingMainWalletState.subscribe((data) => {
       if(data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
+        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
+          self.isSpinning = false;
+        }
       }
-      self.paddingTeamInfo = data || {};
+      self.pendingTeamInfo = data || {};
       self.hasTempSubAccount = false;
-      if(self.paddingTeamInfo.tempAccounts && self.paddingTeamInfo.tempAccounts.length > 0) {
+      if(self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
         self.hasTempSubAccount = true;
       }
     });
   }
   committeeDestroy() {
-    if(this.paddingSubscribe) {
-      this.paddingSubscribe.unsubscribe();
+    if(this.pendingSubscribe) {
+      this.pendingSubscribe.unsubscribe();
+    }
+    if(this.pendingWalletSubscribe) {
+      this.pendingWalletSubscribe.unsubscribe();
     }
   }
 

@@ -1,6 +1,8 @@
 <div class="header">
   <div class="card info">
-    <div [innerHtml]="'TXSHARER.HEFT' | translate:{heft: heft}">
+    <div>
+        {{'TXSHARER.HEFT' | translate}}
+        <span>{{ heft * 10000 | formatSentinel }}<span> {{'TXSHARER.SCORE' | translate}}</span></span>
     </div>
     <a (click)='openSentinel()'>
       <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: heftRank}">
