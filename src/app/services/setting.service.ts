@@ -3,7 +3,6 @@ import { IpcService } from './ipc.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SETTINGS, CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from '../libs/config';
 import { remote } from 'electron';
-const axios = require('axios');
 
 @Injectable({
   providedIn: 'root'
@@ -139,6 +138,16 @@ export class SettingService {
       if (name === "lang") {
         this.i18n.setDefaultLang("zh");
         this.i18n.use(this.lang).subscribe(() => {
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
+          console.log("===========")
           this.ipc.ipcOnce("app.loaded.lang");
         });
       }
@@ -153,13 +162,12 @@ export class SettingService {
 
   async getUpdateVersion() {
     try {
-      const res = await axios.get(CHECK_MAC_UPDATE_URL);
-      if (res.status !== 200) {
-        return '';
-      }
-      return res.data;
+      let res = await fetch(CHECK_MAC_UPDATE_URL, {
+        method: 'GET',
+      });
+      if (!res.ok || res.status !== 200) return ''
+      else return res.json();
     } catch (e) {
-      console.log(e);
       return '';
     }
   }

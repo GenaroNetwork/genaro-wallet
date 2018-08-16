@@ -4,7 +4,6 @@ import { IpcService } from './ipc.service';
 import { TOP_FARMER_URL, FARMER_URL, Role } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
-const axios = require('axios');
 
 function add0x(addr: string) {
   if (addr && !addr.startsWith('0x')) { addr = '0x' + addr; }
@@ -31,26 +30,32 @@ export class CommitteeService {
   private pendingSentinelRankDatas: any = [];
 
   async getSentinel() {
-    const res = await axios({
+    let res = await fetch(TOP_FARMER_URL, {
       method: 'GET',
-      url: TOP_FARMER_URL
     });
-    return res.data;
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
   }
 
   async getFarmer(addr) {
-    const res = await axios({
+    let res = await fetch(FARMER_URL + add0x(addr).toLowerCase(), {
       method: 'GET',
-      url: FARMER_URL + add0x(addr).toLowerCase()
     });
-    return res.data;
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
   }
 
   async getCurrentFarmer(addr) {
     let data = await this.getFarmer(addr);
-    if(data) {
+    if (data) {
       let state = await this.brotherhoodService.fetchState(data.address);
-      if(state.pendingState) {
+      if (state.pendingState) {
         data.subAccounts = state.pendingState.subAccounts;
       }
       data.order = this.currentSentinelRanks.indexOf(data.address);
@@ -86,7 +91,7 @@ export class CommitteeService {
     if (datas) {
       datas.forEach(async (d, i) => {
         let subFarmers = d.subFarmers || [],
-            pendingSubFarmers = d.pendingSubFarmers || [];
+          pendingSubFarmers = d.pendingSubFarmers || [];
         d.currentSentinel = d.sentinel || 0;
         d.currentStake = d.stake || 0;
         d.currentDataSize = d.data_size || 0;
@@ -145,9 +150,9 @@ export class CommitteeService {
     let self = this;
     let broSub = null;
     let currentMainAddr = '',
-        pendingMainAddr = '';
+      pendingMainAddr = '';
     this.walletService.currentWallet.subscribe(w => {
-      if(broSub) {
+      if (broSub) {
         broSub.unsubscribe();
         currentMainAddr = '';
         pendingMainAddr = '';
@@ -158,7 +163,7 @@ export class CommitteeService {
         if (states && states.length > 1 && states[1]) {
           if (states[0] === currentWalletAddr) {
             let currentState = states[1].currentState,
-                pendingState = states[1].pendingState;
+              pendingState = states[1].pendingState;
             if (currentState && currentState.role === Role.Sub) {
               currentMainAddr = currentState.mainAccount;
               self.brotherhoodService.addFetchingAddress(currentMainAddr);
@@ -173,15 +178,15 @@ export class CommitteeService {
             }
           }
 
-          if(states[0] === currentMainAddr) {
+          if (states[0] === currentMainAddr) {
             let data;
-            for(let i = 0, length = self.currentSentinelRankDatas.length; i< length; i++) {
-              if(self.currentSentinelRankDatas[i].address === currentMainAddr) {
+            for (let i = 0, length = self.currentSentinelRankDatas.length; i < length; i++) {
+              if (self.currentSentinelRankDatas[i].address === currentMainAddr) {
                 data = self.currentSentinelRankDatas[i];
                 break;
               }
             }
-            if(!data) {
+            if (!data) {
               data = await self.getFarmer(currentMainAddr) || {};
               data.address = currentMainAddr;
             }
@@ -189,24 +194,24 @@ export class CommitteeService {
             data.currentAddress = currentWalletAddr;
             self.currentMainWalletState.next(data);
           }
-          if(states[0] === pendingMainAddr) {
+          if (states[0] === pendingMainAddr) {
             let data;
-            for(let i = 0, length = self.pendingSentinelRankDatas.length; i< length; i++) {
-              if(self.pendingSentinelRankDatas[i].address === currentMainAddr) {
+            for (let i = 0, length = self.pendingSentinelRankDatas.length; i < length; i++) {
+              if (self.pendingSentinelRankDatas[i].address === currentMainAddr) {
                 data = self.pendingSentinelRankDatas[i];
                 break;
               }
             }
-            if(!data) {
+            if (!data) {
               data = await self.getFarmer(pendingMainAddr) || {};
               data.address = pendingMainAddr;
             }
             data.order = self.pendingSentinelRanks.indexOf(pendingMainAddr);
 
             let subAccounts = data.pendingSubFarmers || [];
-            for(let i = 0, length = subAccounts.length; i < length; i++) {
-              if(subAccounts[i]) {
-                if(states[0] === currentWalletAddr || subAccounts[i].address.toLowerCase() === currentWalletAddr) {
+            for (let i = 0, length = subAccounts.length; i < length; i++) {
+              if (subAccounts[i]) {
+                if (states[0] === currentWalletAddr || subAccounts[i].address.toLowerCase() === currentWalletAddr) {
                   subAccounts[i].showRelieve = true;
                 }
                 else {
@@ -215,11 +220,11 @@ export class CommitteeService {
               }
             }
 
-            if(pendingMainAddr === currentWalletAddr) {
+            if (pendingMainAddr === currentWalletAddr) {
               let tempSubAccountIds = (states[1].tempState || {}).subAccounts || [];
               let tempSubAccounts = [];
-              for(let i = 0, length = tempSubAccountIds.length; i < length; i++) {
-                if(tempSubAccountIds[i] && tempSubAccountIds[i].worker) {
+              for (let i = 0, length = tempSubAccountIds.length; i < length; i++) {
+                if (tempSubAccountIds[i] && tempSubAccountIds[i].worker) {
                   let tsa = await self.getFarmer(tempSubAccountIds[i].worker.toLowerCase()) || {};
                   tsa.address = tempSubAccountIds[i].worker.toLowerCase();
                   tsa.flag = tempSubAccountIds[i].flag;
@@ -252,7 +257,7 @@ export class CommitteeService {
     private brotherhoodService: BrotherhoodService,
     private walletService: WalletService,
     private ipc: IpcService
-  ) { 
+  ) {
     this.initSentinelRank();
     setInterval(this.initSentinelRank.bind(this), 5 * 60 * 1000);
     this.initCurrentWalletState();

@@ -97,24 +97,24 @@ export class SharerService {
         return 0;
       }
     });
-    while(usedPorts.indexOf(defaultPort) > -1) {
+    while (usedPorts.indexOf(defaultPort) > -1) {
       defaultPort++;
     }
     return defaultPort;
   }
 
-  private convert(space){
-    var start=space.match(/([KMGT]?)B/);
-    var head=parseFloat(space.substring(0,start.index));
-    var tail=space.substring(start.index)
-    var vmap=new Map();
-    vmap.set("B",1);
-    vmap.set("KB",Math.pow(10,3));
-    vmap.set("MB",Math.pow(10,6));
-    vmap.set("GB",Math.pow(10,9));
-    vmap.set("TB",Math.pow(10,12));
-  
-    return(vmap.get(tail)*head);
+  private convert(space) {
+    var start = space.match(/([KMGT]?)B/);
+    var head = parseFloat(space.substring(0, start.index));
+    var tail = space.substring(start.index)
+    var vmap = new Map();
+    vmap.set("B", 1);
+    vmap.set("KB", Math.pow(10, 3));
+    vmap.set("MB", Math.pow(10, 6));
+    vmap.set("GB", Math.pow(10, 9));
+    vmap.set("TB", Math.pow(10, 12));
+
+    return (vmap.get(tail) * head);
   }
 
   getSharerNodeIds() {
@@ -275,8 +275,8 @@ export class SharerService {
               data.storageAllocation = config.storageAllocation;
               data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
               data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
-              var percentUsed= parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
-              data.percentUsed =  percentUsed > 100 ? 100 : percentUsed;
+              var percentUsed = parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
+              data.percentUsed = percentUsed > 100 ? 100 : percentUsed;
               data.time = prettyms(share.meta.uptimeMs);
               data.restarts = share.meta.numRestarts || 0;
               data.peers = farmerState.totalPeers;
