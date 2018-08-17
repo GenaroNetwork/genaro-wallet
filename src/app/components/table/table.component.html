@@ -240,15 +240,20 @@
         <td>
           <nz-progress *ngIf="task.state===TASK_STATE.INIT || task.state===TASK_STATE.INPROCESS" [nzPercent]="(task.process*100).toFixed(1)"
             nzStatus="active"></nz-progress>
-          <nz-progress *ngIf="task.state===TASK_STATE.ERROR" [nzPercent]="(task.process*100).toFixed(1)" nzStatus="exception"></nz-progress>
+          <nz-progress *ngIf="task.state===TASK_STATE.CANCEL || task.state===TASK_STATE.ERROR " [nzPercent]="(task.process*100).toFixed(1)"
+            nzStatus="exception"></nz-progress>
           <nz-progress *ngIf="task.state===TASK_STATE.DONE" [nzPercent]="100"></nz-progress>
         </td>
         <td>
-          <!-- <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate" (nzOnConfirm)="edenService.cancelTask(task.id)">{{ 'TASK.STOP_TASK'| translate }}</a> -->
-          <a (click)="edenService.removeTask(task.id)">
-            <i class="anticon anticon-delete"></i>
+          <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv; else showDelete" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate"
+            (nzOnConfirm)="edenService.cancelTask(task.id)">
+            <i class="anticon anticon-close"></i>
           </a>
-
+          <ng-template #showDelete>
+            <a (click)="edenService.removeTask(task.id)">
+              <i class="anticon anticon-delete"></i>
+            </a>
+          </ng-template>
         </td>
       </tr>
     </tbody>

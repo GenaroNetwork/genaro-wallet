@@ -43,6 +43,8 @@ export class EdenService {
     private zone: NgZone,
     private txService: TransactionService,
   ) {
+    this.ipc.dbRun("task", `UPDATE task SET state = ${TASK_STATE.CANCEL} WHERE state IN (${TASK_STATE.INIT},${TASK_STATE.INPROCESS})`)
+
     this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) { return; }
       this.updateAll();
@@ -248,7 +250,7 @@ export class EdenService {
     (id, wallet, bucketId, bucketName, fileId, fileName, onlinePath, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
     VALUES
     ('${id}', '${this.walletService.wallets.current}','${obj.bucketId}', '${obj.bucketName}', '${obj.fileId}', '${obj.fileName}', '${this.currentPathId.join('/')}', '${obj.nativePath}'
-    , '${JSON.stringify(obj.env)}', '${Date.now()}', '${Date.now()}', 0, '${TASK_STATE.INIT}', '${type}', 0, ${obj.allBytes}, NULL)`;
+    , '${JSON.stringify(obj.env)}', '${Date.now()}', '${Date.now()}', 0, ${TASK_STATE.INIT}, '${type}', 0, ${obj.allBytes}, NULL)`;
     await this.ipc.dbRun('task', `INSERT INTO task ${insert}`);
     this.loadTask();
     return id;
