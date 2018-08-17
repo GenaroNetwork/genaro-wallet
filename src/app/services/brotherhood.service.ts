@@ -157,13 +157,12 @@ export class BrotherhoodService {
   ) {
     this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService);
     this.alwaysFetch();
-    // this.addFetchingAddress("0xe6be07488eddce660214cf5e1a4058766df1cee7");
   }
 
   private async alwaysFetch() {
     const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
     const states = await Promise.all(promises);
-    this.lastState.SetAll(states);
+    //this.lastState.SetAll(states);
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
   }
 
