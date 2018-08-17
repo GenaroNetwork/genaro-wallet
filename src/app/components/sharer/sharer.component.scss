@@ -61,6 +61,10 @@ nz-card {
 
   .layout-header {
     height: 48px;
+
+    h3 {
+      float: left;
+    }
   }
 
   app-table {

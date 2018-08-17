@@ -1,4 +1,12 @@
 @import "../../config.scss";
+:host {
+  flex: 1;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  border-radius: $border-radius;
+  background: $content-bg;
+}
+
 nz-card {
     height: 100%;
     border-radius: $border-radius;
@@ -7,6 +15,7 @@ nz-card {
         font-size: 1rem;
         font-weight: bold;
         position: absolute;
+        margin: 0;
 
         span {
             font-size: 0.8rem;

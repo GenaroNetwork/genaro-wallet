@@ -1,3 +1,11 @@
+@import "../../config";
+:host {
+  flex: 1;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  border-radius: $border-radius;
+  background: $content-bg;
+}
 
 .download-miner {
     text-align: center;
