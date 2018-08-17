@@ -353,13 +353,13 @@ export class EdenService {
             }
           },
         });
+        taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
+          bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: taskEnv, allBytes: null,
+        });
+        this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
         cb(true);
       }
-      taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
-        bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: taskEnv, allBytes: null,
-      });
-      this.taskEnvs[taskId] = taskEnv;
     }).then(errCount => {
       if (Number.isNaN(errCount)) return;
       if (errCount === nativePaths.length) {
@@ -434,13 +434,13 @@ export class EdenService {
             }
           },
         });
+        taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
+          bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: path, env: taskEnv, allBytes: null,
+        });
+        this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
         cb(true);
       }
-      taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
-        bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: path, env: taskEnv, allBytes: null,
-      });
-      this.taskEnvs[taskId] = taskEnv;
     }, false).then(errCount => {
       if (Number.isNaN(errCount)) return;
       if (errCount === files.length) {
