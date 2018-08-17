@@ -1,14 +1,8 @@
 @import "../../config.scss";
-:host {
-  flex: 1;
-  box-shadow: $box-shadow;
-  overflow: hidden;
-  border-radius: $border-radius;
-  background: $content-bg;
-}
 nz-card {
     height: 100%;
     border-radius: $border-radius;
+    box-shadow: $box-shadow;
 }
 
 ::ng-deep .ant-card-body {
