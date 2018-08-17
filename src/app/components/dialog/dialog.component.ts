@@ -144,8 +144,8 @@ export class DialogComponent implements OnChanges {
   buySpaceRangeParams: number[] = [0, 1];
   buySpacePassword = '';
   buySpaceGas: number[] = [null, 2100000];
+  buySpaceDisabled = false;
   SPACE_UNIT_PRICE = SPACE_UNIT_PRICE;
-  buyLoading = false;
   buySpaceInit() {
     this.buySpaceStep = 0;
     this.buySpaceLimit = 0;
@@ -155,10 +155,14 @@ export class DialogComponent implements OnChanges {
     this.buySpaceLimitParams = [0, 30];
   }
   async buySpaceSubmit() {
-    this.buyLoading = true
+    this.buySpaceDisabled = true;
     const address = this.walletService.wallets.current;
-    await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
-    this.buySpaceStep++;
+    try {
+      await this.txService.buyBucket(address, this.buySpacePassword, this.buySpaceRange, this.buySpaceLimit, this.buySpaceGas[1], this.buySpaceGas[0]);
+      this.buySpaceStep++;
+    } catch (e) { } finally {
+      this.buySpaceDisabled = false;
+    }
   }
 
   // 购买流量
@@ -167,8 +171,8 @@ export class DialogComponent implements OnChanges {
   buyTraffic = 0;
   buyTrafficParams: number[] = [0, 1];
   buyTrafficGas: number[] = [null, 2100000];
+  buyTrafficDisabled = false;
   TRAFFIC_UNIT_PRICE = TRAFFIC_UNIT_PRICE;
-  buySpaceLoading = false;
   buyTrafficInit() {
     this.buyTrafficPassword = '';
     this.buyTrafficStep = 0;
@@ -176,10 +180,14 @@ export class DialogComponent implements OnChanges {
     this.buyTrafficParams = [0, 1];
   }
   async buyTrafficSubmit() {
-    this.buySpaceLoading = true
+    this.buyTrafficDisabled = true;
     const address = this.walletService.wallets.current;
-    await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
-    this.buyTrafficStep++;
+    try {
+      await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
+      this.buyTrafficStep++;
+    } catch (e) { } finally {
+      this.buyTrafficDisabled = false;
+    }
   }
 
 
@@ -233,16 +241,6 @@ export class DialogComponent implements OnChanges {
   txEdenNeedPass = '';
   async txEdenNeedPassDone() {
     await this.txEdenService.beforehandSign(this.txEdenNeedPass);
-  }
-
-  // setting
-  settingGetLanguageName(lang) {
-    try {
-      const name = require(`../../../assets/i18n/${lang}.json`).LANGUAGE_NAME;
-      if (name) { return name; } else { return lang; }
-    } catch (e) {
-      return lang;
-    }
   }
 
   // common
@@ -361,7 +359,7 @@ export class DialogComponent implements OnChanges {
   }
   async relieveSubmit() {
     const address = this.walletService.wallets.current;
-    if(address === this.relieveMainAddress) {
+    if (address === this.relieveMainAddress) {
       await this.txService.unBrotherAll(address, this.relievePassword, this.relieveGas[1], this.relieveGas[0]);
     } else {
       await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);

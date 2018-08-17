@@ -17,48 +17,6 @@ if (!existsSync(GENARO_ROOT_PATH)) { mkdirSync(GENARO_ROOT_PATH); }
 if (!existsSync(WALLET_CONFIG_PATH)) { mkdirSync(WALLET_CONFIG_PATH); }
 if (!existsSync(SQLITE_CONFIG_PATH)) { mkdirSync(SQLITE_CONFIG_PATH); }
 
-
-// all
-export const SETTINGS = [];
-
-// wallet
-// export const SETTINGS = {
-//     showWallet: [true, false], // default editable
-//     showEden: [false, false],
-//     showTxEden: [true, true],
-//     showSharer: [false, false],
-//     showCommittee: [false, false],
-//     showCurrentCommittee: [false, false],
-//     showTxSharer: [true, true],
-//     lang: ['en', true],
-// }
-
-
-// eden
-// export const SETTINGS = {
-//     showWallet: [true, false], // default editable
-//     showEden: [true, true],
-//     showTxEden: [true, true],
-//     showSharer: [false, false],
-//     showCommittee: [false, false],
-//     showCurrentCommittee: [false, false],
-//     showTxSharer: [false, false],
-//     lang: ['en', true],
-// }
-
-
-// sharer
-// export const SETTINGS = {
-//     showWallet: [true, false], // default editable
-//     showEden: [false, false],
-//     showTxEden: [false, false],
-//     showSharer: [true, true],
-//     showCommittee: [true, true],
-//     showCurrentCommittee: [true, true],
-//     showTxSharer: [true, true],
-//     lang: ['en', true],
-// }
-
 export const PLATFORM = 'darwin-x64';
 export const FULL_NODE_URL = 'enode://bf9599927eaf4993fdb6ff15f6918a6ca35f9126ef25a51acb3c94e93d39113acb40794643b4dd7a30a7f4db537a9cf0fef65d3ebddb89d5ddd0487fc265e65a@118.31.61.119:30315';
 

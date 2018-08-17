@@ -2,6 +2,7 @@
 nz-card {
     height: 100%;
     border-radius: $border-radius;
+    box-shadow: $box-shadow;
 }
 
 ::ng-deep .ant-card-body {

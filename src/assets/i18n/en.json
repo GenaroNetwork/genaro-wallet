@@ -47,6 +47,7 @@
     "PASSWORD_REPEAT": "Confirm password"
   },
   "MODEL": {
+    "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
     "WALLET_CHANGE_NAME": "Change wallet name",
     "WALLET_CHANGE_NAME_PLACEHOLDER": "Please enter the name of wallet you want to change",
     "WALLET_CHANGE_PASSWORD": "Change wallet password",
@@ -61,13 +62,12 @@
     "IMPORT_MNEMONIC_NOW": "Import Now",
     "BACK": "Back",
     "SETTING": {
-      "SHOW": {
-        "WALLET": "Dislay [My wallet]",
-        "EDEN": "Dislay [My file]",
-        "TXEDEN": "Dislay [Space management]",
-        "SHARER": "Dislay [Data stack management]",
-        "TXSHARER": "Dislay [My sharing]"
-      },
+      "WALLET": "Dislay [My wallet]",
+      "EDEN": "Dislay [My file]",
+      "TXEDEN": "Dislay [Space management]",
+      "TXSHARER": "Dislay [Data stack management]",
+      "SHARER": "Dislay [My sharing]",
+      "COMMITTEE": "COMMITTEE",
       "LANGUAGE": "Language"
     },
     "ABOUT": {
@@ -123,6 +123,7 @@
     "CHANGE_PASSWORD_SUCCESS": "修改密码成功",
     "EXPORT_JSON": "Export wallet to JSON file",
     "DELETE_WALLET": "Delete wallet",
+    "DELETE_WALLET_TIP": "请确认已经安全备份钱包。否则钱包删除后，该钱包内的资产将永久删除，无法找回。资产包括你的钱包余额，以及存储的文件资料。",
     "RECEIVE_COIN": "Receive",
     "SEND_COIN": "Transfer"
   },
@@ -206,6 +207,7 @@
     "OPEN": "打开",
     "UPLOAD_FILE": "上传文件",
     "UPLOAD_FILE_DONE": "上传文件完成",
+    "FILE_EXISTS": "文件 {{filename}} 已存在",
     "UPLOAD_FILE_ERROR": "上传文件完成，其中有 {{ errCount }} 个文件上传失败",
     "UPLOAD_FILE_ERROR_ALL": "上传文件失败",
     "DOWNLOAD_FILE": "下载文件",

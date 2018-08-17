@@ -143,10 +143,10 @@
     text-align: center;
     position: absolute;
     height: 18rem;
-    padding-top: 13rem;
-    background-image: url(assets/img/bucket_icon.png);
-    background-size: auto 40%;
-    background-position: 50% 20%;
+    padding-top: 8rem;
+    background-image: url(assets/img/empty_bucket.jpg);
+    background-size: auto 30%;
+    background-position: 50% 10%;
     background-repeat: no-repeat;
     top: 0;
     bottom: 0;
@@ -155,12 +155,13 @@
     margin: auto;
     h1 {
       margin: 0 0 1rem;
-      font-size: 1.2rem;
+      color: #888;
+      font-size: 1rem;
     }
     p {
       margin: 0;
-      font-size: 1rem;
-      color: gray;
+      font-size: 0.75rem;
+      color: #AAA;
     }
   }
 }

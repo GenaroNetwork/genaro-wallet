@@ -33,6 +33,7 @@ export class EdenService {
     page: 1,
   };
   tasks: any[] = [];
+  taskEnvs: any = {};
 
   constructor(
     private walletService: WalletService,
@@ -140,12 +141,12 @@ export class EdenService {
 
   updateView(reload: boolean = true) {
     if (reload) {
-      this.allView = [];
+      let allView = [];
       if (this.currentPath.length === 0) {
         this.currentBuckets.forEach(bucket => {
           const file = Object.assign({}, bucket);
           file.type = 'bucket';
-          this.allView.push(file);
+          allView.push(file);
         });
       } else {
         const startsWith = this.currentPath.slice(1).join('/');
@@ -161,8 +162,22 @@ export class EdenService {
             const extName = name.split('.');
             file.type = `.${extName.pop()}`;
           }
-          this.allView.push(file);
+          allView.push(file);
         });
+      }
+      if (this.allView.length !== allView.length) this.allView = allView;
+      else {
+        this.allView.every((file, index) => {
+          let newFile = allView[index];
+          if (file.type !== newFile.type) {
+            this.allView = allView;
+            return false;
+          }
+          for (let key in file) {
+            file[key] = newFile[key];
+          }
+          return true;
+        })
       }
     }
     this.zone.run(() => {
@@ -272,12 +287,13 @@ export class EdenService {
       this.requestEnv = true;
       throw new Error('no env');
     }
-    return new Promise((res, rej) => {
+    return new Promise<number>((res, rej) => {
       let times = 0;
       let errCount = 0;
       arr.forEach(item => {
-        func(item, env, (err: boolean = false) => {
-          if (err) { errCount++; }
+        func(item, env, (err: boolean = null) => {
+          if (err === true) { errCount++; }
+          if (err === false) errCount = NaN;
           if (++times < arr.length) { return; }
           if (reload) { this.updateAll(); }
           res(errCount);
@@ -297,42 +313,55 @@ export class EdenService {
     });
     if (!nativePaths) { return; }
     let tipFileName;
+    let uploadBreak = false;
     this.runAll(nativePaths, async (path, env, cb) => {
       let filename = basename(path);
       tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
       filename = this.convertChar(filename, true);
       filename = folderPrefix + filename;
+      if (this.currentFiles.find(file => file.name === filename)) {
+        uploadBreak = true;
+        this.messageService.error(this.i18n.instant("EDEN.FILE_EXISTS", { filename: tipFileName }));
+        cb(false);
+        return;
+      }
       let taskId = null;
-      const taskEnv = env.storeFile(bucketId, path, {
-        filename,
-        progressCallback: (process, allBytes) => {
-          if (!taskId) { return; }
-          this.updateTask(taskId, {
-            process, allBytes,
-            state: TASK_STATE.INPROCESS,
-          });
-        },
-        finishedCallback: (err, fileId) => {
-          if (err) {
-            console.log(err);
-            this.updateTask(taskId, {
-              state: TASK_STATE.ERROR,
-            });
-            cb(true);
-          } else {
+      let taskEnv;
+      try {
+        taskEnv = env.storeFile(bucketId, path, {
+          filename,
+          progressCallback: (process, allBytes) => {
             if (!taskId) { return; }
             this.updateTask(taskId, {
-              fileId,
-              state: TASK_STATE.DONE,
+              process, allBytes,
+              state: TASK_STATE.INPROCESS,
             });
-            cb();
-          }
-        },
-      });
+          },
+          finishedCallback: (err, fileId) => {
+            if (err) {
+              this.updateTask(taskId, {
+                state: TASK_STATE.ERROR,
+              });
+              cb(true);
+            } else {
+              if (!taskId) { return; }
+              this.updateTask(taskId, {
+                fileId,
+                state: TASK_STATE.DONE,
+              });
+              cb(null);
+            }
+          },
+        });
+      } catch (e) {
+        cb(true);
+      }
       taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
         bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: taskEnv, allBytes: null,
       });
+      this.taskEnvs[taskId] = taskEnv;
     }).then(errCount => {
+      if (Number.isNaN(errCount)) return;
       if (errCount === nativePaths.length) {
         this.messageService.error(this.i18n.instant('EDEN.UPLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
@@ -341,6 +370,7 @@ export class EdenService {
         this.messageService.success(this.i18n.instant('EDEN.UPLOAD_FILE_DONE'));
       }
     });
+    if (uploadBreak) return;
     if (nativePaths.length > 1) tipFileName = "";
     else tipFileName = ` ${tipFileName} `;
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
@@ -378,35 +408,41 @@ export class EdenService {
       tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
       let taskId = null;
-      const taskEnv = env.resolveFile(bucketId, file.id, filePath, {
-        overwrite: true,
-        progressCallback: (process, allBytes) => {
-          if (!taskId) { return; }
-          this.updateTask(taskId, {
-            process, allBytes,
-            state: TASK_STATE.INPROCESS,
-          });
-        },
-        finishedCallback: (err, fileId) => {
-          if (err) {
-            console.log(err);
-            this.updateTask(taskId, {
-              state: TASK_STATE.ERROR,
-            });
-            cb(true);
-          } else {
+      let taskEnv;
+      try {
+        taskEnv = env.resolveFile(bucketId, file.id, filePath, {
+          overwrite: true,
+          progressCallback: (process, allBytes) => {
             if (!taskId) { return; }
             this.updateTask(taskId, {
-              state: TASK_STATE.DONE,
+              process, allBytes,
+              state: TASK_STATE.INPROCESS,
             });
-            cb();
-          }
-        },
-      });
+          },
+          finishedCallback: (err, fileId) => {
+            if (err) {
+              this.updateTask(taskId, {
+                state: TASK_STATE.ERROR,
+              });
+              cb(true);
+            } else {
+              if (!taskId) { return; }
+              this.updateTask(taskId, {
+                state: TASK_STATE.DONE,
+              });
+              cb(null);
+            }
+          },
+        });
+      } catch (e) {
+        cb(true);
+      }
       taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
         bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: path, env: taskEnv, allBytes: null,
       });
+      this.taskEnvs[taskId] = taskEnv;
     }, false).then(errCount => {
+      if (Number.isNaN(errCount)) return;
       if (errCount === files.length) {
         this.messageService.error(this.i18n.instant('EDEN.DOWNLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
@@ -435,7 +471,7 @@ export class EdenService {
     await this.runAll(taskId, async (taskId, env, cb) => {
       const task: any = await this.ipc.dbGet('task', `SELECT * FROM task WHERE id = '${taskId}'`);
       if (task && task.state !== TASK_STATE.CANCEL) {
-        const taskEnv = JSON.parse(task.env);
+        const taskEnv = this.taskEnvs[taskId];
         switch (task.type) {
           case TASK_TYPE.FILE_DOWNLOAD:
             env.resolveFileCancel(taskEnv);
@@ -448,7 +484,7 @@ export class EdenService {
           state: TASK_STATE.CANCEL,
         });
       }
-      cb();
+      cb(null);
     });
     this.messageService.success(this.i18n.instant('EDEN.STOP_TASK_SUCCESS'));
   }

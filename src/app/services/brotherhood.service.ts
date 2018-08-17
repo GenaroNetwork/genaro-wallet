@@ -103,7 +103,7 @@ class LastStateStorage {
   }
 
   private SaveAll() {
-    writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState, null, 4));
+    // writeFileSync(BROTHER_STATE_FILE, JSON.stringify(this.allState, null, 4));
   }
 
   public deleteEntry(addr) {
@@ -126,10 +126,10 @@ class LastStateStorage {
   }
 
   private ReadAll() {
-    if (existsSync(BROTHER_STATE_FILE)) {
-      const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' });
-      this.allState = JSON.parse(content);
-    }
+    // if (existsSync(BROTHER_STATE_FILE)) {
+    //   const content = readFileSync(BROTHER_STATE_FILE, { encoding: 'utf-8' });
+    //   this.allState = JSON.parse(content);
+    // }
     for (const addr in this.allState) {
       this.bs.next([addr, this.allState[addr]]);
     }
@@ -157,10 +157,10 @@ export class BrotherhoodService {
   ) {
     this.lastState = new LastStateStorage(this.stateUpdate, this.NotiService);
     this.alwaysFetch();
-    // this.addFetchingAddress("0xe6be07488eddce660214cf5e1a4058766df1cee7");
   }
 
   private async alwaysFetch() {
+    //return;
     const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
     const states = await Promise.all(promises);
     this.lastState.SetAll(states);

@@ -1,13 +1,13 @@
 <ul nz-menu nzMode="inline">
-  <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'">
+  <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'" *ngIf="settingService.wallet">
     <i class="anticon anticon-wallet"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')" *ngIf="settingService.showEden">
+  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')" *ngIf="settingService.eden">
     <i class="anticon anticon-folder"></i>
     {{ "SIDERBAR.EDEN_FILE" | translate }}
   </li>
-  <li nz-submenu [nzOpen]="open(page,'/eden-')" *ngIf="settingService.showEden">
+  <li nz-submenu [nzOpen]="open(page,'/eden-')" *ngIf="settingService.eden">
     <span title>
       <i class="anticon anticon-clock-circle-o"></i>
       {{ "SIDERBAR.EDEN_TASK" | translate }}
@@ -23,23 +23,23 @@
       </li>
     </ul>
   </li>
-  <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'" *ngIf="settingService.showTxEden">
+  <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'" *ngIf="settingService.txEden">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.showTxSharer">
+  <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.txSharer">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXSHARER" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.showSharer">
+  <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.sharer">
     <i class="anticon anticon-database"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/currentCommittee']" [nzSelected]="page==='/currentCommittee'" *ngIf="settingService.showCurrentCommittee">
+  <li nz-menu-item [routerLink]="['/currentCommittee']" [nzSelected]="page==='/currentCommittee'" *ngIf="settingService.committee">
     <i class="anticon anticon-team"></i>
     {{ "SIDERBAR.COMMITTEE" | translate }}
   </li>
-  <li nz-submenu *ngIf="settingService.showCommittee">
+  <li nz-submenu *ngIf="settingService.committee">
     <span title>
       <i class="anticon anticon-appstore-o"></i>
       {{ "SIDERBAR.CO_CONSTRUCTION_NODES" | translate }}
@@ -55,7 +55,7 @@
       </li>
     </ul>
   </li>
-  <li nz-menu-item [routerLink]="['/downloadMiner']" [nzSelected]="page==='/downloadMiner'" *ngIf="settingService.showDownloadMiner">
+  <li nz-menu-item [routerLink]="['/downloadMiner']" [nzSelected]="page==='/downloadMiner'" *ngIf="settingService.committee">
     <i class="anticon anticon-team"></i>
     {{ "SIDERBAR.DOWNLOAD_MINER" | translate }}
   </li>

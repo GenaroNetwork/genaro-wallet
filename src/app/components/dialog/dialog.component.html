@@ -52,8 +52,8 @@
 <!-- 删除钱包 -->
 <nz-modal nzTitle="{{ 'MODEL.WALLET_DELETE' | translate }}" [nzVisible]="dialogName==='walletDelete'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
-    [(ngModel)]="walletDelete">
+  <app-input name="text" [ipt]="'WALLET.DELETE_WALLET_TIP'| translate" [span]="[2, 20]"></app-input>
+  <app-input name="password-no-label" [span]="[2, 20]" [(ipt)]="walletDelete"></app-input>
 </nz-modal>
 
 <!-- 购买空间 -->
@@ -90,7 +90,7 @@
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" [(nzLoading)]="buyLoading" (click)="buySpaceSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="buySpaceDisabled" (click)="buySpaceSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
@@ -126,7 +126,7 @@
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" [(nzLoading)]="buySpaceLoading" (click)="buyTrafficSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="buyTrafficDisabled" (click)="buyTrafficSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
@@ -150,48 +150,12 @@
 
 <!-- 设置 -->
 <nz-modal [nzTitle]="'HEADER.SETTINGS' | translate" [nzFooter]="null" [nzVisible]="dialogName==='setting'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <div nz-row class="setting" *ngIf="settingService.showEden!==null">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.EDEN' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showEden"></nz-switch>
-    </div>
-  </div>
-  <div nz-row class="setting" *ngIf="settingService.showTxEden!==null">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.TXEDEN' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showTxEden"></nz-switch>
-    </div>
-  </div>
-  <div nz-row class="setting" *ngIf="settingService.showSharer!==null">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.SHARER' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showTxSharer"></nz-switch>
-    </div>
-  </div>
-  <div nz-row class="setting" *ngIf="settingService.showTxSharer!==null">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.SHOW.TXSHARER' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-switch [(ngModel)]="settingService.showSharer"></nz-switch>
-    </div>
-  </div>
-  <div nz-row class="setting" *ngIf="settingService.lang!==null">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.SETTING.LANGUAGE' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <nz-select [(ngModel)]="settingService.lang">
-        <nz-option *ngFor="let lang of i18n.getLangs()" [nzValue]="lang" [nzLabel]="settingGetLanguageName(lang)"></nz-option>
-      </nz-select>
-    </div>
-  </div>
+  <app-input name="setting" ipt="wallet"></app-input>
+  <app-input name="setting" ipt="eden"></app-input>
+  <app-input name="setting" ipt="sharer"></app-input>
+  <app-input name="setting" ipt="txEden"></app-input>
+  <app-input name="setting" ipt="txSharer"></app-input>
+  <app-input name="setting" ipt="committee"></app-input>
 </nz-modal>
 
 <!-- 容器重命名 -->
@@ -203,10 +167,8 @@
 <!-- 删除容器 -->
 <nz-modal nzTitle="{{ 'EDEN.DELETE_BUCKET_CONFIRM' | translate }}" [nzVisible]="dialogName==='edenDeleteBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()">
-  <app-input name="password" [(ipt)]="edenDeleteBucket"></app-input>
-  <div nz-row>
-    <div nz-col nzOffset="6">{{ "EDEN.DELETE_BUCKET_TIP" | translate }}</div>
-  </div>
+  <app-input name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
+  <app-input name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
 </nz-modal>
 
 <!-- 帮助 -->

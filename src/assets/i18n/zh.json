@@ -47,6 +47,7 @@
     "PASSWORD_REPEAT": "确认密码"
   },
   "MODEL": {
+    "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
     "WALLET_CHANGE_NAME": "修改钱包名",
     "WALLET_CHANGE_NAME_PLACEHOLDER": "请输入要修改的钱包名",
     "WALLET_CHANGE_PASSWORD": "修改钱包密码",
@@ -61,13 +62,12 @@
     "IMPORT_MNEMONIC_NOW": "现在导入",
     "BACK": "返回",
     "SETTING": {
-      "SHOW": {
-        "WALLET": "显示【我的钱包】",
-        "EDEN": "显示【我的文件】",
-        "TXEDEN": "显示【空间管理】",
-        "SHARER": "显示【数据栈管理】",
-        "TXSHARER": "显示【我的分享】"
-      },
+      "WALLET": "显示【我的钱包】",
+      "EDEN": "显示【我的文件】",
+      "TXEDEN": "显示【空间管理】",
+      "TXSHARER": "显示【数据栈管理】",
+      "SHARER": "显示【我的分享】",
+      "COMMITTEE": "COMMITTEE",
       "LANGUAGE": "语言"
     },
     "ABOUT": {
@@ -123,6 +123,7 @@
     "CHANGE_PASSWORD_SUCCESS": "修改密码成功",
     "EXPORT_JSON": "导出钱包为 JSON 文件",
     "DELETE_WALLET": "删除钱包",
+    "DELETE_WALLET_TIP": "请确认已经安全备份钱包。否则钱包删除后，该钱包内的资产将永久删除，无法找回。资产包括你的钱包余额，以及存储的文件资料。",
     "RECEIVE_COIN": "收款",
     "SEND_COIN": "转账"
   },
@@ -206,6 +207,7 @@
     "OPEN": "打开",
     "UPLOAD_FILE": "上传文件",
     "UPLOAD_FILE_DONE": "上传文件完成",
+    "FILE_EXISTS": "文件 {{filename}} 已存在",
     "UPLOAD_FILE_ERROR": "上传文件完成，其中有 {{ errCount }} 个文件上传失败",
     "UPLOAD_FILE_ERROR_ALL": "上传文件失败",
     "DOWNLOAD_FILE": "下载文件",

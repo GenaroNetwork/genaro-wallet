@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
+import { SettingService } from '../../services/setting.service';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public txService: TransactionService, // 会在 html 中用到，
     public walletService: WalletService, // 会在 html 中用到，
+    public setting: SettingService,
   ) { }
 
   ngOnInit() {

@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
-import { STAKE_PER_NODE, SENTINEL_WEB, TOP_FARMER_URL } from '../../libs/config';
+import { CommitteeService } from '../../services/committee.service';
+import { STAKE_PER_NODE, SENTINEL_WEB } from '../../libs/config';
 import { shell } from 'electron';
 
 @Component({
@@ -22,6 +23,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
+    private committeeService: CommitteeService
   ) { }
 
   async updateValue() {
@@ -42,23 +44,23 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     this.txService.getNodes(address).then(val => {
       if (!val) { this.staked = 0; } else { this.staked = val.length; }
     });
-    const res = await fetch(TOP_FARMER_URL);
-    const json = await res.json();
-    let addr = address;
-    if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+
+    let allCommittees = this.committeeService.getPendingSentinelRankDatas();
     this.heft = 0;
-    const addrs = json.map(farmer => {
-      if(farmer.address === addr) {
-        this.heft = farmer.sentinel;
+    this.heftRank = '300+';
+
+    if (allCommittees) {
+      let addr = address;
+      if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+
+      for(let i = 0, length = allCommittees.length; i< length; i++) {
+        if(addr === allCommittees[i].address) {
+          this.heft = allCommittees[i].pendingSentinel;
+          this.heftRank = allCommittees[i].order + 1;
+          break;
+        }
       }
-      return farmer.address;
-    });
-    console.log(this.heft);
-    if (addrs.indexOf(addr) === -1) { 
-      this.heftRank = '300+'; 
-    } else {
-      this.heftRank = addrs.indexOf(addr) + 1;
-    }
+    }    
   }
 
   tableChangeIndex = 0;

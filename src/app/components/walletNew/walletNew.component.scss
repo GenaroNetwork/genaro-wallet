@@ -53,6 +53,9 @@
     }
     .createStep,
     .importStep {
+      nz-steps {
+        text-align: left;
+      }
       text-align: center;
       nz-steps {
         ::ng-deep .ant-steps {
