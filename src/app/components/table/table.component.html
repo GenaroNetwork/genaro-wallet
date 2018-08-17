@@ -106,7 +106,7 @@
     </tbody>
   </nz-table>
   <!-- <nz-pagination class="tx-pg" *ngIf="name==='txSharer'" [(nzPageIndex)]="txSharerDataCurrentPage" [(nzTotal)]="txSharerDataTotalPage"
-  (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination> -->
+      (nzPageIndexChange)="txSharerChangePage($event)"></nz-pagination> -->
 
 
   <!-- sharer -->
@@ -114,23 +114,23 @@
     [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'>
     <thead>
       <tr>
-        <th *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
-        <th *ngIf="opt.addressColShow">{{ "DRIVE.ADDRESS" | translate}}</th>
-        <th *ngIf="opt.statusColShow">{{ "DRIVE.STATUS" | translate}}</th>
-        <th *ngIf="opt.uptimeColShow">{{ "DRIVE.UPTIME" | translate}}</th>
-        <th *ngIf="opt.restartsColShow">{{ "DRIVE.RESTARTS" | translate}}</th>
-        <th *ngIf="opt.peersColShow">{{ "DRIVE.PEERS" | translate}}</th>
-        <th *ngIf="opt.allocsColShow">{{ "DRIVE.ALLOCS" | translate}}</th>
-        <th *ngIf="opt.deltaColShow">{{ "DRIVE.DELTA" | translate}}</th>
-        <th *ngIf="opt.portColShow">{{ "DRIVE.PORT" | translate}}</th>
-        <th *ngIf="opt.sharedColShow">{{ "DRIVE.SHARED" | translate}}</th>
-        <th *ngIf="opt.bridgesColShow">{{ "DRIVE.BRIDGES" | translate}}</th>
-        <th>{{ "DRIVE.OPTION" | translate}}</th>
+        <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
+        <th nzWidth="20%" *ngIf="opt.addressColShow">{{ "DRIVE.ADDRESS" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.statusColShow">{{ "DRIVE.STATUS" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.uptimeColShow">{{ "DRIVE.UPTIME" | translate}}</th>
+        <th nzWidth="5%" *ngIf="opt.restartsColShow">{{ "DRIVE.RESTARTS" | translate}}</th>
+        <th nzWidth="5%" *ngIf="opt.peersColShow">{{ "DRIVE.PEERS" | translate}}</th>
+        <th nzWidth="5%" *ngIf="opt.allocsColShow">{{ "DRIVE.ALLOCS" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.deltaColShow">{{ "DRIVE.DELTA" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.portColShow">{{ "DRIVE.PORT" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.sharedColShow">{{ "DRIVE.SHARED" | translate}}</th>
+        <th nzWidth="10%" *ngIf="opt.bridgesColShow">{{ "DRIVE.BRIDGES" | translate}}</th>
+        <th nzWidth="10%">{{ "DRIVE.OPTION" | translate}}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of sharerTable.data">
-        <td *ngIf="opt.nodeColShow">
+        <td nzWidth="25%" *ngIf="opt.nodeColShow">
           <div>
             <span>{{data.id}}
               <app-copy [data]="data.id"></app-copy>
@@ -139,28 +139,28 @@
             <span>{{data.location}}</span>
           </div>
         </td>
-        <td *ngIf="opt.addressColShow">{{data.address}}</td>
-        <td *ngIf="opt.statusColShow">
+        <td nzWidth="20%" *ngIf="opt.addressColShow">{{data.address}}</td>
+        <td nzWidth="10%" *ngIf="opt.statusColShow">
           <span *ngIf="data.state === 0" class="text-gray">stopped</span>
           <span *ngIf="data.state === 1" class="text-green">running</span>
           <span *ngIf="data.state === 2" class="text-red">errored</span>
         </td>
-        <td *ngIf="opt.uptimeColShow">{{data.time}}</td>
-        <td *ngIf="opt.restartsColShow">{{data.restarts}}</td>
-        <td *ngIf="opt.peersColShow">{{data.peers}}</td>
-        <td *ngIf="opt.allocsColShow">
+        <td nzWidth="10%" *ngIf="opt.uptimeColShow">{{data.time}}</td>
+        <td nzWidth="5%" *ngIf="opt.restartsColShow">{{data.restarts}}</td>
+        <td nzWidth="5%" *ngIf="opt.peersColShow">{{data.peers}}</td>
+        <td nzWidth="5%" *ngIf="opt.allocsColShow">
           <div>
             <span>{{data.contractCount}}</span>
             <br/>
             <span>{{data.dataReceivedCount + ' received'}}</span>
           </div>
         </td>
-        <td *ngIf="opt.deltaColShow">
+        <td nzWidth="10%" *ngIf="opt.deltaColShow">
           <span *ngIf="data.deltaStatus === 0" class="text-green">{{data.delta}}</span>
           <span *ngIf="data.deltaStatus === 1" class="text-yellow">{{data.delta}}</span>
           <span *ngIf="data.deltaStatus === 2" class="text-red">{{data.delta}}</span>
         </td>
-        <td *ngIf="opt.portColShow">
+        <td nzWidth="10%" *ngIf="opt.portColShow">
           <div *ngIf="data.connectionStatus===-1">
             <span>{{data.listenPort}}</span>
             <br/>
@@ -182,19 +182,19 @@
             <span>{{data.connectionType}}</span>
           </div>
         </td>
-        <td *ngIf="opt.sharedColShow">
+        <td nzWidth="10%" *ngIf="opt.sharedColShow">
           <div>
             <nz-progress [nzPercent]="data.percentUsed" nzStatus="active"></nz-progress>
             <p>{{data.spaceUsed}}/{{data.storageAllocation}}</p>
           </div>
         </td>
-        <td *ngIf="opt.bridgesColShow">
+        <td nzWidth="10%" *ngIf="opt.bridgesColShow">
           <span *ngIf="data.bridges === 0" class="text-gray">disconnected</span>
           <span *ngIf="data.bridges === 1" class="text-yellow">connecting</span>
           <span *ngIf="data.bridges === 2" class="text-orange">confirming</span>
           <span *ngIf="data.bridges === 3" class="text-green">connected</span>
         </td>
-        <td>
+        <td nzWidth="10%">
           <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
             <a nz-dropdown>
               ...
@@ -215,7 +215,7 @@
   </nz-table>
 
 
-  <!--  上传下载任务 -->
+
   <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable>
     <thead>
       <tr>
@@ -240,14 +240,11 @@
         <td>
           <nz-progress *ngIf="task.state===TASK_STATE.INIT || task.state===TASK_STATE.INPROCESS" [nzPercent]="(task.process*100).toFixed(1)"
             nzStatus="active"></nz-progress>
-          <nz-progress *ngIf="task.state===TASK_STATE.ERROR || task.state===TASK_STATE.CANCEL " [nzPercent]="(task.process*100).toFixed(1)"
-            nzStatus="exception"></nz-progress>
+          <nz-progress *ngIf="task.state===TASK_STATE.ERROR" [nzPercent]="(task.process*100).toFixed(1)" nzStatus="exception"></nz-progress>
           <nz-progress *ngIf="task.state===TASK_STATE.DONE" [nzPercent]="100"></nz-progress>
         </td>
         <td>
-          <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate" (nzOnConfirm)="edenService.cancelTask(task.id)">
-            <i class="anticon anticon-close"></i>
-          </a>
+          <!-- <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate" (nzOnConfirm)="edenService.cancelTask(task.id)">{{ 'TASK.STOP_TASK'| translate }}</a> -->
           <a (click)="edenService.removeTask(task.id)">
             <i class="anticon anticon-delete"></i>
           </a>
