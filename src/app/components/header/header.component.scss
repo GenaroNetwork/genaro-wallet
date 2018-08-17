@@ -6,6 +6,11 @@
   background: $content-bg;
   .left {
     float: left;
+    padding-left: 2rem;
+    font-size: 1.2rem;
+    a {
+      margin-right: 0.5rem
+    }
     .logo {
       background-image: url("assets/img/logo.png"); // background-image: url("assets/img/sharer.jpg");
       background-repeat: no-repeat;

@@ -11,7 +11,7 @@ const LANGS = ['en', 'zh'];
 export class AppComponent {
   constructor(
     private i18n: TranslateService,
-    private setting: SettingService,
+    public setting: SettingService,
   ) {
     this.i18n.addLangs(LANGS);
     this.setting.doNothing();

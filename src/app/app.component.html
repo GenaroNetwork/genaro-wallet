@@ -1,7 +1,25 @@
 <app-header></app-header>
 <div class="choose" *ngIf="setting.appType === null; else main">
-  <div (click)="setting.set('appType', 'eden')"></div>
-  <div></div>
+  <div (click)="setting.set('appType', 'eden')">
+    <div class="show">
+      <img src="assets/img/choose-eden.png">
+    </div>
+    <div class="detail">
+      <img src="assets/img/app-eden.png">
+      <div>Genaro Eden v{{ setting.appVersion }}</div>
+      <div>{{ "COMMON.CHOOSE_EDEN" | translate }}</div>
+    </div>
+  </div>
+  <div (click)="setting.set('appType', 'sharer')">
+    <div class="show">
+      <img src="assets/img/choose-sharer.png">
+    </div>
+    <div class="detail">
+      <img src="assets/img/app-sharer.png">
+      <div>Genaro Sharer v{{ setting.appVersion }}</div>
+      <div>{{ "COMMON.CHOOSE_SHARER" | translate }}</div>
+    </div>
+  </div>
 </div>
 <ng-template #main>
   <div class="main">

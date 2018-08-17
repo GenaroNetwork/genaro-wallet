@@ -12,6 +12,29 @@ export class SettingService {
   private list = ["firstRun", "appType", "language", "wallet", "eden", "sharer", "txEden", "txSharer", "committee"];
   firstRun: boolean = true;
   appType: string = null;
+  appTypeSet(value) {
+    this.set("wallet", true);
+    switch (value) {
+      case "eden":
+        this.set("eden", true);
+        this.set("txEden", true);
+
+        this.set("sharer", false);
+        this.set("txSharer", false);
+        this.set("committee", false);
+        break;
+      case "sharer":
+        this.set("eden", false);
+        this.set("txEden", false);
+
+        this.set("sharer", true);
+        this.set("txSharer", true);
+        this.set("committee", true);
+        break;
+    }
+    return value;
+  }
+
   language: string = "zh";
   wallet: boolean = true;
   eden: boolean = true;

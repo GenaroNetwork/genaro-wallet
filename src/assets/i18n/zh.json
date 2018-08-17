@@ -27,6 +27,8 @@
     "PAY_NOW": "立即支付",
     "YEAR(S)": "年",
     "MONTH(S)": "月",
+    "CHOOSE_EDEN": "数据创造价值",
+    "CHOOSE_SHARER": "分享空间，获取收益",
     "DOWNLOADMINER_TIPS": "如果你已经进入委员会,可以下载miner程序,同步全网区块,获得挖矿（链上）奖励",
     "DOWNLOADMINER_TIPS2": "点击<a target=\"_blank\" href=\"https://genaro.network/hk/genaro_eden/#down-top-box\">“下载”</a>安装程序和miner使用说明。"
   },

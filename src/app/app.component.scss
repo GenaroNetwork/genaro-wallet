@@ -3,7 +3,7 @@
   margin: $border-blank;
   display: flex;
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
-  div {
+  &>div {
     flex: 1;
     margin-right: $border-blank;
     height: 100%;
@@ -18,6 +18,40 @@
     }
     &:last-of-type {
       margin: 0;
+    }
+    .show {
+      height: 80%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 50%;
+        height: auto;
+      }
+    }
+    &>img {
+      display: block;
+      width: 50%;
+      height: auto;
+      margin: 5rem auto;
+    }
+    .detail {
+      height: 64px;
+      width: 20rem;
+      margin: 0 auto;
+      img {
+        float: left;
+        height: 100%;
+        width: auto;
+        margin-right: 2rem;
+      }
+      div {
+        line-height: 32px;
+      }
     }
   }
 }

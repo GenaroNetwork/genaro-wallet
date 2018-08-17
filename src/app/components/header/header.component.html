@@ -1,6 +1,9 @@
 <div class="header">
   <div class="left">
-    <div class="logo"></div>
+    <a href="javascript:void(0)" (click)="setting.set('appType', null)" *ngIf="setting.appType!==null">
+      <i class="anticon anticon-menu-fold"></i>
+    </a>
+    G-BOX
   </div>
   <div class="right">
     <span *ngIf="txService.readyState===null">正在连接，请稍候</span>
