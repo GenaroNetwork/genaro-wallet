@@ -23,3 +23,20 @@
   white-space: pre-wrap;
   word-wrap: pre;
 }
+
+:host {
+  .setting {
+    height: 3rem;
+    line-height: 3rem;
+    border-bottom: 1px solid #ccc;
+    margin: 0 1rem;
+    div:last-of-type {
+      text-align: right;
+    }
+  }
+  &:last-of-type {
+    .setting {
+      border: none;
+    }
+  }
+}

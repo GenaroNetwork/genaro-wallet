@@ -157,6 +157,19 @@
   </div>
 </div>
 
+<!-- 设置 -->
+<div *ngIf="name==='setting'" nz-row class="setting">
+  <div nz-col [nzSpan]="span[0]" [nzOffset]="span[2]">
+    {{ ('MODEL.SETTING.' + ngModel.toUpperCase()) | translate}}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <nz-switch *ngIf="ngModel!=='language'" [ngModel]="settingService[ngModel]" (ngModelChange)="settingChange($event)"></nz-switch>
+    <nz-select *ngIf="ngModel==='language'" [ngModel]="settingService[ngModel]" (ngModelChange)="settingChange($event)">
+      <nz-option *ngFor="let lang of settingLangs" [nzValue]="lang" [nzLabel]="settingGetLanguageName(lang)"></nz-option>
+    </nz-select>
+  </div>
+</div>
+
 <!-- 密码 -->
 <div *ngIf="name==='password'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
@@ -216,5 +229,12 @@
 <div *ngIf="name==='text'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
     {{ ngModel }}
+  </div>
+</div>
+
+<!-- 无标签的密码输入框 -->
+<div *ngIf="name==='password-no-label'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.OLD_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="ngModel">
   </div>
 </div>

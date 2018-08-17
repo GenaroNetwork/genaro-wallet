@@ -1,4 +1,27 @@
 @import "./config.scss";
+.choose {
+  margin: $border-blank;
+  display: flex;
+  height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
+  div {
+    flex: 1;
+    margin-right: $border-blank;
+    height: 100%;
+    background: $content-bg;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    border: 2px solid $content-bg;
+    cursor: pointer;
+    &:hover {
+      border-color: $theme-color;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, .3);
+    }
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+}
+
 .main {
   margin: $border-blank;
   display: flex;

@@ -12,7 +12,7 @@
       <i *ngIf="txService.chainSyncing[0]" class="anticon anticon-spin anticon-sync"></i>
     </div>
     <div class="menu">
-      <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
+      <nz-dropdown nzPlacement="bottomRight" nzTrigger="click" [nzDisabled]="setting.appType===null">
         <a nz-dropdown>
           <nz-avatar [nzSrc]="('avatar://' + walletService.wallets.current) | safe"></nz-avatar>
           {{ (walletService.wallets.all | getWallet:walletService.wallets.current).name || ("HEADER.NO_ACCOUNT" | translate) }}

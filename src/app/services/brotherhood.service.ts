@@ -161,6 +161,7 @@ export class BrotherhoodService {
   }
 
   private async alwaysFetch() {
+    //return;
     const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
     const states = await Promise.all(promises);
     this.lastState.SetAll(states);

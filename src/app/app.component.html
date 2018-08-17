@@ -1,9 +1,15 @@
 <app-header></app-header>
-<div class="main">
-  <nz-card class="sider" [nzBordered]="false">
-    <app-siderbar></app-siderbar>
-  </nz-card>
-  <div class="right">
-    <router-outlet></router-outlet>
-  </div>
+<div class="choose" *ngIf="setting.appType === null; else main">
+  <div (click)="setting.set('appType', 'eden')"></div>
+  <div></div>
 </div>
+<ng-template #main>
+  <div class="main">
+    <nz-card class="sider" [nzBordered]="false">
+      <app-siderbar></app-siderbar>
+    </nz-card>
+    <div class="right">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-template>
