@@ -30,7 +30,7 @@
     "CHOOSE_EDEN": "数据创造价值",
     "CHOOSE_SHARER": "分享空间，获取收益",
     "DOWNLOADMINER_TIPS": "如果你已经进入委员会,可以下载miner程序,同步全网区块,获得挖矿（链上）奖励",
-    "DOWNLOADMINER_TIPS2": "点击<a target=\"_blank\" href=\"https://genaro.network/hk/genaro_eden/#down-top-box\">“下载”</a>安装程序和miner使用说明。"
+    "DOWNLOADMINER_TIPS2": "点击<a target=\"_blank\" href=\"https://genaro.network/hk/genaro_eden/#down-top-box\">“下载”</a>安装程序和miner使用说明"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",
@@ -317,7 +317,7 @@
     "RESTART_CONFIRM_TIP": "您确定要重启您的分享节点吗?",
     "START_CONFIRM_TIP": "您确定要启动您的分享节点吗?",
     "STOP_CONFIRM_TIP": "您确定要暂停您的分享节点吗? 您可以之后任何时候重启, 但用户在您暂停期间无法获取到存储的文件, 因此这期间您无法继续获取到收益并且也会降低您的节点信誉值.",
-    "DELETE_CONFIRM_TIP": "您确定要删除您的分享节点吗? 若该节点已押注, 押注期内, 押注的GNX无法使用. 请先确认你已备份节点配置以便找回. 您将丢失所有存储在您设备上的数据并无法获取收益, 同时也会降低您的设备的信誉值.",
+    "DELETE_CONFIRM_TIP": "您确定要删除您的分享节点吗?如果你的节点已经开始分享， 删除前请先备份节点配置，以便找回节点。删除后，系统将不会再分发给该节点数据，该节点也无法获取相应的存储收益, 同时也会降低您设备的信誉值.",
     "STAKE_FIRST_TIP": "请先押注",
     "NODE_STAKE_TIP": "节点尚未押注",
     "GAS_PRICE": "燃料价格 (Gwei)",
@@ -352,7 +352,8 @@
       "NODE_ID": "节点 ID",
       "STAKE_TIME": "抵押时间",
       "INCOME": "收益",
-      "REMOVE_NODE": "解绑节点"
+      "REMOVE_NODE": "解绑节点",
+      "REMOVE_NODE_TIPS": "解绑后，可以再次绑定其他的有效节点，但当前钱包不在获取该节点的分享收益。"
     },
     "COMMITTEE": {
       "RANK": "排名",

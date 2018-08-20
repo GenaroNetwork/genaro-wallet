@@ -317,7 +317,7 @@
     "RESTART_CONFIRM_TIP": "Are you sure you want to restart your sharing node?",
     "START_CONFIRM_TIP": "Are you sure you want to start your sharing node?",
     "STOP_CONFIRM_TIP": "Are you sure you want to pause your sharing node?You can restart at any time afterwards,but user won't be able to stored files during this time,so you won't be able to continue to earn revenue during this time and will also lower your node's reputation.",
-    "DELETE_CONFIRM_TIP": "Are you sure you want to delete your sharing node?If the node has been staked,the staked GNX can not be used following deletion.Please make sure that you have backed up the node configuration for retrieval.You will lose all the date stored on your device and you will not be able to retrieve the revenue.You will also lower your node's reputation.",
+    "DELETE_CONFIRM_TIP": "您确定要删除您的分享节点吗?如果你的节点已经开始分享， 删除前请先备份节点配置，以便找回节点。删除后，系统将不会再分发给该节点数据，该节点也无法获取相应的存储收益, 同时也会降低您设备的信誉值.",
     "STAKE_FIRST_TIP": "Please stake first",
     "NODE_STAKE_TIP": "Node has not yet been staked",
     "GAS_PRICE": "Gas price",
@@ -352,7 +352,8 @@
       "NODE_ID": "Node ID",
       "STAKE_TIME": "Stake time",
       "INCOME": "Income",
-      "REMOVE_NODE": "Unbind node"
+      "REMOVE_NODE": "Unbind node",
+      "REMOVE_NODE_TIPS": "解绑后，可以再次绑定其他的有效节点，但当前钱包不在获取该节点的分享收益。"
     },
     "COMMITTEE": {
       "RANK": "rank",

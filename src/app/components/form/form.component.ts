@@ -125,6 +125,9 @@ export class FormComponent implements OnChanges {
     this.removeNodeStep++;
     this.onSubmit.emit();
   }
+  removeNodeTipConfirm() {
+    this.removeNodeStep++;
+  }
 
   constructor(
     private txService: TransactionService,
