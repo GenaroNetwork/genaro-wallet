@@ -58,11 +58,15 @@
 <!-- 解绑节点 -->
 <ng-container *ngIf="name==='removeNode'">
   <div *ngIf="removeNodeStep===0" class="bind-node">
+      <div class="tip remove-tip">{{ 'TABLE.TXSHARER.REMOVE_NODE_TIPS' | translate }}</div>
+      <app-input name="confirm" (iptChange)="removeNodeTipConfirm()"></app-input>
+  </div>
+  <div *ngIf="removeNodeStep===1" class="bind-node">
     <app-input name="gas" [(ipt)]="removeNodeGas" [span]="[6,14]"></app-input>
     <app-input name="password" [(ipt)]="removeNodePassword" [span]="[6,14]"></app-input>
     <app-input name="confirm" (iptChange)="removeNodeConfirm()"></app-input>
   </div>
-  <div *ngIf="removeNodeStep===1">
+  <div *ngIf="removeNodeStep===2">
     <i class="anticon anticon-check-circle"></i>
   </div>
 </ng-container>

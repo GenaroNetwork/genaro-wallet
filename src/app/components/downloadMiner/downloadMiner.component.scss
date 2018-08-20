@@ -1,22 +1,19 @@
 @import "../../config";
-:host {
-  flex: 1;
-  box-shadow: $box-shadow;
-  overflow: hidden;
-  border-radius: $border-radius;
-  background: $content-bg;
-}
-
-.download-miner {
+nz-card {
+    height: 100%;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
     text-align: center;
-    >img {
+    img {
         margin: 90px auto 40px auto;
+        width: 200px;
     }
-    >h1 {
-        font-size: 1.6rem;
-        margin: 20px auto;
+    .tip1 {
+        font-size: 26px;
+        margin: 20px auto 0;
     }
-    >h2 {
+    .tip2 {
+        font-size: 20px;
         margin: 0 auto;
         color: gray;
     }
