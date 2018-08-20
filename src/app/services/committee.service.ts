@@ -55,7 +55,7 @@ export class CommitteeService {
     let data = await this.getFarmer(addr);
     if (data) {
       let state = await this.brotherhoodService.fetchState(data.address);
-      if (state.pendingState) {
+      if (state && state.pendingState) {
         data.subAccounts = state.pendingState.subAccounts;
       }
       data.order = this.currentSentinelRanks.indexOf(data.address);
@@ -75,10 +75,10 @@ export class CommitteeService {
         nickName: '',
         subAccounts: []
       };
-      if (sentinelDatas.length > 0) {
+      if (sentinelDatas && sentinelDatas.length > 0) {
         data.nickName = sentinelDatas[0].nickName;
       }
-      if (statesDatas.currentState) {
+      if (statesDatas && statesDatas.currentState) {
         data.subAccounts = statesDatas.currentState.subAccounts;
       }
       arr.push(data);
