@@ -74,6 +74,8 @@ export class SettingService {
     Promise.all(promises).then(() => {
       this.i18n.setDefaultLang(this.language);
       this.i18n.use(this['lang']).subscribe(() => {
+      }, () => {
+      }, () => {
         this.ipc.ipcOnce("app.loaded.lang");
       });
     });

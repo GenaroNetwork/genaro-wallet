@@ -29,12 +29,12 @@ function createWindow() {
   let preWindow = new BrowserWindow({
     width: 700,
     height: 600,
-    frame: false,
+    titleBarStyle: 'hidden',
   });
   preWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'prewindow/index.html'),
     protocol: 'file:',
-    slashes: true
+    slashes: true,
   }));
 
   // start libs;
@@ -56,9 +56,6 @@ function createWindow() {
     show: false,
     width: size.width,
     height: size.height,
-    // webPreferences: {
-    //   experimentalFeatures: true,
-    // }
   });
 
   // set menu

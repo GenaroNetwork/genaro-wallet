@@ -35,8 +35,6 @@
     "e2e": "ng e2e"
   },
   "dependencies": {
-    "@angular/animations": "^6.1.0",
-    "babel-core": "^6.26.3",
     "better-sqlite3": "^4.1.4",
     "bip39": "^2.5.0",
     "bitcore-lib": "^0.15.0",
@@ -72,11 +70,13 @@
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
-    "@ngx-translate/core": "10.0.1",
+    "@angular/animations": "^6.1.0",
+    "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "3.0.1",
     "@types/jasmine": "2.8.7",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "8.9.4",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "codelyzer": "4.2.1",
     "core-js": "2.5.6",

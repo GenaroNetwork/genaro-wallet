@@ -47,7 +47,7 @@ export class EdenService {
 
     this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) { return; }
-      this.updateAll();
+      this.changePath(['/']);
       this.loadTask();
     });
 
@@ -256,10 +256,10 @@ export class EdenService {
     return id;
   }
 
-  private async updateTask(id: string, obj: any) {
+  private async updateTask(id: string, obj: any, reload: boolean = true) {
     const updateArr = [];
     let task = this.tasks.find(task => task.id === id);
-    for (const key in obj) {
+    for (let key of Object.keys(obj)) {
       updateArr.push(`${key}='${obj[key]}'`);
       this.zone.run(() => {
         task[key] = obj[key];
@@ -268,6 +268,7 @@ export class EdenService {
     if (!updateArr.length) { return; }
     const update = updateArr.join(',');
     await this.ipc.dbRun('task', `UPDATE task SET ${update} WHERE id='${id}'`);
+    if (reload) await this.loadTask();
   }
 
   private convertChar(html: string, encode: boolean = true) {
@@ -337,7 +338,7 @@ export class EdenService {
             this.updateTask(taskId, {
               process, allBytes,
               state: TASK_STATE.INPROCESS,
-            });
+            }, false);
           },
           finishedCallback: (err, fileId) => {
             if (err) {
@@ -419,7 +420,7 @@ export class EdenService {
             this.updateTask(taskId, {
               process, allBytes,
               state: TASK_STATE.INPROCESS,
-            });
+            }, false);
           },
           finishedCallback: (err, fileId) => {
             if (err) {
