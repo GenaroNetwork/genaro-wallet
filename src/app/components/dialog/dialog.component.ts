@@ -270,32 +270,9 @@ export class DialogComponent implements OnChanges {
     }
   }
 
-  // help
-  openInstructionsWeb() {
-    shell.openExternal(INSTRUCTIONS_URL);
-  }
-  openDownloadEdenWeb() {
-    shell.openExternal(DOWNLOAD_EDEN_URL);
-  }
-  openDownloadSharerWeb() {
-    shell.openExternal(DOWNLOAD_SHARER_URL);
-  }
-
   // about
   isLastestVersion = true;
   updateUrl = '';
-  aboutInit() {
-    this.checkUpdate();
-  }
-  openAgreementWeb() {
-    shell.openExternal(GET_AGREEMENT(this.i18n.currentLang));
-  }
-  openPrivacyWeb() {
-    shell.openExternal(GET_TUTORIAL(this.i18n.currentLang));
-  }
-  openLogsWeb() {
-    // shell.openExternal();
-  }
   async checkUpdate() {
     this.isLastestVersion = true;
     const latestVersion = await this.settingService.getUpdateVersion();

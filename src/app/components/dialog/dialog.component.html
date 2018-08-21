@@ -173,89 +173,15 @@
 
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.HELP.INSTRUCTIONS' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openInstructionsWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.HELP.DOWNLOAD_EDEN' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openDownloadEdenWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.HELP.DOWNLOAD_SHARER' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openDownloadSharerWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div nz-row class="setting">
-    <div nz-col nzSpan="12" nzOffset="1">
-      {{ 'MODEL.HELP.CONTACT' | translate}}
-    </div>
-    <div nz-col nzSpan="10">
-      <span class="contact-email">eden@genaro.network</span>
-    </div>
-  </div>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_EDEN' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_SHARER' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="setting" ipt="language"></app-input>
+  <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.ABOUT.AGREEMENT' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openAgreementWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.ABOUT.PRIVACY' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openPrivacyWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div *ngIf="false" nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.ABOUT.LOGS' | translate}}
-    </div>
-    <div nz-col nzSpan="6">
-      <button nz-button class="right-btn" (click)="openLogsWeb()">
-        <i class="anticon anticon-right"></i>
-      </button>
-    </div>
-  </div>
-  <div nz-row class="setting">
-    <div nz-col nzSpan="16" nzOffset="1">
-      {{ 'MODEL.ABOUT.VERSION' | translate}}
-    </div>
-    <div *ngIf="isLastestVersion" nz-col nzSpan="6">
-      {{version}}
-    </div>
-    <div *ngIf="!isLastestVersion" nz-col nzSpan="6">
-      <button nz-button class="right-btn" nzType="danger" (click)="openUpdateVersion()">更新</button>
-    </div>
-  </div>
 </nz-modal>
 
 <!-- 申请加入共建 -->

@@ -3,6 +3,7 @@ import { IpcService } from './ipc.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from '../libs/config';
 import { remote } from 'electron';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,14 @@ export class SettingService {
         this.set("committee", true);
         break;
     }
+    setTimeout(() => {
+      this.router.navigate(["/wallet"]);
+    }, 0);
+    return value;
+  }
+
+  languageSet(value) {
+    this.i18n.use(value);
     return value;
   }
 
@@ -58,6 +67,7 @@ export class SettingService {
   constructor(
     private ipc: IpcService,
     private i18n: TranslateService,
+    private router: Router,
   ) {
     let promises = [];
     this.list.forEach(name => {
@@ -76,7 +86,9 @@ export class SettingService {
       this.i18n.use(this['lang']).subscribe(() => {
       }, () => {
       }, () => {
-        this.ipc.ipcOnce("app.loaded.lang");
+        setTimeout(() => {
+          this.ipc.ipcOnce("app.loaded.lang");
+        }, 1000);
       });
     });
   }

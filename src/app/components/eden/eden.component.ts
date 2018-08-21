@@ -101,7 +101,8 @@ export class EdenComponent implements OnInit {
           label: this.i18n.instant('EDEN.OPEN'), click: this.openBucket.bind(this)
         }));
       }
-      menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.CREATE_BUCKET'), click: this.createBucket.bind(this) }));
+      menu.append(new remote.MenuItem({ label: this.i18n.instant('TXEDEN.BUY_SPACE'), click: this.createBucket.bind(this) }));
+      if (this.fileSelected.size === 1) menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.RENAME_BUCKET'), click: this.renameBucket.bind(this) }));
       if (this.fileSelected.size > 0) { menu.append(new remote.MenuItem({ label: this.i18n.instant('EDEN.DELETE_BUCKET'), click: this.deleteBucket.bind(this) })); }
     } else {
       if (this.fileSelected.size === 0) {
@@ -120,6 +121,13 @@ export class EdenComponent implements OnInit {
     });
     return files;
   }
+  createBucket() {
+    this.edenDialogName = 'buySpace';
+  }
+  renameBucket() {
+    this.edenDialogOpt = this.fileSelected;
+    this.edenDialogName = 'edenRenameBucket';
+  }
   uploadFile() {
     this.edenService.fileUploadTask();
   }
@@ -133,7 +141,7 @@ export class EdenComponent implements OnInit {
   removeFile() {
     this.edenService.fileRemoveTask(this.getCurrentFiles());
   }
-  createBucket() { }
+
   openBucket() {
     const i = this.fileSelected.values().next().value;
     const id = this.edenService.currentView[i].id;
@@ -141,6 +149,7 @@ export class EdenComponent implements OnInit {
     this.fileSelected = new Set();
     this.lastFileSelected = null;
   }
+
   deleteBucket() {
     const bucketList = [];
     this.fileSelected.forEach(i => {

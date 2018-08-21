@@ -265,7 +265,7 @@ export class EdenService {
         task[key] = obj[key];
       });
     }
-    if (!updateArr.length) { return; }
+    if (updateArr.length === 0) { return; }
     const update = updateArr.join(',');
     await this.ipc.dbRun('task', `UPDATE task SET ${update} WHERE id='${id}'`);
     if (reload) await this.loadTask();
