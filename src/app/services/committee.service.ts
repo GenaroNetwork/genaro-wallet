@@ -127,7 +127,7 @@ export class CommitteeService {
 
   private async initSentinelRank() {
     let datas = await this.getCurrentSentinelRank();
-    this.currentSentinelRankDatas = datas.sort((a, b) => {
+    this.currentSentinelRankDatas = datas.filter(f => !f.mainFarmer).sort((a, b) => {
       return b.currentSentinel - a.currentSentinel;
     });
     this.currentSentinelRanks = [];
@@ -135,7 +135,7 @@ export class CommitteeService {
       csrd.order = i;
       this.currentSentinelRanks.push(csrd.address);
     });
-    this.pendingSentinelRankDatas = datas.sort((a, b) => {
+    this.pendingSentinelRankDatas = datas.filter(f => !f.pendingMainFarmer).sort((a, b) => {
       return b.pendingSentinel - a.pendingSentinel;
     });
     this.pendingSentinelRanks = [];
