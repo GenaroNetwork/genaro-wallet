@@ -85,7 +85,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of currentTeamTable.data">
+            <tr *ngFor="let data of currentTeamTable.data" [class]="currentWalletAddr === data.address ? 'self' : ''">
                 <!-- <td nzWidth="15%">{{data.nickName}}</td> -->
                 <td nzWidth="45%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
@@ -192,7 +192,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of pendingTeamTable.data">
+            <tr *ngFor="let data of pendingTeamTable.data" [class]="currentWalletAddr === data.address ? 'self' : ''">
                 <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="15%">{{data.stake}}</td>
                 <td nzWidth="15%">{{data.data_size | formatSize}}</td>
@@ -216,7 +216,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let data of applyTeamTable.data">
+            <tr *ngFor="let data of applyTeamTable.data" [class]="currentWalletAddr === data.address ? 'self' : ''">
                 <td nzWidth="30%">{{data.address | longAddr | shortAddr}}</td>
                 <td nzWidth="20%">{{data.stake}}</td>
                 <td nzWidth="20%">{{data.data_size | formatSize}}</td>

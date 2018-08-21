@@ -20,6 +20,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   isSpinning: boolean = true;
+  currentWalletAddr: string = '';
 
   accountTeamInfo: any = {};
   showCurrentTeam = false;
@@ -29,6 +30,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     let self = this;
     this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
+      self.currentWalletAddr = '0x' + self.walletService.wallets.current;
     });
     this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
       if(data && data.address) {
@@ -59,6 +61,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     let self = this;
     this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
+      self.currentWalletAddr = '0x' + self.walletService.wallets.current;
     });
     this.pendingSubscribe = this.committeeService.pendingMainWalletState.subscribe((data) => {
       if(data && data.address) {
