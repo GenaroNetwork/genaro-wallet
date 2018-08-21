@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
@@ -20,10 +21,13 @@ export class TxSharerComponent implements OnInit, OnDestroy {
   walletSub: any;
   newBlockSub: any;
   stakeData: any;
+  tipDialogName: string = '';
+  tipOpt: any = {};
   constructor(
     private txService: TransactionService,
     private walletService: WalletService,
-    private committeeService: CommitteeService
+    private committeeService: CommitteeService,
+    private i18n: TranslateService,
   ) { }
 
   async updateValue() {
@@ -90,4 +94,11 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     this.newBlockSub.unsubscribe();
   }
 
+  tipClick() {
+    this.tipDialogName = 'tips';
+    this.tipOpt = {
+      title: this.i18n.instant('SIDERBAR.TXSHARER'),
+      content: this.i18n.instant('MODEL.CURRENT_RANKS_TIP')
+    };
+  }
 }

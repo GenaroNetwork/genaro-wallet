@@ -1,7 +1,13 @@
 <nz-spin [nzSpinning]="isSpinning">
 <!-- rank -->
 <div *ngIf="name==='rank'" class="panel">
-    <div class="header">{{ 'PANEL.RANK.MY_TEAM' | translate }}</div>
+    <div class="header">
+        {{ 'PANEL.RANK.MY_TEAM' | translate }}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick(1)">
+            <i class="anticon anticon-question"></i>
+        </button>
+    </div>
     <form nz-form class="ant-advanced-search-form">
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="6">
@@ -98,7 +104,13 @@
 
 <!-- committee -->
 <div *ngIf="name==='committee'" class="panel">
-    <div class="header">{{ 'PANEL.RANK.MY_TEAM' | translate }}</div>
+    <div class="header">
+        {{ 'PANEL.RANK.MY_TEAM' | translate }}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick(2)">
+            <i class="anticon anticon-question"></i>
+        </button>
+    </div>
     <form nz-form class="ant-advanced-search-form">
         <div nz-row [nzGutter]="24">
             <div nz-col [nzSpan]="6">
@@ -229,3 +241,5 @@
     </nz-table>
 </div>
 </nz-spin>
+
+<app-dialog [(name)]="tipDialogName" [opt]="tipOpt"></app-dialog>

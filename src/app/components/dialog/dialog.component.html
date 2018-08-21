@@ -317,3 +317,11 @@
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
   </ng-container>
 </ng-template>
+
+
+<!-- tips -->
+<nz-modal [nzTitle]="options? options.title : ''" [nzFooter]="null" [nzVisible]="dialogName==='tips'" (nzOnCancel)="dialogNameChange.emit(null)">
+  <p class="tips">
+    {{options ? options.content : ''}}
+  </p>
+</nz-modal>

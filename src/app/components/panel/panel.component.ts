@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
@@ -21,6 +22,8 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   isSpinning: boolean = true;
   currentWalletAddr: string = '';
+  tipDialogName: string = '';
+  tipOpt: any = {};
 
   accountTeamInfo: any = {};
   showCurrentTeam = false;
@@ -86,11 +89,27 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  tipClick(flg) {
+    this.tipDialogName = 'tips';
+    if(flg === 1) {
+      this.tipOpt = {
+        title: this.i18n.instant('SIDERBAR.CURRENT_RANKS'),
+        content: this.i18n.instant('MODEL.CURRENT_RANKS_TIP')
+      };
+    }
+    else if (flg === 2) {
+      this.tipOpt = {
+        title: this.i18n.instant('SIDERBAR.JOIN_COMMITTEE'),
+        content: this.i18n.instant('MODEL.JOIN_COMMITTEE_TIP')
+      };
+    }
+  }
 
   constructor(
     public walletService: WalletService,
     public committeeService: CommitteeService,
-    public brotherhoodService: BrotherhoodService
+    public brotherhoodService: BrotherhoodService,
+    private i18n: TranslateService,
   ) { }
 
   ngOnInit() {
