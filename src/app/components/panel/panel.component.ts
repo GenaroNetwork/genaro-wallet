@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
+import { BLOCK_COUNT_OF_ROUND } from '../../libs/config';
 
 @Component({
   selector: 'app-panel',
@@ -60,7 +62,9 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   hasTempSubAccount = false;
   pendingSubscribe: any;
   pendingWalletSubscribe: any;
+  effectBlock: number = 0;
   async committeeInit() {
+    this.getEffectBlock();
     let self = this;
     this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
@@ -89,6 +93,13 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  async getEffectBlock() {
+    const web3 = await this.txService.getWeb3Instance();
+    // @ts-ignore
+    const bno = await web3.eth.getBlockNumber();
+    this.effectBlock = bno - bno % BLOCK_COUNT_OF_ROUND + BLOCK_COUNT_OF_ROUND;
+  }
+
   tipClick(flg) {
     this.tipDialogName = 'tips';
     if(flg === 1) {
@@ -110,6 +121,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     public committeeService: CommitteeService,
     public brotherhoodService: BrotherhoodService,
     private i18n: TranslateService,
+    private txService: TransactionService,
   ) { }
 
   ngOnInit() {

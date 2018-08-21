@@ -386,7 +386,8 @@
       "GNX_STAKE": "GNX Stake量",
       "SPACE_USED": "空间使用量",
       "MEMBER_COUNT": "战队人数",
-      "APPLICATION_RECORD": "申请记录"
+      "APPLICATION_RECORD": "申请记录",
+      "EFFECT_BLOCK": "生效区块高度"
     }
   },
   "ERROR": {
