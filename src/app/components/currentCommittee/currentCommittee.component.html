@@ -4,6 +4,12 @@
         <span>{{ 'TABLE.COMMITTEE.UPDATE_BLOCK' | translate }}: {{ thisRoundFirstBlock }}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ nextRoundFirstBlock }}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()">
+            <i class="anticon anticon-question"></i>
+        </button>
     </div>
     <app-table name="currentCommittee"></app-table>
 </nz-card>
+
+<app-dialog [(name)]="tipDialogName" [opt]="tipOpt"></app-dialog>

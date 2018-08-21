@@ -240,8 +240,15 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
     this.isSpinning = true;
-    this.currentCommitteeData = await this.committeeService.getCurrentCommittee();
-    this.isSpinning = false;
+    let self = this;
+    this.walletService.currentWallet.subscribe(async w => {
+      self.currentCommitteeData = await self.committeeService.getCurrentCommittee() || [];
+      let currentWalletAddr = add0x(self.walletService.wallets.current);
+      self.currentCommitteeData.forEach(d => {
+        d.self = d.address === currentWalletAddr;
+      });
+      self.isSpinning = false;
+    });
   }
 
   // sharer

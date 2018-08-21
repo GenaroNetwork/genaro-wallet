@@ -118,9 +118,8 @@ export class SharerService {
   }
 
   getSharerNodeIds() {
-    if (!this.configIds) {
-      this.initConfigs();
-    }
+    this.configIds = [];
+    this.initConfigs();
     return this.configIds || [];
   }
 

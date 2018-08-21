@@ -349,18 +349,20 @@
     nzShowPagination="false" [nzPageSize]="31" class="tx">
     <thead>
       <tr>
-        <th nzWidth="15%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
         <!-- <th nzWidth="20%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
-        <th nzWidth="65%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
-        <th nzWidth="20%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th>
+        <th nzWidth="10%"></th>
+        <th nzWidth="70%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+        <!-- <th nzWidth="20%">{{ 'TABLE.COMMITTEE.MEMBER' | translate }}</th> -->
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of currentCommitteeTable.data">
-        <td nzWidth="15%">{{ data.order + 1 }}</td>
+        <td nzWidth="20%">{{ data.order + 1 }}</td>
         <!-- <td nzWidth="20%">{{ data.nickName }}</td> -->
-        <td nzWidth="65%">{{ data.address }}</td>
-        <td nzWidth="20%">{{ (data.subAccounts || []).length || 0}} / 10</td>
+        <td nzWidth="10%"><img *ngIf="data.self" class="rank-self" src="assets/img/rank_self.png"/></td>
+        <td nzWidth="70%">{{ data.address }}</td>
+        <!-- <td nzWidth="20%">{{ (data.subAccounts || []).length || 0}} / 10</td> -->
       </tr>
     </tbody>
   </nz-table>
