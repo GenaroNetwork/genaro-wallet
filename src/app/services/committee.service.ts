@@ -67,20 +67,20 @@ export class CommitteeService {
     const committees = await this.brotherhoodService.getCommitteeRank() || [];
     const arr = [];
     for (let i = 0, length = committees.length; i < length; i++) {
-      const sentinelDatas = await this.getFarmer(committees[i]);
-      const statesDatas = await this.brotherhoodService.fetchState(committees[i]);
+      // const sentinelDatas = await this.getFarmer(committees[i]);
+      // const statesDatas = await this.brotherhoodService.fetchState(committees[i]);
       const data = {
         order: i,
         address: committees[i],
         nickName: '',
         subAccounts: []
       };
-      if (sentinelDatas && sentinelDatas.length > 0) {
-        data.nickName = sentinelDatas[0].nickName;
-      }
-      if (statesDatas && statesDatas.currentState) {
-        data.subAccounts = statesDatas.currentState.subAccounts;
-      }
+      // if (sentinelDatas && sentinelDatas.length > 0) {
+      //   data.nickName = sentinelDatas[0].nickName;
+      // }
+      // if (statesDatas && statesDatas.currentState) {
+      //   data.subAccounts = statesDatas.currentState.subAccounts;
+      // }
       arr.push(data);
     }
     return arr;
