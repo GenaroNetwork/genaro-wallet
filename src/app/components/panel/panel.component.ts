@@ -26,12 +26,14 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   currentWalletAddr: string = '';
   tipDialogName: string = '';
   tipOpt: any = {};
+  effectBlock: number = 0;
 
   accountTeamInfo: any = {};
   showCurrentTeam = false;
   currentSubscribe: any;
   currentWalletSubscribe: any;
   async rankInit() {
+    this.getEffectBlock();
     let self = this;
     this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
@@ -62,7 +64,6 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   hasTempSubAccount = false;
   pendingSubscribe: any;
   pendingWalletSubscribe: any;
-  effectBlock: number = 0;
   async committeeInit() {
     this.getEffectBlock();
     let self = this;

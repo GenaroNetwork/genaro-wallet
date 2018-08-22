@@ -292,6 +292,7 @@
     "DELETE": "删除",
     "NOTICE": "注意",
     "SHARING_SIZE": "分享大小",
+    "SHARING_SIZE_PLACEHOLDER": "单个节点最大4T",
     "CONNECTED": "已连接",
     "CONFIRMING": "正在确认",
     "CONNECTING": "正在连接",

@@ -292,6 +292,7 @@
     "DELETE": "Delete",
     "NOTICE": "Notice",
     "SHARING_SIZE": "Sharing space size",
+    "SHARING_SIZE_PLACEHOLDER": "单个节点最大4T",
     "CONNECTED": "Connected",
     "CONFIRMING": "Confirming",
     "CONNECTING": "Connecting",
