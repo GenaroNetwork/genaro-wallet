@@ -1,6 +1,6 @@
 <nz-spin [nzSpinning]="isSpinning">
   <!-- 钱包 -->
-  <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+  <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
     class="tx" nzShowPagination="false">
     <thead>
       <tr>
@@ -54,7 +54,8 @@
   </nz-table>
 
   <!-- 买空间买流量 -->
-  <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []" [nzNoResult]="'EDEN.EMPTY_BUCKET_TIP' | translate">
+  <nz-table *ngIf="name==='txEden'" #txEdenTable [nzData]="txEdenService.bucketList || []" [nzNoResult]="'EDEN.EMPTY_BUCKET_TIP' | translate"
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
         <th></th>
@@ -78,7 +79,7 @@
   </nz-table>
 
   <!-- 抵押 -->
-  <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate">
+  <nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate">
     <thead>
       <tr>
         <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -110,8 +111,7 @@
 
 
   <!-- sharer -->
-  <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
-    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'>
+  <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false" [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'>
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -216,7 +216,7 @@
 
 
 
-  <nz-table [nzHideOnSinglePage]="true" *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable>
+  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable>
     <thead>
       <tr>
         <th>{{ "TASK.FILE_NAME" | translate}}</th>
@@ -360,7 +360,9 @@
       <tr *ngFor="let data of currentCommitteeTable.data">
         <td nzWidth="20%">{{ data.order + 1 }}</td>
         <!-- <td nzWidth="20%">{{ data.nickName }}</td> -->
-        <td nzWidth="10%"><img *ngIf="data.self" class="rank-self" src="assets/img/rank_self.png"/></td>
+        <td nzWidth="10%">
+          <img *ngIf="data.self" class="rank-self" src="assets/img/rank_self.png" />
+        </td>
         <td nzWidth="70%">{{ data.address }}</td>
         <!-- <td nzWidth="20%">{{ (data.subAccounts || []).length || 0}} / 10</td> -->
       </tr>

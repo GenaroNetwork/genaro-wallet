@@ -37,7 +37,7 @@ import { CommitteeComponent } from './components/committee/committee.component';
 import { CurrentCommitteeComponent } from './components/currentCommittee/currentCommittee.component';
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 import { PanelComponent } from './components/panel/panel.component';
-import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component'; 
+import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 
 // services
 

@@ -235,7 +235,8 @@
 <!-- 无标签的密码输入框 -->
 <div *ngIf="name==='password-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.OLD_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="ngModel">
+    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.OLD_PASSWORD_PLACEHOLDER' | translate }}" [value]="ngModel"
+      (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 

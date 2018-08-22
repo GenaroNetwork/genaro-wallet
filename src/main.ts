@@ -5,6 +5,9 @@ Object.defineProperty(global, '_bitcore', {
   set() { },
 });
 
+require('electron').webFrame.setLayoutZoomLevelLimits(1, 1);
+require('electron').webFrame.setVisualZoomLevelLimits(1, 1);
+
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 

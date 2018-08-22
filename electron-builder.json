@@ -1,5 +1,5 @@
 {
-  "productName": "Genaro Wallet",
+  "productName": "G-BOX",
   "directories": {
     "output": "app-builds"
   },
@@ -25,9 +25,9 @@
     "extraFiles": [
       "msvcr110.dll"
     ],
-	"rfc3161TimeStampServer": "http://sha256timestamp.ws.symantec.com/sha256/timestamp",
-	"signingHashAlgorithms": ["sha256"],
-	"signDlls": false,
+    "rfc3161TimeStampServer": "http://sha256timestamp.ws.symantec.com/sha256/timestamp",
+    "signingHashAlgorithms": ["sha256"],
+    "signDlls": false,
     "target": [
       "nsis"
     ]
