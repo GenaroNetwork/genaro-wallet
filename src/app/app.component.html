@@ -25,6 +25,16 @@
   <div class="main">
     <nz-card class="sider" [nzBordered]="false">
       <app-siderbar></app-siderbar>
+      <div class="icon">
+        <ng-container *ngIf="setting.appType === 'eden'">
+          <img src="assets/img/app-eden.png">
+          <div>Genaro Eden v{{ setting.appVersion }}</div>
+        </ng-container>
+        <ng-container *ngIf="setting.appType === 'sharer'">
+          <img src="assets/img/app-sharer.png">
+          <div>Genaro Sharer v{{ setting.appVersion }}</div>
+        </ng-container>
+      </div>
     </nz-card>
     <div class="right">
       <router-outlet></router-outlet>

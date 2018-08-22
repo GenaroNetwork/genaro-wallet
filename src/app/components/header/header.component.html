@@ -6,9 +6,9 @@
     G-BOX
   </div>
   <div class="right">
-    <span *ngIf="txService.readyState===null">正在连接，请稍候</span>
-    <span *ngIf="txService.readyState===false">连接已断开，
-      <a (click)="txService.connect()">重新连接</a>
+    <span *ngIf="txService.readyState===null">{{ 'COMMON.KEEP_LINK_1' | translate }}</span>
+    <span *ngIf="txService.readyState===false">{{ 'COMMON.KEEP_LINK_2' | translate }}{{ 'COMMON.COMMA' | translate }}
+      <a (click)="txService.connect()">{{ 'COMMON.KEEP_LINK_3' | translate }}</a>
     </span>
     <div class="block-height" *ngIf="txService.readyState===true">
       {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
@@ -32,9 +32,9 @@
           <li nz-menu-item (click)="walletNewShown=true">
             <a>{{ "HEADER.CREATE_WALLET" | translate}}</a>
           </li>
-          <li nz-menu-item>
+          <!-- <li nz-menu-item>
             <a (click)="dialogName='setting'">{{ "HEADER.SETTINGS" | translate}}</a>
-          </li>
+          </li> -->
           <li nz-menu-item>
             <a (click)="dialogName='help'">{{ "HEADER.HELP" | translate}}</a>
           </li>

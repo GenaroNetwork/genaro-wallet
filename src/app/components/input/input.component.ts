@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from 
 import { TranslateService } from '@ngx-translate/core';
 import { TransactionService } from '../../services/transaction.service';
 import { SettingService } from '../../services/setting.service';
+import { shell } from 'electron';
 
 @Component({
   selector: 'app-input',
@@ -13,9 +14,10 @@ export class InputComponent implements OnChanges {
   @Input('name') name: string;
   @Input('ipt') ngModel: any;
   @Input('span') span: number[] = [6, 18];
-  @Input('iptSelectOptions') iptSelectOptions: string[];
+  @Input('iptExtra') iptExtra: string[];
   @Output('iptChange') ngModelChange: EventEmitter<any> = new EventEmitter;
 
+  shell = shell;
   // gas
   gasDetail = true;
   gasMin = 1;

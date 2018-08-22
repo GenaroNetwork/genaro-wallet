@@ -27,8 +27,8 @@ serve = args.some(val => val === '--serve');
 
 function createWindow() {
   let preWindow = new BrowserWindow({
-    width: 700,
-    height: 600,
+    width: 634,
+    height: 384,
     titleBarStyle: 'hidden',
   });
   preWindow.loadURL(url.format({

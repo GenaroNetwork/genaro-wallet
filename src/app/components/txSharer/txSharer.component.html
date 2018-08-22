@@ -10,6 +10,9 @@
     </a>
     <div [innerHtml]="'TXSHARER.STAKE_AMOUNT' | translate:{stake: stakeAmount}">
     </div>
+    <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()">
+        <i class="anticon anticon-question"></i>
+    </button>
   </div>
   <div class="card opera">
     <div class="status">
@@ -33,3 +36,5 @@
   </div>
 </div>
 <app-table name="txSharer" [change]="tableChangeIndex"></app-table>
+
+<app-dialog [(name)]="tipDialogName" [opt]="tipOpt"></app-dialog>

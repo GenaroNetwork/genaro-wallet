@@ -17,19 +17,9 @@
   nz-input-number {
     width: 100%;
   }
-}
-
-.text {
-  white-space: pre-wrap;
-  word-wrap: pre;
-}
-
-:host {
   .setting {
     height: 3rem;
     line-height: 3rem;
-    border-bottom: 1px solid #ccc;
-    margin: 0 1rem;
     div:last-of-type {
       text-align: right;
     }
@@ -38,5 +28,26 @@
     .setting {
       border: none;
     }
+  }
+  .help {
+    height: 3rem;
+    line-height: 3rem;
+    &.link {
+      cursor: pointer;
+    }
+    div {
+      text-align: left;
+      &:last-of-type {
+        text-align: right;
+        color: gray;
+        i {
+          color: #333;
+        }
+      }
+    }
+  }
+  .text {
+    white-space: pre-wrap;
+    word-wrap: pre;
   }
 }

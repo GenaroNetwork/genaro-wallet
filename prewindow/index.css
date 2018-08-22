@@ -1,8 +1,39 @@
 body {
-  background: #FFF;
+  font-family: "PingFang SC", "微软雅黑";
+  background-color: #FFF;
+  background-image: url(./pic.png);
+  background-position: calc(50% + 22px) 50%;
+  background-repeat: no-repeat;
+  background-size: auto 400px;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  padding-top: 210px;
+  box-sizing: border-box;
 }
 
 img {
-  display: block;
-  margin: 19px auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 64px;
+  width: auto;
+  transform: translateY(-20px)
+}
+
+div {
+  font-size: 0.8rem;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  color: gray;
+}
+
+.name {
+  font-size: 1rem;
+  color: #555;
 }

@@ -39,7 +39,7 @@
 <!-- 绑定节点 -->
 <ng-container *ngIf="name==='bindNode'">
   <div *ngIf="bindNodeStep===0 && !bindNodeTokenFlg" class="bind-node">
-    <app-input name="bindNode" [(ipt)]="bindNodeId" [iptSelectOptions]="selectBindNodes" [span]="[6,14]" (iptChange)="setNodeId()"></app-input>
+    <app-input name="bindNode" [(ipt)]="bindNodeId" [iptExtra]="selectBindNodes" [span]="[6,14]" (iptChange)="setNodeId()"></app-input>
     <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,14]"></app-input>
     <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
@@ -58,8 +58,8 @@
 <!-- 解绑节点 -->
 <ng-container *ngIf="name==='removeNode'">
   <div *ngIf="removeNodeStep===0" class="bind-node">
-      <div class="tip remove-tip">{{ 'TABLE.TXSHARER.REMOVE_NODE_TIPS' | translate }}</div>
-      <app-input name="confirm" (iptChange)="removeNodeTipConfirm()"></app-input>
+    <div class="tip remove-tip">{{ 'TABLE.TXSHARER.REMOVE_NODE_TIPS' | translate }}</div>
+    <app-input name="confirm" (iptChange)="removeNodeTipConfirm()"></app-input>
   </div>
   <div *ngIf="removeNodeStep===1" class="bind-node">
     <app-input name="gas" [(ipt)]="removeNodeGas" [span]="[6,14]"></app-input>

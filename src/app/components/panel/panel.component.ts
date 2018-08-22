@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
+import { BLOCK_COUNT_OF_ROUND } from '../../libs/config';
 
 @Component({
   selector: 'app-panel',
@@ -21,12 +24,16 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   isSpinning: boolean = true;
   currentWalletAddr: string = '';
+  tipDialogName: string = '';
+  tipOpt: any = {};
+  effectBlock: number = 0;
 
   accountTeamInfo: any = {};
   showCurrentTeam = false;
   currentSubscribe: any;
   currentWalletSubscribe: any;
   async rankInit() {
+    this.getEffectBlock();
     let self = this;
     this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
@@ -58,6 +65,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   pendingSubscribe: any;
   pendingWalletSubscribe: any;
   async committeeInit() {
+    this.getEffectBlock();
     let self = this;
     this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
@@ -86,11 +94,35 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  async getEffectBlock() {
+    const web3 = await this.txService.getWeb3Instance();
+    // @ts-ignore
+    const bno = await web3.eth.getBlockNumber();
+    this.effectBlock = bno - bno % BLOCK_COUNT_OF_ROUND + BLOCK_COUNT_OF_ROUND;
+  }
+
+  tipClick(flg) {
+    this.tipDialogName = 'tips';
+    if(flg === 1) {
+      this.tipOpt = {
+        title: this.i18n.instant('SIDERBAR.CURRENT_RANKS'),
+        content: this.i18n.instant('MODEL.CURRENT_RANKS_TIP')
+      };
+    }
+    else if (flg === 2) {
+      this.tipOpt = {
+        title: this.i18n.instant('SIDERBAR.JOIN_COMMITTEE'),
+        content: this.i18n.instant('MODEL.JOIN_COMMITTEE_TIP')
+      };
+    }
+  }
 
   constructor(
     public walletService: WalletService,
     public committeeService: CommitteeService,
-    public brotherhoodService: BrotherhoodService
+    public brotherhoodService: BrotherhoodService,
+    private i18n: TranslateService,
+    private txService: TransactionService,
   ) { }
 
   ngOnInit() {

@@ -141,7 +141,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-select style="width: 100%" ngModel="ngModel" [nzDropdownMatchSelectWidth]="false" (ngModelChange)="ngModelChange.emit($event)">
-      <nz-option *ngFor="let so of iptSelectOptions" [nzValue]="so" [nzLabel]="so"></nz-option>
+      <nz-option *ngFor="let so of iptExtra" [nzValue]="so" [nzLabel]="so"></nz-option>
       <nz-option nzValue="0" [nzLabel]="'TXSHARER.NO_BIND_ID' | translate"></nz-option>
     </nz-select>
   </div>
@@ -237,4 +237,18 @@
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
     <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.OLD_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="ngModel">
   </div>
+</div>
+
+<!-- 帮助链接 -->
+<div *ngIf="name==='help-link'" nz-row nzType="flex" nzAlign="middle" class="help link" (click)="shell.openExternal(iptExtra)">
+  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
+  <div nz-col [nzSpan]="span[1]">
+    <i class="anticon anticon-right"></i>
+  </div>
+</div>
+
+<!-- 帮助字符 -->
+<div *ngIf="name==='help-tip'" nz-row nzType="flex" nzAlign="middle" class="help">
+  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
+  <div nz-col [nzSpan]="span[1]">{{ iptExtra }}</div>
 </div>
