@@ -73,7 +73,7 @@ export class WalletService {
   }
 
   private setNewWalletName(v3json) {
-    let address = v3json.address;
+    const address = v3json.address;
     return this.i18n.instant('WALLETNEW.WALLET_NAME_PREFIX') + ' 0x' + address.slice(0, 2);
   }
 
@@ -101,7 +101,7 @@ export class WalletService {
   }
 
   private getHash(method, url, data) {
-    let contract = new Buffer([
+    const contract = new Buffer([
       method,
       url,
       data
@@ -125,7 +125,7 @@ export class WalletService {
   changePassword(address: string, oldPassword: string, newPassword: string) {
     this.walletManager.changePassword(address, oldPassword, newPassword);
     this.walletList.next(this.walletManager.listWallet());
-    this.alert.success(this.i18n.instant("WALLET.CHANGE_PASSWORD_SUCCESS"));
+    this.alert.success(this.i18n.instant('WALLET.CHANGE_PASSWORD_SUCCESS'));
   }
 
   changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {

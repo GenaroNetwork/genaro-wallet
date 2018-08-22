@@ -87,11 +87,11 @@ export class SharerService {
   }
 
   private getNewPort(defaultPort) {
-    let ids = this.getSharerNodeIds();
-    let usedPorts = ids.map(id => {
-      let path = this.getConfigPathById(id);
+    const ids = this.getSharerNodeIds();
+    const usedPorts = ids.map(id => {
+      const path = this.getConfigPathById(id);
       try {
-        let config = JSON.parse(fs.readFileSync(path).toString());
+        const config = JSON.parse(fs.readFileSync(path).toString());
         return config.rpcPort;
       } catch (err) {
         return 0;
@@ -104,10 +104,10 @@ export class SharerService {
   }
 
   private convert(space) {
-    var start = space.match(/([KMGT]?)B/);
-    var head = parseFloat(space.substring(0, start.index));
-    var tail = space.substring(start.index)
-    var vmap = new Map();
+    const start = space.match(/([KMGT]?)B/);
+    const head = parseFloat(space.substring(0, start.index));
+    const tail = space.substring(start.index);
+    const vmap = new Map();
     vmap.set("B", 1);
     vmap.set("KB", Math.pow(10, 3));
     vmap.set("MB", Math.pow(10, 6));
@@ -248,21 +248,21 @@ export class SharerService {
       d.on('remote', (remote) => {
         remote.status((err, statuses) => {
           if (!err) {
-            datas.forEach(d => {
-              d.delete = true;
+            datas.forEach(_data => {
+              _data.delete = true;
             });
 
             statuses.forEach(share => {
               let data: any = {},
-                config = share.config,
-                farmerState = share.meta.farmerState || {},
-                portStatus = farmerState.portStatus || {},
-                ntpStatus = farmerState.ntpStatus || {},
-                isNew = true;
+                  isNew = true;
+              const config = share.config,
+                    farmerState = share.meta.farmerState || {},
+                    portStatus = farmerState.portStatus || {},
+                    ntpStatus = farmerState.ntpStatus || {};
 
-              datas.forEach(d => {
-                if (d.id == share.id) {
-                  data = d;
+              datas.forEach(_data => {
+                if (_data.id == share.id) {
+                  data = _data;
                   data.delete = false;
                   isNew = false;
                 }
@@ -274,7 +274,7 @@ export class SharerService {
               data.storageAllocation = config.storageAllocation;
               data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
               data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
-              var percentUsed = parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
+              const percentUsed = parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
               data.percentUsed = percentUsed > 100 ? 100 : percentUsed;
               data.time = prettyms(share.meta.uptimeMs);
               data.restarts = share.meta.numRestarts || 0;
@@ -306,8 +306,8 @@ export class SharerService {
                 datas.push(data);
               }
             });
-            datas = datas.filter(d => {
-              return !d.delete;
+            datas = datas.filter(_data => {
+              return !_data.delete;
             });
             this.driversData.next(datas);
           } else {

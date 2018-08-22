@@ -45,13 +45,19 @@ export class SettingService {
 
   appVersion = remote.app.getVersion();
   get(name: string) {
-    if (this[`${name}Get`]) return this[`${name}Get`]();
-    else return this[`${name}Get`];
+    if (this[`${name}Get`]) {
+      return this[`${name}Get`]();
+    } else {
+      return this[`${name}Get`];
+    }
   }
   set(name: string, value: any) {
     let newValue;
-    if (this[`${name}Set`]) newValue = this[`${name}Set`](value);
-    else newValue = value;
+    if (this[`${name}Set`]) {
+      newValue = this[`${name}Set`](value);
+    } else {
+       newValue = value;
+    }
     this[name] = newValue;
     this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(newValue)}' WHERE name='${name}'`);
   }
@@ -59,10 +65,10 @@ export class SettingService {
     private ipc: IpcService,
     private i18n: TranslateService,
   ) {
-    let promises = [];
+    const promises = [];
     this.list.forEach(name => {
       promises.push(new Promise(async (res, rej) => {
-        let db: any = await this.ipc.dbGet("setting", `SELECT * FROM setting WHERE name = '${name}'`);
+        const db: any = await this.ipc.dbGet('setting', `SELECT * FROM setting WHERE name = '${name}'`);
         if (db) {
           this[name] = JSON.parse(db.value);
         } else {
@@ -76,7 +82,7 @@ export class SettingService {
       this.i18n.use(this['lang']).subscribe(() => {
       }, () => {
       }, () => {
-        this.ipc.ipcOnce("app.loaded.lang");
+        this.ipc.ipcOnce('app.loaded.lang');
       });
     });
   }
@@ -84,11 +90,14 @@ export class SettingService {
 
   async getUpdateVersion() {
     try {
-      let res = await fetch(CHECK_MAC_UPDATE_URL, {
+      const res = await fetch(CHECK_MAC_UPDATE_URL, {
         method: 'GET',
       });
-      if (!res.ok || res.status !== 200) return ''
-      else return res.json();
+      if (!res.ok || res.status !== 200) {
+        return '';
+      } else {
+        return res.json();
+      }
     } catch (e) {
       return '';
     }

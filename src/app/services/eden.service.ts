@@ -43,7 +43,7 @@ export class EdenService {
     private zone: NgZone,
     private txService: TransactionService,
   ) {
-    this.ipc.dbRun("task", `UPDATE task SET state = ${TASK_STATE.CANCEL} WHERE state IN (${TASK_STATE.INIT},${TASK_STATE.INPROCESS})`)
+    this.ipc.dbRun("task", `UPDATE task SET state = ${TASK_STATE.CANCEL} WHERE state IN (${TASK_STATE.INIT},${TASK_STATE.INPROCESS})`);
 
     this.walletService.currentWallet.subscribe(wallet => {
       if (!wallet) { return; }
@@ -170,7 +170,7 @@ export class EdenService {
       if (this.allView.length !== allView.length) this.allView = allView;
       else {
         this.allView.every((file, index) => {
-          let newFile = allView[index];
+          const newFile = allView[index];
           if (file.type !== newFile.type) {
             this.allView = allView;
             return false;
@@ -179,7 +179,7 @@ export class EdenService {
             file[key] = newFile[key];
           }
           return true;
-        })
+        });
       }
     }
     this.zone.run(() => {
@@ -258,7 +258,7 @@ export class EdenService {
 
   private async updateTask(id: string, obj: any, reload: boolean = true) {
     const updateArr = [];
-    let task = this.tasks.find(task => task.id === id);
+    const task = this.tasks.find(_task => _task.id === id);
     for (let key of Object.keys(obj)) {
       updateArr.push(`${key}='${obj[key]}'`);
       this.zone.run(() => {
@@ -268,7 +268,9 @@ export class EdenService {
     if (!updateArr.length) { return; }
     const update = updateArr.join(',');
     await this.ipc.dbRun('task', `UPDATE task SET ${update} WHERE id='${id}'`);
-    if (reload) await this.loadTask();
+    if (reload) {
+      await this.loadTask();
+    }
   }
 
   private convertChar(html: string, encode: boolean = true) {
@@ -296,7 +298,7 @@ export class EdenService {
       arr.forEach(item => {
         func(item, env, (err: boolean = null) => {
           if (err === true) { errCount++; }
-          if (err === false) errCount = NaN;
+          if (err === false) { errCount = NaN; }
           if (++times < arr.length) { return; }
           if (reload) { this.updateAll(); }
           res(errCount);
@@ -319,12 +321,12 @@ export class EdenService {
     let uploadBreak = false;
     this.runAll(nativePaths, async (path, env, cb) => {
       let filename = basename(path);
-      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
+      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + '...' : filename;
       filename = this.convertChar(filename, true);
       filename = folderPrefix + filename;
       if (this.currentFiles.find(file => file.name === filename)) {
         uploadBreak = true;
-        this.messageService.error(this.i18n.instant("EDEN.FILE_EXISTS", { filename: tipFileName }));
+        this.messageService.error(this.i18n.instant('EDEN.FILE_EXISTS', { filename: tipFileName }));
         cb(false);
         return;
       }
@@ -364,7 +366,7 @@ export class EdenService {
         cb(true);
       }
     }).then(errCount => {
-      if (Number.isNaN(errCount)) return;
+      if (Number.isNaN(errCount)) { return; }
       if (errCount === nativePaths.length) {
         this.messageService.error(this.i18n.instant('EDEN.UPLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
@@ -373,9 +375,12 @@ export class EdenService {
         this.messageService.success(this.i18n.instant('EDEN.UPLOAD_FILE_DONE'));
       }
     });
-    if (uploadBreak) return;
-    if (nativePaths.length > 1) tipFileName = "";
-    else tipFileName = ` ${tipFileName} `;
+    if (uploadBreak) { return; }
+    if (nativePaths.length > 1) {
+      tipFileName = '';
+    } else {
+      tipFileName = ` ${tipFileName} `;
+    }
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
@@ -387,7 +392,7 @@ export class EdenService {
       traffic -= file.size;
     });
     if (traffic < 0) {
-      this.messageService.error(this.i18n.instant("EDEN.DOWNLOAD_FILE_TRAFFIC_ERROR"));
+      this.messageService.error(this.i18n.instant('EDEN.DOWNLOAD_FILE_TRAFFIC_ERROR'));
       return;
     }
     let nativePath;
@@ -408,7 +413,7 @@ export class EdenService {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
       filename = this.convertChar(filename, false);
-      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + "..." : filename;
+      tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + '...' : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
       let taskId = null;
       let taskEnv;
@@ -445,7 +450,7 @@ export class EdenService {
         cb(true);
       }
     }, false).then(errCount => {
-      if (Number.isNaN(errCount)) return;
+      if (Number.isNaN(errCount)) { return; }
       if (errCount === files.length) {
         this.messageService.error(this.i18n.instant('EDEN.DOWNLOAD_FILE_ERROR_ALL'));
       } else if (errCount) {
@@ -454,8 +459,11 @@ export class EdenService {
         this.messageService.success(this.i18n.instant('EDEN.DOWNLOAD_FILE_DONE'));
       }
     });
-    if (files.length > 1) tipFileName = "";
-    else tipFileName = ` ${tipFileName} `;
+    if (files.length > 1) {
+      tipFileName = '';
+    } else {
+      tipFileName = ` ${tipFileName} `;
+    }
     this.messageService.info(this.i18n.instant('TASK.DOWNLOAD_START_TIP', { filename: tipFileName }));
   }
 
@@ -500,9 +508,9 @@ export class EdenService {
       this.loadTask();
       this.messageService.success(this.i18n.instant('EDEN.REMOVE_TASK_SUCCESS'));
     };
-    taskId.forEach(async taskId => {
+    taskId.forEach(async _taskId => {
       console.log('task');
-      await this.ipc.dbRun('task', `DELETE FROM task WHERE id='${taskId}'`);
+      await this.ipc.dbRun('task', `DELETE FROM task WHERE id='${_taskId}'`);
       allDone();
     });
   }
