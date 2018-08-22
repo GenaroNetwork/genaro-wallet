@@ -246,8 +246,18 @@
 
 
 <!-- tips -->
+<<<<<<< HEAD
 <nz-modal [nzTitle]="options? options.title : ''" [nzFooter]="null" [nzVisible]="dialogName==='tips'" (nzOnCancel)="dialogNameChange.emit(null)">
   <p class="tips">
     {{options ? options.content : ''}}
   </p>
 </nz-modal>
+=======
+<nz-modal [nzFooter]="tipsFooter" [nzVisible]="dialogName==='tips'" nzClosable="false">
+  <div class="tips" [innerHtml]="options ? options.content : ''">
+  </div>
+</nz-modal>
+<ng-template #tipsFooter>
+  <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' | translate }}</button>
+</ng-template>
+>>>>>>> 9497418a3f2b68c35518da30f167e143500a21c1

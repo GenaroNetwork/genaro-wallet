@@ -98,7 +98,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     this.tipDialogName = 'tips';
     this.tipOpt = {
       title: this.i18n.instant('SIDERBAR.TXSHARER'),
-      content: this.i18n.instant('MODEL.CURRENT_RANKS_TIP')
+      content: this.i18n.instant('MODEL.TXSHARER_TIP')
     };
   }
 }

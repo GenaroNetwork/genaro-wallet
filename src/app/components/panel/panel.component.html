@@ -4,6 +4,8 @@
     <div class="header">
         {{ 'PANEL.RANK.MY_TEAM' | translate }}
         &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ effectBlock }}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick(1)">
             <i class="anticon anticon-question"></i>
         </button>
@@ -107,7 +109,7 @@
     <div class="header">
         {{ 'PANEL.RANK.MY_TEAM' | translate }}
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <span>{{ 'PANEL.RANK.EFFECT_BLOCK' | translate }}: {{ effectBlock }}</span>
+        <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ effectBlock }}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick(2)">
             <i class="anticon anticon-question"></i>

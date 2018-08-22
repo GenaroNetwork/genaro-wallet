@@ -26,7 +26,7 @@ export class TxEdenService {
       // return await this.send(method, url, data, sig, pubKey);
       throw new Error('missing signature or pubkey');
     }
-    let res = await fetch(BRIDGE_API_URL + url, {
+    const res = await fetch(BRIDGE_API_URL + url, {
       method: method,
       headers: {
         'x-signature': sig,

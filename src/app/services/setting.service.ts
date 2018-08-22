@@ -53,10 +53,23 @@ export class SettingService {
   committee: boolean = true;
 
   appVersion = remote.app.getVersion();
+<<<<<<< HEAD
+=======
+  get(name: string) {
+    if (this[`${name}Get`]) {
+      return this[`${name}Get`]();
+    } else {
+      return this[`${name}Get`];
+    }
+  }
+>>>>>>> 9497418a3f2b68c35518da30f167e143500a21c1
   set(name: string, value: any) {
     let newValue;
-    if (this[`${name}Set`]) newValue = this[`${name}Set`](value);
-    else newValue = value;
+    if (this[`${name}Set`]) {
+      newValue = this[`${name}Set`](value);
+    } else {
+       newValue = value;
+    }
     this[name] = newValue;
     this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(newValue)}' WHERE name='${name}'`);
   }
@@ -65,10 +78,10 @@ export class SettingService {
     private i18n: TranslateService,
     private router: Router,
   ) {
-    let promises = [];
+    const promises = [];
     this.list.forEach(name => {
       promises.push(new Promise(async (res, rej) => {
-        let db: any = await this.ipc.dbGet("setting", `SELECT * FROM setting WHERE name = '${name}'`);
+        const db: any = await this.ipc.dbGet('setting', `SELECT * FROM setting WHERE name = '${name}'`);
         if (db) {
           this[name] = JSON.parse(db.value);
         } else {
@@ -88,11 +101,14 @@ export class SettingService {
 
   async getUpdateVersion() {
     try {
-      let res = await fetch(CHECK_MAC_UPDATE_URL, {
+      const res = await fetch(CHECK_MAC_UPDATE_URL, {
         method: 'GET',
       });
-      if (!res.ok || res.status !== 200) return ''
-      else return res.json();
+      if (!res.ok || res.status !== 200) {
+        return '';
+      } else {
+        return res.json();
+      }
     } catch (e) {
       return '';
     }

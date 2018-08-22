@@ -22,7 +22,7 @@ export class SharerComponent implements OnInit {
   modalDataId = '';
   addShareFilePath = '';
   addShareShareSize = '';
-  addShareSelectUnit = 'GB';
+  addShareSelectUnit = 'TB';
   visible = false;
   hiddenVisible = false;
   bindModalVisible = false;

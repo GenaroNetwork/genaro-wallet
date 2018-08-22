@@ -77,7 +77,7 @@
           <h3 style="margin-top:20px">{{ "DRIVE.SHARING_SIZE" | translate }}</h3>
           <div>
             <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
-              <input type="text" nz-input [(ngModel)]="addShareShareSize">
+              <input type="text" placeholder="{{ 'DRIVE.SHARING_SIZE_PLACEHOLDER' | translate }}" nz-input [(ngModel)]="addShareShareSize">
             </nz-input-group>
             <ng-template #addOnAfterTemplate>
               <nz-select [ngModel]="addShareSelectUnit">

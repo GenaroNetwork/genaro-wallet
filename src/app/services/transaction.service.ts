@@ -169,7 +169,7 @@ export class TransactionService {
   }
 
   private async generateTxOptions(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any) {
-    return await this.generateTxOptions2(fromAddr, gasLimit, gasPriceInWei, JSON.stringify(inputData), STX_ADDR)
+    return await this.generateTxOptions2(fromAddr, gasLimit, gasPriceInWei, JSON.stringify(inputData), STX_ADDR);
   }
 
   private sendTransaction(fromAddr, password, txOptions, transactionType) {
@@ -321,7 +321,7 @@ export class TransactionService {
   async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
     address = add0x(address);
     const gasPriceInWei = toWei(toBN(gasPriceInGwei), 'gwei');
-    const txOptions = await this.generateTxOptions2(address, gasLimit, gasPriceInWei, inputData, contractAddr)
+    const txOptions = await this.generateTxOptions2(address, gasLimit, gasPriceInWei, inputData, contractAddr);
     return this.sendTransaction(address, password, txOptions, TxType);
   }
 
