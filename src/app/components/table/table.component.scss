@@ -5,6 +5,7 @@
   overflow: hidden;
   border-radius: $border-radius;
   background: $content-bg;
+  position: relative;
 }
 
 app-copy {
@@ -13,6 +14,21 @@ app-copy {
 
 td:hover app-copy {
   display: inline;
+}
+
+::ng-deep .ant-spin-nested-loading {
+  position: static;
+  .ant-spin-container {
+    position: static;
+    .ant-spin-container {
+      position: static;
+      nz-pagination {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
 }
 
 nz-table {

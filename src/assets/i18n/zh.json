@@ -87,6 +87,8 @@
     },
     "HELP": {
       "INSTRUCTIONS": "使用说明",
+      "EDEN_INSTRUCTIONS": "EDEN 使用说明",
+      "SHARER_INSTRUCTIONS": "SHARER 使用说明",
       "DOWNLOAD_EDEN": "下载Genaro Eden",
       "DOWNLOAD_SHARER": "下载Genaro Sharer",
       "CONTACT": "联系客服"

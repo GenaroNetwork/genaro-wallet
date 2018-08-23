@@ -53,22 +53,12 @@ export class SettingService {
   committee: boolean = true;
 
   appVersion = remote.app.getVersion();
-<<<<<<< HEAD
-=======
-  get(name: string) {
-    if (this[`${name}Get`]) {
-      return this[`${name}Get`]();
-    } else {
-      return this[`${name}Get`];
-    }
-  }
->>>>>>> 9497418a3f2b68c35518da30f167e143500a21c1
   set(name: string, value: any) {
     let newValue;
     if (this[`${name}Set`]) {
       newValue = this[`${name}Set`](value);
     } else {
-       newValue = value;
+      newValue = value;
     }
     this[name] = newValue;
     this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(newValue)}' WHERE name='${name}'`);

@@ -173,15 +173,16 @@
 
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <app-input name="help-link" [ipt]="'MODEL.HELP.INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_EDEN' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_SHARER' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
   <app-input name="setting" ipt="language"></app-input>
   <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
+  <app-input name="help-link" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
 </nz-modal>
 
 <!-- 申请加入共建 -->
@@ -246,13 +247,6 @@
 
 
 <!-- tips -->
-<<<<<<< HEAD
-<nz-modal [nzTitle]="options? options.title : ''" [nzFooter]="null" [nzVisible]="dialogName==='tips'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <p class="tips">
-    {{options ? options.content : ''}}
-  </p>
-</nz-modal>
-=======
 <nz-modal [nzFooter]="tipsFooter" [nzVisible]="dialogName==='tips'" nzClosable="false">
   <div class="tips" [innerHtml]="options ? options.content : ''">
   </div>
@@ -260,4 +254,3 @@
 <ng-template #tipsFooter>
   <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' | translate }}</button>
 </ng-template>
->>>>>>> 9497418a3f2b68c35518da30f167e143500a21c1
