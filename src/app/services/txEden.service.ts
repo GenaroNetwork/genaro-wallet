@@ -92,6 +92,12 @@ export class TxEdenService {
     this.getAll();
   }
 
+  clearAllSig() {
+    this.bucketsSig = null;
+    this.userSig = null;
+    this.publicKey = null;
+  }
+
   private async checkSig(force: boolean = false) {
     if (this.bucketsSig && this.userSig && this.publicKey) { return; }
     const data: any = await this.ipc.dbGet('txeden', `SELECT * FROM txeden WHERE address='${this.walletService.wallets.current}'`);

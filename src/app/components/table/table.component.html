@@ -79,7 +79,8 @@
   </nz-table>
 
   <!-- 抵押 -->
-  <nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate">
+  <nz-table *ngIf="name==='txSharer'" #txSharerTable [nzData]="txSharerData" [nzNoResult]="'TXSHARER.NONE_BINDED_TIP' | translate"
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
         <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
@@ -216,7 +217,7 @@
 
 
 
-  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable>
+  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
         <th>{{ "TASK.FILE_NAME" | translate}}</th>
@@ -262,7 +263,9 @@
   <!-- rank -->
   <div *ngIf="name==='rank'" class="panel">
     <div class="header">
-      <a *ngIf="showRankBack" (click)="resetSearchRankFarmer()"><i class="anticon anticon-left"></i></a>
+      <a *ngIf="showRankBack" (click)="resetSearchRankFarmer()">
+        <i class="anticon anticon-left"></i>
+      </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
         <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="rankAddress">
@@ -303,7 +306,9 @@
   <!-- committee -->
   <div *ngIf="name==='committee'" class="panel">
     <div class="header">
-      <a *ngIf="showBack" (click)="resetSearchFarmer()"><i class="anticon anticon-left"></i></a>
+      <a *ngIf="showBack" (click)="resetSearchFarmer()">
+        <i class="anticon anticon-left"></i>
+      </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
         <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="committeeAddress">

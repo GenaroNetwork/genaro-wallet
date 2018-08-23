@@ -183,6 +183,7 @@
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
   <app-input name="help-link" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
   <app-input name="help-link" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.VERSION' | translate" [iptExtra]="settingService.appVersion" [span]="[16, 6, 1]"></app-input>
 </nz-modal>
 
 <!-- 申请加入共建 -->

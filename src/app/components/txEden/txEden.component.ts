@@ -32,6 +32,7 @@ export class TxEdenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.txEdenUpdate();
     this.blockSub = this.walletService.currentWallet.subscribe(() => {
+      this.txEden.clearAllSig();
       this.txEdenUpdate();
     });
     this.walletSub = this.txService.newBlockHeaders.subscribe(() => {
