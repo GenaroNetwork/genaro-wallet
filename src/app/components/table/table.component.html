@@ -262,6 +262,7 @@
   <!-- rank -->
   <div *ngIf="name==='rank'" class="panel">
     <div class="header">
+      <a *ngIf="showRankBack" (click)="resetSearchRankFarmer()"><i class="anticon anticon-left"></i></a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
         <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="rankAddress">
@@ -302,6 +303,7 @@
   <!-- committee -->
   <div *ngIf="name==='committee'" class="panel">
     <div class="header">
+      <a *ngIf="showBack" (click)="resetSearchFarmer()"><i class="anticon anticon-left"></i></a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
         <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="committeeAddress">

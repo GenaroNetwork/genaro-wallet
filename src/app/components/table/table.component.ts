@@ -132,6 +132,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   rankData: any[] = [];
   rankAddress = '';
   rankSubscribe: any;
+  showRankBack: boolean = false;
   rankInit() {
     this.rankDataUpdate();
   }
@@ -148,13 +149,19 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       this.rankSubscribe.unsubscribe();
     }
     if(this.rankAddress) {
+      this.showRankBack = true;
       this.isSpinning = true;
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
       this.isSpinning = false;
     }
     else {
+      this.showRankBack = false;
       this.rankDataUpdate();
     }
+  }
+  resetSearchRankFarmer() {
+    this.rankAddress = '';
+    this.searchRankFarmer();
   }
   rankDestroy() {
     if(this.rankSubscribe) {
@@ -166,6 +173,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeData: any[] = [];
   canApplyJoin: boolean = true;
   committeeAddress: string = '';
+  showBack: boolean = false;
   committeeInit() {
     this.isSpinning = true;
     this.committeeAddress = '';
@@ -207,10 +215,12 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
   async searchFarmer() {
     if(this.committeeAddress) {
+      this.showBack = true;
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
       this.activateJoinButton();
     }
     else {
+      this.showBack = false;
       this.committeeDataUpdate();
     }
   }
@@ -230,6 +240,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
         }
       })
     }
+  }
+  resetSearchFarmer() {
+    this.committeeAddress = '';
+    this.searchFarmer();
   }
   committeeDestroy() {
 
