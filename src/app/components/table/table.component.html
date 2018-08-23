@@ -274,7 +274,7 @@
       </ng-template>
     </div>
     <br>
-    <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
+    <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: false}'>
       <thead>
         <tr>
           <th nzWidth="5%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
@@ -315,7 +315,7 @@
       </ng-template>
     </div>
     <br>
-    <nz-table #committeeTable [nzData]="committeeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
+    <nz-table #committeeTable [nzData]="committeeData" [nzScroll]='{ y: false}'>
       <thead>
         <tr>
           <th nzWidth="8%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
