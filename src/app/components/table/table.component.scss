@@ -103,6 +103,11 @@ nz-table {
     padding-top: 1rem;
     font-size: 1rem;
     font-weight: bold;
+    >a {
+      font-weight: normal;
+      margin-right: 8px;
+      font-size: 16px;
+    }
     >.searchInput {
       width: 60%;
       float: right;

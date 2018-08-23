@@ -60,7 +60,7 @@ export class CommitteeService {
       }
       data.order = this.currentSentinelRanks.indexOf(data.address);
     }
-    return data;
+    return data || {};
   }
 
   async getCurrentCommittee() {
