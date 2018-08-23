@@ -173,15 +173,16 @@
 
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
-  <app-input name="help-link" [ipt]="'MODEL.HELP.INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_EDEN' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.DOWNLOAD_SHARER' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
   <app-input name="setting" ipt="language"></app-input>
   <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)">
+  <app-input name="help-link" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
 </nz-modal>
 
 <!-- 申请加入共建 -->

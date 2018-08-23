@@ -58,7 +58,7 @@ export class SettingService {
     if (this[`${name}Set`]) {
       newValue = this[`${name}Set`](value);
     } else {
-       newValue = value;
+      newValue = value;
     }
     this[name] = newValue;
     this.ipc.dbRun('setting', `UPDATE setting SET value='${JSON.stringify(newValue)}' WHERE name='${name}'`);

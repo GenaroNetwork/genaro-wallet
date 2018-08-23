@@ -5,6 +5,7 @@ import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { readFileSync } from 'fs';
 import { basename } from 'path';
+import { TxEdenService } from '../../services/txEden.service';
 
 @Component({
   selector: 'app-walletNew',
@@ -20,6 +21,7 @@ export class WalletNewComponent {
     private wallet: WalletService,
     private alert: NzMessageService,
     private translate: TranslateService,
+    private txEden: TxEdenService,
   ) {
   }
 
@@ -116,6 +118,7 @@ export class WalletNewComponent {
     }
     const walletName = this.wallet.generateName(this.translate.instant('WALLETNEW.WALLET_NAME_PREFIX'));
     const wallet = await this.wallet.createWallet(this.mnemonic, this.password, walletName);
+    this.txEden.beforehandSign(this.password, wallet.address);
     if (this.newWalletType === 'create') { this.createStep++; }
     if (this.newWalletType === 'import') { this.importStep++; }
     this.walletName = wallet.name;
@@ -129,6 +132,7 @@ export class WalletNewComponent {
     let wallet;
     try {
       wallet = this.wallet.importWallet(json, this.oldPassword, this.wallet.generateName());
+      this.txEden.beforehandSign(this.oldPassword, wallet.address);
     } catch (e) {
       switch (e.message) {
         case 'Not a V3 wallet':

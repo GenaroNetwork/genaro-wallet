@@ -1,6 +1,7 @@
 import { Component, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingService } from './services/setting.service';
+import { nextTick } from 'q';
 const LANGS = ['en', 'zh'];
 
 @Component({
@@ -25,6 +26,8 @@ export class AppComponent implements AfterViewChecked {
     if (this.i18n.instant("LANGUAGE_NAME") === "LANGUAGE_NAME") return;
     if (this.checkLang.nativeElement.innerHTML !== this.i18n.instant("LANGUAGE_NAME")) return;
     this.currentLang = this.setting.language;
-    this.setting.languageRendered();
+    nextTick(() => {
+      this.setting.languageRendered();
+    });
   }
 }

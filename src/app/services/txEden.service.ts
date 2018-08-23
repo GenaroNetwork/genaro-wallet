@@ -68,8 +68,8 @@ export class TxEdenService {
     return secp256k1.sign(msg, privKeyBuffer);
   }
 
-  async beforehandSign(password: string) {
-    let walletAddr = this.walletService.wallets.current;
+  async beforehandSign(password: string, address: string = null) {
+    let walletAddr = address || this.walletService.wallets.current;
     if (!walletAddr.startsWith('0x')) {
       walletAddr = '0x' + walletAddr;
     }

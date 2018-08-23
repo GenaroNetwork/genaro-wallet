@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="isSpinning">
   <!-- 钱包 -->
   <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
-    class="tx" nzShowPagination="false">
+    class="tx">
     <thead>
       <tr>
         <th nzWidth="10%">
@@ -371,6 +371,3 @@
     </tbody>
   </nz-table>
 </nz-spin>
-
-<nz-pagination class="tx-pg" *ngIf="name==='transaction'" [(nzPageIndex)]="txDataCurrentPage" [(nzTotal)]="txDataTotalPage"
-  (nzPageIndexChange)="txChangePage($event)"></nz-pagination>
