@@ -277,9 +277,9 @@
     <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: false}'>
       <thead>
         <tr>
-          <th nzWidth="5%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
+          <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
           <!-- <th nzWidth="10%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
-          <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
+          <th nzWidth="25%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
           <th nzWidth="10%">{{ 'TABLE.COMMITTEE.STAKE' | translate }}</th>
           <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SPACE' | translate }}</th>
           <th nzWidth="15%">{{ 'TABLE.COMMITTEE.SENTINEL' | translate }}</th>
@@ -288,9 +288,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rankTable.data">
-          <td nzWidth="5%">{{ data.order + 1 }}</td>
+          <td nzWidth="10%">{{ data.order + 1 }}</td>
           <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
-          <td nzWidth="30%">{{ data.address | longAddr | shortAddr}}</td>
+          <td nzWidth="25%">{{ data.address | longAddr | shortAddr}}</td>
           <td nzWidth="10%">{{ data.currentStake }}</td>
           <td nzWidth="15%">{{ data.currentDataSize | formatSize }}</td>
           <td nzWidth="15%">{{ data.currentSentinel * 10000 | formatSentinel }}</td>
