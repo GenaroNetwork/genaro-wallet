@@ -54,11 +54,26 @@ export class CommitteeService {
   async getCurrentFarmer(addr) {
     let data = await this.getFarmer(addr);
     if (data) {
+      data.currentSentinel = data.sentinel || 0;
+      data.currentStake = data.stake || 0;
+      data.currentDataSize = data.data_size || 0;
+      data.currentHeft = data.heft || 0;
+      data.pendingSentinel = data.sentinel || 0;
+      data.pendingStake = data.stake || 0;
+      data.pendingDataSize = data.data_size || 0;
+      data.pendingHeft = data.heft || 0;
       let state = await this.brotherhoodService.fetchState(data.address);
-      if (state && state.pendingState) {
-        data.subAccounts = state.pendingState.subAccounts;
+      let orderAddr = data.address;
+      if (state) {
+        if(state.pendingState) {
+          data.pendingSubFarmers = state.pendingState.subAccounts;
+        }
+        if(state.currentState) {
+          data.subFarmers = state.currentState.subAccounts;
+          orderAddr = state.currentState.mainAccount || orderAddr;
+        }
       }
-      data.order = this.currentSentinelRanks.indexOf(data.address);
+      data.order = this.currentSentinelRanks.indexOf(orderAddr);
     }
     return data || {};
   }
