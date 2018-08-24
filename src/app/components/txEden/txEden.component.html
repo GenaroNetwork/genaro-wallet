@@ -1,4 +1,4 @@
-<div class="mask" *ngIf="txEden.requestPassword"></div>
+<div class="mask" *ngIf="txEden.requestPassword || edenService.requestEnv"></div>
 
 <div class="header">
   <div class="card long-card">
@@ -36,4 +36,5 @@
 </div>
 <app-table name="txEden" [change]="tableChangeIndex"></app-table>
 <app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1"></app-dialog>
-<app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false"></app-dialog>
+<app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false" [opt]="'MODEL.TXEDEN_NEED_PASS' | translate"></app-dialog>
+<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.TXEDEN_NEED_PASS' | translate"></app-dialog>

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { TxEdenService } from '../../services/txEden.service';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
+import { EdenService } from '../../services/eden.service';
 
 @Component({
   selector: 'app-txEden',
@@ -14,6 +15,7 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
     private txService: TransactionService,
     public txEden: TxEdenService,
+    public edenService: EdenService,
   ) {
     this.txEden.getAll();
   }
@@ -42,8 +44,9 @@ export class TxEdenComponent implements OnInit, OnDestroy {
 
   async txEdenUpdate(force: boolean = true) {
     await this.txEden.getAll(force);
+    await this.edenService.updateAll([]);
     const user = this.txEden.currentUser;
-    const buckets = this.txEden.bucketList;
+    const buckets = this.edenService.currentBuckets;
     let allSpace = 0;
     let usedSpace = 0;
     buckets.forEach(bucket => {

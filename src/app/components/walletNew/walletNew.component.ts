@@ -18,7 +18,7 @@ export class WalletNewComponent {
   @Output('stateChange') stateChangeEvent: EventEmitter<boolean> = new EventEmitter;
 
   constructor(
-    private wallet: WalletService,
+    public wallet: WalletService,
     private alert: NzMessageService,
     private translate: TranslateService,
     private txEden: TxEdenService,

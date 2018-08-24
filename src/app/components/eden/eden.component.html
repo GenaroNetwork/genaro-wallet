@@ -29,10 +29,10 @@
     <div class="name">{{ file.name }}</div>
     <ng-container *ngIf="file.type==='bucket'">
       <div class="storage">
-        <div [style.height.%]="file.bucketLimitStorage ? (file.bucketUsedStorage * 100 / file.bucketLimitStorage) : 0"></div>
+        <div [style.height.%]="file.limitStorage ? (file.usedStorage * 100 / file.limitStorage) : 0"></div>
       </div>
       <div class="detail">
-        {{ file.bucketUsedStorage | humanSize }} / {{ file.bucketLimitStorage | humanSize }}
+        {{ file.usedStorage | humanSize }} / {{ file.limitStorage | humanSize }}
       </div>
     </ng-container>
   </div>
@@ -43,6 +43,5 @@
 </div>
 
 
-<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false"></app-dialog>
-<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt">
-</app-dialog>
+<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.EDEN_NEED_PASS' | translate"></app-dialog>
+<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>

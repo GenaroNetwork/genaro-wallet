@@ -46,5 +46,5 @@
     </div>
   </div>
 </div>
-<app-walletNew *ngIf="walletNewShown" (stateChange)="walletNewShown=$event"></app-walletNew>
+<app-walletNew *ngIf="walletNewShown && setting.appType !== null" (stateChange)="walletNewShown=$event"></app-walletNew>
 <app-dialog [(name)]="dialogName"></app-dialog>

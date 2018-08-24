@@ -3,7 +3,7 @@
     <div class="header">
       <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
       {{ title | translate }}
-      <div class="close" (click)="ALL_DONE()">
+      <div class="close" (click)="ALL_DONE()" *ngIf="wallet.wallets.current !== null">
         <i class="anticon anticon-close"></i>
       </div>
     </div>

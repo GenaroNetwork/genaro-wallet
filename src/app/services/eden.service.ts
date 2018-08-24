@@ -77,10 +77,10 @@ export class EdenService {
     this.changePath(['/']);
   }
 
-  updateAll() {
+  updateAll(path: string[] = this.currentPath) {
     const env = this.allEnvs[this.walletService.wallets.current];
     this.updateBuckets(env);
-    if (this.currentPath.length !== 0) { this.updateFiles(env); }
+    if (path.length !== 0) { this.updateFiles(env); }
   }
 
   updateBuckets(env) {
@@ -96,8 +96,10 @@ export class EdenService {
           id: bucket.id,
           name: bucket.name,
           created: bucket.created,
-          bucketUsedStorage: bucket.usedStorage || 0,
-          bucketLimitStorage: bucket.limitStorage || 0,
+          timeStart: bucket.timeStart,
+          timeEnd: bucket.timeEnd,
+          usedStorage: bucket.usedStorage || 0,
+          limitStorage: bucket.limitStorage || 0,
         });
       });
       if (this.currentPath.length === 0) { this.updateView(); }
