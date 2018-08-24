@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="isSpinning">
   <!-- 钱包 -->
   <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
-    class="tx">
+    class="tx" [nzNoResult]="'TABLE.TX.NONE_DATA_TIP' | translate">
     <thead>
       <tr>
         <th nzWidth="10%">
@@ -112,7 +112,8 @@
 
 
   <!-- sharer -->
-  <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false" [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'>
+  <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false" [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'
+  [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
