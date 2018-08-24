@@ -58,22 +58,20 @@
     [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
-        <th></th>
-        <th>{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
-        <th>{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
-        <th>{{ 'TABLE.TXEDEN.USED_ALL_STORAGE' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
+        <th nzWidth="40%">{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.TXEDEN.USED_ALL_STORAGE' | translate }}</th>
         <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
-        <th>{{ 'TABLE.TXEDEN.LIMIT_TIME' | translate }}</th>
+        <th nzWidth="20%">{{ 'TABLE.TXEDEN.LIMIT_TIME' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of txEdenTable.data">
-        <th></th>
-        <th>{{ data.timeStart*1000 | date:"yyyy-MM-dd HH:mm" }}</th>
-        <th>{{ data.name }}</th>
-        <th>{{ (data.usedStorage || 0) | humanSize }}/{{ data.limitStorage | humanSize }}</th>
-        <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
-        <th>{{ data.timeEnd*1000 | date:"yyyy-MM-dd HH:mm" }}</th>
+        <td>{{ data.timeStart*1000 | date:"yyyy-MM-dd HH:mm" }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ (data.usedStorage || 0) | humanSize }}/{{ data.limitStorage | humanSize }}</td>
+        <!-- <td>{{ 'TABLE.TXEDEN.COST' | translate }}</td> -->
+        <td>{{ data.timeEnd*1000 | date:"yyyy-MM-dd HH:mm" }}</td>
       </tr>
     </tbody>
   </nz-table>
@@ -83,27 +81,27 @@
     [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
-        <th>{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
-        <th>{{ 'TABLE.TXSHARER.NODE_ID' | translate }}</th>
-        <th>{{ 'TABLE.TXSHARER.STAKE_TIME' | translate }}</th>
-        <th>{{ 'TABLE.TXSHARER.INCOME' | translate }}</th>
-        <th>{{ 'TABLE.TXSHARER.REMOVE_NODE' | translate }}</th>
+        <th nzWidth="30%">{{ 'TABLE.TXSHARER.STATE' | translate }}</th>
+        <th nzWidth="50%">{{ 'TABLE.TXSHARER.NODE_ID' | translate }}</th>
+        <!-- <th>{{ 'TABLE.TXSHARER.STAKE_TIME' | translate }}</th>
+        <th>{{ 'TABLE.TXSHARER.INCOME' | translate }}</th> -->
+        <th nzWidth="20%">{{ 'TABLE.TXSHARER.REMOVE_NODE' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of txSharerTable.data">
-        <th>-</th>
-        <th>{{ data }}</th>
-        <th>-</th>
-        <th>-</th>
-        <th>
+        <td>{{ 'TXSHARER.IS_BINDING' | translate }}</td>
+        <td>{{ data }}</td>
+        <!-- <td>-</td>
+        <td>-</td> -->
+        <td>
           <button nz-button nzType="primary" nzSize="small" nz-popover [nzContent]="removeNodePopover" nzTrigger="click" nzPlacement="bottomLeft">
             {{ 'TXSHARER.REMOVE_NODE' | translate }}
           </button>
           <ng-template #removeNodePopover>
             <app-form name="removeNode" [opts]="data" (submit)="tableChangeIndex=tableChangeIndex+1"></app-form>
           </ng-template>
-        </th>
+        </td>
       </tr>
     </tbody>
   </nz-table>
@@ -113,7 +111,7 @@
 
   <!-- sharer -->
   <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false" [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'
-  [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
+    [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -217,17 +215,17 @@
   </nz-table>
 
 
-
+  <!-- 任务列表 -->
   <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
-        <th>{{ "TASK.FILE_NAME" | translate}}</th>
-        <th>{{ "TASK.FILE_SIZE" | translate}}</th>
-        <th>{{ "TASK.CREATED" | translate}}</th>
-        <th>{{ "TASK.TYPE" | translate}}</th>
-        <th>{{ "TASK.PATH" | translate}}</th>
-        <th>{{ "TASK.PROCESS" | translate}}</th>
-        <th>{{ "TASK.OPERATION" | translate}}</th>
+        <th nzWidth="20%">{{ "TASK.FILE_NAME" | translate}}</th>
+        <th nzWidth="10%">{{ "TASK.FILE_SIZE" | translate}}</th>
+        <th nzWidth="15%">{{ "TASK.CREATED" | translate}}</th>
+        <th nzWidth="10%">{{ "TASK.TYPE" | translate}}</th>
+        <th nzWidth="20%">{{ "TASK.PATH" | translate}}</th>
+        <th nzWidth="15%">{{ "TASK.PROCESS" | translate}}</th>
+        <th nzWidth="10%">{{ "TASK.OPERATION" | translate}}</th>
       </tr>
     </thead>
     <tbody>

@@ -1,15 +1,15 @@
 <nz-card [nzBordered]="false">
-    <div class="header">
-        {{ 'SIDERBAR.COMMITTEE' | translate }}
-        <span>{{ 'TABLE.COMMITTEE.UPDATE_BLOCK' | translate }}: {{ thisRoundFirstBlock }}</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ nextRoundFirstBlock }}</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()" class="genaro-question-button">
-            <i class="anticon genaro-question"></i>
-        </button>
-    </div>
-    <app-table name="currentCommittee"></app-table>
+  <div class="header">
+    {{ 'SIDERBAR.COMMITTEE' | translate }}
+    <span>{{ 'TABLE.COMMITTEE.UPDATE_BLOCK' | translate }}: {{ thisRoundFirstBlock }}</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span>{{ 'TABLE.COMMITTEE.NEXT_UPDATE_BLOCK' | translate }}: {{ nextRoundFirstBlock }}</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()" class="genaro-question-button">
+      <i class="anticon genaro-question"></i>
+    </button>
+  </div>
+  <app-table name="currentCommittee" class="long-page"></app-table>
 </nz-card>
 
 <app-dialog [(name)]="tipDialogName" [opt]="tipOpt"></app-dialog>

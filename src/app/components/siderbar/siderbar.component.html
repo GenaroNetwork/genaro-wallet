@@ -39,7 +39,7 @@
     <i class="anticon anticon-team"></i>
     {{ "SIDERBAR.COMMITTEE" | translate }}
   </li>
-  <li nz-submenu *ngIf="settingService.committee">
+  <li nz-submenu *ngIf="settingService.committee" [nzOpen]="page==='/committee' || page==='/joinCommittee'">
     <span title>
       <i class="anticon anticon-appstore-o"></i>
       {{ "SIDERBAR.CO_CONSTRUCTION_NODES" | translate }}

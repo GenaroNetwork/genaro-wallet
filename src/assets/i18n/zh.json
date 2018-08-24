@@ -195,6 +195,7 @@
   "TXSHARER": {
     "STAKE": "押注",
     "UNSTAKE": "解除押注",
+    "IS_BINDING": "绑定中",
     "BINDED": "已绑定节点",
     "BINDABLE": "可绑定节点总数",
     "ALLBINDABLE": "可绑定总节点",

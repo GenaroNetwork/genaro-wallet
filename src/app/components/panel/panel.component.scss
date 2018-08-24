@@ -1,45 +1,41 @@
 @import "../../config";
-
 .panel {
-    flex: 0 26rem;
-    background: $content-bg;
-    border-radius: $border-radius;
-    box-shadow: $box-shadow;
-    padding-left: 1rem;
-    margin-bottom: 1rem;
-
-    >.header {
-        padding-top: 1rem;
-        font-size: 1rem;
-        font-weight: bold;
-
-        span {
-            font-size: 0.8rem;
-            font-weight: normal;
-        }
+  flex: 0 26rem;
+  background: $content-bg;
+  border-radius: $border-radius;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  >.header {
+    padding-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    span {
+      font-size: 0.8rem;
+      font-weight: normal;
     }
+  }
 }
 
 i {
-    height: 1rem;
-    width: 1rem;
-    font-size: 1rem;
-    line-height: 1rem;
-    display: inline-block;
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    &.rank-icon {
-        background-image:url('assets/img/rank_icon.png');
-    }
-    &.team-icon {
-        width: 2rem;
-        background-image:url('assets/img/team_icon.png');
-    }
-    &.sentinel-icon {
-        background-image:url('assets/img/sentinel_icon.png');
-    }
+  height: 1rem;
+  width: 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  display: inline-block;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  &.rank-icon {
+    background-image: url('assets/img/rank_icon.png');
+  }
+  &.team-icon {
+    width: 2rem;
+    background-image: url('assets/img/team_icon.png');
+  }
+  &.sentinel-icon {
+    background-image: url('assets/img/sentinel_icon.png');
+  }
 }
 
 .self {
-    background: #e6f7ff;
+  background: #e6f7ff;
 }

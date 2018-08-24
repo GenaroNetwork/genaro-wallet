@@ -195,6 +195,7 @@
   "TXSHARER": {
     "STAKE": "Stake",
     "UNSTAKE": "Unstake",
+    "IS_BINDING": "绑定中",
     "BINDED": "Bound node",
     "BINDABLE": "Total number of bindable nodes",
     "ALLBINDABLE": "All bindable nodes",

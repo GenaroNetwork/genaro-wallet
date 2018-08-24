@@ -1,11 +1,13 @@
 @import "../../config";
 :host {
   flex: 1;
-  box-shadow: $box-shadow;
   overflow: hidden;
   border-radius: $border-radius;
   background: $content-bg;
   position: relative;
+  &:not(.no-shadow) {
+    box-shadow: $box-shadow;
+  }
 }
 
 app-copy {
@@ -16,9 +18,8 @@ td:hover app-copy {
   display: inline;
 }
 
-::ng-deep .ant-spin-nested-loading {
-  position: static;
-  .ant-spin-container {
+:host:not(.long-page) {
+  ::ng-deep .ant-spin-nested-loading {
     position: static;
     .ant-spin-container {
       position: static;
@@ -97,7 +98,6 @@ nz-table {
   flex: 0 26rem;
   background: $content-bg;
   border-radius: $border-radius;
-  box-shadow: $box-shadow;
   padding-left: 1rem;
   >.header {
     padding-top: 1rem;
