@@ -328,11 +328,12 @@
     "START_CONFIRM_TIP": "Are you sure you want to start your sharing node?",
     "STOP_CONFIRM_TIP": "Are you sure you want to pause your sharing node?You can restart at any time afterwards,but user won't be able to stored files during this time,so you won't be able to continue to earn revenue during this time and will also lower your node's reputation.",
     "DELETE_CONFIRM_TIP": "您确定要删除您的分享节点吗?如果你的节点已经开始分享， 删除前请先备份节点配置，以便找回节点。删除后，系统将不会再分发给该节点数据，该节点也无法获取相应的存储收益, 同时也会降低您设备的信誉值.",
-    "STAKE_FIRST_TIP": "Please stake first",
+    "STAKE_FIRST_TIP": "请先押注，押注后可以加入其他节点，组队获取更高权重排名",
     "NODE_STAKE_TIP": "Node has not yet been staked",
     "GAS_PRICE": "Gas price",
     "GAS_PRICE_HOLDER": "Input gas",
-    "STAKE_CONFIRM_TIP": "Please confirm you understand that the stake operation is irreversible. <br/>1.During the stake,your GNX will be locked and will be available after the stake period is over.. <br/>2.After the stake is succeeds,please do not delete the node at will.It will affect the reputation of your node. <br/>3.The node configuration can be saved by\"Opening the configuration file\"so that the node can be retrieved ."
+    "STAKE_CONFIRM_TIP": "Please confirm you understand that the stake operation is irreversible. <br/>1.During the stake,your GNX will be locked and will be available after the stake period is over.. <br/>2.After the stake is succeeds,please do not delete the node at will.It will affect the reputation of your node. <br/>3.The node configuration can be saved by\"Opening the configuration file\"so that the node can be retrieved .",
+    "NONE_DRIVE_TIP": "暂无分享的节点，点击“增加分享配置”，分享闲置空间。"
   },
   "TABLE": {
     "TX": {
@@ -348,7 +349,8 @@
       "AGE": "Time",
       "FROM": "Transfer from address",
       "TO": "Transfer to address",
-      "VALUE": "Amount"
+      "VALUE": "Amount",
+      "NONE_DATA_TIP": "暂无交易记录"
     },
     "TXEDEN": {
       "CREATE_TIME": "Create time",
