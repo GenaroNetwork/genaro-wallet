@@ -41,6 +41,7 @@ export class SettingService {
 
   languageSet(value) {
     this.i18n.use(value);
+    this.ipc.ipcOnce("app.set.menu", value);
     return value;
   }
 
@@ -82,7 +83,8 @@ export class SettingService {
     });
     Promise.all(promises).then(() => {
       this.i18n.setDefaultLang(this.language);
-      this.i18n.use(this['lang']);
+      this.i18n.use(this.language);
+      this.ipc.ipcOnce("app.set.menu", this.language);
     });
   }
   languageRendered() {

@@ -5,9 +5,7 @@
   border-radius: $border-radius;
   background: $content-bg;
   position: relative;
-  &:not(.no-shadow) {
-    box-shadow: $box-shadow;
-  }
+  box-shadow: $box-shadow;
 }
 
 app-copy {

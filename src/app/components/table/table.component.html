@@ -44,10 +44,8 @@
         <td>{{ data.addrFrom | longAddr | shortAddr }}</td>
         <td>{{ data.addrTo | longAddr | shortAddr }}</td>
         <td>
-          <ng-container *ngIf="data.txType==='BUY_BUCKET'">{{ data.data | specialTx:"BUY_BUCKET" }}</ng-container>
-          <ng-container *ngIf="data.txType==='BUY_TRAFFIC'">{{ data.data | specialTx:"BUY_TRAFFIC" }}</ng-container>
-          <ng-container *ngIf="data.txType==='STAKE_GNX'">{{ data.data | specialTx:"STAKE_GNX" }}</ng-container>
           <ng-container *ngIf="data.txType==='TRANSFER'">{{ data.amount | gnxUnit }}</ng-container>
+          <ng-container *ngIf="data.txType!=='TRANSFER'">{{ data.data | specialTx:data.txType }}</ng-container>
         </td>
       </tr>
     </tbody>

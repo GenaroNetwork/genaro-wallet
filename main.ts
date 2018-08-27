@@ -58,38 +58,75 @@ function createWindow() {
     height: size.height,
   });
 
-  // set menu
-  let template = [{
-    label: "Application",
-    submenu: [
-      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-      { type: "separator" },
-      { label: "Quit", accelerator: "Command+Q", click: function () { app.quit(); } }
-    ]
-  }, {
-    label: "Edit",
-    submenu: [
-      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-      { type: "separator" },
-      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]
-  }, {
-    label: "Dev",
-    submenu: [
-      {
-        label: "Open Dev Tools", accelerator: "CmdOrCtrl+Shift+I", click: function () {
-          win.webContents.openDevTools();
-        }
-      },
-    ]
-  }
-  ];
-  // @ts-ignore
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  let setMenu = (lang: string = "en") => {
+    // set menu
+    let i18n = {
+      "en": [
+        "G-BOX",
+        "About Application",
+        "Quit",
+        "Edit",
+        "Undo",
+        "Redo",
+        "Cut",
+        "Copy",
+        "Paste",
+        "Select All",
+        "Dev",
+        "Open Dev Tools",
+      ],
+      "zh": [
+        "G-BOX",
+        "关于",
+        "退出",
+        "编辑",
+        "撤销",
+        "重做",
+        "剪切",
+        "复制",
+        "粘贴",
+        "全选",
+        "开发者",
+        "打开控制台",
+      ]
+    };
+    let template = [{
+      label: i18n[lang][0],
+      submenu: [
+        { label: i18n[lang][1], selector: "orderFrontStandardAboutPanel:" },
+        { type: "separator" },
+        { label: i18n[lang][2], accelerator: "Command+Q", click: function () { app.quit(); } }
+      ]
+    }, {
+      label: i18n[lang][3],
+      submenu: [
+        { label: i18n[lang][4], accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: i18n[lang][5], accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: i18n[lang][6], accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: i18n[lang][7], accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: i18n[lang][8], accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: i18n[lang][8], accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]
+    }, {
+      label: i18n[lang][10],
+      submenu: [
+        {
+          label: i18n[lang][11], accelerator: "CmdOrCtrl+Shift+I", click: function () {
+            win.webContents.openDevTools();
+          }
+        },
+      ]
+    }
+    ];
+    // @ts-ignore
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  };
+
+  setMenu();
+  ipcMain.on("app.set.menu", (event, ipcId, lang) => {
+    setMenu(lang);
+  });
 
   if (serve) {
     require('electron-reload')(__dirname, {

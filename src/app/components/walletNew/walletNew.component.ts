@@ -3,7 +3,7 @@ import { clipboard, remote } from 'electron';
 import { TranslateService } from '@ngx-translate/core';
 import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFile } from 'fs';
 import { basename } from 'path';
 import { TxEdenService } from '../../services/txEden.service';
 
@@ -87,7 +87,11 @@ export class WalletNewComponent {
   }
 
   downloadMnemonic() {
-    remote.dialog.showSaveDialog({});
+    // @ts-ignore
+    let path = remote.dialog.showSaveDialog(remote.BrowserWindow, {
+      defaultPath: "mnemonic.txt",
+    });
+    writeFile(path, this.mnemonic, () => { });
   }
 
   validateMnemonic() {
@@ -167,7 +171,8 @@ export class WalletNewComponent {
   }
 
   selectJson() {
-    const files = remote.dialog.showOpenDialog({ properties: ['openFile'] });
+    // @ts-ignore
+    const files = remote.dialog.showOpenDialog(remote.BrowserWindow, { properties: ['openFile'] });
     this.walletJson = files[0];
     this.walletJsonName = basename(this.walletJson);
   }

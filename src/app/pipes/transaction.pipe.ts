@@ -35,6 +35,8 @@ export class SpecialTxPipe implements PipeTransform {
       case 'STAKE_GNX':
         allGNX = json.stake;
         break;
+      default:
+        break;
     }
     return allGNX;
   }

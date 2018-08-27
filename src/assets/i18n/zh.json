@@ -39,7 +39,7 @@
     "ADDRESS_FROM": "转出地址",
     "ADDRESS_TO": "转至地址",
     "AMOUNT": "金额",
-    "GAS": "燃料",
+    "GAS": "燃料价格",
     "GAS_SLOW": "缓慢",
     "GAS_FAST": "快速",
     "GAS_LIMIT": "燃料上限",
@@ -97,7 +97,7 @@
   "FORM": {
     "ADDRESS": "地址",
     "AMOUNT": "金额",
-    "GAS": "燃料",
+    "GAS": "燃料价格",
     "GAS_LIMIT": "燃料限制",
     "GAS_SLOW": "缓慢",
     "GAS_FAST": "快速",
