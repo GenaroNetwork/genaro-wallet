@@ -12,11 +12,11 @@
 <ng-container *ngIf="name==='stake'">
   <nz-tabset *ngIf="stakeStep===0" [(nzSelectedIndex)]="stakeType" class="stake">
     <nz-tab nzTitle="{{ 'TXSHARER.STAKE' | translate }}">
-      <app-input name="stake" [(ipt)]="stakeGNX"></app-input>
+      <app-input name="stake" [(ipt)]="stakeGNX" [span]="[6,14]"></app-input>
       <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
       <app-input name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + (stakeGNX | maxNode)"></app-input>
       <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-      <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
+      <app-input name="confirm" (iptChange)="stakeConfirm()" [span]="[6,14]"></app-input>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
       <app-input [span]="[2,20]" *ngIf="stakeUnstakable===-1" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_DISABLED' | translate"></app-input>
@@ -27,7 +27,7 @@
       <ng-container *ngIf="stakeUnstakable===1">
         <app-input name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
         <app-input name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-        <app-input name="confirm" (iptChange)="stakeConfirm()"></app-input>
+        <app-input name="confirm" (iptChange)="stakeConfirm()" [span]="[6,14]"></app-input>
       </ng-container>
     </nz-tab>
   </nz-tabset>
@@ -39,15 +39,15 @@
 <!-- 绑定节点 -->
 <ng-container *ngIf="name==='bindNode'">
   <div *ngIf="bindNodeStep===0 && !bindNodeTokenFlg" class="bind-node">
-    <app-input name="bindNode" [(ipt)]="bindNodeId" [iptExtra]="selectBindNodes" [span]="[6,14]" (iptChange)="setNodeId()"></app-input>
-    <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,14]"></app-input>
-    <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
+    <app-input name="bindNode" [(ipt)]="bindNodeId" [iptExtra]="selectBindNodes" [span]="[6,18]" (iptChange)="setNodeId()"></app-input>
+    <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
+    <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,18]"></app-input>
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
   </div>
   <div *ngIf="bindNodeStep===0 && bindNodeTokenFlg" class="bind-node">
-    <app-input name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,14]"></app-input>
-    <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,14]"></app-input>
-    <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,14]"></app-input>
+    <app-input name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,18]"></app-input>
+    <app-input name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
+    <app-input name="password" [(ipt)]="bindNodePassword" [span]="[6,18]"></app-input>
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
   </div>
   <div *ngIf="bindNodeStep===1">
@@ -64,7 +64,7 @@
   <div *ngIf="removeNodeStep===1" class="bind-node">
     <app-input name="gas" [(ipt)]="removeNodeGas" [span]="[6,14]"></app-input>
     <app-input name="password" [(ipt)]="removeNodePassword" [span]="[6,14]"></app-input>
-    <app-input name="confirm" (iptChange)="removeNodeConfirm()"></app-input>
+    <app-input name="confirm" (iptChange)="removeNodeConfirm()" [span]="[6,14]"></app-input>
   </div>
   <div *ngIf="removeNodeStep===2">
     <i class="anticon anticon-check-circle"></i>
