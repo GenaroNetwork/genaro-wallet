@@ -242,9 +242,12 @@
     "DELETE_FOLDER": "删除文件夹",
     "REMOVE_TASK_SUCCESS": "已删除任务记录",
     "STOP_TASK_SUCCESS": "已停止任务",
-    "EMPTY_BUCKET_TIP": "暂无存储空间，点击“购买空间”按钮，购买存储空间，上传需要存储的文件。",
+    "EMPTY_BUCKET_TIP": "暂无存储空间，点击“购买空间”按钮，购买存储空间，上传需要存储的文件",
     "EMPTY_BUCKET_TIP1": "暂无存储空间",
-    "EMPTY_BUCKET_TIP2": "点击右上角“购买空间”按钮，购买存储空间，开始使用吧！"
+    "EMPTY_BUCKET_TIP2": "点击右上角“购买空间”按钮，购买存储空间，开始使用吧！",
+    "EMPTY_FILE_TIP": "暂未存储文件。点击“上传”按钮，上传你要存储的文件",
+    "EMPTY_FILE_TIP1": "暂未存储文件",
+    "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件"
   },
   "TASK": {
     "FILE_NAME": "文件名",
