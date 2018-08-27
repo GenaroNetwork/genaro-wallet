@@ -342,7 +342,8 @@
           <td nzWidth="15%">{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
           <td nzWidth="12%">{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
           <td nzWidth="15%">
-            <button nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin || !data.canApplyJoin" (click)="action.emit(['join',data]);activateJoinButton();">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
+            <button *ngIf="data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin" (click)="action.emit(['join',data]);activateJoinButton();">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
+            <button *ngIf="!data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="true">{{ 'TABLE.COMMITTEE.APPLIED' | translate }}</button>
           </td>
         </tr>
       </tbody>

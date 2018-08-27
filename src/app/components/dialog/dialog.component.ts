@@ -301,6 +301,7 @@ export class DialogComponent implements OnChanges {
   joinCommitteeMainAddress: string = '';
   joinCommitteeInit() {
     this.joinCommitteeStep = 0;
+    this.joinCommitteePassword = '';
     this.joinCommitteeMainAddress = this.address;
   }
   async joinCommitteeSubmit() {
