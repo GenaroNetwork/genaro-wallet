@@ -200,6 +200,7 @@ export class TransactionService {
         })
         .on('error', async error => {
           await tdb.txError(txOptions.transactionId, error.message);
+          console.log(error);
           this.alertError(error);
           rej(error.message);
         });
@@ -349,6 +350,8 @@ export class TransactionService {
       this.alert.error(this.i18n.instant('ERROR.PASSWORD'));
     } else if (error.message.indexOf('insufficient funds') > -1) {
       this.alert.error(this.i18n.instant('ERROR.BALANCE'));
+    } else if (error.message.indexOf('Returned error: the input node have been bound by themselves or others') > -1) {
+      this.alert.error(this.i18n.instant('ERROR.NODE_BOUND'));
     } else {
       this.alert.error(error.message.toString());
     }

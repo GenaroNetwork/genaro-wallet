@@ -128,10 +128,11 @@
   <div nz-col [nzSpan]="span[0]" class="label">
     {{ 'TXSHARER.STAKE' | translate }} {{ 'COMMON.COLON' | translate }}
   </div>
-  <div nz-col [nzSpan]="span[1]-4" class="preview">
-    <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)" min="0"></nz-input-number>
+  <div nz-col [nzSpan]="span[1]" class="preview">
+    <nz-input-group nzAddOnAfter="GNX">
+      <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)" min="0"></nz-input-number>
+    </nz-input-group>
   </div>
-  <div nz-col [nzSpan]="4">&nbsp;&nbsp;GNX</div>
 </div>
 
 <!-- 绑定节点 -->
@@ -212,7 +213,7 @@
 
 <!-- 确认按钮 -->
 <div *ngIf="name==='confirm'" nz-row nzType="flex" nzAlign="middle">
-  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]">
+  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="confirm">
     <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </div>
 </div>

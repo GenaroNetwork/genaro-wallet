@@ -380,6 +380,7 @@
       "MEMBER": "member",
       "ADDRESS": "address",
       "JOIN": "join",
+      "APPLIED": "已申请",
       "AGREE": "agree",
       "UPDATE_BLOCK": "Update Block",
       "NEXT_UPDATE_BLOCK": "Next Update Block of Committee",
@@ -407,6 +408,7 @@
     "GAS": "Gas fee is too low",
     "LIMIT": "Gas limit is too low",
     "BALANCE": "Insufficient balance",
-    "OTHER": "Error:{{err}}"
+    "OTHER": "Error:{{err}}",
+    "NODE_BOUND": "该节点已经与其他钱包绑定。请先解绑，再与当前钱包绑定。 或直接绑定其他还未绑定的节点。"
   }
 }

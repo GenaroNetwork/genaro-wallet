@@ -161,9 +161,11 @@ export class BrotherhoodService {
 
   private async alwaysFetch() {
     //return;
-    const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
-    const states = await Promise.all(promises);
-    this.lastState.SetAll(states);
+    try {
+      const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
+      const states = await Promise.all(promises);
+      this.lastState.SetAll(states);
+    } catch (e) { }
     setTimeout(this.alwaysFetch.bind(this), RELATION_FETCH_INTERVAL);
   }
 
