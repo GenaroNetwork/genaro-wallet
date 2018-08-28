@@ -139,8 +139,8 @@ export class FormComponent implements OnChanges {
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
     if (changes.name) {
-      let newValue = changes.name.currentValue;
-      if (this[`${newValue}Init`]) this[`${newValue}Init`]();
+      let name = changes.name.currentValue;
+      if (this[`${name}Init`]) this[`${name}Init`]();
     }
   }
 
