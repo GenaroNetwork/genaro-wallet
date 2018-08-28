@@ -32,9 +32,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
-    if (changes.change) {
-      if (this[`${name}Change`]) { this[`${name}Change`](); }
-    }
+    let name;
+    if (changes.name) name = changes.name.currentValue;
+    else name = this.name;
+    if (this[`${name}Change`]) { this[`${name}Change`](); }
   }
 
   constructor(
@@ -80,7 +81,18 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     data = data.sort((a, b) => b.created - a.created);
     this.txDataTotalPage = data.length;
     data = data.slice((this.txDataCurrentPage - 1) * 10, this.txDataCurrentPage * 10);
-    this.txDisplayData = data;
+    try {
+      if (this.txDisplayData.length !== data.length) throw new Error;
+      data.forEach(data => {
+        let old = this.txDisplayData.find(dData => dData.transactionId === data.transactionId);
+        if (!old) throw new Error;
+        for (let key in data) {
+          old[key] = data[key];
+        }
+      });
+    } catch (e) {
+      this.txDisplayData = data;
+    }
   }
   txGetBlockNumber(receipt) {
     if (!receipt) { return '-'; }
@@ -145,10 +157,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
   async searchRankFarmer() {
-    if(this.rankSubscribe) {
+    if (this.rankSubscribe) {
       this.rankSubscribe.unsubscribe();
     }
-    if(this.rankAddress) {
+    if (this.rankAddress) {
       this.showRankBack = true;
       this.isSpinning = true;
       this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
@@ -164,7 +176,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.searchRankFarmer();
   }
   rankDestroy() {
-    if(this.rankSubscribe) {
+    if (this.rankSubscribe) {
       this.rankSubscribe.unsubscribe();
     }
   }
@@ -183,22 +195,22 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
       self.canApplyJoin = false;
-      if(broSub) {
+      if (broSub) {
         broSub.unsubscribe();
       }
       let currentWalletAddr = add0x(self.walletService.wallets.current);
       self.brotherhoodService.addFetchingAddress(currentWalletAddr);
       broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
         self.isSpinning = true;
-        if (states 
-          && states.length > 1 
-          && states[0] === currentWalletAddr 
+        if (states
+          && states.length > 1
+          && states[0] === currentWalletAddr
           && states[1]
           && states[1].pendingState.role !== Role.Main
           && states[1].tempState.role !== Role.Main
         ) {
           self.canApplyJoin = true;
-          if(states[1].tempState.role !== Role.Sub) {
+          if (states[1].tempState.role !== Role.Sub) {
             self.committeeService.delete(self.walletService.wallets.current);
           }
         }
@@ -214,7 +226,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.isSpinning = false;
   }
   async searchFarmer() {
-    if(this.committeeAddress) {
+    if (this.committeeAddress) {
       this.showBack = true;
       this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
       this.activateJoinButton();
@@ -225,14 +237,14 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   async activateJoinButton() {
-    if(this.committeeData) {
+    if (this.committeeData) {
       let currentWalletAddr = this.walletService.wallets.current;
       let hasAppliedAccounts = await this.committeeService.get(currentWalletAddr) || [];
       let acs = hasAppliedAccounts.map(a => {
         return a.applyAddress;
       })
       this.committeeData.forEach(cd => {
-        if(acs.indexOf(cd.address) > -1) {
+        if (acs.indexOf(cd.address) > -1) {
           cd.canApplyJoin = false;
         }
         else {
@@ -270,11 +282,11 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   sharerInit() {
     this.isSpinning = true;
     let self = this;
-    if(this.sharer.getSharerNodeIds().length > 0) {
+    if (this.sharer.getSharerNodeIds().length > 0) {
       this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
-        if(data && data.length > 0) {
+        if (data && data.length > 0) {
           self.isSpinning = false;
-          if(self.sharerSubscribe) {
+          if (self.sharerSubscribe) {
             self.sharerSubscribe.unsubscribe();
           }
         }
@@ -285,7 +297,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   sharerDestroy() {
-    if(this.sharerSubscribe) {
+    if (this.sharerSubscribe) {
       this.sharerSubscribe.unsubscribe();
     }
   }

@@ -88,9 +88,10 @@ export class WalletNewComponent {
 
   downloadMnemonic() {
     // @ts-ignore
-    let path = remote.dialog.showSaveDialog(remote.BrowserWindow, {
+    let path = remote.dialog.showSaveDialog(remote.BrowserWindow.getAllWindows()[0], {
       defaultPath: "mnemonic.txt",
     });
+    if (!path) return;
     writeFile(path, this.mnemonic, () => { });
   }
 
@@ -172,7 +173,7 @@ export class WalletNewComponent {
 
   selectJson() {
     // @ts-ignore
-    const files = remote.dialog.showOpenDialog(remote.BrowserWindow, { properties: ['openFile'] });
+    const files = remote.dialog.showOpenDialog(remote.BrowserWindow.getAllWindows()[0], { properties: ['openFile'] });
     this.walletJson = files[0];
     this.walletJsonName = basename(this.walletJson);
   }

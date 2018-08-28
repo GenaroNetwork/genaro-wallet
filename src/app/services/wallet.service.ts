@@ -162,7 +162,7 @@ export class WalletService {
 
   exportJson(address: string) {
     // @ts-ignore
-    let path = remote.dialog.showSaveDialog(remote.BrowserWindow, {
+    let path = remote.dialog.showSaveDialog(remote.BrowserWindow.getAllWindows()[0], {
       title: this.i18n.instant('COMMON.SELECT_SAVE_PATH'),
       // @ts-ignore 该行用于忽略 typescript 报错，勿删
       properties: ['openDirectory'],

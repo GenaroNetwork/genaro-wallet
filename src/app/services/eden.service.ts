@@ -316,7 +316,7 @@ export class EdenService {
     if (folderPrefix.length > 0) { folderPrefix += '/'; }
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
     // @ts-ignore
-    const nativePaths = remote.dialog.showOpenDialog(remote.BrowserWindow, {
+    const nativePaths = remote.dialog.showOpenDialog(remote.BrowserWindow.getAllWindows()[0], {
       properties: ['openFile', 'multiSelections']
     });
     if (!nativePaths) { return; }
@@ -404,12 +404,12 @@ export class EdenService {
       let filename = files[0].name.split('/').pop();
       filename = this.convertChar(filename, false);
       // @ts-ignore
-      nativePath = remote.dialog.showSaveDialog(remote.BrowserWindow, {
+      nativePath = remote.dialog.showSaveDialog(remote.BrowserWindow.getAllWindows()[0], {
         defaultPath: filename,
       });
     } else {
       // @ts-ignore
-      nativePath = remote.dialog.showOpenDialog(remote.BrowserWindow, { properties: ['openDirectory', 'createDirectory'] });
+      nativePath = remote.dialog.showOpenDialog(remote.BrowserWindow.getAllWindows()[0], { properties: ['openDirectory', 'createDirectory'] });
     }
     if (!nativePath) { return; }
     const path = Array.from(this.currentPath);

@@ -40,9 +40,9 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
       self.currentWalletAddr = '0x' + self.walletService.wallets.current;
     });
     this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
-      if(data && data.address) {
+      if (data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
+        if (data.currentAddress === '0x' + self.walletService.wallets.current) {
           self.isSpinning = false;
         }
       }
@@ -50,10 +50,10 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
   rankDestroy() {
-    if(this.currentSubscribe) {
+    if (this.currentSubscribe) {
       this.currentSubscribe.unsubscribe();
     }
-    if(this.currentWalletSubscribe) {
+    if (this.currentWalletSubscribe) {
       this.currentWalletSubscribe.unsubscribe();
     }
   }
@@ -72,24 +72,24 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
       self.currentWalletAddr = '0x' + self.walletService.wallets.current;
     });
     this.pendingSubscribe = this.committeeService.pendingMainWalletState.subscribe((data) => {
-      if(data && data.address) {
+      if (data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-        if(data.currentAddress === '0x' + self.walletService.wallets.current) {
+        if (data.currentAddress === '0x' + self.walletService.wallets.current) {
           self.isSpinning = false;
         }
       }
       self.pendingTeamInfo = data || {};
       self.hasTempSubAccount = false;
-      if(self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
+      if (self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
         self.hasTempSubAccount = true;
       }
     });
   }
   committeeDestroy() {
-    if(this.pendingSubscribe) {
+    if (this.pendingSubscribe) {
       this.pendingSubscribe.unsubscribe();
     }
-    if(this.pendingWalletSubscribe) {
+    if (this.pendingWalletSubscribe) {
       this.pendingWalletSubscribe.unsubscribe();
     }
   }
@@ -103,7 +103,7 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   tipClick(flg) {
     this.tipDialogName = 'tips';
-    if(flg === 1) {
+    if (flg === 1) {
       this.tipOpt = {
         title: this.i18n.instant('SIDERBAR.CURRENT_RANKS'),
         content: this.i18n.instant('MODEL.CURRENT_RANKS_TIP')
@@ -132,9 +132,8 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
-    if (changes.change) {
-      if (this[`${name}Change`]) { this[`${name}Change`](); }
-    }
+    let name = changes.name.currentValue;
+    if (this[`${name}Change`]) { this[`${name}Change`](); }
   }
 
   ngOnDestroy() {
