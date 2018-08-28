@@ -45,7 +45,7 @@
         <td>{{ data.addrTo | longAddr | shortAddr }}</td>
         <td>
           <ng-container *ngIf="data.txType==='TRANSFER'">{{ data.amount | gnxUnit }}</ng-container>
-          <ng-container *ngIf="data.txType!=='TRANSFER'">{{ data.data | specialTx:data.txType }}</ng-container>
+          <ng-container *ngIf="data.txType!=='TRANSFER'">{{ data | specialTx:data.txType }}</ng-container>
         </td>
       </tr>
     </tbody>
