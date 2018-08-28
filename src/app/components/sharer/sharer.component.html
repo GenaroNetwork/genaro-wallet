@@ -80,9 +80,9 @@
               <input type="text" placeholder="{{ 'DRIVE.SHARING_SIZE_PLACEHOLDER' | translate }}" nz-input [(ngModel)]="addShareShareSize">
             </nz-input-group>
             <ng-template #addOnAfterTemplate>
-              <nz-select [ngModel]="addShareSelectUnit">
-                <nz-option [nzLabel]="'GB'" [nzValue]="'GB'"></nz-option>
-                <nz-option [nzLabel]="'TB'" [nzValue]="'TB'"></nz-option>
+              <nz-select [(ngModel)]="addShareSelectUnit">
+                <nz-option nzLabel="GB" nzValue="GB"></nz-option>
+                <nz-option nzLabel="TB" nzValue="TB"></nz-option>
               </nz-select>
             </ng-template>
           </div>
