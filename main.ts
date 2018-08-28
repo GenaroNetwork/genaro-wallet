@@ -113,6 +113,7 @@ function createWindow() {
       submenu: [
         {
           label: i18n[lang][11], accelerator: "CmdOrCtrl+Shift+I", click: function () {
+            win.show();
             win.webContents.openDevTools();
           }
         },

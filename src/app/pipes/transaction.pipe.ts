@@ -18,10 +18,11 @@ export class maxNodePipe implements PipeTransform {
 export class SpecialTxPipe implements PipeTransform {
 
   transform(data: any, type?: any): any {
-    let allGNX = "-";
+    let allGNX;
     let json
     switch (type) {
       case 'BUY_BUCKET':
+        allGNX = 0;
         json = JSON.parse(data.data);
         json = typeof json === 'string' ? JSON.parse(json) : json;
         json.buckets.forEach(bucket => {
@@ -39,6 +40,7 @@ export class SpecialTxPipe implements PipeTransform {
         allGNX = json.stake;
         break;
       default:
+        allGNX = "-";
         break;
     }
     return allGNX;

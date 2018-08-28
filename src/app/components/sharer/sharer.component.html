@@ -1,14 +1,18 @@
 <nz-card [nzBordered]="false">
-  <nz-modal [(nzVisible)]="modalVisible" nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()" (nzOnCancel)="modalVisible=false">
+  <nz-modal [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate" [(nzVisible)]="modalVisible"
+    nzTitle="{{modalTitle | translate}}" (nzOnOk)="handleOk()" (nzOnCancel)="modalVisible=false">
     <p>{{modalMessage | translate}}</p>
   </nz-modal>
-  <nz-modal nzTitle="{{ 'DRIVE.GET_BIND_TOKEN' | translate }}" [nzVisible]="bindModalVisible" (nzOnCancel)="bindModalVisible=false"
-    (nzOnOk)="getBindToken()">
+  <nz-modal [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate" nzTitle="{{ 'DRIVE.GET_BIND_TOKEN' | translate }}"
+    [nzVisible]="bindModalVisible" (nzOnCancel)="bindModalVisible=false" (nzOnOk)="getBindToken()">
     <ng-container *ngIf="bindTokenStep===0">
       <input nz-input nzSize="large" placeholder="{{ 'DRIVE.ADDRESS' | translate }}" [(ngModel)]="bindNodeAddress">
     </ng-container>
     <ng-container *ngIf="bindTokenStep===1">
-        Token: <span>{{bindToken}}<app-copy [data]="bindToken"></app-copy></span>
+      Token:
+      <span>{{bindToken}}
+        <app-copy [data]="bindToken"></app-copy>
+      </span>
     </ng-container>
   </nz-modal>
   <div class="layout-header">

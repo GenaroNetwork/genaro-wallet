@@ -45,7 +45,7 @@ export class SettingService {
     return value;
   }
 
-  language: string = "zh";
+  language: string = "en";
   wallet: boolean = true;
   eden: boolean = true;
   sharer: boolean = true;
@@ -69,6 +69,7 @@ export class SettingService {
     private i18n: TranslateService,
     private router: Router,
   ) {
+    if (navigator.language.toLowerCase().indexOf("zh") > -1) this.language = "zh";
     const promises = [];
     this.list.forEach(name => {
       promises.push(new Promise(async (res, rej) => {

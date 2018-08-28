@@ -6,9 +6,13 @@ nz-card {
   box-shadow: $box-shadow;
 }
 
+:host ::ng-deep app-panel .panel,
+:host ::ng-deep app-table .panel {
+  box-shadow: $box-shadow;
+}
+
 :host ::ng-deep .ant-card-body {
   padding: 0;
-  padding-left: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto;
 }

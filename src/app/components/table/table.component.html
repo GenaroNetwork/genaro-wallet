@@ -214,7 +214,8 @@
 
 
   <!-- 任务列表 -->
-  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+    [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <th nzWidth="20%">{{ "TASK.FILE_NAME" | translate}}</th>
@@ -244,7 +245,7 @@
         </td>
         <td>
           <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv; else showDelete" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate"
-            (nzOnConfirm)="edenService.cancelTask(task.id)">
+            (nzOnConfirm)="edenService.cancelTask(task.id)" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
             <i class="anticon anticon-close"></i>
           </a>
           <ng-template #showDelete>
