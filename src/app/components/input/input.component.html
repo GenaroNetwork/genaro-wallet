@@ -1,7 +1,7 @@
 <!-- 收款地址 -->
 <div *ngIf="name==='addressFrom'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.ADDRESS_FROM' | translate }} ：
+    {{ 'INPUT.ADDRESS_FROM' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -12,7 +12,7 @@
 <!-- 发送地址 -->
 <div *ngIf="name==='addressTo'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.ADDRESS_TO' | translate }} ：
+    {{ 'INPUT.ADDRESS_TO' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -24,7 +24,7 @@
 <!-- 金额 -->
 <div *ngIf="name==='amount'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.AMOUNT' | translate }} ：
+    {{ 'INPUT.AMOUNT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -36,7 +36,7 @@
 <ng-container *ngIf="name==='gas' && !gasDetail">
   <div nz-row nzType="flex" nzAlign="middle" class="gas">
     <div nz-col [nzSpan]="span[0]" class="label">
-      {{ 'INPUT.GAS' | translate }} ：
+      {{ 'INPUT.GAS' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]-2">
       <nz-slider [ngModel]="gasDefault" (ngModelChange)="ngModelChange.emit([$event, gasLimit])" [nzMin]="gasMin" [nzMax]="gasMax"
@@ -50,7 +50,7 @@
 <ng-container *ngIf="name==='gas' && gasDetail">
   <div nz-row nzType="flex" nzAlign="middle">
     <div nz-col [nzSpan]="span[0]" class="label">
-      {{ 'INPUT.GAS' | translate }} ：
+      {{ 'INPUT.GAS' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]">
       <nz-input-group nzAddOnAfter="Gan">
@@ -60,7 +60,7 @@
   </div>
   <div nz-row nzType="flex" nzAlign="middle">
     <div nz-col [nzSpan]="span[0]" class="label">
-      {{ 'INPUT.GAS_LIMIT' | translate }} ：
+      {{ 'INPUT.GAS_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]">
       <input [value]="gasLimit" [(ngModel)]="gasLimit" type="text" nz-input (input)="ngModelChange.emit([gasDefault, $event.target.value])">
@@ -72,7 +72,7 @@
 <!-- 购买空间时长 -->
 <div *ngIf="name==='spaceLimit'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.SPACE_LIMIT' | translate }} ：
+    {{ 'INPUT.SPACE_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectLimit">
@@ -90,7 +90,7 @@
 <!-- 购买空间大小 -->
 <div *ngIf="name==='spaceRange'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.SPACE_RANGE' | translate }} ：
+    {{ 'INPUT.SPACE_RANGE' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectRange">
@@ -108,7 +108,7 @@
 <!-- 购买流量 -->
 <div *ngIf="name==='traffic'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.TRAFFIC' | translate }} ：
+    {{ 'INPUT.TRAFFIC' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buyTraffic">
@@ -126,7 +126,7 @@
 <!-- 压注 -->
 <div *ngIf="name==='stake'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'TXSHARER.STAKE' | translate }} ：
+    {{ 'TXSHARER.STAKE' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]" class="preview">
     <nz-input-group nzAddOnAfter="GNX">
@@ -138,7 +138,7 @@
 <!-- 绑定节点 -->
 <div *ngIf="name==='bindNode'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    nodeId ：
+    nodeId{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-select style="width: 100%" ngModel="ngModel" [nzDropdownMatchSelectWidth]="false" (ngModelChange)="ngModelChange.emit($event)">
@@ -151,7 +151,7 @@
 <!-- 绑定节点Token -->
 <div *ngIf="name==='bindNodeToken'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    token ：
+    token{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -174,7 +174,7 @@
 <!-- 密码 -->
 <div *ngIf="name==='password'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD' | translate }} ：
+    {{ 'INPUT.PASSWORD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -184,7 +184,7 @@
 <!-- 旧密码 -->
 <div *ngIf="name==='passwordOld'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_OLD' | translate }} ：
+    {{ 'INPUT.PASSWORD_OLD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -194,7 +194,7 @@
 <!-- 新密码 -->
 <div *ngIf="name==='passwordNew'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_NEW' | translate }} ：
+    {{ 'INPUT.PASSWORD_NEW' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
@@ -204,7 +204,7 @@
 <!-- 重复密码 -->
 <div *ngIf="name==='passwordRepeat'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[0]" class="label">
-    {{ 'INPUT.PASSWORD_REPEAT' | translate }} ：
+    {{ 'INPUT.PASSWORD_REPEAT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">

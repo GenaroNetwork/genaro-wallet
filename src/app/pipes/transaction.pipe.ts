@@ -17,12 +17,13 @@ export class maxNodePipe implements PipeTransform {
 })
 export class SpecialTxPipe implements PipeTransform {
 
-  transform(value: any, type?: any): any {
-    let json = JSON.parse(value);
-    json = typeof json === 'string' ? JSON.parse(json) : json;
-    let allGNX = 0;
+  transform(data: any, type?: any): any {
+    let allGNX = "-";
+    let json
     switch (type) {
       case 'BUY_BUCKET':
+        json = JSON.parse(data.data);
+        json = typeof json === 'string' ? JSON.parse(json) : json;
         json.buckets.forEach(bucket => {
           const time = (bucket.timeEnd - bucket.timeStart) / 3600 / 24;
           const space = bucket.size;
@@ -30,9 +31,11 @@ export class SpecialTxPipe implements PipeTransform {
         });
         break;
       case 'BUY_TRAFFIC':
+        json = JSON.parse(data.data);
         allGNX = json.traffic;
         break;
       case 'STAKE_GNX':
+        json = JSON.parse(data.data);
         allGNX = json.stake;
         break;
       default:
@@ -40,5 +43,4 @@ export class SpecialTxPipe implements PipeTransform {
     }
     return allGNX;
   }
-
 }
