@@ -214,7 +214,7 @@
 
 
   <!-- 任务列表 -->
-  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
+  <nz-table *ngIf="name==='task'" [nzData]="this.edenService.tasks | tableTask:opt" #taskTable [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <th nzWidth="20%">{{ "TASK.FILE_NAME" | translate}}</th>
@@ -274,7 +274,7 @@
       </ng-template>
     </div>
     <br>
-    <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: false}'>
+    <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: false}' [nzNoResult]="'TABLE.NO_DATA' | translate">
       <thead>
         <tr>
           <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
@@ -317,7 +317,7 @@
       </ng-template>
     </div>
     <br>
-    <nz-table #committeeTable [nzData]="committeeData" [nzScroll]='{ y: false}'>
+    <nz-table #committeeTable [nzData]="committeeData" [nzScroll]='{ y: false}' [nzNoResult]="'TABLE.NO_DATA' | translate">
       <thead>
         <tr>
           <th nzWidth="8%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
@@ -351,7 +351,7 @@
 
   <!-- currentCommittee -->
   <nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzData]="currentCommitteeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 64 + "px"}'
-    nzShowPagination="false" [nzPageSize]="31" class="tx">
+    nzShowPagination="false" [nzPageSize]="31" class="tx" [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <th nzWidth="20%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>

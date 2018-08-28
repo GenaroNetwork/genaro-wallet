@@ -174,7 +174,7 @@
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)">
   <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
   <app-input name="setting" ipt="language"></app-input>
   <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
@@ -188,7 +188,7 @@
 
 <!-- 申请加入共建 -->
 <nz-modal [nzVisible]="dialogName==='joinCommittee'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate" [nzFooter]="joinCommitteeFooter" class="buy-space">
+  [nzTitle]="'HEADER.JOIN' | translate" [nzFooter]="joinCommitteeFooter" class="buy-space">
   <ng-container *ngIf="joinCommitteeStep===0">
     <app-input name="gas" [(ipt)]="joinCommitteeGas"></app-input>
     <app-input name="password" [(ipt)]="joinCommitteePassword"></app-input>

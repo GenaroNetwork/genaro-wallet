@@ -109,7 +109,8 @@
     "CREATE_WALLET": "Create a wallet",
     "SETTINGS": "Settings",
     "HELP": "Help",
-    "ABOUT": "About"
+    "ABOUT": "About",
+    "JOIN": "Apply to join"
   },
   "SIDERBAR": {
     "WALLET": "My wallet",
@@ -202,10 +203,10 @@
     "STAKE_GNX": "Your staked GNX",
     "MAX_STAKE_NODE": "Maximum number of bound nodes",
     "BIND_NODE": "Bind node",
-    "HEFT": "Current heft：",
-    "SCORE": "score",
-    "HEFT_RANK": "Heft rank： <span>{{ rank }}<span> 名</span></span>",
-    "STAKE_AMOUNT": "Stake amount：<span>{{ stake }}<span> GNX</span></span>",
+    "HEFT": "Current heft:  ",
+    "SCORE": "",
+    "HEFT_RANK": "Heft rank: <span><span>No. </span>{{ rank }}</span>",
+    "STAKE_AMOUNT": "Stake amount:  <span>{{ stake }}<span> GNX</span></span>",
     "REMOVE_NODE": "remove",
     "NO_BIND_ID": "Node is not in the list. Input token to bind.",
     "NONE_BINDED_TIP": "No bound node , after the “stake” is successful, binding shared node can obtain the storage revenue.",
@@ -271,8 +272,8 @@
   "DRIVE": {
     "CANCEL": "Cancel",
     "NEXT": "Next",
-    "MY_DRIVES": "My sharing drives",
-    "ADD_DRIVE": "Add sharing configuration",
+    "MY_DRIVES": "My Drives",
+    "ADD_DRIVE": "Add Drive",
     "HIDDEN_COL": "Display list",
     "DRIVE_ID": "Drive ID",
     "LOCATION": "Location",
@@ -289,8 +290,8 @@
     "STATUS": "Status",
     "HAVE_NOT_SHARED": "You haven't shared your storage.Start sharing now to earn GNX",
     "CHOOSE_SHARING": "Please choose the space to share",
-    "SELECT_SHARDING": "Please select the directory to share",
-    "DRIVE_LOCATION": "Share location",
+    "SELECT_SHARDING": "Please select sharing",
+    "DRIVE_LOCATION": "Drive Location",
     "SET_RECIPIENT": "Stake",
     "RESTART": "Restart",
     "START": "Start",
@@ -298,7 +299,7 @@
     "DELETE": "Delete",
     "NOTICE": "Notice",
     "SHARING_SIZE": "Sharing space size",
-    "SHARING_SIZE_PLACEHOLDER": "Single node maximum size is 4T",
+    "SHARING_SIZE_PLACEHOLDER": "Maximum 4T per node",
     "CONNECTED": "Connected",
     "CONFIRMING": "Confirming",
     "CONNECTING": "Connecting",
@@ -340,6 +341,7 @@
     "NONE_DRIVE_TIP": "No shared node, click “Add sharing configuration” to share the free space."
   },
   "TABLE": {
+    "NO_DATA": "No Data",
     "TX": {
       "TYPE_ALL": "All",
       "TYPE_RECEIVE": "Receive",
@@ -380,7 +382,7 @@
       "MEMBER": "member",
       "ADDRESS": "address",
       "JOIN": "join",
-      "APPLIED": "已申请",
+      "APPLIED": "applied",
       "AGREE": "agree",
       "UPDATE_BLOCK": "Update Block",
       "NEXT_UPDATE_BLOCK": "Next Update Block of Committee",
@@ -409,6 +411,6 @@
     "LIMIT": "Gas limit is too low",
     "BALANCE": "Insufficient balance",
     "OTHER": "Error:{{err}}",
-    "NODE_BOUND": "该节点已经与其他钱包绑定。请先解绑，再与当前钱包绑定。 或直接绑定其他还未绑定的节点。"
+    "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes."
   }
 }

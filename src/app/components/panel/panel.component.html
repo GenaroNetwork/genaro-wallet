@@ -82,7 +82,7 @@
         </div>
     </form>
     <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subFarmers" nzShowPagination="false" [nzPageSize]="31"
-        class="tx" [nzScroll]='{ y: "240px"}'>
+        class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
         <thead>
             <tr>
                 <!-- <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
@@ -197,7 +197,7 @@
         </div>
     </form>
     <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="pendingTeamInfo.pendingSubFarmers" nzShowPagination="false" [nzPageSize]="31"
-        class="tx" [nzScroll]='{ y: "240px"}'>
+        class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
         <thead>
             <tr>
                 <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>
@@ -221,7 +221,7 @@
     </nz-table>
 
     <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="pendingTeamInfo.tempAccounts" nzShowPagination="false" [nzPageSize]="31"
-        class="tx" [nzScroll]='{ y: "240px"}'>
+        class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
         <thead>
             <tr>
                 <th nzWidth="30%">{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}</th>

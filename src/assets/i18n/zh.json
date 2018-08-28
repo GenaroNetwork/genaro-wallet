@@ -91,7 +91,8 @@
       "SHARER_INSTRUCTIONS": "SHARER 使用说明",
       "DOWNLOAD_EDEN": "下载Genaro Eden",
       "DOWNLOAD_SHARER": "下载Genaro Sharer",
-      "CONTACT": "联系客服"
+      "CONTACT": "联系客服",
+      "JOIN": "申请加入"
     }
   },
   "FORM": {
@@ -340,6 +341,7 @@
     "NONE_DRIVE_TIP": "暂无分享的节点，点击“增加分享配置”，分享闲置空间。"
   },
   "TABLE": {
+    "NO_DATA": "暂无数据",
     "TX": {
       "TYPE_ALL": "全部",
       "TYPE_RECEIVE": "转入",
