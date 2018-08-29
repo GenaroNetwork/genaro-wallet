@@ -111,7 +111,8 @@
     "CREATE_WALLET": "新建钱包",
     "SETTINGS": "设置",
     "HELP": "帮助",
-    "ABOUT": "关于"
+    "ABOUT": "关于",
+    "JOIN": "申请加入"
   },
   "SIDERBAR": {
     "WALLET": "我的钱包",

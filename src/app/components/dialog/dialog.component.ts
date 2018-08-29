@@ -310,6 +310,7 @@ export class DialogComponent implements OnChanges {
     await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
     this.joinCommitteeStep++;
     this.committeeService.update(address, this.joinCommitteeMainAddress);
+    this.committeeService.refreshSentinelRank();
   }
 
   // approveJoin
@@ -325,6 +326,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.approveBrotherhood(this.approveJoinMainAddress, address, this.approveJoinPassword, this.approveJoinGas[1], this.approveJoinGas[0]);
     this.approveJoinStep++;
+    this.committeeService.refreshSentinelRank();
   }
 
   // relieve
@@ -344,5 +346,6 @@ export class DialogComponent implements OnChanges {
       await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);
     }
     this.relieveStep++;
+    this.committeeService.refreshSentinelRank();
   }
 }

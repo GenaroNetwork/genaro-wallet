@@ -162,7 +162,7 @@ export class BrotherhoodService {
   private async alwaysFetch() {
     //return;
     try {
-      const promises = this.lastState.getAllAddress().map(this.fetchState.bind(this));
+      const promises = this.lastState.getAllAddress().map(this.fetchState2.bind(this));
       const states = await Promise.all(promises);
       this.lastState.SetAll(states);
     } catch (e) { }
@@ -348,6 +348,14 @@ export class BrotherhoodService {
       address,
       currentState,
       pendingState,
+      tempState
+    };
+  }
+
+  async fetchState2(address: string) {
+    const tempState = await this.fetchTempState(address);
+    return {
+      address,
       tempState
     };
   }

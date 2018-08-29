@@ -8,6 +8,7 @@ import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
 import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
+import { stat } from 'fs';
 
 function add0x(addr: string) {
   if (!addr.startsWith('0x')) { addr = '0x' + addr; }
@@ -186,32 +187,36 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   canApplyJoin: boolean = true;
   committeeAddress: string = '';
   showBack: boolean = false;
+  walletSub: any;
   committeeInit() {
     this.isSpinning = true;
     this.committeeAddress = '';
     this.committeeDataUpdate();
     let self = this;
     let broSub = null;
-    this.walletService.currentWallet.subscribe(w => {
+    this.walletSub = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
       self.canApplyJoin = false;
       if (broSub) {
         broSub.unsubscribe();
       }
       let currentWalletAddr = add0x(self.walletService.wallets.current);
-      self.brotherhoodService.addFetchingAddress(currentWalletAddr);
-      broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
-        self.isSpinning = true;
-        if (states
-          && states.length > 1
-          && states[0] === currentWalletAddr
-          && states[1]
-          && states[1].pendingState.role !== Role.Main
-          && states[1].tempState.role !== Role.Main
-        ) {
-          self.canApplyJoin = true;
-          if (states[1].tempState.role !== Role.Sub) {
-            self.committeeService.delete(self.walletService.wallets.current);
+      broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas) => {
+        let data;
+        for (let i = 0, length = datas.length; i < length; i++) {
+          if (currentWalletAddr === datas[i].address) {
+            data = datas[i];
+            break;
+          }
+        }
+        if (data) {
+          let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
+          if ((!data.pendingSubFarmers || data.pendingSubFarmers.length === 0) 
+            && state && state.tempState && state.tempState.role !== Role.Main) {
+            self.canApplyJoin = true;
+            if (state.tempState.role === Role.Free) {
+              self.committeeService.delete(self.walletService.wallets.current);
+            }
           }
         }
         self.activateJoinButton.apply(self);
@@ -258,7 +263,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.searchFarmer();
   }
   committeeDestroy() {
-
+    if (this.walletSub) {
+      this.walletSub.unsubscribe();
+    }
   }
 
 
@@ -280,9 +287,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // sharer
   sharerSubscribe: any;
   sharerInit() {
-    this.isSpinning = true;
+    this.isSpinning = false;
     let self = this;
     if (this.sharer.getSharerNodeIds().length > 0) {
+      this.isSpinning = true;
       this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
         if (data && data.length > 0) {
           self.isSpinning = false;
@@ -291,9 +299,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       });
-    }
-    else {
-      this.isSpinning = false;
     }
   }
   sharerDestroy() {
