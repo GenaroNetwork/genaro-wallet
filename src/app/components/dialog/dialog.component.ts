@@ -113,6 +113,7 @@ export class DialogComponent implements OnChanges {
         return;
       }
       this.walletService.exportJson(address);
+      this.alert.success(this.i18n.instant("MODEL.WALLET_EXPORT_JSON_SUCCESS"));
       res();
     });
   }

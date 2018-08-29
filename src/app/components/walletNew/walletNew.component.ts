@@ -93,6 +93,7 @@ export class WalletNewComponent {
     });
     if (!path) return;
     writeFile(path, this.mnemonic, () => { });
+    this.alert.success(this.translate.instant("WALLETNEW.DOWNLOAD_MNEMONIC_SUCCESS"));
   }
 
   validateMnemonic() {

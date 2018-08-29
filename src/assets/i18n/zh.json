@@ -60,6 +60,7 @@
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD": "请输入当前钱包密码",
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT": "请确认新密码",
     "WALLET_EXPORT_JSON": "导出JSON文件",
+    "WALLET_EXPORT_JSON_SUCCESS": "Json 文件下载成功",
     "WALLET_DELETE": "删除钱包",
     "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
     "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
@@ -132,7 +133,7 @@
     "CONFIG": "管理钱包",
     "CHANGE_NAME": "修改名称",
     "CHANGE_PASSWORD": "修改密码",
-    "CHANGE_PASSWORD_SUCCESS": "修改密码成功",
+    "CHANGE_PASSWORD_SUCCESS": "密码修改成功",
     "EXPORT_JSON": "导出钱包为 JSON 文件",
     "DELETE_WALLET": "删除钱包",
     "DELETE_WALLET_TIP": "请确认已经安全备份钱包。否则钱包删除后，该钱包内的资产将永久删除，无法找回。资产包括你的钱包余额，以及存储的文件资料。",
@@ -178,7 +179,8 @@
     "IMPORTWALLET_FROM_JSON": "导入JSON文件",
     "IMPORT_JSON_ERROR": "导入钱包出错",
     "IMPORT_JSON_ERROR_PASSWORD": "导入钱包出错，密码不正确",
-    "IMPORT_JSON_ERROR_ILLEGAL": "导入钱包出错，钱包格式错误"
+    "IMPORT_JSON_ERROR_ILLEGAL": "导入钱包出错，钱包格式错误",
+    "DOWNLOAD_MNEMONIC_SUCCESS": "助记词下载成功"
   },
   "TXEDEN": {
     "BUY_TRAFFIC": "购买流量",

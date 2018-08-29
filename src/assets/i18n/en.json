@@ -60,6 +60,7 @@
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD": "Please enter the current wallet password",
     "WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT": "Please re-enter the wallet password you want to change",
     "WALLET_EXPORT_JSON": "Export JSON file",
+    "WALLET_EXPORT_JSON_SUCCESS": "JSON file download successfully",
     "WALLET_DELETE": "Delete wallet",
     "EDEN_NEED_PASS": "Please enter your wallet password to unlock the [File Management] feature",
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
@@ -132,7 +133,7 @@
     "CONFIG": "Wallet management",
     "CHANGE_NAME": "Change name",
     "CHANGE_PASSWORD": "Change password",
-    "CHANGE_PASSWORD_SUCCESS": "Password has been updated",
+    "CHANGE_PASSWORD_SUCCESS": "Password reset successful",
     "EXPORT_JSON": "Export wallet to JSON file",
     "DELETE_WALLET": "Delete wallet",
     "DELETE_WALLET_TIP": "Please confirm that the wallet has been safely backed up. Otherwise, after the wallet is deleted, the assets in the wallet will be permanently deleted and cannot be retrieved. The assets include your wallet balance and the file information stored.",
@@ -178,7 +179,8 @@
     "IMPORTWALLET_FROM_JSON": "Import JSON file",
     "IMPORT_JSON_ERROR": "Error importing wallet",
     "IMPORT_JSON_ERROR_PASSWORD": "Error importing wallet,wrong password",
-    "IMPORT_JSON_ERROR_ILLEGAL": "Error importing wallet,wrong wallet format "
+    "IMPORT_JSON_ERROR_ILLEGAL": "Error importing wallet,wrong wallet format ",
+    "DOWNLOAD_MNEMONIC_SUCCESS": "Mnemonic download successful"
   },
   "TXEDEN": {
     "BUY_TRAFFIC": "Buy traffic",
@@ -246,8 +248,8 @@
     "EMPTY_BUCKET_TIP": "No storage available, click the “Buy Space” button, purchase storage space, upload files that need to be stored.",
     "EMPTY_BUCKET_TIP1": "No storage available",
     "EMPTY_BUCKET_TIP2": "Click on the “Buy Space” button in the upper right corner to purchase storage space and get started!",
-    "EMPTY_FILE_TIP": "The file is not stored yet. Click the “Upload” button to upload the file you want to store",
-    "EMPTY_FILE_TIP1": "The file is not stored yet",
+    "EMPTY_FILE_TIP": "There is no file stored yet. Click the “Upload” button to upload the file you want to store",
+    "EMPTY_FILE_TIP1": "There is no file stored yet",
     "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store"
   },
   "TASK": {
