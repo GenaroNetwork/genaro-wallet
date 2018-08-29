@@ -60,13 +60,13 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       for(let i = 0, length = allCommittees.length; i< length; i++) {
         if(addr === allCommittees[i].address) {
           this.heft = allCommittees[i].pendingSentinel;
-          this.heftRank = allCommittees[i].order + 1;
+          this.heftRank = allCommittees[i].pendingOrder + 1;
           break;
         }
         if(allCommittees[i].pendingSubFarmers && allCommittees[i].pendingSubFarmers.length > 0) {
           for(let j = 0, lj = allCommittees[i].pendingSubFarmers.length; j< lj; j++) {
             if(addr === allCommittees[i].pendingSubFarmers[j].address) {
-              this.heftRank = allCommittees[i].order + 1;
+              this.heftRank = allCommittees[i].pendingOrder + 1;
               break;
             }
           }

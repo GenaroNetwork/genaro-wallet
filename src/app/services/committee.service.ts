@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IpcService } from './ipc.service';
-import { TOP_FARMER_URL, FARMER_URL, Role } from '../libs/config';
+import { TOP_FARMER_URL, FARMER_URL, Role, RELATION_FETCH_INTERVAL } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
 
@@ -17,9 +17,13 @@ export class CommitteeService {
 
   public currentSentinelRank: BehaviorSubject<[any]> = new BehaviorSubject(null);
 
+  public pendingSentinelRank: BehaviorSubject<[any]> = new BehaviorSubject(null);
+
   public currentMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
 
   public pendingMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
+
+  private allDatas: any = [];
 
   private currentSentinelRanks: any = [];
 
@@ -28,6 +32,8 @@ export class CommitteeService {
   private currentSentinelRankDatas: any = [];
 
   private pendingSentinelRankDatas: any = [];
+
+  private walletSub: any;
 
   async getSentinel() {
     let res = await fetch(TOP_FARMER_URL, {
@@ -52,28 +58,40 @@ export class CommitteeService {
   }
 
   async getCurrentFarmer(addr) {
-    let data = await this.getFarmer(addr);
-    if (data) {
-      data.currentSentinel = data.sentinel || 0;
-      data.currentStake = data.stake || 0;
-      data.currentDataSize = data.data_size || 0;
-      data.currentHeft = data.heft || 0;
-      data.pendingSentinel = data.sentinel || 0;
-      data.pendingStake = data.stake || 0;
-      data.pendingDataSize = data.data_size || 0;
-      data.pendingHeft = data.heft || 0;
-      let state = await this.brotherhoodService.fetchState(data.address);
-      let orderAddr = data.address;
-      if (state) {
-        if(state.pendingState) {
-          data.pendingSubFarmers = state.pendingState.subAccounts;
-        }
-        if(state.currentState) {
-          data.subFarmers = state.currentState.subAccounts;
-          orderAddr = state.currentState.mainAccount || orderAddr;
-        }
+    let data;
+    for (let i = 0, length = this.allDatas.length; i < length; i++) {
+      if (addr === this.allDatas[i].address) {
+        data = this.allDatas[i];
+        data.order = data.order || -1;
+        data.pendingOrder = data.pendingOrder || -1;
+        break;
       }
-      data.order = this.currentSentinelRanks.indexOf(orderAddr);
+    }
+    if (!data) {
+      data = await this.getFarmer(addr);
+      if (data) {
+        data.currentSentinel = data.sentinel || 0;
+        data.currentStake = data.stake || 0;
+        data.currentDataSize = data.data_size || 0;
+        data.currentHeft = data.heft || 0;
+        data.pendingSentinel = data.sentinel || 0;
+        data.pendingStake = data.stake || 0;
+        data.pendingDataSize = data.data_size || 0;
+        data.pendingHeft = data.heft || 0;
+        let state = await this.brotherhoodService.fetchState(data.address);
+        let orderAddr = data.address;
+        if (state) {
+          if (state.pendingState) {
+            data.pendingSubFarmers = state.pendingState.subAccounts;
+          }
+          if (state.currentState) {
+            data.subFarmers = state.currentState.subAccounts;
+            orderAddr = state.currentState.mainAccount || orderAddr;
+          }
+        }
+        data.order = this.currentSentinelRanks.indexOf(orderAddr);
+        data.pendingOrder = this.pendingSentinelRanks.indexOf(orderAddr);
+      }
     }
     return data || {};
   }
@@ -142,6 +160,7 @@ export class CommitteeService {
 
   private async initSentinelRank() {
     const datas = await this.getCurrentSentinelRank();
+    this.allDatas = datas;
     this.currentSentinelRankDatas = datas.filter(f => !f.mainFarmer).sort((a, b) => {
       return b.currentSentinel - a.currentSentinel;
     });
@@ -155,103 +174,96 @@ export class CommitteeService {
     });
     this.pendingSentinelRanks = [];
     this.pendingSentinelRankDatas.forEach((psrd, i) => {
-      psrd.order = i;
+      psrd.pendingOrder = i;
       this.pendingSentinelRanks.push(psrd.address);
     });
     this.currentSentinelRank.next(this.currentSentinelRankDatas);
+    this.pendingSentinelRank.next(this.pendingSentinelRankDatas);
+    this.initCurrentWalletState();
   }
 
   private async initCurrentWalletState() {
     const self = this;
-    let broSub = null;
     let currentMainAddr = '',
       pendingMainAddr = '';
-    this.walletService.currentWallet.subscribe(w => {
-      if (broSub) {
-        broSub.unsubscribe();
-        currentMainAddr = '';
-        pendingMainAddr = '';
-      }
+    if(this.walletSub) {
+      this.walletSub.unsubscribe();
+    }
+    this.walletSub = this.walletService.currentWallet.subscribe(async w => {
+      currentMainAddr = '';
+      pendingMainAddr = '';
       const currentWalletAddr = add0x(self.walletService.wallets.current);
-      self.brotherhoodService.addFetchingAddress(currentWalletAddr);
-      broSub = self.brotherhoodService.stateUpdate.subscribe(async (states) => {
-        if (states && states.length > 1 && states[1]) {
-          if (states[0] === currentWalletAddr) {
-            const currentState = states[1].currentState,
-                  pendingState = states[1].pendingState;
-            if (currentState && currentState.role === Role.Sub) {
-              currentMainAddr = currentState.mainAccount;
-              self.brotherhoodService.addFetchingAddress(currentMainAddr);
-            } else {
-              currentMainAddr = currentWalletAddr;
-            }
-            if (pendingState && pendingState.role === Role.Sub) {
-              pendingMainAddr = pendingState.mainAccount;
-              self.brotherhoodService.addFetchingAddress(pendingMainAddr);
-            } else {
-              pendingMainAddr = currentWalletAddr;
-            }
-          }
-
-          if (states[0] === currentMainAddr) {
-            let data;
-            for (let i = 0, length = self.currentSentinelRankDatas.length; i < length; i++) {
-              if (self.currentSentinelRankDatas[i].address === currentMainAddr) {
-                data = self.currentSentinelRankDatas[i];
-                break;
-              }
-            }
-            if (!data) {
-              data = await self.getFarmer(currentMainAddr) || {};
-              data.address = currentMainAddr;
-            }
-            data.order = self.currentSentinelRanks.indexOf(currentMainAddr);
-            data.currentAddress = currentWalletAddr;
-            self.currentMainWalletState.next(data);
-          }
-          if (states[0] === pendingMainAddr) {
-            let data;
-            for (let i = 0, length = self.pendingSentinelRankDatas.length; i < length; i++) {
-              if (self.pendingSentinelRankDatas[i].address === currentMainAddr) {
-                data = self.pendingSentinelRankDatas[i];
-                break;
-              }
-            }
-            if (!data) {
-              data = await self.getFarmer(pendingMainAddr) || {};
-              data.address = pendingMainAddr;
-            }
-            data.order = self.pendingSentinelRanks.indexOf(pendingMainAddr);
-
-            const subAccounts = data.pendingSubFarmers || [];
-            for (let i = 0, length = subAccounts.length; i < length; i++) {
-              if (subAccounts[i]) {
-                if (states[0] === currentWalletAddr || subAccounts[i].address.toLowerCase() === currentWalletAddr) {
-                  subAccounts[i].showRelieve = true;
-                } else {
-                  subAccounts[i].showRelieve = false;
-                }
-              }
-            }
-
-            if (pendingMainAddr === currentWalletAddr) {
-              const tempSubAccountIds = (states[1].tempState || {}).subAccounts || [];
-              const tempSubAccounts = [];
-              for (let i = 0, length = tempSubAccountIds.length; i < length; i++) {
-                if (tempSubAccountIds[i] && tempSubAccountIds[i].worker) {
-                  const tsa = await self.getFarmer(tempSubAccountIds[i].worker.toLowerCase()) || {};
-                  tsa.address = tempSubAccountIds[i].worker.toLowerCase();
-                  tsa.flag = tempSubAccountIds[i].flag;
-                  tempSubAccounts.push(tsa);
-                }
-              }
-              data.tempAccounts = tempSubAccounts;
-            }
-            data.currentAddress = currentWalletAddr;
-            self.pendingMainWalletState.next(data);
+      if(this.allDatas) {
+        for (let i = 0, length = this.allDatas.length; i < length; i++) {
+          if (currentWalletAddr === this.allDatas[i].address) {
+            currentMainAddr = this.allDatas[i].mainFarmer || currentWalletAddr;
+            pendingMainAddr = this.allDatas[i].pendingMainFarmer || currentWalletAddr;
+            break;
           }
         }
-      });
+
+        currentMainAddr = currentMainAddr || currentWalletAddr;
+        pendingMainAddr = pendingMainAddr || currentWalletAddr;
+
+        let mainData;
+        for (let i = 0, length = self.currentSentinelRankDatas.length; i < length; i++) {
+          if (self.currentSentinelRankDatas[i].address === currentMainAddr) {
+            mainData = self.currentSentinelRankDatas[i];
+            break;
+          }
+        }
+        if (!mainData) {
+          mainData = await self.getFarmer(currentMainAddr) || {};
+          mainData.address = currentMainAddr;
+        }
+        mainData.order = self.currentSentinelRanks.indexOf(currentMainAddr);
+        mainData.currentAddress = currentWalletAddr;
+        self.currentMainWalletState.next(mainData);
+
+        let pendingData;
+        for (let i = 0, length = self.pendingSentinelRankDatas.length; i < length; i++) {
+          if (self.pendingSentinelRankDatas[i].address === pendingMainAddr) {
+            pendingData = self.pendingSentinelRankDatas[i];
+            break;
+          }
+        }
+        if (!pendingData) {
+          pendingData = await self.getFarmer(pendingMainAddr) || {};
+          pendingData.address = pendingMainAddr;
+        }
+        pendingData.pendingOrder = self.pendingSentinelRanks.indexOf(pendingMainAddr);
+
+        const subAccounts = pendingData.pendingSubFarmers || [];
+        for (let i = 0, length = subAccounts.length; i < length; i++) {
+          if (subAccounts[i]) {
+            if (pendingMainAddr === currentWalletAddr || subAccounts[i].address.toLowerCase() === currentWalletAddr) {
+              subAccounts[i].showRelieve = true;
+            } else {
+              subAccounts[i].showRelieve = false;
+            }
+          }
+        }
+
+        if (pendingMainAddr === currentWalletAddr) {
+          let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
+          if(state && state.tempState) {
+            const tempSubAccountIds = state.tempState.subAccounts || [];
+            const tempSubAccounts = [];
+            // @ts-ignore
+            for (let i = 0, length = tempSubAccountIds.length; i < length; i++) {
+              if (tempSubAccountIds[i] && tempSubAccountIds[i].worker) {
+                const tsa = await self.getFarmer(tempSubAccountIds[i].worker.toLowerCase()) || {};
+                tsa.address = tempSubAccountIds[i].worker.toLowerCase();
+                tsa.flag = tempSubAccountIds[i].flag;
+                tempSubAccounts.push(tsa);
+              }
+            }
+            pendingData.tempAccounts = tempSubAccounts;
+          }
+        }
+        pendingData.currentAddress = currentWalletAddr;
+        self.pendingMainWalletState.next(pendingData);
+      }
     });
   }
 
@@ -267,13 +279,16 @@ export class CommitteeService {
     this.ipc.dbRun('committee', `DELETE FROM committee WHERE address='${address}'`);
   }
 
+  refreshSentinelRank() {
+    this.initSentinelRank();
+  }
+
   constructor(
     private brotherhoodService: BrotherhoodService,
     private walletService: WalletService,
     private ipc: IpcService
   ) {
     this.initSentinelRank();
-    setInterval(this.initSentinelRank.bind(this), 5 * 60 * 1000);
-    this.initCurrentWalletState();
+    setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
   }
 }

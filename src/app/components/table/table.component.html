@@ -289,7 +289,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rankTable.data">
-          <td nzWidth="10%">{{ data.order + 1 }}</td>
+          <td nzWidth="10%">{{ data.order + 1 || '300+'}}</td>
           <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
           <td nzWidth="25%">{{ data.address | longAddr | shortAddr}}</td>
           <td nzWidth="10%">{{ data.currentStake }}</td>
@@ -333,7 +333,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of committeeTable.data">
-          <td nzWidth="8%">{{ data.order + 1 }}</td>
+          <td nzWidth="8%">{{ data.pendingOrder + 1 || '300+'}}</td>
           <!-- <td nzWidth="15%">{{ data.nickName }}</td> -->
           <td nzWidth="15%">{{ data.address | longAddr | shortAddr}}</td>
           <td nzWidth="15%">{{ data.pendingStake }}</td>

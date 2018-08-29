@@ -15,7 +15,7 @@ export class JoinCommitteeComponent implements OnInit {
     private alert: NzMessageService,
     private translate: TranslateService,
     private txService: TransactionService,
-    private walletService: WalletService,
+    private walletService: WalletService
   ) { }
 
   dialogName = '';
