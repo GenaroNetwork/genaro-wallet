@@ -287,9 +287,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // sharer
   sharerSubscribe: any;
   sharerInit() {
-    this.isSpinning = true;
+    this.isSpinning = false;
     let self = this;
     if (this.sharer.getSharerNodeIds().length > 0) {
+      this.isSpinning = true;
       this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
         if (data && data.length > 0) {
           self.isSpinning = false;
@@ -298,9 +299,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           }
         }
       });
-    }
-    else {
-      this.isSpinning = false;
     }
   }
   sharerDestroy() {
