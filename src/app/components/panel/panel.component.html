@@ -45,7 +45,7 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-control>
-                        <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showCurrentTeam=!showCurrentTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
+                        <button style="width: 140px" nz-button [nzType]="'primary'" (click)="showCurrentTeam=!showCurrentTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -150,7 +150,7 @@
             <div nz-col [nzSpan]="6">
                 <nz-form-item nzFlex>
                     <nz-form-control>
-                        <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showApplyTeam=false;showPendingTeam=!showPendingTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
+                        <button style="width: 140px" nz-button [nzType]="'primary'" (click)="showApplyTeam=false;showPendingTeam=!showPendingTeam;">{{ 'PANEL.RANK.VIEW_MEMBER' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -188,9 +188,9 @@
                 <nz-form-item nzFlex>
                     <nz-form-control>
                         <nz-badge nzDot *ngIf="hasTempSubAccount">
-                            <button style="width: 120px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                            <button style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
                         </nz-badge>
-                        <button *ngIf="!hasTempSubAccount" style="width: 120px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
+                        <button *ngIf="!hasTempSubAccount" style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{ 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
                     </nz-form-control>
                 </nz-form-item>
             </div>

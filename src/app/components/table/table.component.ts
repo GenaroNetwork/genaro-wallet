@@ -200,9 +200,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       if (broSub) {
         broSub.unsubscribe();
       }
-      let currentWalletAddr = add0x(self.walletService.wallets.current);
       broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas) => {
         let data;
+        let currentWalletAddr = add0x(self.walletService.wallets.current);
         for (let i = 0, length = datas.length; i < length; i++) {
           if (currentWalletAddr === datas[i].address) {
             data = datas[i];
@@ -219,6 +219,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
             }
           }
         }
+        else {
+          self.canApplyJoin = true;
+        }
         self.activateJoinButton.apply(self);
         self.isSpinning = false;
       });
@@ -226,7 +229,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
   async committeeDataUpdate() {
     this.isSpinning = true;
-    this.committeeData = this.committeeService.getCurrentSentinelRankDatas();
+    this.committeeData = this.committeeService.getPendingSentinelRankDatas();
     this.activateJoinButton.apply(self);
     this.isSpinning = false;
   }

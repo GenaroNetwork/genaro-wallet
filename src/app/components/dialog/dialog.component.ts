@@ -296,7 +296,7 @@ export class DialogComponent implements OnChanges {
   }
 
   // joinCommittee
-  joinCommitteeGas: number[] = [null, 2100000];
+  joinCommitteeGas: number[] = [18, 2100000];
   joinCommitteeStep: number = 0;
   joinCommitteePassword: string = '';
   joinCommitteeMainAddress: string = '';
@@ -310,11 +310,11 @@ export class DialogComponent implements OnChanges {
     await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
     this.joinCommitteeStep++;
     this.committeeService.update(address, this.joinCommitteeMainAddress);
-    this.committeeService.refreshSentinelRank();
+    setTimeout(this.committeeService.refreshSentinelRank.bind(this.committeeService), 5000);
   }
 
   // approveJoin
-  approveJoinGas: number[] = [null, 2100000];
+  approveJoinGas: number[] = [18, 2100000];
   approveJoinStep: number = 0;
   approveJoinPassword: string = '';
   approveJoinMainAddress: string = '';
@@ -326,11 +326,11 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     await this.brotherhoodService.approveBrotherhood(this.approveJoinMainAddress, address, this.approveJoinPassword, this.approveJoinGas[1], this.approveJoinGas[0]);
     this.approveJoinStep++;
-    this.committeeService.refreshSentinelRank();
+    setTimeout(this.committeeService.refreshSentinelRank.bind(this.committeeService), 5000);
   }
 
   // relieve
-  relieveGas: number[] = [null, 2100000];
+  relieveGas: number[] = [18, 2100000];
   relieveStep: number = 0;
   relievePassword: string = '';
   relieveMainAddress: string = '';
@@ -346,6 +346,6 @@ export class DialogComponent implements OnChanges {
       await this.txService.unBrotherSingle(address, this.relievePassword, this.relieveMainAddress, this.relieveGas[1], this.relieveGas[0]);
     }
     this.relieveStep++;
-    this.committeeService.refreshSentinelRank();
+    setTimeout(this.committeeService.refreshSentinelRank.bind(this.committeeService), 5000);
   }
 }
