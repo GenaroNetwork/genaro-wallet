@@ -311,7 +311,8 @@ export class SharerService {
             });
             this.driversData.next(datas);
           } else {
-            clearInterval(this.interval);
+            console.log(err);
+            // clearInterval(this.interval);
           }
           d.end();
         });
