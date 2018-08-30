@@ -229,7 +229,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   }
   async committeeDataUpdate() {
     this.isSpinning = true;
-    this.committeeData = this.committeeService.getCurrentSentinelRankDatas();
+    this.committeeData = this.committeeService.getPendingSentinelRankDatas();
     this.activateJoinButton.apply(self);
     this.isSpinning = false;
   }

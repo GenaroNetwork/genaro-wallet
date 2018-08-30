@@ -162,7 +162,13 @@ export class CommitteeService {
     const datas = await this.getCurrentSentinelRank();
     this.allDatas = datas;
     this.currentSentinelRankDatas = datas.filter(f => !f.mainFarmer).sort((a, b) => {
-      return b.currentSentinel - a.currentSentinel;
+      if (a.currentSentinel || b.currentSentinel) {
+        return b.currentSentinel - a.currentSentinel;
+      }
+      else {
+        return b.currentStake - a.currentStake;
+      }
+
     });
     this.currentSentinelRanks = [];
     this.currentSentinelRankDatas.forEach((csrd, i) => {
@@ -170,7 +176,12 @@ export class CommitteeService {
       this.currentSentinelRanks.push(csrd.address);
     });
     this.pendingSentinelRankDatas = datas.filter(f => !f.pendingMainFarmer).sort((a, b) => {
-      return b.pendingSentinel - a.pendingSentinel;
+      if (a.pendingSentinel || b.pendingSentinel) {
+        return b.pendingSentinel - a.pendingSentinel;
+      }
+      else {
+        return b.pendingStake - a.pendingStake;
+      }
     });
     this.pendingSentinelRanks = [];
     this.pendingSentinelRankDatas.forEach((psrd, i) => {
