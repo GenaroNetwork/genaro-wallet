@@ -11,20 +11,11 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { newWalletManager } from 'jswallet-manager';
 
-let toBN2 = (input: any) => {
-  if (typeof input === "string" && input.startsWith("0.")) return input;
-  return toBN(input);
-};
 let web3: Web3;
 let connectedWeb3: any = null;
 let web3Provider: any;
 const SyncTimer = 2000;
 const TIMEOUT_LIMIT = 30 * 1000;
-
-function add0x(addr: string) {
-  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr;
-}
 
 function sha256(input) {
   return createHash('sha256').update(input).digest('hex');
@@ -64,6 +55,21 @@ export class TransactionService {
       this.keepConnect();
     });
   }
+
+  add0x(addr: string) {
+    if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+    addr = addr.toLowerCase();
+    if (!/^0x[0-9a-f]{40}$/.test(addr)) {
+      this.alert.error("invalid address");
+      throw new Error();
+    }
+    return addr;
+  }
+
+  toBN2(input: any) {
+    if (typeof input === "string" && input.startsWith("0.")) return input;
+    return toBN(input);
+  };
 
   async getWeb3Instance() {
     // if (!this.readyState) {
@@ -139,10 +145,10 @@ export class TransactionService {
   }
 
   async transfer(fromAddr: string, password: string, toAddr: string, amountInEther: string | number, gasLimit: number, gasPriceInGwei: string | number) {
-    fromAddr = add0x(fromAddr);
-    toAddr = add0x(toAddr);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
-    const amountInWei = toWei(toBN2(amountInEther), 'ether');
+    fromAddr = this.add0x(fromAddr);
+    toAddr = this.add0x(toAddr);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const amountInWei = toWei(this.toBN2(amountInEther), 'ether');
     const nonceval = await this.getNonce(fromAddr);
     const txOptions = {
       gasPrice: toHex(gasPriceInWei),
@@ -216,8 +222,8 @@ export class TransactionService {
   }
 
   async buyBucket(address: string, password: string, spaceInGB: number, durationInDay: number, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const nowTime = Math.round(Date.now() / 1000);
     const bid = sha256(uuidv1());
     const inputData = {
@@ -236,8 +242,8 @@ export class TransactionService {
   }
 
   async buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       address: address,
       type: '0x4',
@@ -248,8 +254,8 @@ export class TransactionService {
   }
 
   async stake(address: string, password: string, stakeGNX: number, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     stakeGNX = Number(stakeGNX);
     const inputData = {
       address: address,
@@ -262,8 +268,8 @@ export class TransactionService {
 
   async unStake(address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
     // not avliable
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       address: address,
       type: '0xb',
@@ -278,8 +284,8 @@ export class TransactionService {
   }
 
   async bindNode(address: string, password: string, token: string, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0x8',
       nodeId: token.split('--')[1],
@@ -291,8 +297,8 @@ export class TransactionService {
   }
 
   async removeNode(address: string, password: string, nodeId: string, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0xe',
       nodeId: nodeId
@@ -302,9 +308,9 @@ export class TransactionService {
   }
 
   async unBrotherSingle(address: string, password: string, brotherAddr: string, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    brotherAddr = add0x(brotherAddr);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    brotherAddr = this.add0x(brotherAddr);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0x11',
       address: brotherAddr
@@ -314,8 +320,8 @@ export class TransactionService {
   }
 
   async unBrotherAll(address: string, password: string, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0x11'
     };
@@ -324,8 +330,8 @@ export class TransactionService {
   }
 
   async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
-    address = add0x(address);
-    const gasPriceInWei = toWei(toBN2(gasPriceInGwei), 'gwei');
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const txOptions = await this.generateTxOptions2(address, gasLimit, gasPriceInWei, inputData, contractAddr);
     return this.sendTransaction(address, password, txOptions, TxType);
   }
