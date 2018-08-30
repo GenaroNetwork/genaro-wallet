@@ -70,19 +70,23 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
       self.isSpinning = true;
       self.currentWalletAddr = '0x' + self.walletService.wallets.current;
-    });
-    this.pendingSubscribe = this.committeeService.pendingMainWalletState.subscribe((data) => {
-      if (data && data.address) {
-        data.shortAddr = data.address.slice(0, 6);
-        if (data.currentAddress === '0x' + self.walletService.wallets.current) {
-          self.isSpinning = false;
+
+      if (self.pendingSubscribe) {
+        self.pendingSubscribe.unsubscribe();
+      }
+      self.pendingSubscribe = self.committeeService.pendingMainWalletState.subscribe((data) => {
+        if (data && data.address) {
+          data.shortAddr = data.address.slice(0, 6);
+          if (data.currentAddress === '0x' + self.walletService.wallets.current) {
+            self.isSpinning = false;
+          }
         }
-      }
-      self.pendingTeamInfo = data || {};
-      self.hasTempSubAccount = false;
-      if (self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
-        self.hasTempSubAccount = true;
-      }
+        self.pendingTeamInfo = data || {};
+        self.hasTempSubAccount = false;
+        if (self.pendingTeamInfo.tempAccounts && self.pendingTeamInfo.tempAccounts.length > 0) {
+          self.hasTempSubAccount = true;
+        }
+      });
     });
   }
   committeeDestroy() {
