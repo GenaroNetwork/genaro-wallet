@@ -188,6 +188,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeAddress: string = '';
   showBack: boolean = false;
   walletSub: any;
+  activeBtnSub: any;
   committeeInit() {
     this.isSpinning = true;
     this.committeeAddress = '';
@@ -210,23 +211,20 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
             break;
           }
         }
-        if (data) {
-          let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
-          if ((!data.pendingSubFarmers || data.pendingSubFarmers.length === 0)
-            && state && state.tempState && state.tempState.role !== Role.Main) {
-            self.canApplyJoin = true;
-            if (state.tempState.role === Role.Free) {
-              self.committeeService.delete(self.walletService.wallets.current);
-            }
-          }
-        }
-        else {
+        if (!data || !data.pendingSubFarmers || data.pendingSubFarmers.length === 0) {
           self.canApplyJoin = true;
+        }
+        let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
+        if(state && state.tempState && state.tempState.role === Role.Free) {
+          self.committeeService.delete(self.walletService.wallets.current);
         }
         self.activateJoinButton.apply(self);
         self.isSpinning = false;
       });
     });
+    this.activeBtnSub = this.committeeService.activeJoinBtn.subscribe((action) => {
+      this.activateJoinButton();
+    }); 
   }
   async committeeDataUpdate() {
     this.isSpinning = true;
@@ -269,6 +267,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   committeeDestroy() {
     if (this.walletSub) {
       this.walletSub.unsubscribe();
+    }
+    if (this.activeBtnSub) {
+      this.activeBtnSub.unsubscribe();
     }
   }
 

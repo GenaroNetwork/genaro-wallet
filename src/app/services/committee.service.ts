@@ -35,6 +35,8 @@ export class CommitteeService {
 
   private walletSub: any;
 
+  public activeJoinBtn: BehaviorSubject<any> = new BehaviorSubject(null);
+
   async getSentinel() {
     let res = await fetch(TOP_FARMER_URL, {
       method: 'GET',
@@ -280,6 +282,7 @@ export class CommitteeService {
 
   update(address, applyAddress) {
     this.ipc.dbRun('committee', `INSERT INTO committee (address, applyAddress) VALUES ('${address}', '${applyAddress}')`);
+    this.activeJoinBtn.next('update');
   }
 
   async get(address) {
@@ -288,6 +291,7 @@ export class CommitteeService {
 
   delete(address) {
     this.ipc.dbRun('committee', `DELETE FROM committee WHERE address='${address}'`);
+    this.activeJoinBtn.next('delete');
   }
 
   refreshSentinelRank() {
