@@ -49,7 +49,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       if (!val) { this.staked = 0; } else { this.staked = val.length; }
     });
 
-    let allCommittees = this.committeeService.getPendingSentinelRankDatas();
+    let allCommittees = this.committeeService.getCurrentSentinelRankDatas();
     this.heft = 0;
     this.heftRank = '300+';
 
@@ -59,14 +59,14 @@ export class TxSharerComponent implements OnInit, OnDestroy {
 
       for(let i = 0, length = allCommittees.length; i< length; i++) {
         if(addr === allCommittees[i].address) {
-          this.heft = allCommittees[i].pendingSentinel;
-          this.heftRank = allCommittees[i].pendingOrder + 1;
+          this.heft = allCommittees[i].currentSentinel;
+          this.heftRank = allCommittees[i].order + 1;
           break;
         }
-        if(allCommittees[i].pendingSubFarmers && allCommittees[i].pendingSubFarmers.length > 0) {
-          for(let j = 0, lj = allCommittees[i].pendingSubFarmers.length; j< lj; j++) {
-            if(addr === allCommittees[i].pendingSubFarmers[j].address) {
-              this.heftRank = allCommittees[i].pendingOrder + 1;
+        if(allCommittees[i].subFarmers && allCommittees[i].subFarmers.length > 0) {
+          for(let j = 0, lj = allCommittees[i].subFarmers.length; j< lj; j++) {
+            if(addr === allCommittees[i].subFarmers[j].address) {
+              this.heftRank = allCommittees[i].order + 1;
               break;
             }
           }
