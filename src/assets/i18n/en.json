@@ -387,6 +387,7 @@
       "JOIN": "join",
       "APPLIED": "applied",
       "AGREE": "agree",
+      "AGREED": "agreed",
       "UPDATE_BLOCK": "Update Block",
       "NEXT_UPDATE_BLOCK": "Next Update Block of Committee",
       "NODE_LIST": "Node List",

@@ -256,7 +256,6 @@ export class CommitteeService {
             }
           }
         }
-
         if (pendingMainAddr === currentWalletAddr) {
           let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
           if(state && state.tempState) {
@@ -273,6 +272,9 @@ export class CommitteeService {
             }
             pendingData.tempAccounts = tempSubAccounts;
           }
+        }
+        else {
+          pendingData.tempAccounts = [];
         }
         pendingData.currentAddress = currentWalletAddr;
         self.pendingMainWalletState.next(pendingData);
