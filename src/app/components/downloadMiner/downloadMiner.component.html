@@ -1,6 +1,10 @@
 <nz-card [nzBordered]="false">
   <img src="assets/img/miner.png" alt="">
-  <div class="tip1" [innerHtml]="'COMMON.DOWNLOADMINER_TIPS2' | translate"></div>
+  <div class="tip1">
+    {{ 'COMMON.DOWNLOADMINER_TIPS2' | translate }}
+    <a target="_blank" (click)="openDownload()">{{ 'COMMON.DOWNLOADMINER' | translate }}</a> 
+    {{ 'COMMON.DOWNLOADMINER_TIPS3' | translate }}
+  </div>
   <br>
   <div class="tip2">{{ 'COMMON.DOWNLOADMINER_TIPS' | translate }}</div>
 </nz-card>

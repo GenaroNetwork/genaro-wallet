@@ -33,7 +33,9 @@
     "CHOOSE_EDEN": "Data Makes Value",
     "CHOOSE_SHARER": "Sharer Space, Get Rewards",
     "DOWNLOADMINER_TIPS": "If you have already entered the committee, you can download the miner program, synchronize the entire network block and get the mining reward.",
-    "DOWNLOADMINER_TIPS2": "Click the <a target=\"_blank\" href=\"https://gnxtech.io/en/gnx-dapps/\">'Download'</a> installer and miner userguide"
+    "DOWNLOADMINER_TIPS2": "Click the ",
+    "DOWNLOADMINER": "'Download'",
+    "DOWNLOADMINER_TIPS3": " installer and miner userguide"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",

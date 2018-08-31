@@ -92,3 +92,5 @@ export enum Role {
 // brother hood:
 export const RELATION_FETCH_INTERVAL = 2 * 60 * 1000;
 export const BROTHER_CONTRACT_ADDR = '0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e';
+
+export const MINER_DOWNLOAD = 'https://gnxtech.io/en/gnx-dapps/';
