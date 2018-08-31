@@ -1,14 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import "~ng-zorro-antd/src/ng-zorro-antd.min.css";
 @import "./app/config.scss";
+
 @font-face {
   font-family: "noto";
   src: url("assets/fonts/SourceHanSansSC-Regular.otf");
 }
 
 /* fallback */
-
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -33,7 +32,6 @@
 }
 
 /* fallback */
-
 * {
   font-family: "noto";
   outline: none;
@@ -47,23 +45,23 @@ body {
   background: $second-bg;
 }
 
+::-webkit-scrollbar {
+  position: absolute;
+  width: 6px;
+  background: $content-bg;
+}
 
+::-webkit-scrollbar-button {
+  display: none;
+}
 
-  ::-webkit-scrollbar{
-    position: absolute;
-    width: 6px;
-    background: $content-bg;
-  }
-  ::-webkit-scrollbar-button{
-    display: none;
-  }
-  ::-webkit-scrollbar-thumb{
-    border-radius: 3px;
-    background: rgba(0,0,0,.1);
-  }
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(0, 0, 0, .1);
+}
 
-  .ant-table-fixed-header .ant-table-scroll .ant-table-header{
-    background: $content-bg;
-    overflow-y: hidden !important;
-    padding-right: 6px;
-  }
+.ant-table-fixed-header .ant-table-scroll .ant-table-header {
+  background: $content-bg;
+  overflow-y: hidden !important;
+  padding-right: 6px;
+}
