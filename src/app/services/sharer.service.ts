@@ -252,63 +252,66 @@ export class SharerService {
               _data.delete = true;
             });
 
-            statuses.forEach(share => {
-              let data: any = {},
-                  isNew = true;
-              const config = share.config,
-                    farmerState = share.meta.farmerState || {},
-                    portStatus = farmerState.portStatus || {},
-                    ntpStatus = farmerState.ntpStatus || {};
-
-              datas.forEach(_data => {
-                if (_data.id == share.id) {
-                  data = _data;
-                  data.delete = false;
-                  isNew = false;
+            if(statuses) {
+              statuses.forEach(share => {
+                let data: any = {},
+                    isNew = true;
+                const config = share.config,
+                      farmerState = share.meta.farmerState || {},
+                      portStatus = farmerState.portStatus || {},
+                      ntpStatus = farmerState.ntpStatus || {};
+  
+                datas.forEach(_data => {
+                  if (_data.id == share.id) {
+                    data = _data;
+                    data.delete = false;
+                    isNew = false;
+                  }
+                });
+  
+                data.id = share.id;
+                data.location = config.storagePath;
+                data.shareBasePath = config.shareBasePath;
+                data.storageAllocation = config.storageAllocation;
+                data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
+                data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
+                const percentUsed = parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
+                data.percentUsed = percentUsed > 100 ? 100 : percentUsed;
+                data.time = prettyms(share.meta.uptimeMs);
+                data.restarts = share.meta.numRestarts || 0;
+                data.peers = farmerState.totalPeers;
+                data.contractCount = farmerState.contractCount || 0;
+                data.dataReceivedCount = farmerState.dataReceivedCount || 0;
+                data.bridges = farmerState.bridgesConnectionStatus || 0;
+                data.allocs = data.bridges === 0 ? '0' : data.contractCount + '(' + data.dataReceivedCount + 'received)';
+  
+                data.listenPort = portStatus.listenPort;
+                data.connectionType = portStatus.connectionType;
+                data.connectionStatus = portStatus.connectionStatus;
+  
+                data.state = share.state;
+  
+                data.delta = ntpStatus.delta || '...';
+                data.deltaStatus = ntpStatus.status;
+  
+                if (!data.address) {
+                  this.txService.getAddressByNodeId(data.id).then(val => {
+                    data.address = val;
+                  });
+                }
+  
+                data.show = false;
+                data.delete = false;
+  
+                if (isNew) {
+                  datas.push(data);
                 }
               });
+              datas = datas.filter(_data => {
+                return !_data.delete;
+              });
+            }
 
-              data.id = share.id;
-              data.location = config.storagePath;
-              data.shareBasePath = config.shareBasePath;
-              data.storageAllocation = config.storageAllocation;
-              data.spaceUsed = (!farmerState.spaceUsed || farmerState.spaceUsed == '...') ? '0KB' : farmerState.spaceUsed;
-              data.spaceUsed = this.convert(data.spaceUsed) > this.convert(data.storageAllocation) ? data.storageAllocation : data.spaceUsed;
-              const percentUsed = parseFloat(!farmerState.percentUsed || farmerState.percentUsed == '...' ? '0' : farmerState.percentUsed);
-              data.percentUsed = percentUsed > 100 ? 100 : percentUsed;
-              data.time = prettyms(share.meta.uptimeMs);
-              data.restarts = share.meta.numRestarts || 0;
-              data.peers = farmerState.totalPeers;
-              data.contractCount = farmerState.contractCount || 0;
-              data.dataReceivedCount = farmerState.dataReceivedCount || 0;
-              data.bridges = farmerState.bridgesConnectionStatus || 0;
-              data.allocs = data.bridges === 0 ? '0' : data.contractCount + '(' + data.dataReceivedCount + 'received)';
-
-              data.listenPort = portStatus.listenPort;
-              data.connectionType = portStatus.connectionType;
-              data.connectionStatus = portStatus.connectionStatus;
-
-              data.state = share.state;
-
-              data.delta = ntpStatus.delta || '...';
-              data.deltaStatus = ntpStatus.status;
-
-              if (!data.address) {
-                this.txService.getAddressByNodeId(data.id).then(val => {
-                  data.address = val;
-                });
-              }
-
-              data.show = false;
-              data.delete = false;
-
-              if (isNew) {
-                datas.push(data);
-              }
-            });
-            datas = datas.filter(_data => {
-              return !_data.delete;
-            });
             this.driversData.next(datas);
           } else {
             console.log(err);
