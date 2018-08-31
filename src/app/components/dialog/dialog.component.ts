@@ -310,7 +310,6 @@ export class DialogComponent implements OnChanges {
     await this.brotherhoodService.applyBrotherhood(this.joinCommitteeMainAddress, address, this.joinCommitteePassword, this.joinCommitteeGas[1], this.joinCommitteeGas[0]);
     this.joinCommitteeStep++;
     this.committeeService.update(address, this.joinCommitteeMainAddress);
-    setTimeout(this.committeeService.refreshSentinelRank.bind(this.committeeService), 5000);
   }
 
   // approveJoin

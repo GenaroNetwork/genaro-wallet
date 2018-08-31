@@ -35,6 +35,8 @@ export class CommitteeService {
 
   private walletSub: any;
 
+  public activeJoinBtn: BehaviorSubject<any> = new BehaviorSubject(null);
+
   async getSentinel() {
     let res = await fetch(TOP_FARMER_URL, {
       method: 'GET',
@@ -254,7 +256,6 @@ export class CommitteeService {
             }
           }
         }
-
         if (pendingMainAddr === currentWalletAddr) {
           let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
           if(state && state.tempState) {
@@ -272,6 +273,9 @@ export class CommitteeService {
             pendingData.tempAccounts = tempSubAccounts;
           }
         }
+        else {
+          pendingData.tempAccounts = [];
+        }
         pendingData.currentAddress = currentWalletAddr;
         self.pendingMainWalletState.next(pendingData);
       }
@@ -280,6 +284,7 @@ export class CommitteeService {
 
   update(address, applyAddress) {
     this.ipc.dbRun('committee', `INSERT INTO committee (address, applyAddress) VALUES ('${address}', '${applyAddress}')`);
+    this.activeJoinBtn.next('update');
   }
 
   async get(address) {
@@ -288,6 +293,7 @@ export class CommitteeService {
 
   delete(address) {
     this.ipc.dbRun('committee', `DELETE FROM committee WHERE address='${address}'`);
+    this.activeJoinBtn.next('delete');
   }
 
   refreshSentinelRank() {

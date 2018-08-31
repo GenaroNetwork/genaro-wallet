@@ -238,7 +238,8 @@
                 <td nzWidth="20%">{{data.data_size | formatSize}}</td>
                 <td nzWidth="15%">{{data.sentinel * 10000 | formatSentinel }}</td>
                 <td nzWidth="15%">
-                    <button nz-button nzType="primary" nzSize="small" [disabled]="data.flag" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>
+                    <button *ngIf="!data.flag" style="width: 60px" nz-button nzType="primary" nzSize="small" (click)="action.emit(['agree',data])">{{ 'TABLE.COMMITTEE.AGREE' | translate }}</button>
+                    <button *ngIf="data.flag" style="width: 60px" nz-button nzType="primary" nzSize="small" disabled="true">{{ 'TABLE.COMMITTEE.AGREED' | translate }}</button>
                 </td>
             </tr>
         </tbody>
