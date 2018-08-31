@@ -200,9 +200,10 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       if (broSub) {
         broSub.unsubscribe();
       }
-      broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas) => {
+      broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas: any[]) => {
         let data;
         let currentWalletAddr = add0x(self.walletService.wallets.current);
+        datas = datas || [];
         for (let i = 0, length = datas.length; i < length; i++) {
           if (currentWalletAddr === datas[i].address) {
             data = datas[i];
@@ -211,7 +212,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
         }
         if (data) {
           let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
-          if ((!data.pendingSubFarmers || data.pendingSubFarmers.length === 0) 
+          if ((!data.pendingSubFarmers || data.pendingSubFarmers.length === 0)
             && state && state.tempState && state.tempState.role !== Role.Main) {
             self.canApplyJoin = true;
             if (state.tempState.role === Role.Free) {

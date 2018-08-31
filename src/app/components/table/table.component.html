@@ -1,6 +1,6 @@
 <nz-spin [nzSpinning]="isSpinning">
   <!-- 钱包 -->
-  <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
+  <nz-table *ngIf="name==='transaction'" #txTable [nzData]="txDisplayData" [nzScroll]='{y: el.nativeElement.offsetHeight - 120 + "px"}'
     class="tx" [nzNoResult]="'TABLE.TX.NONE_DATA_TIP' | translate">
     <thead>
       <tr>

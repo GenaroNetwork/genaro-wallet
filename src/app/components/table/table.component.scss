@@ -6,6 +6,9 @@
   background: $content-bg;
   position: relative;
   box-shadow: $box-shadow;
+  ::ng-deep .ant-table-scroll table{
+    overflow: hidden;
+  }
 }
 
 app-copy {
