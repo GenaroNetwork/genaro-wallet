@@ -31,7 +31,7 @@ export class SharerService {
     portColShow: true,
     sharedColShow: true,
     bridgesColShow: true,
-    addressColShow: false
+    addressColShow: true,
   };
   private configIds: any[] = [];
   private interval: any = null;
@@ -254,11 +254,11 @@ export class SharerService {
 
             statuses.forEach(share => {
               let data: any = {},
-                  isNew = true;
+                isNew = true;
               const config = share.config,
-                    farmerState = share.meta.farmerState || {},
-                    portStatus = farmerState.portStatus || {},
-                    ntpStatus = farmerState.ntpStatus || {};
+                farmerState = share.meta.farmerState || {},
+                portStatus = farmerState.portStatus || {},
+                ntpStatus = farmerState.ntpStatus || {};
 
               datas.forEach(_data => {
                 if (_data.id == share.id) {

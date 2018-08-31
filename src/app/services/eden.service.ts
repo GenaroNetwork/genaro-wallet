@@ -240,7 +240,7 @@ export class EdenService {
   }
 
   private async loadTask() {
-    const tasks = await this.ipc.dbAll('task', `SELECT * FROM task WHERE wallet='${this.walletService.wallets.current}'`);
+    const tasks = await this.ipc.dbAll('task', `SELECT * FROM task WHERE wallet='${this.walletService.wallets.current}' ORDER BY updated DESC`);
     this.zone.run(() => {
       this.tasks = tasks;
     });
