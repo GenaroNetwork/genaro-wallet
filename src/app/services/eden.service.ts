@@ -257,8 +257,11 @@ export class EdenService {
     this.loadTask();
     return id;
   }
+  private updateTaskTimer:number = 0;
 
   private async updateTask(id: string, obj: any, reload: boolean = true) {
+    if (Date.now() - this.updateTaskTimer < 500) return;
+    this.updateTaskTimer = Date.now();
     const updateArr = [];
     const task = this.tasks.find(_task => _task.id === id);
     for (let key of Object.keys(obj)) {
