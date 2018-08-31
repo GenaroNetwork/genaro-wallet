@@ -19,10 +19,11 @@ export class SpecialTxPipe implements PipeTransform {
 
   transform(data: any, type?: any): any {
     let allGNX;
-    let json = JSON.parse(data.data);
+    let json;
     if (typeof json === "string") json = JSON.parse(json);
     switch (type) {
       case 'BUY_BUCKET':
+        json = JSON.parse(data.data);
         allGNX = 0;
         json.buckets.forEach(bucket => {
           const time = (bucket.timeEnd - bucket.timeStart) / 3600 / 24;
@@ -31,9 +32,11 @@ export class SpecialTxPipe implements PipeTransform {
         });
         break;
       case 'BUY_TRAFFIC':
+        json = JSON.parse(data.data);
         allGNX = json.traffic * TRAFFIC_UNIT_PRICE;
         break;
       case 'STAKE_GNX':
+        json = JSON.parse(data.data);
         allGNX = json.stake;
         break;
       default:
