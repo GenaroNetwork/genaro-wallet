@@ -1,6 +1,6 @@
 {
   "RPC_ADDR": "127.0.0.1",
-  "RPC_PORT": "45016",
+  "RPC_PORT": "45017",
   "STORJ_NETWORK": "local",
   "prodConfig": {
     "paymentAddress": "1EkMi5CFSkPY8jeAdfu3y1tUPCERQAf9xV",
