@@ -17,11 +17,39 @@ This repo is for GNX test net client, with the following functions:
 - [genaroshare-daemon](https://www.npmjs.com/package/genaroshare-daemon) for sharing disk space
 
 # Getting Started
+```
+npm i
+```
 
 ### run
+```
+npm start
+```
 
 ### build 
+```
+# on mac
+npm run electron:mac
+
+# on windows
+npm run electron:windows
+
+# on linux
+npm run electron:linux
+```
 
 # Folder layout
+*   libs # libs in main process
+    *   config.ts # config file
+*   prewindow # window before main process rendered
+*   src # main code
+    *   app # main code
+        *   pipes # angular pipes
+        *   components # angular components
+        *   libs # libs in render process
+        *   prividers # angular providers
+        *   services # angular services
+    *   assets # static files
+    *   environments 
 
 # licence
