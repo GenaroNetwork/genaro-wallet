@@ -51,5 +51,3 @@ npm run electron:linux
         *   services # angular services
     *   assets # static files
     *   environments 
-
-# licence
