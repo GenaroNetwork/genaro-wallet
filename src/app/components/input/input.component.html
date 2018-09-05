@@ -70,9 +70,12 @@
 
 
 <!-- 购买空间时长 -->
-<div *ngIf="name==='spaceLimit'" nz-row nzType="flex" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
+<div *ngIf="name==='spaceLimit' || name==='extendSpaceLimit'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label" *ngIf="name==='spaceLimit'">
     {{ 'INPUT.SPACE_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[0]" class="label" *ngIf="name==='extendSpaceLimit'">
+    {{ 'INPUT.EXTEND_EXPIRY_DATE' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectLimit">
@@ -88,9 +91,12 @@
 </div>
 
 <!-- 购买空间大小 -->
-<div *ngIf="name==='spaceRange'" nz-row nzType="flex" nzAlign="middle">
-  <div nz-col [nzSpan]="span[0]" class="label">
+<div *ngIf="name==='spaceRange' || name==='extendSpaceRange'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label" *ngIf="name==='spaceRange'">
     {{ 'INPUT.SPACE_RANGE' | translate }}{{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[0]" class="label" *ngIf="name==='extendSpaceRange'">
+    {{ 'INPUT.BUY_MORE_SPACE' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectRange">

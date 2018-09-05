@@ -94,6 +94,7 @@ export class EdenService {
       result.forEach(bucket => {
         this.currentBuckets.push({
           id: bucket.id,
+          bucketId: bucket.bucketId,
           name: bucket.name,
           created: bucket.created,
           timeStart: bucket.timeStart,

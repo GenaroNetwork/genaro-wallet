@@ -51,7 +51,9 @@
     "PASSWORD": "密码",
     "PASSWORD_OLD": "旧密码",
     "PASSWORD_NEW": "新密码",
-    "PASSWORD_REPEAT": "确认密码"
+    "PASSWORD_REPEAT": "确认密码",
+    "BUY_MORE_SPACE": "扩容空间",
+    "EXTEND_EXPIRY_DATE": "续期时长"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -188,6 +190,7 @@
   },
   "TXEDEN": {
     "BUY_TRAFFIC": "购买流量",
+    "DILATATION": "扩容",
     "BUY_SPACE": "购买空间",
     "BUY_PREVIEW_PRICE": "预计价格",
     "BUY_SPACE_SELF": "自选空间",
@@ -369,7 +372,8 @@
       "BUCKET": "空间名",
       "USED_ALL_STORAGE": "已用空间/总空间",
       "COST": "花费",
-      "LIMIT_TIME": "过期时间"
+      "LIMIT_TIME": "过期时间",
+      "DILATATION": "扩容"
     },
     "TXSHARER": {
       "STATE": "状态",

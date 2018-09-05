@@ -28,6 +28,7 @@ export class TxEdenComponent implements OnInit, OnDestroy {
   trafficAll = 0;
   dialogName: string = null;
   tableChangeIndex = 0;
+  dialogOpt: any = null;
 
   walletSub: any;
   blockSub: any;
@@ -61,6 +62,11 @@ export class TxEdenComponent implements OnInit, OnDestroy {
     if (this.trafficUsed > this.trafficAll) this.trafficUsed = this.trafficAll;
     if (!allSpace) { this.spacePer = 0; } else { this.spacePer = usedSpace * 100 / allSpace; }
     if (!user.limitBytes) { this.trafficPer = 0; } else { this.trafficPer = user.usedDownloadBytes * 100 / (user.limitBytes) || 0; }
+  }
+
+  renewBucket(bucket) {
+    this.dialogOpt = bucket;
+    this.dialogName = 'spaceExpansion';
   }
 
   ngOnDestroy() {

@@ -347,4 +347,47 @@ export class DialogComponent implements OnChanges {
     this.relieveStep++;
     setTimeout(this.committeeService.refreshSentinelRank.bind(this.committeeService), 5000);
   }
+
+  // 扩容空间
+  spaceExpansionStep = 0;
+  spaceExpansionLimit = 0;
+  spaceExpansionLimitParams: number[] = [0, 30];
+  spaceExpansionRange = 0;
+  spaceExpansionRangeParams: number[] = [0, 1];
+  spaceExpansionPassword = '';
+  spaceExpansionGas: number[] = [null, 2100000];
+  spaceExpansionDisabled = false;
+  spaceExpansionBucket: any = null;
+  spaceExpansionPrice: number = 0;
+  spaceExpansionInit() {
+    this.spaceExpansionStep = 0;
+    this.spaceExpansionLimit = 0;
+    this.spaceExpansionRange = 0;
+    this.spaceExpansionPassword = '';
+    this.spaceExpansionRangeParams = [0, 1];
+    this.spaceExpansionLimitParams = [0, 30];
+    this.spaceExpansionBucket = this.options;
+    this.spaceExpansionPrice = 0;
+  }
+  async spaceExpansionSubmit() {
+    this.spaceExpansionDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.txService.bucketSupplement(address, this.spaceExpansionPassword, this.spaceExpansionBucket.bucketId, this.spaceExpansionRange, this.spaceExpansionLimit, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+      this.spaceExpansionStep++;
+    } catch (e) { } finally {
+      this.spaceExpansionDisabled = false;
+    }
+  }
+  calcPrice() {
+    let timeNow = Date.now() / 1000,
+        timeStart = this.spaceExpansionBucket.timeStart,
+        timeEnd = this.spaceExpansionBucket.timeEnd,
+        limitStorage = this.spaceExpansionBucket.limitStorage / 1024 / 1024 / 1024,
+        durationTime = (timeEnd - timeNow) / (timeEnd - timeStart);
+    this.spaceExpansionPrice = (( durationTime * this.spaceExpansionRange) + (limitStorage + this.spaceExpansionRange) * this.spaceExpansionLimit) * this.SPACE_UNIT_PRICE;
+    if(this.spaceExpansionPrice !== 0 && this.spaceExpansionPrice < 0.01) {
+      this.spaceExpansionPrice = 0.01;
+    }
+  }
 }

@@ -241,6 +241,20 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'BUY_BUCKET');
   }
 
+  async bucketSupplement(address: string, password: string, bucketId: string, spaceInGB: number, durationInDay: number, gasLimit: number, gasPriceInGwei: string | number) {
+    address = this.add0x(address);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      address: address,
+      type: '0x29',
+      size: spaceInGB,
+      duration: durationInDay * 86400,
+      bucketId: bucketId
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'BUCKET_SUPPLEMENT');
+  }
+
   async buyTraffic(address: string, password: string, amountInGB: number, gasLimit: number, gasPriceInGwei: string | number) {
     address = this.add0x(address);
     const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');

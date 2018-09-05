@@ -56,11 +56,12 @@
     [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'>
     <thead>
       <tr>
-        <th nzWidth="20%">{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
-        <th nzWidth="40%">{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.TXEDEN.CREATE_TIME' | translate }}</th>
+        <th nzWidth="30%">{{ 'TABLE.TXEDEN.BUCKET' | translate }}</th>
         <th nzWidth="20%">{{ 'TABLE.TXEDEN.USED_ALL_STORAGE' | translate }}</th>
         <!-- <th>{{ 'TABLE.TXEDEN.COST' | translate }}</th> -->
         <th nzWidth="20%">{{ 'TABLE.TXEDEN.LIMIT_TIME' | translate }}</th>
+        <th nzWidth="15%">{{ 'TABLE.TXEDEN.DILATATION' | translate }}</th>
       </tr>
     </thead>
     <tbody>
@@ -70,6 +71,11 @@
         <td>{{ (data.usedStorage || 0) | humanSize }}/{{ data.limitStorage | humanSize }}</td>
         <!-- <td>{{ 'TABLE.TXEDEN.COST' | translate }}</td> -->
         <td>{{ data.timeEnd*1000 | date:"yyyy-MM-dd HH:mm" }}</td>
+        <td>
+          <a (click)="action.emit(data)">
+              {{ 'TABLE.TXEDEN.DILATATION' | translate }}
+          </a>
+        </td>
       </tr>
     </tbody>
   </nz-table>
