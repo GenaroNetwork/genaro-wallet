@@ -249,7 +249,8 @@ export class TransactionService {
       type: '0x29',
       size: spaceInGB,
       duration: durationInDay * 86400,
-      bucketId: bucketId
+      bucketId: bucketId,
+      msg: (Math.round(Date.now() / 1000)).toString()
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'BUCKET_SUPPLEMENT');
