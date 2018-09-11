@@ -18,6 +18,7 @@ const LOG_DIR = path.join(BASE_PATH, 'logs');
   providedIn: 'root'
 })
 export class SharerService {
+  public runningNodes: number = 0;
   public driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   public tableOpt: any = {
     nodeColShow: true,
@@ -180,6 +181,9 @@ export class SharerService {
     d.on('remote', (remote) => {
       const configPath = this.getConfigPathById(nodeId);
       remote.start(configPath, (err) => {
+        if (!err) {
+          this.runningNodes++;
+        }
         if (cb) {
           cb(err);
         }
@@ -215,6 +219,9 @@ export class SharerService {
     const d = dnode.connect(DAEMON_CONFIG.RPC_PORT);
     d.on('remote', (remote) => {
       remote.stop(nodeId, (err) => {
+        if (!err) {
+          this.runningNodes--;
+        }
         if (cb) {
           cb(err);
         }

@@ -2,6 +2,9 @@ import { Component, AfterViewChecked, ViewChild, ElementRef } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { SettingService } from './services/setting.service';
 import { nextTick } from 'q';
+import { remote } from "electron";
+import { EdenService } from './services/eden.service';
+import { SharerService } from './services/sharer.service';
 const LANGS = ['en', 'zh'];
 
 @Component({
@@ -17,8 +20,32 @@ export class AppComponent implements AfterViewChecked {
   constructor(
     private i18n: TranslateService,
     public setting: SettingService,
+    private edenService: EdenService,
+    private sharerService: SharerService,
   ) {
     this.i18n.addLangs(LANGS);
+    window.onbeforeunload = () => {
+      let notExitButton = this.i18n.instant("COMMON.DO_NOT_EXIT");
+      let exitButton = this.i18n.instant("COMMON.EXIT");
+
+      let exitMsg = "";
+      if (this.sharerService.runningNodes > 0) {
+        exitMsg = this.i18n.instant("COMMON.EXIT_MSG_SHARER");
+      } else if (this.edenService.taskCount > 0) {
+        exitMsg = this.i18n.instant("COMMON.EXIT_MSG_EDEN");
+      } else {
+        return null;
+      }
+      // @ts-ignore
+      let exit = remote.dialog.showMessageBox(remote.BrowserWindow.getAllWindows()[0], {
+        type: "question",
+        buttons: [exitButton, notExitButton],
+        title: this.i18n.instant("COMMON.EXIT_TITLE"),
+        message: exitMsg,
+      });
+      if (exit === 0) return null;
+      else return false;
+    };
   }
 
   ngAfterViewChecked() {

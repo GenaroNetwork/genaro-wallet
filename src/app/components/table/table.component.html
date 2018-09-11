@@ -93,7 +93,8 @@
         <!-- <td>-</td>
         <td>-</td> -->
         <td>
-          <button nz-button nzType="primary" nzSize="small" nz-popover [nzContent]="removeNodePopover" nzTrigger="click" nzPlacement="bottomLeft">
+          <button nz-button nzType="primary" nzSize="small" nz-popover [nzContent]="removeNodePopover" nzTrigger="click"
+            nzPlacement="bottomLeft">
             {{ 'TXSHARER.REMOVE_NODE' | translate }}
           </button>
           <ng-template #removeNodePopover>
@@ -108,8 +109,8 @@
 
 
   <!-- sharer -->
-  <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false" [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}'
-    [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
+  <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -133,7 +134,7 @@
             <span>{{data.id}}
               <app-copy [data]="data.id"></app-copy>
             </span>
-            <br/>
+            <br />
             <span>{{data.location}}</span>
           </div>
         </td>
@@ -149,7 +150,7 @@
         <td nzWidth="5%" *ngIf="opt.allocsColShow">
           <div>
             <span>{{data.contractCount}}</span>
-            <br/>
+            <br />
             <span>{{data.dataReceivedCount + ' received'}}</span>
           </div>
         </td>
@@ -161,22 +162,22 @@
         <td nzWidth="10%" *ngIf="opt.portColShow">
           <div *ngIf="data.connectionStatus===-1">
             <span>{{data.listenPort}}</span>
-            <br/>
+            <br />
             <span>{{data.connectionType}}</span>
           </div>
           <div *ngIf="data.connectionStatus===0" class="text-green">
             <span>{{data.listenPort}}</span>
-            <br/>
+            <br />
             <span>{{data.connectionType}}</span>
           </div>
           <div *ngIf="data.connectionStatus===1" class="text-yellow">
             <span>{{data.listenPort}}</span>
-            <br/>
+            <br />
             <span>{{data.connectionType}}</span>
           </div>
           <div *ngIf="data.connectionStatus===2" class="text-red">
             <span>{{data.listenPort}}</span>
-            <br/>
+            <br />
             <span>{{data.connectionType}}</span>
           </div>
         </td>
@@ -199,12 +200,15 @@
             </a>
             <ul nz-menu>
               <li nz-menu-item (click)="action.emit(['restartShare',data])">{{ "DRIVE.RESTART" | translate}}</li>
-              <li *ngIf="data.state === 1" nz-menu-item (click)="action.emit(['stopShare',data])">{{ "DRIVE.STOP" | translate}}</li>
-              <li *ngIf="data.state !== 1" nz-menu-item (click)="action.emit(['startShare',data])">{{ "DRIVE.START" | translate}}</li>
+              <li *ngIf="data.state === 1" nz-menu-item (click)="action.emit(['stopShare',data])">{{ "DRIVE.STOP" |
+                translate}}</li>
+              <li *ngIf="data.state !== 1" nz-menu-item (click)="action.emit(['startShare',data])">{{ "DRIVE.START" |
+                translate}}</li>
               <li nz-menu-item (click)="action.emit(['deleteShare',data])">{{ "DRIVE.DELETE" | translate}}</li>
               <li nz-menu-item (click)="action.emit(['showLog'])">{{ "DRIVE.SHOW_LOG" | translate}}</li>
               <li nz-menu-item (click)="action.emit(['openConfig',data])">{{ "DRIVE.OPEN_CONFIG" | translate}}</li>
-              <li nz-menu-item (click)="action.emit(['openBindTokenDialog',data])">{{ "DRIVE.GET_BIND_TOKEN" | translate}}</li>
+              <li nz-menu-item (click)="action.emit(['openBindTokenDialog',data])">{{ "DRIVE.GET_BIND_TOKEN" |
+                translate}}</li>
             </ul>
           </nz-dropdown>
         </td>
@@ -218,13 +222,13 @@
     [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
-        <th nzWidth="20%">{{ "TASK.FILE_NAME" | translate}}</th>
-        <th nzWidth="10%">{{ "TASK.FILE_SIZE" | translate}}</th>
-        <th nzWidth="15%">{{ "TASK.CREATED" | translate}}</th>
+        <th nzWidth="25%">{{ "TASK.FILE_NAME" | translate}}</th>
+        <th nzWidth="15%">{{ "TASK.FILE_SIZE" | translate}}</th>
+        <th nzWidth="20%">{{ "TASK.CREATED" | translate}}</th>
         <th nzWidth="10%">{{ "TASK.TYPE" | translate}}</th>
-        <th nzWidth="20%">{{ "TASK.PATH" | translate}}</th>
-        <th nzWidth="15%">{{ "TASK.PROCESS" | translate}}</th>
-        <th nzWidth="10%">{{ "TASK.OPERATION" | translate}}</th>
+        <!-- <th nzWidth="20%">{{ "TASK.PATH" | translate}}</th> -->
+        <th nzWidth="20%">{{ "TASK.PROCESS" | translate}}</th>
+        <th nzWidth="15%">{{ "TASK.OPERATION" | translate}}</th>
       </tr>
     </thead>
     <tbody>
@@ -233,9 +237,10 @@
         <td>{{ task.allBytes | humanSize }}</td>
         <td>{{ task.created | date }}</td>
         <td>{{ ('TASK.' + TASK_TYPE[task.type]) | translate }}</td>
-        <td>
-          <a [routerLink]="['/eden', {path: task.onlinePath}]">{{ [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</a>
-        </td>
+        <!-- <td>
+          <a [routerLink]="['/eden', {path: task.onlinePath}]">{{
+            [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }}</a>
+        </td> -->
         <td>
           <nz-progress *ngIf="task.state===TASK_STATE.INIT || task.state===TASK_STATE.INPROCESS" [nzPercent]="(task.process*100).toFixed(1)"
             nzStatus="active"></nz-progress>
@@ -252,6 +257,14 @@
             <a (click)="edenService.removeTask(task.id)">
               <i class="anticon anticon-delete"></i>
             </a>
+            &nbsp;
+            <a [routerLink]="['/eden', {path: task.onlinePath}]" *ngIf="task.type === TASK_TYPE['FILE_UPLOAD']">
+              <!-- [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }} -->
+              <i class="anticon anticon-folder"></i>
+            </a>
+            <a (click)="shell.showItemInFolder(task.nativePath)" *ngIf="task.type === TASK_TYPE['FILE_DOWNLOAD']">
+              <i class="anticon anticon-folder"></i>
+            </a>
           </ng-template>
         </td>
       </tr>
@@ -266,7 +279,8 @@
       </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
-        <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="rankAddress">
+        <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}"
+          [(ngModel)]="rankAddress">
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="searchRankFarmer()">
@@ -309,7 +323,8 @@
       </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
-        <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}" [(ngModel)]="committeeAddress">
+        <input class="addr-input" type="text" nz-input placeholder="{{ 'TABLE.COMMITTEE.ADDRESS' | translate }}"
+          [(ngModel)]="committeeAddress">
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="searchFarmer()">
@@ -341,8 +356,10 @@
           <td nzWidth="15%">{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
           <td nzWidth="12%">{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
           <td nzWidth="15%">
-            <button *ngIf="data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin" (click)="action.emit(['join',data]);">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
-            <button *ngIf="!data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="true">{{ 'TABLE.COMMITTEE.APPLIED' | translate }}</button>
+            <button *ngIf="data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin"
+              (click)="action.emit(['join',data]);">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
+            <button *ngIf="!data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="true">{{
+              'TABLE.COMMITTEE.APPLIED' | translate }}</button>
           </td>
         </tr>
       </tbody>

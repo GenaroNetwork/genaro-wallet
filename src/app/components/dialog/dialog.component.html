@@ -1,41 +1,32 @@
 <!-- 更改钱包名 -->
 <nz-modal [nzTitle]="'MODEL.WALLET_CHANGE_NAME' | translate" [nzVisible]="dialogName==='walletChangeName'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <input nz-input nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="walletChangeName">
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangeName" [iptExtra]="['MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate]"
+    [span]="[0,24]"></app-input>
 </nz-modal>
 
 <!-- 更改钱包密码 -->
-<nz-modal [nzTitle]="'MODEL.WALLET_CHANGE_PASSWORD' | translate" [nzVisible]="dialogName==='walletChangePassword'" (nzOnCancel)="dialogNameChange.emit(null)"
-  (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
+<nz-modal [nzTitle]="'MODEL.WALLET_CHANGE_PASSWORD' | translate" [nzVisible]="dialogName==='walletChangePassword'"
+  (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
+  [nzCancelText]="'COMMON.CANCEL' | translate">
   <ng-container *ngIf="changePasswordStep===0">
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
-      [(ngModel)]="walletChangePassword.old">
-    <br/>
-    <br/>
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
-      [(ngModel)]="walletChangePassword.new">
-    <br/>
-    <br/>
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
-      [(ngModel)]="walletChangePassword.repeat">
-    <br/>
-    <br/>
+    <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangePassword.old" [span]="[0,24]"></app-input>
+    <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangePassword.new" [iptExtra]="['MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate]"
+      [span]="[0,24]"></app-input>
+    <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangePassword.repeat" [iptExtra]="['MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate]"
+      [span]="[0,24]"></app-input>
     <span>{{ 'MODEL.FORGET_PASSWORD_TIPS' | translate }}
       <a (click)="forgetPassword()">{{ 'MODEL.IMPORT_MNEMONIC_NOW' | translate }}</a>
     </span>
   </ng-container>
   <ng-container *ngIf="changePasswordStep===1">
-    <textarea row="4" nz-input [(ngModel)]="walletChangePassword.mnemonic" placeholder="{{ 'WALLETNEW.MNEMONIC_PLACEHOLDER' | translate }}"></textarea>
-    <br/>
-    <br/>
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate }}"
-      [(ngModel)]="walletChangePassword.new">
-    <br/>
-    <br/>
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate }}"
-      [(ngModel)]="walletChangePassword.repeat">
-    <br/>
-    <br/>
+    <textarea row="4" nz-input [(ngModel)]="walletChangePassword.mnemonic" [placeholder]="'WALLETNEW.MNEMONIC_PLACEHOLDER' | translate"></textarea>
+    <br />
+    <br />
+    <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangePassword.new" [iptExtra]="['MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER' | translate]"
+      [span]="[0,24]"></app-input>
+    <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangePassword.repeat" [iptExtra]="['MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_REPEAT' | translate]"
+      [span]="[0,24]"></app-input>
     <span>
       <a (click)="backToPassword()">{{ 'MODEL.BACK' | translate }}</a>
     </span>
@@ -45,24 +36,23 @@
 <!-- 导出 JSON -->
 <nz-modal [nzTitle]="'MODEL.WALLET_EXPORT_JSON' | translate" [nzVisible]="dialogName==='walletExportJson'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.WALLET_CHANGE_PASSWORD_PLACEHOLDER_OLD' | translate }}"
-    [(ngModel)]="walletExportJson">
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletExportJson" [span]="[0,24]"></app-input>
 </nz-modal>
 
 <!-- 删除钱包 -->
 <nz-modal [nzTitle]="'MODEL.WALLET_DELETE' | translate" [nzVisible]="dialogName==='walletDelete'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="text" [ipt]="'WALLET.DELETE_WALLET_TIP'| translate" [span]="[2, 20]"></app-input>
-  <app-input name="password-no-label" [span]="[2, 20]" [(ipt)]="walletDelete"></app-input>
+  <app-input (submit)="dialogDone()" name="text" [ipt]="'WALLET.DELETE_WALLET_TIP'| translate" [span]="[2, 20]"></app-input>
+  <app-input (submit)="dialogDone()" name="password-no-label" [span]="[2, 20]" [(ipt)]="walletDelete"></app-input>
 </nz-modal>
 
 <!-- 购买空间 -->
-<nz-modal [nzVisible]="dialogName==='buySpace'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.BUY_SPACE' | translate"
-  [nzFooter]="buySpaceFooter" class="buy-space">
+<nz-modal [nzVisible]="dialogName==='buySpace'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.BUY_SPACE' | translate" [nzFooter]="buySpaceFooter" class="buy-space">
   <ng-container *ngIf="buySpaceStep===0">
-    <app-input name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
-    <app-input name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
-    <app-input name="gas" [(ipt)]="buySpaceGas"></app-input>
+    <app-input (submit)="dialogDone()" name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="dialogDone()" name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buySpaceGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <div nz-row class="review">
@@ -77,7 +67,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buySpaceRange*buySpaceLimit*SPACE_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input name="password" [(ipt)]="buySpacePassword"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buySpacePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
     <i class="anticon anticon-check-circle"></i>
@@ -85,24 +75,29 @@
 </nz-modal>
 <ng-template #buySpaceFooter>
   <ng-container *ngIf="buySpaceStep===0">
-    <span>{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }} {{ (buySpaceRange*buySpaceLimit*SPACE_UNIT_PRICE).toFixed(2) }} GNX</span>
-    <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep+1">{{ 'COMMON.NEXT' | translate }}</button>
+    <span>{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }} {{ (buySpaceRange*buySpaceLimit*SPACE_UNIT_PRICE).toFixed(2) }}
+      GNX</span>
+    <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep+1">{{ 'COMMON.NEXT' |
+      translate }}</button>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" [disabled]="buySpaceDisabled" (click)="buySpaceSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="buySpaceStep=buySpaceStep-1">{{ 'COMMON.PREV' |
+      translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="buySpaceDisabled" (click)="buySpaceSubmit()">{{
+      'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
 
 <!-- 购买流量 -->
-<nz-modal [nzVisible]="dialogName==='buyTraffic'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate"
-  [nzFooter]="buyTrafficFooter" class="buy-traffic">
+<nz-modal [nzVisible]="dialogName==='buyTraffic'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate" [nzFooter]="buyTrafficFooter" class="buy-traffic">
   <ng-container *ngIf="buyTrafficStep===0">
-    <app-input name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
-    <app-input name="gas" [(ipt)]="buyTrafficGas"></app-input>
+    <app-input (submit)="dialogDone()" name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buyTrafficGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <div nz-row class="review">
@@ -113,7 +108,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buyTraffic*TRAFFIC_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input name="password" [(ipt)]="buyTrafficPassword"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
     <i class="anticon anticon-check-circle"></i>
@@ -122,81 +117,92 @@
 <ng-template #buyTrafficFooter class="btfooter">
   <ng-container *ngIf="buyTrafficStep===0">
     <span>{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }} {{ (buyTraffic*TRAFFIC_UNIT_PRICE).toFixed(2) }} GNX</span>
-    <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep+1">{{ 'COMMON.NEXT' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep+1">{{ 'COMMON.NEXT' |
+      translate }}</button>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" [disabled]="buyTrafficDisabled" (click)="buyTrafficSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="buyTrafficStep=buyTrafficStep-1">{{ 'COMMON.PREV' |
+      translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="buyTrafficDisabled" (click)="buyTrafficSubmit()">{{
+      'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
 
 
 <!-- eden 需要密码 -->
-<nz-modal [nzTitle]="options" [nzVisible]="dialogName==='edenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()"
-  [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzZIndex]="9" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="null"
-  class="no-mask">
-  <input nz-input type="password" nzSize="large" [(ngModel)]="edenNeedPass">
+<nz-modal [nzTitle]="options" [nzVisible]="dialogName==='edenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()" [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzZIndex]="9" [nzOkText]="'COMMON.CONFIRM' | translate"
+  [nzCancelText]="null" class="no-mask">
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenNeedPass" [span]="[0,24]"></app-input>
 </nz-modal>
 
 
 <!-- tx eden 需要密码 -->
-<nz-modal [nzTitle]="options" [nzVisible]="dialogName==='txEdenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()"
-  [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzZIndex]="9" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="null"
-  class="no-mask">
-  <input nz-input type="password" nzSize="large" [(ngModel)]="txEdenNeedPass">
+<nz-modal [nzTitle]="options" [nzVisible]="dialogName==='txEdenNeedPass'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()" [nzMask]="false" [nzMaskClosable]="false" [nzClosable]="false" [nzZIndex]="9" [nzOkText]="'COMMON.CONFIRM' | translate"
+  [nzCancelText]="null" class="no-mask">
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="txEdenNeedPass" [span]="[0,24]"></app-input>
 </nz-modal>
 
 
 <!-- 设置 -->
 <nz-modal [nzTitle]="'HEADER.SETTINGS' | translate" [nzFooter]="null" [nzVisible]="dialogName==='setting'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="setting" ipt="wallet"></app-input>
-  <app-input name="setting" ipt="eden"></app-input>
-  <app-input name="setting" ipt="sharer"></app-input>
-  <app-input name="setting" ipt="txEden"></app-input>
-  <app-input name="setting" ipt="txSharer"></app-input>
-  <app-input name="setting" ipt="committee"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="wallet"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="eden"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="sharer"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="txEden"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="txSharer"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="committee"></app-input>
 </nz-modal>
 
 <!-- 容器重命名 -->
 <nz-modal [nzTitle]="'EDEN.RENAME_BUCKET' | translate" [nzVisible]="dialogName==='edenRenameBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <input nz-input [(ngModel)]="edenRenameBucket">
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenRenameBucket" [span]="[0,24]" [iptExtra]="['']"></app-input>
 </nz-modal>
 
 <!-- 删除容器 -->
-<nz-modal [nzTitle]="'EDEN.DELETE_BUCKET_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
-  (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
-  <app-input name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
+<nz-modal [nzTitle]="'EDEN.DELETE_BUCKET_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteBucket'"
+  (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
+  [nzCancelText]="'COMMON.CANCEL' | translate">
+  <app-input (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
+  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
 </nz-modal>
 
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="setting" ipt="language"></app-input>
-  <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]=""
+    [span]="[16, 6, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]=""
+    [span]="[16, 6, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="setting" ipt="language"></app-input>
+  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network"
+    [span]="[12, 10, 1]"></app-input>
 </nz-modal>
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.VERSION' | translate" [iptExtra]="settingService.appVersion" [span]="[16, 6, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
+    [span]="[16, 6, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
+    [span]="[16, 6, 1]"></app-input>
+  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.VERSION' | translate" [iptExtra]="settingService.appVersion"
+    [span]="[16, 6, 1]"></app-input>
 </nz-modal>
 
 <!-- 申请加入共建 -->
 <nz-modal [nzVisible]="dialogName==='joinCommittee'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'HEADER.JOIN' | translate" [nzFooter]="joinCommitteeFooter" class="buy-space">
   <ng-container *ngIf="joinCommitteeStep===0">
-    <app-input name="gas" [(ipt)]="joinCommitteeGas"></app-input>
-    <app-input name="password" [(ipt)]="joinCommitteePassword"></app-input>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="joinCommitteeGas"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="joinCommitteePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="joinCommitteeStep===1">
     <i class="anticon anticon-check-circle"></i>
@@ -204,19 +210,21 @@
 </nz-modal>
 <ng-template #joinCommitteeFooter>
   <ng-container *ngIf="joinCommitteeStep===0">
-    <button nz-button nzSize="large" nzType="primary" (click)="joinCommitteeSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="joinCommitteeSubmit()">{{ 'COMMON.CONFIRM' | translate
+      }}</button>
   </ng-container>
   <ng-container *ngIf="joinCommitteeStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
 
 <!-- 同意加入共建 -->
-<nz-modal [nzVisible]="dialogName==='approveJoin'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate"
-  [nzFooter]="approveJoinFooter" class="buy-space">
+<nz-modal [nzVisible]="dialogName==='approveJoin'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TABLE.COMMITTEE.JOIN' | translate" [nzFooter]="approveJoinFooter" class="buy-space">
   <ng-container *ngIf="approveJoinStep===0">
-    <app-input name="gas" [(ipt)]="approveJoinGas"></app-input>
-    <app-input name="password" [(ipt)]="approveJoinPassword"></app-input>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="approveJoinGas"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="approveJoinPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="approveJoinStep===1">
     <i class="anticon anticon-check-circle"></i>
@@ -227,16 +235,17 @@
     <button nz-button nzSize="large" nzType="primary" (click)="approveJoinSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="approveJoinStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
 
 <!-- relieve -->
-<nz-modal [nzVisible]="dialogName==='relieve'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TABLE.COMMITTEE.RELIEVE' | translate"
-  [nzFooter]="relieveFooter" class="buy-space">
+<nz-modal [nzVisible]="dialogName==='relieve'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TABLE.COMMITTEE.RELIEVE' | translate" [nzFooter]="relieveFooter" class="buy-space">
   <ng-container *ngIf="relieveStep===0">
-    <app-input name="gas" [(ipt)]="relieveGas"></app-input>
-    <app-input name="password" [(ipt)]="relievePassword"></app-input>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="relieveGas"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="relievePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="relieveStep===1">
     <i class="anticon anticon-check-circle"></i>
@@ -247,7 +256,8 @@
     <button nz-button nzSize="large" nzType="primary" (click)="relieveSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="relieveStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
 
@@ -258,5 +268,6 @@
   </div>
 </nz-modal>
 <ng-template #tipsFooter>
-  <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' | translate }}</button>
+  <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' |
+    translate }}</button>
 </ng-template>

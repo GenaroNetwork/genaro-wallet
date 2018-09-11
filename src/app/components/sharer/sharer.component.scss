@@ -1,9 +1,12 @@
 @import "../../config.scss";
+
 :host {
   //display: flex;
   flex-direction: column;
-  &>div {
+
+  &>nz-card {
     flex: 0 3rem;
+    box-shadow: $box-shadow;
   }
 }
 
@@ -61,7 +64,6 @@ nz-card {
 
   .layout-header {
     height: 48px;
-    margin: 12px 12px 0;
 
     h3 {
       float: left;
@@ -69,11 +71,11 @@ nz-card {
   }
 
   app-table {
-      width: 100%;
-      height: calc(100% - 72px);
-      position: absolute;
-      left: 0;
-      right: 0;
-      box-shadow: initial;
+    width: 100%;
+    height: calc(100% - 72px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    box-shadow: initial;
   }
 }

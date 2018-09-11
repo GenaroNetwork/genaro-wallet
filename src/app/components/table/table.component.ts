@@ -8,7 +8,8 @@ import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
 import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
-import { stat } from 'fs';
+import { shell } from "electron";
+
 
 function add0x(addr: string) {
   if (!addr.startsWith('0x')) { addr = '0x' + addr; }
@@ -26,11 +27,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   @Input('opt') opt: any;
   @Input('change') change: number;
   @Output('action') action: EventEmitter<any> = new EventEmitter;
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-
-  }
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {
     let name;
@@ -63,6 +59,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   txDataTotalPage = 0;
   TASK_STATE = TASK_STATE;
   TASK_TYPE = TASK_TYPE;
+  shell = shell;
   async txUpdateData() {
     const address = this.walletService.wallets.current;
     // @ts-ignore
@@ -215,7 +212,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
           self.canApplyJoin = true;
         }
         let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
-        if(state && state.tempState && state.tempState.role === Role.Free) {
+        if (state && state.tempState && state.tempState.role === Role.Free) {
           self.committeeService.delete(self.walletService.wallets.current);
         }
         self.activateJoinButton.apply(self);
@@ -224,7 +221,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     });
     this.activeBtnSub = this.committeeService.activeJoinBtn.subscribe((action) => {
       this.activateJoinButton();
-    }); 
+    });
   }
   async committeeDataUpdate() {
     this.isSpinning = true;

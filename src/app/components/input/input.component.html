@@ -4,7 +4,7 @@
     {{ 'INPUT.ADDRESS_FROM' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -15,7 +15,7 @@
     {{ 'INPUT.ADDRESS_TO' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -27,7 +27,7 @@
     {{ 'INPUT.AMOUNT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -39,8 +39,8 @@
       {{ 'INPUT.GAS' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]-2">
-      <nz-slider [ngModel]="gasDefault" (ngModelChange)="ngModelChange.emit([$event, gasLimit])" [nzMin]="gasMin" [nzMax]="gasMax"
-        [nzMarks]="gasMarks"></nz-slider>
+      <nz-slider [ngModel]="gasDefault" (ngModelChange)="ngModelChange.emit([$event, gasLimit])" [nzMin]="gasMin"
+        [nzMax]="gasMax" [nzMarks]="gasMarks"></nz-slider>
     </div>
     <div nz-col [nzSpan]="2" class="icon">
       <i class="anticon anticon-edit" (click)="gasDetail=true"></i>
@@ -54,7 +54,7 @@
     </div>
     <div nz-col [nzSpan]="span[1]">
       <nz-input-group nzAddOnAfter="Gan">
-        <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (input)="ngModelChange.emit([$event.target.value, gasLimit])">
+        <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit([$event.target.value, gasLimit])">
       </nz-input-group>
     </div>
   </div>
@@ -63,7 +63,7 @@
       {{ 'INPUT.GAS_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]">
-      <input [value]="gasLimit" [(ngModel)]="gasLimit" type="text" nz-input (input)="ngModelChange.emit([gasDefault, $event.target.value])">
+      <input [value]="gasLimit" [(ngModel)]="gasLimit" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit([gasDefault, $event.target.value])">
     </div>
   </div>
 </ng-container>
@@ -76,7 +76,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectLimit">
-      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buySpaceSelectLimit>
       <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
@@ -94,7 +94,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectRange">
-      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buySpaceSelectRange>
       <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
@@ -112,7 +112,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buyTraffic">
-      <input nz-input type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
     </nz-input-group>
     <ng-template #buyTraffic>
       <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
@@ -130,7 +130,8 @@
   </div>
   <div nz-col [nzSpan]="span[1]" class="preview">
     <nz-input-group nzAddOnAfter="GNX">
-      <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)" min="0"></nz-input-number>
+      <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)"
+        min="0"></nz-input-number>
     </nz-input-group>
   </div>
 </div>
@@ -154,7 +155,7 @@
     token{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -177,7 +178,7 @@
     {{ 'INPUT.PASSWORD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -187,7 +188,7 @@
     {{ 'INPUT.PASSWORD_OLD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -197,7 +198,7 @@
     {{ 'INPUT.PASSWORD_NEW' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -207,7 +208,7 @@
     {{ 'INPUT.PASSWORD_REPEAT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -236,8 +237,8 @@
 <!-- 无标签的密码输入框 -->
 <div *ngIf="name==='password-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
-    <input nz-input type="password" nzSize="large" placeholder="{{ 'MODEL.OLD_PASSWORD_PLACEHOLDER' | translate }}" [value]="ngModel"
-      (input)="ngModelChange.emit($event.target.value)">
+    <input nz-input (keyup.enter)="submit.emit()" type="password" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
+      [value]="ngModel" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
 

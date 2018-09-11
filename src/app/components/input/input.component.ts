@@ -14,8 +14,9 @@ export class InputComponent implements OnChanges {
   @Input('name') name: string;
   @Input('ipt') ngModel: any;
   @Input('span') span: number[] = [6, 18];
-  @Input('iptExtra') iptExtra: string[];
+  @Input('iptExtra') iptExtra: string[] = [];
   @Output('iptChange') ngModelChange: EventEmitter<any> = new EventEmitter;
+  @Output("submit") submit: EventEmitter<any> = new EventEmitter;
 
   shell = shell;
   // gas

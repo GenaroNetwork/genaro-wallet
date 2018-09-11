@@ -34,6 +34,7 @@ export class EdenService {
   };
   tasks: any[] = [];
   taskEnvs: any = {};
+  taskCount: number = 0;
 
   constructor(
     private walletService: WalletService,
@@ -88,20 +89,39 @@ export class EdenService {
       this.requestEnv = true;
       return;
     }
+    let update = (result, force: boolean = false) => {
+      if (force) {
+        let newBuckets = [];
+        result.forEach(bucket => {
+          newBuckets.push({
+            id: bucket.id,
+            name: bucket.name,
+            created: bucket.created,
+            timeStart: bucket.timeStart,
+            timeEnd: bucket.timeEnd,
+            usedStorage: bucket.usedStorage || 0,
+            limitStorage: bucket.limitStorage || 0,
+          });
+        });
+        this.currentBuckets = newBuckets;
+      } else {
+        if (this.currentBuckets.length !== result.length) return update(result, true);
+        result.forEach(bucket => {
+          let old = this.currentBuckets.find(old => old.id === bucket.id);
+          if (!old) return update(result, true);
+          old.id = bucket.id;
+          old.name = bucket.name;
+          old.created = bucket.created;
+          old.timeStart = bucket.timeStart;
+          old.timeEnd = bucket.timeEnd;
+          old.usedStorage = bucket.usedStorage || 0;
+          old.limitStorage = bucket.limitStorage || 0;
+        });
+      }
+    }
     env.getBuckets((err, result) => {
       if (err) { throw new Error(err); }
-      this.currentBuckets = [];
-      result.forEach(bucket => {
-        this.currentBuckets.push({
-          id: bucket.id,
-          name: bucket.name,
-          created: bucket.created,
-          timeStart: bucket.timeStart,
-          timeEnd: bucket.timeEnd,
-          usedStorage: bucket.usedStorage || 0,
-          limitStorage: bucket.limitStorage || 0,
-        });
-      });
+      update(result);
       if (this.currentPath.length === 0) { this.updateView(); }
     });
   }
@@ -247,6 +267,7 @@ export class EdenService {
   }
 
   private async newTask(type: TASK_TYPE, obj: any) {
+    this.taskCount++;
     const id = uuidv1();
     const insert = `
     (id, wallet, bucketId, bucketName, fileId, fileName, onlinePath, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
@@ -276,6 +297,7 @@ export class EdenService {
     if (reload) {
       await this.loadTask();
     }
+    if (obj.state === TASK_STATE.DONE || obj.state === TASK_STATE.ERROR || obj.state === TASK_STATE.CANCEL) this.taskCount--;
   }
 
   private convertChar(html: string, encode: boolean = true) {
@@ -336,7 +358,9 @@ export class EdenService {
         cb(false);
         return;
       }
-      let taskId = null;
+      let taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
+        bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: null, allBytes: null,
+      });
       let taskEnv;
       try {
         taskEnv = env.storeFile(bucketId, path, {
@@ -365,9 +389,7 @@ export class EdenService {
             }
           },
         });
-        taskId = await this.newTask(TASK_TYPE.FILE_UPLOAD, {
-          bucketId, bucketName, fileId: null, fileName: filename, nativePath: path, env: taskEnv, allBytes: null,
-        });
+
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
         cb(true);
@@ -426,7 +448,10 @@ export class EdenService {
       filename = this.convertChar(filename, false);
       tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + '...' : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
-      let taskId = null;
+
+      let taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
+        bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: filePath, env: null, allBytes: null,
+      });
       let taskEnv;
       try {
         taskEnv = env.resolveFile(bucketId, file.id, filePath, {
@@ -453,9 +478,6 @@ export class EdenService {
               cb(null);
             }
           },
-        });
-        taskId = await this.newTask(TASK_TYPE.FILE_DOWNLOAD, {
-          bucketId, bucketName, fileId: file.id, fileName: file.name, nativePath: path, env: taskEnv, allBytes: null,
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
