@@ -271,3 +271,44 @@
   <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' |
     translate }}</button>
 </ng-template>
+
+<!-- 扩容空间 -->
+<nz-modal [nzVisible]="dialogName==='spaceExpansion'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.DILATATION' | translate"
+  [nzFooter]="spaceExpansionFooter" class="buy-space">
+  <ng-container *ngIf="spaceExpansionStep===0">
+    <app-input name="extendSpaceRange" [(ipt)]="spaceExpansionRangeParams" (iptChange)="spaceExpansionRange=$event[0]*$event[1];calcPrice();"></app-input>
+    <app-input name="extendSpaceLimit" [(ipt)]="spaceExpansionLimitParams" (iptChange)="spaceExpansionLimit=$event[0]*$event[1];calcPrice();"></app-input>
+    <app-input name="gas" [(ipt)]="spaceExpansionGas"></app-input>
+  </ng-container>
+  <ng-container *ngIf="spaceExpansionStep===1">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.BUY_MORE_SPACE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="18">{{ spaceExpansionRange }}GB</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.EXTEND_EXPIRY_DATE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="18">{{ spaceExpansionLimit/30 }}{{ 'COMMON.MONTH(S)' | translate }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="18">{{ spaceExpansionPrice.toFixed(2) }} GNX</div>
+    </div>
+    <app-input name="password" [(ipt)]="spaceExpansionPassword"></app-input>
+  </ng-container>
+  <ng-container *ngIf="spaceExpansionStep===2">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #spaceExpansionFooter>
+  <ng-container *ngIf="spaceExpansionStep===0">
+    <span>{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }} {{ spaceExpansionPrice.toFixed(2) }} GNX</span>
+    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep+1">{{ 'COMMON.NEXT' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="spaceExpansionStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep-1">{{ 'COMMON.PREV' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="spaceExpansionDisabled" (click)="spaceExpansionSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="spaceExpansionStep===2">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+  </ng-container>
+</ng-template>

@@ -56,7 +56,9 @@
     "PASSWORD": "Password",
     "PASSWORD_OLD": "Old password",
     "PASSWORD_NEW": "New password",
-    "PASSWORD_REPEAT": "Confirm password"
+    "PASSWORD_REPEAT": "Confirm password",
+    "BUY_MORE_SPACE": "Buy more Space",
+    "EXTEND_EXPIRY_DATE": "Extend Expiry Date"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -192,6 +194,7 @@
   },
   "TXEDEN": {
     "BUY_TRAFFIC": "Buy traffic",
+    "DILATATION": "Space Expansion",
     "BUY_SPACE": "Buy space",
     "BUY_PREVIEW_PRICE": "Estimated price",
     "BUY_SPACE_SELF": "Optional space",
@@ -373,7 +376,8 @@
       "BUCKET": "Bucket name",
       "USED_ALL_STORAGE": "Used space/Total space",
       "COST": "Cost",
-      "LIMIT_TIME": "Expiry date"
+      "LIMIT_TIME": "Expiry date",
+      "DILATATION": "Space Expansion"
     },
     "TXSHARER": {
       "STATE": "State",

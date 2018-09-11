@@ -34,7 +34,7 @@
     <button nz-button nzType="primary" nzSize="large" (click)="dialogName='buyTraffic'">{{ 'TXEDEN.BUY_TRAFFIC' | translate }}</button>
   </div>
 </div>
-<app-table name="txEden" [change]="tableChangeIndex"></app-table>
-<app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1"></app-dialog>
+<app-table name="txEden" [change]="tableChangeIndex" (action)="renewBucket($event)"></app-table>
+<app-dialog [(name)]="dialogName" (nameChange)="tableChangeIndex=tableChangeIndex+1" [opt]="dialogOpt"></app-dialog>
 <app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword=false" [opt]="'MODEL.TXEDEN_NEED_PASS' | translate"></app-dialog>
 <app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.TXEDEN_NEED_PASS' | translate"></app-dialog>
