@@ -261,3 +261,22 @@
   <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
   <div nz-col [nzSpan]="span[1]">{{ iptExtra }}</div>
 </div>
+
+<!-- 帮助字符 -->
+<div *ngIf="name==='help-checkversion'" nz-row nzType="flex" nzAlign="middle" class="help clickable">
+  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ 'MODEL.ABOUT.VERSION_UPDATE' | translate }}</div>
+  <div class="button" nz-col [nzSpan]="span[1]">
+    <a *ngIf="settingService.updateState === UPDATE_STATES.DEFAULT" (click)="settingService.updateApp('check')">{{
+      'MODEL.ABOUT.VERSION_CHECK' | translate }}</a>
+    <span *ngIf="settingService.updateState === UPDATE_STATES.ERROR">{{ 'MODEL.ABOUT.VERSION_CHECK_ERROR' | translate
+      }}</span>
+    <span *ngIf="settingService.updateState === UPDATE_STATES.CHECKING">{{ 'MODEL.ABOUT.VERSION_CHECKING' | translate
+      }}</span>
+    <span *ngIf="settingService.updateState === UPDATE_STATES.NOT_AVAILABLE">{{ 'MODEL.ABOUT.VERSION_IS_LATEST' |
+      translate }}</span>
+    <span *ngIf="settingService.updateState === UPDATE_STATES.DOWNLOADING">{{ 'MODEL.ABOUT.VERSION_DOWNLOADING' |
+      translate }}</span>
+    <a *ngIf="settingService.updateState === UPDATE_STATES.DOWNLOADED" (click)="settingService.updateApp('install')">{{
+      'MODEL.ABOUT.VERSION_INSTALL' | translate }}</a>
+  </div>
+</div>

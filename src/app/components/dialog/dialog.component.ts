@@ -271,29 +271,6 @@ export class DialogComponent implements OnChanges {
     }
   }
 
-  // about
-  isLastestVersion = true;
-  updateUrl = '';
-  async checkUpdate() {
-    this.isLastestVersion = true;
-    const latestVersion = await this.settingService.getUpdateVersion();
-    if (!latestVersion && latestVersion.version && latestVersion.url) {
-      const lv = latestVersion.split('.');
-      const cv = this.version.split('.');
-      for (let index = 0, length = lv.length; index < length; index++) {
-        const lvn = parseInt(lv[index]);
-        const cvn = parseInt(cv[index]);
-        if (lvn > cvn) {
-          this.isLastestVersion = false;
-          this.updateUrl = latestVersion.url;
-          break;
-        }
-      }
-    }
-  }
-  openUpdateVersion() {
-    shell.openExternal(GET_TUTORIAL(this.updateUrl));
-  }
 
   // joinCommittee
   joinCommitteeGas: number[] = [18, 2100000];
@@ -381,12 +358,12 @@ export class DialogComponent implements OnChanges {
   }
   calcPrice() {
     let timeNow = Date.now() / 1000,
-        timeStart = this.spaceExpansionBucket.timeStart,
-        timeEnd = this.spaceExpansionBucket.timeEnd,
-        limitStorage = this.spaceExpansionBucket.limitStorage / 1024 / 1024 / 1024,
-        durationTime = (timeEnd - timeNow) / (timeEnd - timeStart);
-    this.spaceExpansionPrice = (( durationTime * this.spaceExpansionRange) + (limitStorage + this.spaceExpansionRange) * this.spaceExpansionLimit) * this.SPACE_UNIT_PRICE;
-    if(this.spaceExpansionPrice !== 0 && this.spaceExpansionPrice < 0.01) {
+      timeStart = this.spaceExpansionBucket.timeStart,
+      timeEnd = this.spaceExpansionBucket.timeEnd,
+      limitStorage = this.spaceExpansionBucket.limitStorage / 1024 / 1024 / 1024,
+      durationTime = (timeEnd - timeNow) / (timeEnd - timeStart);
+    this.spaceExpansionPrice = ((durationTime * this.spaceExpansionRange) + (limitStorage + this.spaceExpansionRange) * this.spaceExpansionLimit) * this.SPACE_UNIT_PRICE;
+    if (this.spaceExpansionPrice !== 0 && this.spaceExpansionPrice < 0.01) {
       this.spaceExpansionPrice = 0.01;
     }
   }

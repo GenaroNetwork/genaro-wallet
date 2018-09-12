@@ -1,54 +1,77 @@
+@import "../../config";
+
 :host {
   &>div {
     margin-bottom: 1rem;
+
     .label {
       text-align: right;
     }
+
     &.gas {
       margin-bottom: 2rem;
+
       .icon {
         text-align: right;
+
         .anticon {
           cursor: pointer;
         }
       }
     }
+
     .confirm {
       text-align: right;
     }
   }
+
   nz-input-number {
     width: 100%;
   }
+
   .setting {
     height: 3rem;
     line-height: 3rem;
+
     div:last-of-type {
       text-align: right;
     }
   }
+
   &:last-of-type {
     .setting {
       border: none;
     }
   }
+
   .help {
     height: 3rem;
     line-height: 3rem;
+
     &.link {
       cursor: pointer;
     }
+
+    &.clickable {
+      a {
+        color: $theme-color;
+      }
+    }
+
     div {
       text-align: left;
+
       &:last-of-type {
         text-align: right;
         color: gray;
+
         i {
           color: #333;
         }
       }
     }
   }
+
   .text {
     white-space: pre-wrap;
     word-wrap: pre;

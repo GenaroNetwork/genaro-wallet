@@ -14,9 +14,11 @@ import Sqlite from "./libs/sqlite";
 import Protocol from "./libs/protocol";
 import StorjLib from "./libs/storj-lib";
 import Geth from "./libs/geth";
+import { AutoUpdate } from "./libs/autoUpdate";
 import { DAEMON_CONFIG } from "./libs/config";
 import { join } from "path";
-console.log(process.env.NODE_ENV);
+
+
 let DAEMON = join(__dirname, "./dist/assets/daemon/rpc-server.js");
 if (process.env.NODE_ENV === 'development') {
   DAEMON = join(__dirname, "./src/assets/daemon/rpc-server.js");
@@ -42,6 +44,7 @@ function createWindow() {
   new Protocol;
   new StorjLib;
   new Geth;
+  new AutoUpdate;
 
   //add extensions
   // BrowserWindow.addDevToolsExtension('./extensions/elgalmkoelokbchhkhacckoklkejnhcd/1.19.1_0');

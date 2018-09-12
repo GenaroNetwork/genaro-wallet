@@ -43,5 +43,11 @@
     "target": [
       "AppImage"
     ]
+  },
+  "publish": {
+    "provider": "generic",
+    "url": "http://genaro-auto-update.oss-cn-shanghai.aliyuncs.com/G-BOX",
+    "channel": "latest",
+    "publishAutoUpdate": true
   }
 }

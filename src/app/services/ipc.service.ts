@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ipcRenderer } from 'electron';
 import { Observable } from 'rxjs';
+import { EventEmitter } from 'events';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class IpcService {
       ipcRenderer.send(name, this.ipcId++, ...datas);
     });
   }
+  public ipcEvent: EventEmitter = new EventEmitter;
 
   // 数据库相关(底层)
   private db(type: string, sql: string) {
@@ -50,11 +52,14 @@ export class IpcService {
 
   // geth相关
   ethInit() {
-
   }
 
   // 设置相关
 
-  constructor() { }
+  constructor() {
+    ipcRenderer.on("ipc.event", (sender, name, ...args) => {
+      this.ipcEvent.emit(name, ...args);
+    })
+  }
 
 }

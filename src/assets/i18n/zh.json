@@ -93,8 +93,15 @@
       "AGREEMENT": "使用协议",
       "PRIVACY": "隐私条款",
       "LOGS": "版本日志",
+      "UPDATING": "更新中",
       "VERSION": "软件版本",
-      "UPDATING": "更新中"
+      "VERSION_UPDATE": "软件更新",
+      "VERSION_CHECK": "检测更新",
+      "VERSION_CHECK_ERROR": "出现错误",
+      "VERSION_CHECKING": "检测中",
+      "VERSION_IS_LATEST": "无更新",
+      "VERSION_DOWNLOADING": "下载中",
+      "VERSION_INSTALL": "重启更新"
     },
     "HELP": {
       "INSTRUCTIONS": "使用说明",

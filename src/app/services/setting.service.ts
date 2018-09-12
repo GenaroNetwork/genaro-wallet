@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { IpcService } from './ipc.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CHECK_MAC_UPDATE_URL, CHECK_WIN_UPDATE_URL } from '../libs/config';
+import { UPDATE_STATES } from '../libs/config';
 import { remote } from 'electron';
 import { Router } from '@angular/router';
 
@@ -54,6 +54,21 @@ export class SettingService {
   committee: boolean = true;
 
   appVersion = remote.app.getVersion();
+  updateState: any = UPDATE_STATES.DEFAULT;
+  updateApp(step: string = "check") {
+    switch (step) {
+      case "check":
+        this.ipc.ipcOnce("app.update.check");
+        break;
+      case "download":
+        this.ipc.ipcOnce("app.update.download");
+        break;
+      case "install":
+        this.ipc.ipcOnce("app.update.install");
+        break;
+    }
+  };
+
   set(name: string, value: any) {
     let newValue;
     if (this[`${name}Set`]) {
@@ -68,6 +83,7 @@ export class SettingService {
     private ipc: IpcService,
     private i18n: TranslateService,
     private router: Router,
+    private zone: NgZone,
   ) {
     if (navigator.language.toLowerCase().indexOf("zh") > -1) this.language = "zh";
     const promises = [];
@@ -87,23 +103,33 @@ export class SettingService {
       this.i18n.use(this.language);
       this.ipc.ipcOnce("app.set.menu", this.language);
     });
+
+    let changeUpdateState = (state: UPDATE_STATES, redo: boolean = false) => {
+      this.zone.run(() => {
+        this.updateState = state;
+      });
+      if (!redo) return;
+      setTimeout(() => {
+        this.zone.run(() => {
+          this.updateState = UPDATE_STATES.DEFAULT;
+        });
+      }, 5 * 1000);
+    }
+    this.ipc.ipcEvent.on("app.update.error", () => {
+      changeUpdateState(UPDATE_STATES.ERROR, true);
+    });
+    this.ipc.ipcEvent.on("app.update.available", () => {
+      changeUpdateState(UPDATE_STATES.DOWNLOADING);
+    });
+    this.ipc.ipcEvent.on("app.update.notavailable", () => {
+      changeUpdateState(UPDATE_STATES.NOT_AVAILABLE, true);
+    });
+    this.ipc.ipcEvent.on("app.update.downloaded", () => {
+      changeUpdateState(UPDATE_STATES.DOWNLOADED);
+    });
+    setInterval(this.updateApp("check"), 60 * 60 * 1000);
   }
   languageRendered() {
     this.ipc.ipcOnce("app.loaded.lang");
-  }
-
-  async getUpdateVersion() {
-    try {
-      const res = await fetch(CHECK_MAC_UPDATE_URL, {
-        method: 'GET',
-      });
-      if (!res.ok || res.status !== 200) {
-        return '';
-      } else {
-        return res.json();
-      }
-    } catch (e) {
-      return '';
-    }
   }
 }

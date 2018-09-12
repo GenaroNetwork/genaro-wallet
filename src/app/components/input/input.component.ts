@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TransactionService } from '../../services/transaction.service';
 import { SettingService } from '../../services/setting.service';
 import { shell } from 'electron';
+import { UPDATE_STATES } from "../../libs/config";
 
 @Component({
   selector: 'app-input',
@@ -73,10 +74,12 @@ export class InputComponent implements OnChanges {
     this.ngModelChange.emit([this.ngModel[0], this.ngModel[1]]);
   }
 
+  UPDATE_STATES = UPDATE_STATES;
+
   constructor(
     public i18n: TranslateService,
     public txService: TransactionService,
-    private settingService: SettingService,
+    public settingService: SettingService,
   ) { }
 
   ngOnChanges(changes: { [prop: string]: SimpleChange }) {

@@ -177,24 +177,22 @@
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]=""
-    [span]="[16, 6, 1]"></app-input>
-  <app-input (submit)="dialogDone()" name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]=""
-    [span]="[16, 6, 1]"></app-input>
-  <app-input (submit)="dialogDone()" name="setting" ipt="language"></app-input>
-  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network"
-    [span]="[12, 10, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="setting" ipt="language"></app-input>
+  <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
 
 <!-- 关于 -->
 <nz-modal [nzTitle]="'HEADER.ABOUT' | translate" [nzFooter]="null" [nzVisible]="dialogName==='about'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
+  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.AGREEMENT' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
     [span]="[16, 6, 1]"></app-input>
-  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
+  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.PRIVACY' | translate" [iptExtra]="'MODEL.ABOUT.UPDATING' | translate"
     [span]="[16, 6, 1]"></app-input>
-  <app-input (submit)="dialogDone()" name="help-tip" [ipt]="'MODEL.ABOUT.VERSION' | translate" [iptExtra]="settingService.appVersion"
-    [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-tip" [ipt]="'MODEL.ABOUT.VERSION' | translate" [iptExtra]="settingService.appVersion" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-checkversion" [span]="[16, 6, 1]"></app-input>
+
 </nz-modal>
 
 <!-- 申请加入共建 -->
@@ -273,8 +271,8 @@
 </ng-template>
 
 <!-- 扩容空间 -->
-<nz-modal [nzVisible]="dialogName==='spaceExpansion'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'TXEDEN.DILATATION' | translate"
-  [nzFooter]="spaceExpansionFooter" class="buy-space">
+<nz-modal [nzVisible]="dialogName==='spaceExpansion'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.DILATATION' | translate" [nzFooter]="spaceExpansionFooter" class="buy-space">
   <ng-container *ngIf="spaceExpansionStep===0">
     <app-input name="extendSpaceRange" [(ipt)]="spaceExpansionRangeParams" (iptChange)="spaceExpansionRange=$event[0]*$event[1];calcPrice();"></app-input>
     <app-input name="extendSpaceLimit" [(ipt)]="spaceExpansionLimitParams" (iptChange)="spaceExpansionLimit=$event[0]*$event[1];calcPrice();"></app-input>
@@ -302,13 +300,17 @@
 <ng-template #spaceExpansionFooter>
   <ng-container *ngIf="spaceExpansionStep===0">
     <span>{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }} {{ spaceExpansionPrice.toFixed(2) }} GNX</span>
-    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep+1">{{ 'COMMON.NEXT' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep+1">{{
+      'COMMON.NEXT' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="spaceExpansionStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep-1">{{ 'COMMON.PREV' | translate }}</button>
-    <button nz-button nzSize="large" nzType="primary" [disabled]="spaceExpansionDisabled" (click)="spaceExpansionSubmit()">{{ 'COMMON.BUY_NOW' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="spaceExpansionStep=spaceExpansionStep-1">{{
+      'COMMON.PREV' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="spaceExpansionDisabled" (click)="spaceExpansionSubmit()">{{
+      'COMMON.BUY_NOW' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="spaceExpansionStep===2">
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
   </ng-container>
 </ng-template>
