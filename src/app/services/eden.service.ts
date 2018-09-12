@@ -101,6 +101,7 @@ export class EdenService {
             timeEnd: bucket.timeEnd,
             usedStorage: bucket.usedStorage || 0,
             limitStorage: bucket.limitStorage || 0,
+            bucketId: bucket.bucketId,
           });
         });
         this.currentBuckets = newBuckets;
@@ -116,6 +117,7 @@ export class EdenService {
           old.timeEnd = bucket.timeEnd;
           old.usedStorage = bucket.usedStorage || 0;
           old.limitStorage = bucket.limitStorage || 0;
+          old.bucketId = bucket.bucketId;
         });
       }
     }
