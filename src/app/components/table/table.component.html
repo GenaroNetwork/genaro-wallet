@@ -73,7 +73,7 @@
         <td>{{ data.timeEnd*1000 | date:"yyyy-MM-dd HH:mm" }}</td>
         <td>
           <a (click)="action.emit(data)">
-              {{ 'TABLE.TXEDEN.DILATATION' | translate }}
+            {{ 'TABLE.TXEDEN.DILATATION' | translate }}
           </a>
         </td>
       </tr>
@@ -260,16 +260,17 @@
             <i class="anticon anticon-close"></i>
           </a>
           <ng-template #showDelete>
-            <a (click)="edenService.removeTask(task.id)">
-              <i class="anticon anticon-delete"></i>
-            </a>
-            &nbsp;
             <a [routerLink]="['/eden', {path: task.onlinePath}]" *ngIf="task.type === TASK_TYPE['FILE_UPLOAD']">
               <!-- [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }} -->
               <i class="anticon anticon-folder"></i>
             </a>
             <a (click)="shell.showItemInFolder(task.nativePath)" *ngIf="task.type === TASK_TYPE['FILE_DOWNLOAD']">
               <i class="anticon anticon-folder"></i>
+            </a>
+            &nbsp;
+            &nbsp;
+            <a (click)="edenService.removeTask(task.id)">
+              <i class="anticon anticon-delete"></i>
             </a>
           </ng-template>
         </td>

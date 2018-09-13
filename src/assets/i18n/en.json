@@ -107,6 +107,8 @@
       "INSTRUCTIONS": "Instructions",
       "EDEN_INSTRUCTIONS": "EDEN Userguide",
       "SHARER_INSTRUCTIONS": "SHARER Userguide",
+      "EDEN_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-eden-manual.en.pdf",
+      "SHARER_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-sharer-manual-gui.en.pdf",
       "DOWNLOAD_EDEN": "Download Genaro Eden",
       "DOWNLOAD_SHARER": "Download Genaro Sharer",
       "CONTACT": "Contact Customer Service"
@@ -433,6 +435,7 @@
     "LIMIT": "Gas limit is too low",
     "BALANCE": "Insufficient balance",
     "OTHER": "Error:{{err}}",
-    "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes."
+    "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes.",
+    "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易"
   }
 }
