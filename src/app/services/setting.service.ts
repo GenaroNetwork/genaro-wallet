@@ -115,8 +115,9 @@ export class SettingService {
         });
       }, 5 * 1000);
     }
-    this.ipc.ipcEvent.on("app.update.error", () => {
+    this.ipc.ipcEvent.on("app.update.error", (error) => {
       changeUpdateState(UPDATE_STATES.ERROR, true);
+      console.log(error);
     });
     this.ipc.ipcEvent.on("app.update.available", () => {
       changeUpdateState(UPDATE_STATES.DOWNLOADING);

@@ -35,7 +35,7 @@
   "mac": {
     "icon": "dist",
     "target": [
-      "dmg"
+      "default"
     ]
   },
   "linux": {
