@@ -251,7 +251,7 @@
 <!-- 无标签的文字输入框 -->
 <div *ngIf="name==='input-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
-    <input nz-input (keyup.enter)="submit.emit()" type="password" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
+    <input nz-input (keyup.enter)="submit.emit()" type="text" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
       [value]="ngModel" (input)="ngModelChange.emit($event.target.value)">
   </div>
 </div>
