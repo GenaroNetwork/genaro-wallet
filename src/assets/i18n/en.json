@@ -62,7 +62,8 @@
     "FILE_NAME": "File name",
     "FILE_SIZE": "File size",
     "RECIPIENT": "Recipient",
-    "CHARGE_PRICE": "Charge price"
+    "CHARGE_PRICE": "Charge price",
+    "PAY_PRICE": "支付价格"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -216,7 +217,8 @@
     "SPACE_RANGE": "Space capacity",
     "SPACE_STATUS": "Space status",
     "TRAFFIC_STATUS": "Traffic status",
-    "SHARE_FILE": "Share file"
+    "SHARE_FILE": "Share file",
+    "AGREE_SHARE": "确认接收"
   },
   "TXSHARER": {
     "STAKE": "Stake",

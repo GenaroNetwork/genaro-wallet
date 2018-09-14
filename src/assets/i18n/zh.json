@@ -62,7 +62,8 @@
     "FILE_NAME": "文件名称",
     "FILE_SIZE": "所占空间",
     "RECIPIENT": "收件人",
-    "CHARGE_PRICE": "收费价格"
+    "CHARGE_PRICE": "收费价格",
+    "PAY_PRICE": "支付价格"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -217,7 +218,8 @@
     "SPACE_RANGE": "空间容量",
     "SPACE_STATUS": "空间使用情况",
     "TRAFFIC_STATUS": "流量使用情况",
-    "SHARE_FILE": "分享文件"
+    "SHARE_FILE": "分享文件",
+    "AGREE_SHARE": "确认接收"
   },
   "TXSHARER": {
     "STAKE": "押注",
