@@ -140,6 +140,8 @@
     "WALLET": "我的钱包",
     "EDEN": "我的文件",
     "EDEN_FILE": "文件管理",
+    "EDEN_FILE_RECEIVE": "文件接收",
+    "EDEN_FILE_SHARE": "我的分享",
     "EDEN_TASK": "任务列表",
     "EDEN_INPROCESS": "进行中",
     "EDEN_DONE": "已完成",
@@ -278,6 +280,17 @@
     "EMPTY_FILE_TIP1": "暂未存储文件",
     "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件",
     "SHARE_FILE": "分享文件"
+  },
+  "EDEN_FILE_SHARE": {
+    "SHARE": "分享人",
+    "RECEIVE": "接收人",
+    "FILE_NAME": "文件名",
+    "STORAGE": "占用空间",
+    "SHARE_TIME": "分享时间",
+    "RECEIVE_TIME": "接收时间",
+    "AMOUNT": "金额",
+    "STATE": "状态",
+    "OPERATION": "操作"
   },
   "TASK": {
     "FILE_NAME": "文件名",
