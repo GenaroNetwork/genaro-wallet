@@ -109,7 +109,7 @@ function createWindow() {
         { label: i18n[lang][6], accelerator: "CmdOrCtrl+X", selector: "cut:" },
         { label: i18n[lang][7], accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: i18n[lang][8], accelerator: "CmdOrCtrl+V", selector: "paste:" },
-        { label: i18n[lang][8], accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        { label: i18n[lang][9], accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
       ]
     }];
     // @ts-ignore
