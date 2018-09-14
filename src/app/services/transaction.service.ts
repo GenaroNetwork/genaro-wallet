@@ -135,6 +135,7 @@ export class TransactionService {
     }
     this.newBlockHeadersTimer = setTimeout(() => {
       this.ready.next(false);
+      this.connect();
     }, TIMEOUT_LIMIT);
   }
 
