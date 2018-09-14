@@ -50,9 +50,9 @@
 <nz-modal [nzVisible]="dialogName==='buySpace'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.BUY_SPACE' | translate" [nzFooter]="buySpaceFooter" class="buy-space">
   <ng-container *ngIf="buySpaceStep===0">
-    <app-input (submit)="dialogDone()" name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
-    <app-input (submit)="dialogDone()" name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
-    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buySpaceGas"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="gas" [(ipt)]="buySpaceGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <div nz-row class="review">
@@ -67,7 +67,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buySpaceRange*buySpaceLimit*SPACE_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buySpacePassword"></app-input>
+    <app-input (submit)="buySpaceSubmit()" name="password" [(ipt)]="buySpacePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
     <i class="anticon anticon-check-circle"></i>
@@ -96,8 +96,8 @@
 <nz-modal [nzVisible]="dialogName==='buyTraffic'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate" [nzFooter]="buyTrafficFooter" class="buy-traffic">
   <ng-container *ngIf="buyTrafficStep===0">
-    <app-input (submit)="dialogDone()" name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
-    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buyTrafficGas"></app-input>
+    <app-input (submit)="buyTrafficStep=1" name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
+    <app-input (submit)="buyTrafficStep=1" name="gas" [(ipt)]="buyTrafficGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <div nz-row class="review">
@@ -108,7 +108,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buyTraffic*TRAFFIC_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
+    <app-input (submit)="buyTrafficSubmit()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
     <i class="anticon anticon-check-circle"></i>
