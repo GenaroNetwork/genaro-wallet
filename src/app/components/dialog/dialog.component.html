@@ -1,7 +1,7 @@
 <!-- 更改钱包名 -->
 <nz-modal [nzTitle]="'MODEL.WALLET_CHANGE_NAME' | translate" [nzVisible]="dialogName==='walletChangeName'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangeName" [iptExtra]="['MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate]"
+  <app-input (submit)="dialogDone()" name="input-no-label" [(ipt)]="walletChangeName" [iptExtra]="['MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate]"
     [span]="[0,24]"></app-input>
 </nz-modal>
 
@@ -163,7 +163,7 @@
 <!-- 容器重命名 -->
 <nz-modal [nzTitle]="'EDEN.RENAME_BUCKET' | translate" [nzVisible]="dialogName==='edenRenameBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="input-no-label" [(ipt)]="edenRenameBucket" [span]="[0,24]" [iptExtra]="['']"></app-input>
+  <app-input (submit)="dialogDone()" name="input-no-label" [(ipt)]="edenRenameBucket" [span]="[0,24]" [iptExtra]="[' ']"></app-input>
 </nz-modal>
 
 <!-- 删除容器 -->
