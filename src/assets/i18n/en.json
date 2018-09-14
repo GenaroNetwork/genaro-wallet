@@ -139,6 +139,8 @@
     "EDEN": "My file",
     "EDEN_FILE": "File management",
     "EDEN_TASK": "Task list",
+    "EDEN_FILE_RECEIVE": "文件接收",
+    "EDEN_FILE_SHARE": "我的分享",
     "EDEN_INPROCESS": "Inprogress",
     "EDEN_DONE": "Completed",
     "TXEDEN": "Space management",
