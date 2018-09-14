@@ -142,6 +142,16 @@ export class EdenComponent implements OnInit {
     this.edenService.fileRemoveTask(this.getCurrentFiles());
   }
 
+  shareFile() {
+    let selectedFiles = this.getCurrentFiles();
+    let shareFile;
+    if(selectedFiles && selectedFiles.length > 0) {
+      shareFile = selectedFiles[0];
+    }
+    this.edenDialogOpt = shareFile;
+    this.edenDialogName = 'shareFile';
+  }
+
   openBucket() {
     const i = this.fileSelected.values().next().value;
     const id = this.edenService.currentView[i].id;

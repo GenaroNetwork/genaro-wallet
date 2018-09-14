@@ -367,4 +367,35 @@ export class DialogComponent implements OnChanges {
       this.spaceExpansionPrice = 0.01;
     }
   }
+
+
+  // shareFile
+  shareFileStep = 0;
+  shareFilePassword = '';
+  shareFileGas: number[] = [null, 2100000];
+  shareFileInfo: any = {};
+  shareFileDisabled = false;
+  shareFileRecipient = '';
+  shareFileChargePrice = 0;
+  shareFileInit() {
+    this.shareFileStep = 0;
+    this.shareFilePassword = '';
+    this.shareFileInfo = this.options;
+    this.shareFileDisabled = false;
+    this.shareFileRecipient = '';
+    this.shareFileChargePrice = 0;
+    console.log(this.shareFileInfo);
+  }
+  async shareFileSubmit() {
+    this.shareFileDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      let key = await this.edenService.shareFile(this.shareFileInfo.bucketId, this.shareFileInfo.id);
+      let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
+      // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+      this.shareFileStep++;
+    } catch (e) { } finally {
+      this.shareFileDisabled = false;
+    }
+  }
 }

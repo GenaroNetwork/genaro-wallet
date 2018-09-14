@@ -314,3 +314,60 @@
       translate }}</button>
   </ng-container>
 </ng-template>
+
+<!-- 分享空间 -->
+<nz-modal [nzVisible]="dialogName==='shareFile'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.SHARE_FILE' | translate" [nzFooter]="shareFileFooter" class="buy-space">
+  <ng-container *ngIf="shareFileStep===0">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileInfo.name }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileInfo.size | humanSize }}</div>
+    </div>
+    <app-input (submit)="dialogDone()" name="recipient" [(ipt)]="shareFileRecipient" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="chargePrice" [(ipt)]="shareFileChargePrice" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="shareFileStep===1">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileInfo.name }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileInfo.size | humanSize }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileRecipient }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.CHARGE_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileChargePrice }}</div>
+    </div>
+    <br />
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="shareFileGas" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="shareFilePassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="shareFileStep===2">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #shareFileFooter>
+  <ng-container *ngIf="shareFileStep===0">
+    <button nz-button nzSize="large" nzType="primary" (click)="shareFileStep=shareFileStep+1">{{
+      'COMMON.NEXT' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="shareFileStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="shareFileStep=shareFileStep-1">{{
+      'COMMON.PREV' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="shareFileDisabled" (click)="shareFileSubmit()">{{
+      'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="shareFileStep===2">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
+  </ng-container>
+</ng-template>

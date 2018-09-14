@@ -149,6 +149,7 @@ export class EdenService {
           mime: file.minetype,
           size: file.size,
           created: file.created,
+          bucketId: bucketId
         });
       });
       this.updateView();
@@ -257,6 +258,20 @@ export class EdenService {
         }
         this.updateAll();
         res();
+      });
+    });
+  }
+
+  async shareFile(bucketId: string, fileId: string) {
+    return await new Promise((res, rej) => {
+      const env = this.allEnvs[this.walletService.wallets.current];
+      env.shareFile(bucketId, fileId, (err, key) => {
+        if (err) {
+          rej(err);
+          console.log(err);
+          return;
+        }
+        res(key);
       });
     });
   }

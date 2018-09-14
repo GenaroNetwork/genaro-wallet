@@ -58,7 +58,11 @@
     "PASSWORD_NEW": "新密码",
     "PASSWORD_REPEAT": "确认密码",
     "BUY_MORE_SPACE": "扩容空间",
-    "EXTEND_EXPIRY_DATE": "续期时长"
+    "EXTEND_EXPIRY_DATE": "续期时长",
+    "FILE_NAME": "文件名称",
+    "FILE_SIZE": "所占空间",
+    "RECIPIENT": "收件人",
+    "CHARGE_PRICE": "收费价格"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -212,7 +216,8 @@
     "TIME_LIMIT": "使用期限",
     "SPACE_RANGE": "空间容量",
     "SPACE_STATUS": "空间使用情况",
-    "TRAFFIC_STATUS": "流量使用情况"
+    "TRAFFIC_STATUS": "流量使用情况",
+    "SHARE_FILE": "分享文件"
   },
   "TXSHARER": {
     "STAKE": "押注",
@@ -269,7 +274,8 @@
     "EMPTY_BUCKET_TIP2": "点击右上角“购买空间”按钮，购买存储空间，开始使用吧！",
     "EMPTY_FILE_TIP": "暂未存储文件。点击“上传”按钮，上传你要存储的文件",
     "EMPTY_FILE_TIP1": "暂未存储文件",
-    "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件"
+    "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件",
+    "SHARE_FILE": "分享文件"
   },
   "TASK": {
     "FILE_NAME": "文件名",

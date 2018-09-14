@@ -58,7 +58,11 @@
     "PASSWORD_NEW": "New password",
     "PASSWORD_REPEAT": "Confirm password",
     "BUY_MORE_SPACE": "Buy more Space",
-    "EXTEND_EXPIRY_DATE": "Extend Expiry Date"
+    "EXTEND_EXPIRY_DATE": "Extend Expiry Date",
+    "FILE_NAME": "File name",
+    "FILE_SIZE": "File size",
+    "RECIPIENT": "Recipient",
+    "CHARGE_PRICE": "Charge price"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -211,7 +215,8 @@
     "TIME_LIMIT": "Time limit",
     "SPACE_RANGE": "Space capacity",
     "SPACE_STATUS": "Space status",
-    "TRAFFIC_STATUS": "Traffic status"
+    "TRAFFIC_STATUS": "Traffic status",
+    "SHARE_FILE": "Share file"
   },
   "TXSHARER": {
     "STAKE": "Stake",
@@ -268,7 +273,8 @@
     "EMPTY_BUCKET_TIP2": "Click on the “Buy Space” button in the upper right corner to purchase storage space and get started!",
     "EMPTY_FILE_TIP": "There is no file stored yet. Click the “Upload” button to upload the file you want to store",
     "EMPTY_FILE_TIP1": "There is no file stored yet",
-    "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store"
+    "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store",
+    "SHARE_FILE": "Share file"
   },
   "TASK": {
     "FILE_NAME": "Filename",
