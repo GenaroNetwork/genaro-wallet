@@ -63,7 +63,8 @@
     "FILE_SIZE": "所占空间",
     "RECIPIENT": "收件人",
     "CHARGE_PRICE": "收费价格",
-    "PAY_PRICE": "支付价格"
+    "PAY_PRICE": "支付价格",
+    "STORE_BUCKET": "选择存放空间"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -78,6 +79,8 @@
     "WALLET_DELETE": "删除钱包",
     "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
     "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
+    "EDEN_RECEIVE_NEED_PASS": "需要输入您的钱包密码来解锁【文件接收】功能。",
+    "EDEN_SHARE_NEED_PASS": "需要输入您的钱包密码来解锁【我的分享】功能。",
     "FORGET_PASSWORD_TIPS": "忘记密码？导入助记词可重置密码。",
     "IMPORT_MNEMONIC_NOW": "现在导入",
     "BACK": "返回",
@@ -221,7 +224,8 @@
     "SPACE_STATUS": "空间使用情况",
     "TRAFFIC_STATUS": "流量使用情况",
     "SHARE_FILE": "分享文件",
-    "AGREE_SHARE": "确认接收"
+    "AGREE_SHARE": "确认接收",
+    "REJECT_SHARE": "拒绝接收"
   },
   "TXSHARER": {
     "STAKE": "押注",

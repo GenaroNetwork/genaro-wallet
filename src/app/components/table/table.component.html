@@ -404,24 +404,32 @@
   [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
     <tr>
-      <th>{{ 'EDEN_FILE_SHARE.SHARE' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
+      <th nzWidth="25%">{{ 'EDEN_FILE_SHARE.SHARE' | translate }}</th>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
+      <th nzWidth="15%">{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of edenFileReceiveData.data">
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <tr *ngFor="let data of edenFileReceiveData">
+      <td>{{ data.fromAddress | longAddr | shortAddr }}</td>
+      <td>{{ data.fileName }}</td>
+      <td>{{ data.fileSize | formatSize }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }}</td>
+      <td>
+        <a (click)="action.emit(['agree', data])">
+          接受
+        </a>
+        &nbsp;&nbsp;&nbsp;
+        <a (click)="action.emit(['reject', data])">
+          拒绝
+        </a>
+      </td>
     </tr>
   </tbody>
 </nz-table>
@@ -432,24 +440,24 @@
   [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
     <tr>
-      <th>{{ 'EDEN_FILE_SHARE.RECEIVE' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.STATE' | translate }}</th>
-      <th>{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.RECEIVE' | translate }}</th>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STATE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of edenFileShareData.data">
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <tr *ngFor="let data of edenFileShareData">
+      <td>{{ data.toAddress | longAddr | shortAddr}}</td>
+      <td>{{ data.fileName }}</td>
+      <td>{{ data.fileSize | formatSize }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }}</td>
       <td></td>
       <td></td>
     </tr>

@@ -63,7 +63,8 @@
     "FILE_SIZE": "File size",
     "RECIPIENT": "Recipient",
     "CHARGE_PRICE": "Charge price",
-    "PAY_PRICE": "支付价格"
+    "PAY_PRICE": "支付价格",
+    "STORE_BUCKET": "选择存放空间"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -78,6 +79,8 @@
     "WALLET_DELETE": "Delete wallet",
     "EDEN_NEED_PASS": "Please enter your wallet password to unlock the [File Management] feature",
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
+    "EDEN_RECEIVE_NEED_PASS": "需要输入您的钱包密码来解锁【文件接收】功能。",
+    "EDEN_SHARE_NEED_PASS": "需要输入您的钱包密码来解锁【我的分享】功能。",
     "FORGET_PASSWORD_TIPS": "Forget password? Your can import mnemonic to reset your password. ",
     "IMPORT_MNEMONIC_NOW": "Import Now",
     "BACK": "Back",
@@ -220,7 +223,8 @@
     "SPACE_STATUS": "Space status",
     "TRAFFIC_STATUS": "Traffic status",
     "SHARE_FILE": "Share file",
-    "AGREE_SHARE": "确认接收"
+    "AGREE_SHARE": "确认接收",
+    "REJECT_SHARE": "拒绝接收"
   },
   "TXSHARER": {
     "STAKE": "Stake",

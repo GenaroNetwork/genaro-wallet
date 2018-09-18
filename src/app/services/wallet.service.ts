@@ -156,7 +156,7 @@ export class WalletService {
     const hash = this.getHash(method, url, dataStr);
     const msg = new Buffer(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
-    let res = await fetch(SENTINEL_API + url, {
+    let res = await fetch(BRIDGE_API_URL + url, {
       method: method,
       body: dataStr,
       headers: {
@@ -184,7 +184,7 @@ export class WalletService {
     const hash = this.getHash(method, url, '');
     const msg = new Buffer(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
-    let res = await fetch(SENTINEL_API + url, {
+    let res = await fetch(BRIDGE_API_URL + url, {
       method: method,
       body: '',
       headers: {

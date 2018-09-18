@@ -1,10 +1,25 @@
 @import "../../config.scss";
 
 :host {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  background: $content-bg;
+  display: flex;
   height: 100%;
   width: 100%;
-  display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.mask {
+  z-index: 99;
+  border-radius: $border-radius;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .3);
 }
 
 .table {

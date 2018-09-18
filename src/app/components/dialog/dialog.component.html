@@ -390,12 +390,12 @@
     </div>
     <br />
     <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.STORE_BUCKET' | translate }}{{ 'COMMON.COLON' | translate }}</div>
         <nz-select nz-col nzSpan="14" [ngModel]="agreeShareBucketId" (ngModelChange)="agreeShareBucketChange($event)">
           <nz-option *ngFor="let b of agreeShareBuckets" [nzValue]="b.id" [nzLabel]="b.name"></nz-option>
         </nz-select>
     </div>
-    <app-input (submit)="dialogDone()" name="password" [(ipt)]="shareFilePassword" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="agreeSharePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="agreeShareStep===1">
     <i class="anticon anticon-check-circle"></i>
@@ -407,6 +407,40 @@
       'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="agreeShareStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
+  </ng-container>
+</ng-template>
+
+<!-- 拒绝分享 -->
+<nz-modal [nzVisible]="dialogName==='rejectShare'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.REJECT_SHARE' | translate" [nzFooter]="rejectShareFooter" class="buy-space">
+  <ng-container *ngIf="rejectShareStep===0">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.fileName }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.fileSize | humanSize }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.price }}</div>
+    </div>
+    <br />
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="rejectSharePassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="rejectShareStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #rejectShareFooter>
+  <ng-container *ngIf="rejectShareStep===0">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="rejectShareDisabled" (click)="rejectShareSubmit()">{{
+      'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="rejectShareStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
       translate }}</button>
   </ng-container>
