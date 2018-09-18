@@ -284,6 +284,21 @@
     "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store",
     "SHARE_FILE": "Share file"
   },
+  "EDEN_FILE_SHARE": {
+    "SHARE": "分享人",
+    "RECEIVE": "接收人",
+    "FILE_NAME": "文件名",
+    "STORAGE": "占用空间",
+    "SHARE_TIME": "分享时间",
+    "RECEIVE_TIME": "接收时间",
+    "AMOUNT": "金额",
+    "STATE": "状态",
+    "OPERATION": "操作",
+    "AGREE": "接受",
+    "REJECT": "拒绝",
+    "AGREED": "已接受",
+    "REJECTED": "已拒绝"
+  },
   "TASK": {
     "FILE_NAME": "Filename",
     "FILE_SIZE": "File size",

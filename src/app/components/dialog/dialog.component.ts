@@ -391,6 +391,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       let key = await this.edenService.shareFile(this.shareFileInfo.bucketId, this.shareFileInfo.id);
+      // let key = 'adssad';
       let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
       // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
       this.shareFileStep++;
@@ -429,26 +430,26 @@ export class DialogComponent implements OnChanges {
     this.agreeShareBucketId = id;
   }
 
-    // rejectShare
-    rejectShareStep = 0;
-    rejectSharePassword = '';
-    rejectShareDisabled = false;
-    rejectShareInfo: any = {};
-    rejectShareInit() {
-      this.rejectShareStep = 0;
-      this.rejectSharePassword = '';
+  // rejectShare
+  rejectShareStep = 0;
+  rejectSharePassword = '';
+  rejectShareDisabled = false;
+  rejectShareInfo: any = {};
+  rejectShareInit() {
+    this.rejectShareStep = 0;
+    this.rejectSharePassword = '';
+    this.rejectShareDisabled = false;
+    this.rejectShareInfo = this.options;
+  }
+  async rejectShareSubmit() {
+    this.rejectShareDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.walletService.rejectShare(address, this.rejectSharePassword, this.rejectShareInfo._id);
+      // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+      this.rejectShareStep++;
+    } catch (e) { } finally {
       this.rejectShareDisabled = false;
-      this.rejectShareInfo = this.options;
     }
-    async rejectShareSubmit() {
-      this.rejectShareDisabled = true;
-      const address = this.walletService.wallets.current;
-      try {
-        await this.walletService.rejectShare(address, this.rejectSharePassword, this.rejectShareInfo._id);
-        // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
-        this.rejectShareStep++;
-      } catch (e) { } finally {
-        this.rejectShareDisabled = false;
-      }
-    }
+  }
 }

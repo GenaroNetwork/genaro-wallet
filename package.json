@@ -38,6 +38,7 @@
     "better-sqlite3": "^4.1.4",
     "bip39": "^2.5.0",
     "bitcore-lib": "^0.15.0",
+    "cryptico": "^1.0.2",
     "dnode": "^1.2.2",
     "electron-updater": "^3.1.2",
     "ethereumjs-wallet": "^0.6.0",

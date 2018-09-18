@@ -419,16 +419,23 @@
       <td>{{ data.fileName }}</td>
       <td>{{ data.fileSize | formatSize }}</td>
       <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
-      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
-      <td>{{ data.price }}</td>
+      <td>{{ data.agreeTime | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }} GNX</td>
       <td>
-        <a (click)="action.emit(['agree', data])">
-          接受
-        </a>
-        &nbsp;&nbsp;&nbsp;
-        <a (click)="action.emit(['reject', data])">
-          拒绝
-        </a>
+        <div *ngIf="!data.agree">
+          <a (click)="action.emit(['agree', data])">
+            {{ 'EDEN_FILE_SHARE.AGREE' | translate }}
+          </a>
+          &nbsp;&nbsp;&nbsp;
+          <a (click)="action.emit(['reject', data])">
+            {{ 'EDEN_FILE_SHARE.REJECT' | translate }}
+          </a>
+        </div>
+        <div *ngIf="data.agree">
+          <a (click)="action.emit(['delete', data])">
+            <i class="anticon anticon-delete"></i>
+          </a>
+        </div>
       </td>
     </tr>
   </tbody>
@@ -456,10 +463,21 @@
       <td>{{ data.fileName }}</td>
       <td>{{ data.fileSize | formatSize }}</td>
       <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
-      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
-      <td>{{ data.price }}</td>
-      <td></td>
-      <td></td>
+      <td>{{ data.agreeTime | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }} GNX</td>
+      <td>
+        <div *ngIf="data.agree">
+          {{ 'EDEN_FILE_SHARE.AGREED' | translate }}
+        </div>
+        <div *ngIf="data.reject">
+          {{ 'EDEN_FILE_SHARE.REJECTED' | translate }}
+        </div>
+      </td>
+      <td>
+        <a (click)="action.emit(['delete', data])">
+          <i class="anticon anticon-delete"></i>
+        </a>
+      </td>
     </tr>
   </tbody>
 </nz-table>
