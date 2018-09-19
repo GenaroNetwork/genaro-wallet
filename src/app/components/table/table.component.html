@@ -116,7 +116,7 @@
 
   <!-- sharer -->
   <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
-    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate" [nzPageSize]="100">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
