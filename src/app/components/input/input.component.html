@@ -248,6 +248,14 @@
   </div>
 </div>
 
+<!-- 无标签的文字输入框 -->
+<div *ngIf="name==='input-no-label'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
+    <input nz-input (keyup.enter)="submit.emit()" type="text" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
+      [value]="ngModel" (input)="ngModelChange.emit($event.target.value)">
+  </div>
+</div>
+
 <!-- 帮助链接 -->
 <div *ngIf="name==='help-link'" nz-row nzType="flex" nzAlign="middle" class="help link" (click)="shell.openExternal(iptExtra)">
   <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
