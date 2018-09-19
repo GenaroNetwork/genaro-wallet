@@ -2,6 +2,7 @@ import { Injectable, ApplicationRef } from '@angular/core';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
+const cryptico = require('cryptico');
 import { BRIDGE_API_URL } from '../libs/config';
 import { WalletService } from './wallet.service';
 import { IpcService } from './ipc.service';
@@ -17,6 +18,8 @@ export class TxEdenService {
   public shareFiles: any = {};
   public currentUser: any = {};
   public requestPassword: boolean = null;
+
+  public RSAPrivateKey: any = null;
 
   private publicKey = '';
   private bucketsSig = '';
@@ -77,6 +80,7 @@ export class TxEdenService {
     }
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    this.RSAPrivateKey = cryptico.generateRSAKey(privKey, '1024');
     const privKeyBuffer = new Buffer(privKey, 'hex');
     const publicKeyBuffer = this.getPublicKey(privKeyBuffer);
     this.publicKey = publicKeyBuffer.toString('hex');

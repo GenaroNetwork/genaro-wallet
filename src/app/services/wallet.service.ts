@@ -118,7 +118,8 @@ export class WalletService {
       toAddress: toAddress,
       price: price,
       fileName: fileName,
-      key: key
+      key: key.key,
+      ctr: key.ctr
     }
     const dataStr = JSON.stringify(data);
     const hash = this.getHash(method, url, dataStr);

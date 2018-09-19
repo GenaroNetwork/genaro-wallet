@@ -9,6 +9,8 @@ import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';
 import { basename, join } from 'path';
 import { TransactionService } from './transaction.service';
+import { TxEdenService } from './txEden.service';
+const cryptico = require('cryptico');
 
 const TIP_FILE_LENGTH = 10;
 // &#47; => 正斜杠
@@ -43,6 +45,7 @@ export class EdenService {
     private ipc: IpcService,
     private zone: NgZone,
     private txService: TransactionService,
+    private txEden: TxEdenService
   ) {
     this.ipc.dbRun("task", `UPDATE task SET state = ${TASK_STATE.CANCEL} WHERE state IN (${TASK_STATE.INIT},${TASK_STATE.INPROCESS})`);
 
@@ -262,18 +265,24 @@ export class EdenService {
     });
   }
 
-  async shareFile(bucketId: string, fileId: string) {
-    return await new Promise((res, rej) => {
-      const env = this.allEnvs[this.walletService.wallets.current];
-      env.shareFile(bucketId, fileId, (err, key) => {
-        if (err) {
-          rej(err);
-          console.log(err);
-          return;
-        }
-        res(key);
-      });
+  async shareFile(key: string, ctr: string, address: string) {
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    let response = await fetch(BRIDGE_API_URL + '/' + address + '/filekey', {
+      method: 'GET'
     });
+    try {
+      let publicKey = await response.json();
+      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey);
+      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey);
+      let encryptionKey = cryptico.encrypt(decryptionKey, publicKey);
+      let encryptionCtr = cryptico.encrypt(decryptionCtr, publicKey);
+      return {key: encryptionKey, ctr: encryptionCtr};
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
   private async loadTask() {
@@ -380,34 +389,51 @@ export class EdenService {
       });
       let taskEnv;
       try {
-        taskEnv = env.storeFile(bucketId, path, {
-          filename,
-          progressCallback: (process, allBytes) => {
-            if (!taskId) { return; }
-            this.updateTask(taskId, {
-              process, allBytes,
-              state: TASK_STATE.INPROCESS,
-            }, false);
-          },
-          finishedCallback: (err, fileId) => {
-            if (err) {
-              console.log(err);
-              this.updateTask(taskId, {
-                state: TASK_STATE.ERROR,
-              });
-              cb(true);
-            } else {
+        let keyCtr = env.generateEncryptionInfo(bucketId);
+        if(keyCtr !== undefined) {
+          let key = keyCtr.key;
+          let ctr = keyCtr.ctr;
+          let index = keyCtr.index;
+          let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey);
+          let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
+          let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
+          taskEnv = env.storeFile(bucketId, path, {
+            filename,
+            progressCallback: (process, allBytes) => {
               if (!taskId) { return; }
               this.updateTask(taskId, {
-                fileId,
-                state: TASK_STATE.DONE,
-              });
-              cb(null);
-            }
-          },
-        });
-
-        this.taskEnvs[taskId] = taskEnv;
+                process, allBytes,
+                state: TASK_STATE.INPROCESS,
+              }, false);
+            },
+            finishedCallback: (err, fileId) => {
+              if (err) {
+                console.log(err);
+                this.updateTask(taskId, {
+                  state: TASK_STATE.ERROR,
+                });
+                cb(true);
+              } else {
+                if (!taskId) { return; }
+                this.updateTask(taskId, {
+                  fileId,
+                  state: TASK_STATE.DONE,
+                });
+                cb(null);
+              }
+            },
+            key,
+            keyLen: key.length,
+            ctr,
+            ctrLen: ctr.length,
+            rsaKey: encryptionKey.cipher,
+            rsaKeyLen: encryptionKey.cipher.length,
+            rsaCtr: encryptionCtr.cipher,
+            rsaCtrLen: encryptionCtr.cipher.length,
+            index
+          });
+          this.taskEnvs[taskId] = taskEnv;
+        }
       } catch (e) {
         cb(true);
       }
@@ -471,6 +497,9 @@ export class EdenService {
       });
       let taskEnv;
       try {
+        let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey);
+        let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey);
+
         taskEnv = env.resolveFile(bucketId, file.id, filePath, {
           overwrite: true,
           progressCallback: (process, allBytes) => {
@@ -495,6 +524,10 @@ export class EdenService {
               cb(null);
             }
           },
+          key: decryptionKey.plaintext,
+          keyLen: decryptionKey.plaintext.length,
+          ctr: decryptionCtr.plaintext,
+          ctrLen: decryptionCtr.plaintext.length,
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
