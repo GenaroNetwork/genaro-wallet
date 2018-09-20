@@ -423,13 +423,9 @@ export class EdenService {
               }
             },
             key,
-            keyLen: key.length,
             ctr,
-            ctrLen: ctr.length,
             rsaKey: encryptionKey.cipher,
-            rsaKeyLen: encryptionKey.cipher.length,
             rsaCtr: encryptionCtr.cipher,
-            rsaCtrLen: encryptionCtr.cipher.length,
             index
           });
           this.taskEnvs[taskId] = taskEnv;
@@ -525,9 +521,7 @@ export class EdenService {
             }
           },
           key: decryptionKey.plaintext,
-          keyLen: decryptionKey.plaintext.length,
           ctr: decryptionCtr.plaintext,
-          ctrLen: decryptionCtr.plaintext.length,
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
