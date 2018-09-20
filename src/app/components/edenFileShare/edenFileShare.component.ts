@@ -10,7 +10,7 @@ import { WalletService } from '../../services/wallet.service';
 export class EdenFileShareComponent implements OnInit, OnDestroy {
 
   constructor(
-    private txEden: TxEdenService,
+    public txEden: TxEdenService,
     private walletService: WalletService,
   ) { 
     this.txEden.getAll();
