@@ -429,6 +429,8 @@ export class EdenService {
             index
           });
           this.taskEnvs[taskId] = taskEnv;
+        } else {
+          cb(true);
         }
       } catch (e) {
         cb(true);

@@ -197,7 +197,8 @@ export class DialogComponent implements OnChanges {
   edenNeedPassInit() {
     this.edenNeedPass = '';
   }
-  edenNeedPassDone() {
+  async edenNeedPassDone() {
+    await this.txEdenService.beforehandSign(this.edenNeedPass);
     return new Promise((res, rej) => {
       if (this.edenService.generateEnv(this.edenNeedPass)) { res(); } else { (rej()); }
     });
