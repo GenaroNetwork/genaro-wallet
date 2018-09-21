@@ -449,7 +449,6 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.walletService.rejectShare(address, this.rejectSharePassword, this.rejectShareInfo._id);
-      // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
       this.rejectShareStep++;
     } catch (e) { } finally {
       this.rejectShareDisabled = false;

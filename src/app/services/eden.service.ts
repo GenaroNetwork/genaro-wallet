@@ -152,7 +152,9 @@ export class EdenService {
           mime: file.minetype,
           size: file.size,
           created: file.created,
-          bucketId: bucketId
+          bucketId: bucketId,
+          rsaKey: file.rsaKey,
+          rsaCtr: file.rsaCtr
         });
       });
       this.updateView();
