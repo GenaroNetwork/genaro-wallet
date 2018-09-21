@@ -100,6 +100,38 @@ export class WalletService {
     });
   }
 
+  async putFileKey(address, password, fileKey) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/users/' + address + '/filekey';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      filePublicKey: fileKey
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
   async shareFile(address, password, bucketEntryId, toAddress, price, fileName, key) {
     const method = 'POST';
     if (!address.startsWith('0x')) {
@@ -118,8 +150,8 @@ export class WalletService {
       toAddress: toAddress,
       price: price,
       fileName: fileName,
-      key: key.key,
-      ctr: key.ctr
+      key: key.key.cipher,
+      ctr: key.ctr.cipher
     }
     const dataStr = JSON.stringify(data);
     const hash = this.getHash(method, url, dataStr);

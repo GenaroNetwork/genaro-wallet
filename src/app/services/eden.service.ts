@@ -271,11 +271,12 @@ export class EdenService {
     if (!address.startsWith('0x')) {
       address = '0x' + address;
     }
-    let response = await fetch(BRIDGE_API_URL + '/' + address + '/filekey', {
+    let response = await fetch(BRIDGE_API_URL + '/users/' + address + '/filekey', {
       method: 'GET'
     });
     try {
-      let publicKey = await response.json();
+      let data = await response.json();
+      let publicKey = data.filePublicKey;
       let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey);
       let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey);
       let encryptionKey = cryptico.encrypt(decryptionKey, publicKey);

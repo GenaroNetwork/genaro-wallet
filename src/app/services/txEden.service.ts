@@ -98,6 +98,10 @@ export class TxEdenService {
     const insertNewSql = `INSERT INTO txeden (address, tokens) VALUES ('${this.walletService.wallets.current}', '${JSON.stringify(sig)}')`;
     await this.ipc.dbRun('txeden', insertNewSql);
     this.getAll();
+    if(this.currentUser && !this.currentUser.filePublicKey) {
+      let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey);
+      await this.walletService.putFileKey(walletAddr, password, RSAPublicKeyString);
+    }
   }
 
   clearAllSig() {
