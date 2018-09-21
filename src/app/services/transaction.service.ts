@@ -352,7 +352,7 @@ export class TransactionService {
       type: '0xf',
       synchronizeShareKey: {
         shareKey: fileId,
-        shareprice: '0x' + (price ** 18).toString(16),
+        shareprice: '0x' + (price * Math.pow(10,18)).toString(16),
         status: 0,
         shareKeyId: shareId,
         recipientAddress: toAddress,
