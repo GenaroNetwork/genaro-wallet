@@ -497,9 +497,16 @@ export class EdenService {
       });
       let taskEnv;
       try {
-        let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey);
-        let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey);
-
+        let key = '';
+        let ctr = '';
+        if(file.rsaKey && file.rsaCtr) {
+          let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey);
+          let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey);
+          if(decryptionKey.plaintext && decryptionCtr.plaintext) {
+            key = decryptionKey.plaintext;
+            ctr = decryptionCtr.plaintext;
+          }
+        }
         taskEnv = env.resolveFile(bucketId, file.id, filePath, {
           overwrite: true,
           progressCallback: (process, allBytes) => {
@@ -524,8 +531,8 @@ export class EdenService {
               cb(null);
             }
           },
-          key: decryptionKey.plaintext,
-          ctr: decryptionCtr.plaintext,
+          key: key || '',
+          ctr: ctr || '',
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
