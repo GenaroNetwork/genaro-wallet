@@ -395,6 +395,7 @@
           <nz-option *ngFor="let b of agreeShareBuckets" [nzValue]="b.id" [nzLabel]="b.name"></nz-option>
         </nz-select>
     </div>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="agreeShareGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="agreeSharePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="agreeShareStep===1">

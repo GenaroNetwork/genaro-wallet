@@ -394,7 +394,7 @@ export class DialogComponent implements OnChanges {
       let key = await this.edenService.shareFile(this.shareFileInfo.key, this.shareFileInfo.ctr, address);
       if (key) {
         let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
-        // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+        await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
         this.shareFileStep++;
       }
     } catch (e) { } finally {
@@ -409,6 +409,7 @@ export class DialogComponent implements OnChanges {
   agreeShareDisabled = false;
   agreeShareInfo: any = {};
   agreeShareBuckets: any = [];
+  agreeShareGas: number[] = [null, 2100000];
   agreeShareInit() {
     this.agreeShareStep = 0;
     this.agreeSharePassword = '';
@@ -422,7 +423,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.walletService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareBucketId);
-      // await this.txService.shareFile(address, this.shareFileRecipient, this.spaceExpansionPassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+      await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
       this.agreeShareStep++;
     } catch (e) { } finally {
       this.agreeShareDisabled = false;
