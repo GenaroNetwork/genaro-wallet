@@ -279,8 +279,8 @@ export class EdenService {
       let publicKey = data.filePublicKey;
       let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey);
       let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey);
-      let encryptionKey = cryptico.encrypt(decryptionKey, publicKey);
-      let encryptionCtr = cryptico.encrypt(decryptionCtr, publicKey);
+      let encryptionKey = cryptico.encrypt(decryptionKey.plaintext, publicKey);
+      let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
       return {key: encryptionKey, ctr: encryptionCtr};
     } catch (e) {
       console.log(e);
