@@ -3,3 +3,5 @@
 <app-table name="edenFileShare" class="table" [opt]="txEden.shareFiles.from"></app-table>
 
 <app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword = false" [opt]="'MODEL.EDEN_SHARE_NEED_PASS' | translate"></app-dialog>
+
+<app-dialog [(name)]="dialogName" [opt]="dialogOpt"></app-dialog>

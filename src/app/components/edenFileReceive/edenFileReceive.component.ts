@@ -46,6 +46,11 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
     this.dialogName = 'rejectShare';
   }
 
+  delete(data) {
+    this.dialogOpt = data;
+    this.dialogName = 'deleteShare';
+  }
+
   tableAction(event) {
     const name = event[0];
     const args = event.slice(1);

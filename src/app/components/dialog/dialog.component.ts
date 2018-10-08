@@ -454,4 +454,26 @@ export class DialogComponent implements OnChanges {
       this.rejectShareDisabled = false;
     }
   }
+
+    // deleteShare
+    deleteShareStep = 0;
+    deleteSharePassword = '';
+    deleteShareDisabled = false;
+    deleteShareInfo: any = {};
+    deleteShareInit() {
+      this.deleteShareStep = 0;
+      this.deleteSharePassword = '';
+      this.deleteShareDisabled = false;
+      this.deleteShareInfo = this.options;
+    }
+    async deleteShareSubmit() {
+      this.deleteShareDisabled = true;
+      const address = this.walletService.wallets.current;
+      try {
+        await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id);
+        this.deleteShareStep++;
+      } catch (e) { } finally {
+        this.deleteShareDisabled = false;
+      }
+    }
 }

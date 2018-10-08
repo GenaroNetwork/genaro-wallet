@@ -446,3 +446,37 @@
       translate }}</button>
   </ng-container>
 </ng-template>
+
+<!-- 删除分享 -->
+<nz-modal [nzVisible]="dialogName==='deleteShare'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'TXEDEN.REJECT_SHARE' | translate" [nzFooter]="deleteShareFooter" class="buy-space">
+  <ng-container *ngIf="deleteShareStep===0">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.fileName }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.fileSize | humanSize }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.price }}</div>
+    </div>
+    <br />
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="deleteSharePassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="deleteShareStep===1">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #deleteShareFooter>
+  <ng-container *ngIf="deleteShareStep===0">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="deleteShareDisabled" (click)="deleteShareSubmit()">{{
+      'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="deleteShareStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
+  </ng-container>
+</ng-template>

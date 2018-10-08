@@ -17,6 +17,9 @@ export class EdenFileShareComponent implements OnInit, OnDestroy {
   }
 
   walletSub: any;
+  dialogName: string = '';
+  dialogOpt: any = {};
+  
   ngOnInit() {
     this.txEdenUpdate();
     this.walletSub = this.walletService.currentWallet.subscribe(() => {
@@ -27,6 +30,11 @@ export class EdenFileShareComponent implements OnInit, OnDestroy {
 
   async txEdenUpdate(force: boolean = true) {
     await this.txEden.getAll(force);
+  }
+
+  delete(data) {
+    this.dialogOpt = data;
+    this.dialogName = 'deleteShare';
   }
 
   ngOnDestroy() {
