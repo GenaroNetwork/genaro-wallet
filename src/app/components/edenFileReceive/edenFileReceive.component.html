@@ -1,6 +1,6 @@
 <div class="mask" *ngIf="txEden.requestPassword"></div>
 
-<app-table name="edenFileReceive" class="table" [opt]="txEden.shareFiles.to" (action)="tableAction($event)"></app-table>
+<app-table name="edenFileReceive" class="table" (action)="tableAction($event)"></app-table>
 
 <app-dialog name="txEdenNeedPass" *ngIf="txEden.requestPassword" (nameChange)="txEden.requestPassword = false" [opt]="'MODEL.EDEN_RECEIVE_NEED_PASS' | translate"></app-dialog>
 

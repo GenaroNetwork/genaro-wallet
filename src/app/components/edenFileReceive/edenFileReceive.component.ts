@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TxEdenService } from '../../services/txEden.service';
 import { WalletService } from '../../services/wallet.service';
+import { EdenService } from '../../services/eden.service';
 
 @Component({
   selector: 'app-edenFileReceive',
@@ -12,6 +13,7 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
   constructor(
     public txEden: TxEdenService,
     private walletService: WalletService,
+    public edenService: EdenService,
   ) { 
     this.txEden.getAll();
   }
@@ -30,6 +32,7 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
 
   async txEdenUpdate(force: boolean = true) {
     await this.txEden.getAll(force);
+    await this.edenService.updateAll([]);
   }
 
   ngOnDestroy() {

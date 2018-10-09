@@ -1,4 +1,5 @@
 import { Injectable, ApplicationRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
@@ -15,7 +16,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 })
 export class TxEdenService {
   public bucketList: any = [];
-  public shareFiles: any = {};
+  public shareFiles: BehaviorSubject<any> = new BehaviorSubject({});
   public currentUser: any = {};
   public requestPassword: boolean = null;
 
@@ -178,7 +179,7 @@ export class TxEdenService {
   async getUserShares(force: boolean = false) {
     try {
       const shares = await this.send('GET', '/users/0x' + this.walletService.wallets.current + '/shares', null, this.shareSig, this.publicKey);
-      this.shareFiles = shares;
+      this.shareFiles.next(shares || {});
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);

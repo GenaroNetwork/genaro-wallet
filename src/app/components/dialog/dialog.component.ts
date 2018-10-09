@@ -424,6 +424,7 @@ export class DialogComponent implements OnChanges {
     try {
       await this.walletService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareBucketId);
       await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
+      await this.txEdenService.getUserShares();
       this.agreeShareStep++;
     } catch (e) { } finally {
       this.agreeShareDisabled = false;
@@ -449,31 +450,33 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.walletService.rejectShare(address, this.rejectSharePassword, this.rejectShareInfo._id);
+      await this.txEdenService.getUserShares();
       this.rejectShareStep++;
     } catch (e) { } finally {
       this.rejectShareDisabled = false;
     }
   }
 
-    // deleteShare
-    deleteShareStep = 0;
-    deleteSharePassword = '';
-    deleteShareDisabled = false;
-    deleteShareInfo: any = {};
-    deleteShareInit() {
-      this.deleteShareStep = 0;
-      this.deleteSharePassword = '';
+  // deleteShare
+  deleteShareStep = 0;
+  deleteSharePassword = '';
+  deleteShareDisabled = false;
+  deleteShareInfo: any = {};
+  deleteShareInit() {
+    this.deleteShareStep = 0;
+    this.deleteSharePassword = '';
+    this.deleteShareDisabled = false;
+    this.deleteShareInfo = this.options;
+  }
+  async deleteShareSubmit() {
+    this.deleteShareDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id);
+      await this.txEdenService.getUserShares();
+      this.deleteShareStep++;
+    } catch (e) { } finally {
       this.deleteShareDisabled = false;
-      this.deleteShareInfo = this.options;
     }
-    async deleteShareSubmit() {
-      this.deleteShareDisabled = true;
-      const address = this.walletService.wallets.current;
-      try {
-        await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id);
-        this.deleteShareStep++;
-      } catch (e) { } finally {
-        this.deleteShareDisabled = false;
-      }
-    }
+  }
 }
