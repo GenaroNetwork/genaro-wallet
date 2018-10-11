@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from '../libs/config';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
@@ -135,6 +135,7 @@ export class TransactionService {
     }
     this.newBlockHeadersTimer = setTimeout(() => {
       this.ready.next(false);
+      this.connect();
     }, TIMEOUT_LIMIT);
   }
 
@@ -186,6 +187,7 @@ export class TransactionService {
     return new Promise((res, rej) => {
       let rawTx;
       try {
+        if (!this.readyState) throw new Error("chain not ready!");
         rawTx = this.walletManager.signTx(fromAddr, password, txOptions);
       } catch (e) {
         this.alertError(e);
@@ -403,6 +405,8 @@ export class TransactionService {
       return;
     } else if (!error.message) {
       console.log(error);
+    } else if (error.message.indexOf("chain not ready") > -1) {
+      this.alert.error(this.i18n.instant('ERROR.CHAIN_NOT_READY'));
     } else if (error.message.indexOf('wrong passphrase') > -1) {
       this.alert.error(this.i18n.instant('ERROR.PASSWORD'));
     } else if (error.message.indexOf('insufficient funds') > -1) {

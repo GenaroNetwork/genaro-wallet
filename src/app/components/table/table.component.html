@@ -116,7 +116,7 @@
 
   <!-- sharer -->
   <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
-    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate">
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate" [nzPageSize]="100">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -260,16 +260,17 @@
             <i class="anticon anticon-close"></i>
           </a>
           <ng-template #showDelete>
-            <a (click)="edenService.removeTask(task.id)">
-              <i class="anticon anticon-delete"></i>
-            </a>
-            &nbsp;
             <a [routerLink]="['/eden', {path: task.onlinePath}]" *ngIf="task.type === TASK_TYPE['FILE_UPLOAD']">
               <!-- [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }} -->
               <i class="anticon anticon-folder"></i>
             </a>
             <a (click)="shell.showItemInFolder(task.nativePath)" *ngIf="task.type === TASK_TYPE['FILE_DOWNLOAD']">
               <i class="anticon anticon-folder"></i>
+            </a>
+            &nbsp;
+            &nbsp;
+            <a (click)="edenService.removeTask(task.id)">
+              <i class="anticon anticon-delete"></i>
             </a>
           </ng-template>
         </td>

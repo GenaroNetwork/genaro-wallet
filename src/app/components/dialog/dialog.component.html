@@ -1,7 +1,7 @@
 <!-- 更改钱包名 -->
 <nz-modal [nzTitle]="'MODEL.WALLET_CHANGE_NAME' | translate" [nzVisible]="dialogName==='walletChangeName'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="walletChangeName" [iptExtra]="['MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate]"
+  <app-input (submit)="dialogDone()" name="input-no-label" [(ipt)]="walletChangeName" [iptExtra]="['MODEL.WALLET_CHANGE_NAME_PLACEHOLDER' | translate]"
     [span]="[0,24]"></app-input>
 </nz-modal>
 
@@ -50,9 +50,9 @@
 <nz-modal [nzVisible]="dialogName==='buySpace'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.BUY_SPACE' | translate" [nzFooter]="buySpaceFooter" class="buy-space">
   <ng-container *ngIf="buySpaceStep===0">
-    <app-input (submit)="dialogDone()" name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
-    <app-input (submit)="dialogDone()" name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
-    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buySpaceGas"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="spaceRange" [(ipt)]="buySpaceRangeParams" (iptChange)="buySpaceRange=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="spaceLimit" [(ipt)]="buySpaceLimitParams" (iptChange)="buySpaceLimit=$event[0]*$event[1];"></app-input>
+    <app-input (submit)="buySpaceStep=1" name="gas" [(ipt)]="buySpaceGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===1">
     <div nz-row class="review">
@@ -67,7 +67,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buySpaceRange*buySpaceLimit*SPACE_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buySpacePassword"></app-input>
+    <app-input (submit)="buySpaceSubmit()" name="password" [(ipt)]="buySpacePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
     <i class="anticon anticon-check-circle"></i>
@@ -96,8 +96,8 @@
 <nz-modal [nzVisible]="dialogName==='buyTraffic'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.BUY_TRAFFIC' | translate" [nzFooter]="buyTrafficFooter" class="buy-traffic">
   <ng-container *ngIf="buyTrafficStep===0">
-    <app-input (submit)="dialogDone()" name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
-    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="buyTrafficGas"></app-input>
+    <app-input (submit)="buyTrafficStep=1" name="traffic" [(ipt)]="buyTrafficParams" (iptChange)="buyTraffic=$event[0]*$event[1]"></app-input>
+    <app-input (submit)="buyTrafficStep=1" name="gas" [(ipt)]="buyTrafficGas"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===1">
     <div nz-row class="review">
@@ -108,7 +108,7 @@
       <div nz-col nzSpan="6" class="label">{{ 'TXEDEN.BUY_PREVIEW_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="18">{{ (buyTraffic*TRAFFIC_UNIT_PRICE).toFixed(2) }} GNX</div>
     </div>
-    <app-input (submit)="dialogDone()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
+    <app-input (submit)="buyTrafficSubmit()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
     <i class="anticon anticon-check-circle"></i>
@@ -163,7 +163,7 @@
 <!-- 容器重命名 -->
 <nz-modal [nzTitle]="'EDEN.RENAME_BUCKET' | translate" [nzVisible]="dialogName==='edenRenameBucket'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenRenameBucket" [span]="[0,24]" [iptExtra]="['']"></app-input>
+  <app-input (submit)="dialogDone()" name="input-no-label" [(ipt)]="edenRenameBucket" [span]="[0,24]" [iptExtra]="[' ']"></app-input>
 </nz-modal>
 
 <!-- 删除容器 -->
@@ -177,8 +177,10 @@
 <!-- 帮助 -->
 <nz-modal [nzTitle]="'HEADER.HELP' | translate" [nzFooter]="null" [nzVisible]="dialogName==='help'" (nzOnCancel)="dialogNameChange.emit(null)"
   [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
-  <app-input name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]="" [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.EDEN_INSTRUCTIONS' | translate" [iptExtra]="'MODEL.HELP.EDEN_INSTRUCTIONS_URL' | translate"
+    [span]="[16, 6, 1]"></app-input>
+  <app-input name="help-link" [ipt]="'MODEL.HELP.SHARER_INSTRUCTIONS' | translate" [iptExtra]="'MODEL.HELP.SHARER_INSTRUCTIONS_URL' | translate"
+    [span]="[16, 6, 1]"></app-input>
   <app-input name="setting" ipt="language"></app-input>
   <app-input name="help-tip" [ipt]="'MODEL.HELP.CONTACT' | translate" iptExtra="eden@genaro.network" [span]="[12, 10, 1]"></app-input>
 </nz-modal>
