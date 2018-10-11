@@ -385,7 +385,6 @@ export class DialogComponent implements OnChanges {
     this.shareFileDisabled = false;
     this.shareFileRecipient = '';
     this.shareFileChargePrice = 0;
-    console.log(this.shareFileInfo);
   }
   async shareFileSubmit() {
     this.shareFileDisabled = true;

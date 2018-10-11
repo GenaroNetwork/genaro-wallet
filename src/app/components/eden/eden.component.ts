@@ -5,8 +5,7 @@ import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
-
-
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-eden',
@@ -20,6 +19,7 @@ export class EdenComponent implements OnInit {
     public walletService: WalletService,
     private i18n: TranslateService,
     private route: ActivatedRoute,
+    private alert: NzMessageService,
   ) {
   }
   edenDialogName: string = null;
@@ -147,6 +147,12 @@ export class EdenComponent implements OnInit {
     let shareFile;
     if(selectedFiles && selectedFiles.length > 0) {
       shareFile = selectedFiles[0];
+    }
+    if(!shareFile) {
+      return this.alert.error(this.i18n.instant('ERROR.SELECT_FILE'));
+    }
+    else if(!shareFile.rsaKey || !shareFile.rsaCtr) {
+      return this.alert.error(this.i18n.instant('ERROR.FILE_CANNOT_SHARE'));
     }
     this.edenDialogOpt = shareFile;
     this.edenDialogName = 'shareFile';

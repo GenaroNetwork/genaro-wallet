@@ -462,6 +462,8 @@
     "LIMIT": "Gas limit is too low",
     "BALANCE": "Insufficient balance",
     "OTHER": "Error:{{err}}",
-    "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes."
+    "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes.",
+    "SELECT_FILE": "请选择文件",
+    "FILE_CANNOT_SHARE": "该文件不能分享"
   }
 }
