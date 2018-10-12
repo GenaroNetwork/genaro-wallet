@@ -8,12 +8,12 @@
     *ngIf="settingService.eden">
     <span title>
       <i class="anticon anticon-clock-circle-o"></i>
-      {{ "SIDERBAR.EDEN_TASK" | translate }}
+      {{ "SIDERBAR.EDEN_FILE" | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')">
         <i class="anticon anticon-folder"></i>
-        {{ "SIDERBAR.EDEN_FILE" | translate }}
+        {{ "SIDERBAR.EDEN" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'">
         <i class="anticon anticon-download"></i>
