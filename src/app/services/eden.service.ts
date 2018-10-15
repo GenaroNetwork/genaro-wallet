@@ -271,14 +271,18 @@ export class EdenService {
     if (!address.startsWith('0x')) {
       address = '0x' + address;
     }
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     let response = await fetch(BRIDGE_API_URL + '/users/' + address + '/filekey', {
       method: 'GET'
     });
     try {
       let data = await response.json();
       let publicKey = data.filePublicKey;
-      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[address]);
-      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey[address]);
+      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[walletAddr]);
+      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey[walletAddr]);
       let encryptionKey = cryptico.encrypt(decryptionKey.plaintext, publicKey);
       let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
       return {key: encryptionKey, ctr: encryptionCtr};
