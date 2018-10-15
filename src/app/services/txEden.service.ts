@@ -98,11 +98,7 @@ export class TxEdenService {
     await this.ipc.dbRun('txeden', delOldSql);
     const insertNewSql = `INSERT INTO txeden (address, tokens) VALUES ('${this.walletService.wallets.current}', '${JSON.stringify(sig)}')`;
     await this.ipc.dbRun('txeden', insertNewSql);
-    this.getAll();
-    if(this.currentUser && !this.currentUser.filePublicKey) {
-      let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey[walletAddr]);
-      await this.walletService.putFileKey(walletAddr, password, RSAPublicKeyString);
-    }
+    this.getAll(false, password);
   }
 
   clearAllSig() {
@@ -143,11 +139,11 @@ export class TxEdenService {
     this.publicKey = null;
   }
 
-  async getAll(force: boolean = false) {
+  async getAll(force: boolean = false, password: string = '') {
     try {
       await this.checkSig(force);
       await this.getBuckets(force);
-      await this.getUserInfo(force);
+      await this.getUserInfo(force, password);
       await this.getUserShares(force);
     } catch (e) {
       console.log(e);
@@ -165,10 +161,18 @@ export class TxEdenService {
     }
   }
 
-  async getUserInfo(force: boolean = false) {
+  async getUserInfo(force: boolean = false, password: string = '') {
     try {
-      const user = await this.send('GET', '/user/0x' + this.walletService.wallets.current, null, this.userSig, this.publicKey);
+      let walletAddr = this.walletService.wallets.current;
+      if (!walletAddr.startsWith('0x')) {
+        walletAddr = '0x' + walletAddr;
+      }
+      const user = await this.send('GET', '/user/' + walletAddr, null, this.userSig, this.publicKey);
       this.currentUser = user;
+      if(password && this.currentUser && !this.currentUser.filePublicKey) {
+        let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey[walletAddr]);
+        await this.walletService.putFileKey(walletAddr, password, RSAPublicKeyString);
+      }
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);

@@ -391,10 +391,14 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       let key = await this.edenService.shareFile(this.shareFileInfo.rsaKey, this.shareFileInfo.rsaCtr, this.shareFileRecipient);
-      if (key) {
+      if (key && key.key.cipher && key.ctr.cipher) {
         let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
         await this.txService.shareFile(address, this.shareFileRecipient, this.shareFilePassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
         this.shareFileStep++;
+      }
+      else {
+        this.alert.error('Invalid Share Key');
+        this.shareFileDisabled = false;
       }
     } catch (e) { } finally {
       this.shareFileDisabled = false;
