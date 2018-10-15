@@ -20,7 +20,7 @@ export class TxEdenService {
   public currentUser: any = {};
   public requestPassword: boolean = null;
 
-  public RSAPrivateKey: any = null;
+  public RSAPrivateKey: any = {};
 
   private publicKey = '';
   private bucketsSig = '';
@@ -81,7 +81,7 @@ export class TxEdenService {
     }
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
-    this.RSAPrivateKey = cryptico.generateRSAKey(privKey, '1024');
+    this.RSAPrivateKey[walletAddr] = cryptico.generateRSAKey(privKey, '1024');
     const privKeyBuffer = new Buffer(privKey, 'hex');
     const publicKeyBuffer = this.getPublicKey(privKeyBuffer);
     this.publicKey = publicKeyBuffer.toString('hex');
@@ -100,7 +100,7 @@ export class TxEdenService {
     await this.ipc.dbRun('txeden', insertNewSql);
     this.getAll();
     if(this.currentUser && !this.currentUser.filePublicKey) {
-      let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey);
+      let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey[walletAddr]);
       await this.walletService.putFileKey(walletAddr, password, RSAPublicKeyString);
     }
   }

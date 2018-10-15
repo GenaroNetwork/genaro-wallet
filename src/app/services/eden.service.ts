@@ -277,8 +277,8 @@ export class EdenService {
     try {
       let data = await response.json();
       let publicKey = data.filePublicKey;
-      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey);
-      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey);
+      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[address]);
+      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey[address]);
       let encryptionKey = cryptico.encrypt(decryptionKey.plaintext, publicKey);
       let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
       return {key: encryptionKey, ctr: encryptionCtr};
@@ -366,6 +366,10 @@ export class EdenService {
   fileUploadTask() {
     const path = Array.from(this.currentPath);
     const bucketName = path.shift();
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     let folderPrefix = path.join('/');
     if (folderPrefix.length > 0) { folderPrefix += '/'; }
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
@@ -397,7 +401,7 @@ export class EdenService {
           let key = keyCtr.key;
           let ctr = keyCtr.ctr;
           let index = keyCtr.index;
-          let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey);
+          let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey[walletAddr]);
           let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
           let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
           taskEnv = env.storeFile(bucketId, path, {
@@ -486,6 +490,10 @@ export class EdenService {
     const bucketName = path.shift();
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
     let tipFileName;
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     this.runAll(files, async (file, env, cb) => {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
@@ -501,8 +509,8 @@ export class EdenService {
         let key = '';
         let ctr = '';
         if(file.rsaKey && file.rsaCtr) {
-          let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey);
-          let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey);
+          let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey[walletAddr]);
+          let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey[walletAddr]);
           if(decryptionKey.plaintext && decryptionCtr.plaintext) {
             key = decryptionKey.plaintext;
             ctr = decryptionCtr.plaintext;
