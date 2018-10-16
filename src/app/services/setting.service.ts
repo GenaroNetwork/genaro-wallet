@@ -138,7 +138,7 @@ export class SettingService {
     this.ipc.ipcEvent.on("app.update.downloaded", () => {
       changeUpdateState(UPDATE_STATES.DOWNLOADED);
     });
-    setInterval(this.updateApp("check"), 60 * 60 * 1000);
+    setInterval(this.updateApp, 60 * 60 * 1000, "check");
   }
   languageRendered() {
     this.ipc.ipcOnce("app.loaded.lang");
