@@ -35,6 +35,13 @@ export class EdenService {
   tasks: any[] = [];
   taskEnvs: any = {};
   taskCount: number = 0;
+  taskCountChange(add: boolean = true) {
+    if (add) this.taskCount++;
+    else this.taskCount--;
+    if (this.taskCount < 0) this.taskCount = 0;
+    if (this.taskCount > 0) this.ipc.ipcOnce("app.quit.state", "edenInprocess", true);
+    else this.ipc.ipcOnce("app.quit.state", "edenInprocess", false);
+  }
 
   constructor(
     private walletService: WalletService,
@@ -269,7 +276,7 @@ export class EdenService {
   }
 
   private async newTask(type: TASK_TYPE, obj: any) {
-    this.taskCount++;
+    this.taskCountChange();
     const id = uuidv1();
     const insert = `
     (id, wallet, bucketId, bucketName, fileId, fileName, onlinePath, nativePath, env, created, updated, process, state, type, doneBytes, allBytes, error)
@@ -299,7 +306,7 @@ export class EdenService {
     if (reload) {
       await this.loadTask();
     }
-    if (obj.state === TASK_STATE.DONE || obj.state === TASK_STATE.ERROR || obj.state === TASK_STATE.CANCEL) this.taskCount--;
+    if (obj.state === TASK_STATE.DONE || obj.state === TASK_STATE.ERROR || obj.state === TASK_STATE.CANCEL) this.taskCountChange(false);
   }
 
   private convertChar(html: string, encode: boolean = true) {

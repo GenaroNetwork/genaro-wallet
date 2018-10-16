@@ -18,9 +18,16 @@ const LOG_DIR = path.join(BASE_PATH, 'logs');
   providedIn: 'root'
 })
 export class SharerService {
-  public runningNodes: number = 0;
-  public driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  public tableOpt: any = {
+  runningNodes: number = 0;
+  runningNodesChange(add: boolean = true) {
+    if (add) this.runningNodes++;
+    else this.runningNodes--;
+    if (this.runningNodes < 0) this.runningNodes = 0;
+    if (this.runningNodes > 0) this.ipc.ipcOnce("app.quit.state", "sharerInprocess", true);
+    else this.ipc.ipcOnce("app.quit.state", "sharerInprocess", false);
+  };
+  driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  tableOpt: any = {
     nodeColShow: true,
     statusColShow: true,
     uptimeColShow: true,
@@ -182,7 +189,7 @@ export class SharerService {
       const configPath = this.getConfigPathById(nodeId);
       remote.start(configPath, (err) => {
         if (!err) {
-          this.runningNodes++;
+          this.runningNodesChange();
         }
         if (cb) {
           cb(err);
@@ -220,7 +227,7 @@ export class SharerService {
     d.on('remote', (remote) => {
       remote.stop(nodeId, (err) => {
         if (!err) {
-          this.runningNodes--;
+          this.runningNodesChange(false);
         }
         if (cb) {
           cb(err);
