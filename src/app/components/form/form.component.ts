@@ -23,21 +23,20 @@ export class FormComponent implements OnChanges {
   }
 
   // send transaction
-  formSendTx: any = {
-    gasMin: 1,
-    gasMax: 100,
-    gasDetail: false,
-    loading: false,
-    // ==
-    address: '',
-    amount: 0,
-    gas: [null, 21000],
-    password: '',
-  };
+  sendTxStep = 0;
+  sendTxGasMin = 1;
+  sendTxGasMax = 100;
+  sendTxGasDetail = false;
+  sendTxLoading = false;
+  // ==
+  sendTxAddress = '';
+  sendTxAmount = 0;
+  sendTxGas = [null, 21000];
+  sendTxPassword = '';
   async submitSendTx() {
     const from = this.walletService.wallets.current;
-    let to = this.formSendTx.address;
-    await this.txService.transfer(from, this.formSendTx.password, to, this.formSendTx.amount, this.formSendTx.gas[1], this.formSendTx.gas[0]);
+    let to = this.sendTxAddress;
+    await this.txService.transfer(from, this.sendTxPassword, to, this.sendTxAmount, this.sendTxGas[1], this.sendTxGas[0]);
     this.onSubmit.emit();
   }
 

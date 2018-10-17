@@ -4,7 +4,7 @@
     {{ 'INPUT.ADDRESS_FROM' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -15,7 +15,7 @@
     {{ 'INPUT.ADDRESS_TO' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -27,7 +27,7 @@
     {{ 'INPUT.AMOUNT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -39,8 +39,8 @@
       {{ 'INPUT.GAS' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]-2">
-      <nz-slider [ngModel]="gasDefault" (ngModelChange)="ngModelChange.emit([$event, gasLimit])" [nzMin]="gasMin"
-        [nzMax]="gasMax" [nzMarks]="gasMarks"></nz-slider>
+      <nz-slider [ngModel]="gasDefault" (ngModelChange)="iptChange.emit([$event, gasLimit])" [nzMin]="gasMin" [nzMax]="gasMax"
+        [nzMarks]="gasMarks"></nz-slider>
     </div>
     <div nz-col [nzSpan]="2" class="icon">
       <i class="anticon anticon-edit" (click)="gasDetail=true"></i>
@@ -54,7 +54,7 @@
     </div>
     <div nz-col [nzSpan]="span[1]">
       <nz-input-group nzAddOnAfter="Gan">
-        <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit([$event.target.value, gasLimit])">
+        <input [value]="gasDefault" [(ngModel)]="gasDefault" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit([$event.target.value, gasLimit])">
       </nz-input-group>
     </div>
   </div>
@@ -63,7 +63,7 @@
       {{ 'INPUT.GAS_LIMIT' | translate }}{{ 'COMMON.COLON' | translate }}
     </div>
     <div nz-col [nzSpan]="span[1]">
-      <input [value]="gasLimit" [(ngModel)]="gasLimit" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit([gasDefault, $event.target.value])">
+      <input [value]="gasLimit" [(ngModel)]="gasLimit" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit([gasDefault, $event.target.value])">
     </div>
   </div>
 </ng-container>
@@ -79,10 +79,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectLimit">
-      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ipt[0]" (input)="iptChange.emit(ipt)">
     </nz-input-group>
     <ng-template #buySpaceSelectLimit>
-      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
+      <nz-select [(ngModel)]="ipt[1]" (ngModelChange)="iptChange.emit(ipt)">
         <nz-option nzLabel="{{ 'COMMON.YEAR(S)' | translate }}" [nzValue]="30*12"></nz-option>
         <nz-option nzLabel="{{ 'COMMON.MONTH(S)' | translate }}" [nzValue]="30"></nz-option>
       </nz-select>
@@ -100,10 +100,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buySpaceSelectRange">
-      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ipt[0]" (input)="iptChange.emit(ipt)">
     </nz-input-group>
     <ng-template #buySpaceSelectRange>
-      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
+      <nz-select [(ngModel)]="ipt[1]" (ngModelChange)="iptChange.emit(ipt)">
         <nz-option nzLabel="GB" [nzValue]="1"></nz-option>
         <nz-option nzLabel="TB" [nzValue]="1024"></nz-option>
       </nz-select>
@@ -118,10 +118,10 @@
   </div>
   <div nz-col [nzSpan]="span[1]">
     <nz-input-group [nzAddOnAfter]="buyTraffic">
-      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ngModel[0]" (input)="ngModelChange.emit(ngModel)">
+      <input nz-input (keyup.enter)="submit.emit()" type="text" [(ngModel)]="ipt[0]" (input)="iptChange.emit(ipt)">
     </nz-input-group>
     <ng-template #buyTraffic>
-      <nz-select [(ngModel)]="ngModel[1]" (ngModelChange)="ngModelChange.emit(ngModel)">
+      <nz-select [(ngModel)]="ipt[1]" (ngModelChange)="iptChange.emit(ipt)">
         <nz-option nzLabel="GB" [nzValue]="1"></nz-option>
         <nz-option nzLabel="TB" [nzValue]="1024"></nz-option>
       </nz-select>
@@ -136,8 +136,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]" class="preview">
     <nz-input-group nzAddOnAfter="GNX">
-      <nz-input-number [ngModel]="ngModel" type="number" [nzMin]="5000" (input)="ngModelChange.emit($event.target.value)"
-        min="0"></nz-input-number>
+      <nz-input-number [ngModel]="ipt" type="number" [nzMin]="5000" (input)="iptChange.emit($event.target.value)" min="0"></nz-input-number>
     </nz-input-group>
   </div>
 </div>
@@ -148,7 +147,7 @@
     nodeId{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <nz-select style="width: 100%" ngModel="ngModel" [nzDropdownMatchSelectWidth]="false" (ngModelChange)="ngModelChange.emit($event)">
+    <nz-select style="width: 100%" ngModel="ipt" [nzDropdownMatchSelectWidth]="false" (ngModelChange)="iptChange.emit($event)">
       <nz-option *ngFor="let so of iptExtra" [nzValue]="so" [nzLabel]="so"></nz-option>
       <nz-option nzValue="0" [nzLabel]="'TXSHARER.NO_BIND_ID' | translate"></nz-option>
     </nz-select>
@@ -161,18 +160,18 @@
     token{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
 <!-- 设置 -->
 <div *ngIf="name==='setting'" nz-row class="setting">
   <div nz-col [nzSpan]="span[0]" [nzOffset]="span[2]">
-    {{ ('MODEL.SETTING.' + ngModel.toUpperCase()) | translate}}
+    {{ ('MODEL.SETTING.' + ipt.toUpperCase()) | translate}}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <nz-switch *ngIf="ngModel!=='language'" [ngModel]="settingService[ngModel]" (ngModelChange)="settingChange($event)"></nz-switch>
-    <nz-select *ngIf="ngModel==='language'" [ngModel]="settingService[ngModel]" (ngModelChange)="settingChange($event)">
+    <nz-switch *ngIf="ipt!=='language'" [ngModel]="settingService[ipt]" (ngModelChange)="settingChange($event)"></nz-switch>
+    <nz-select *ngIf="ipt==='language'" [ngModel]="settingService[ipt]" (ngModelChange)="settingChange($event)">
       <nz-option *ngFor="let lang of settingLangs" [nzValue]="lang" [nzLabel]="settingGetLanguageName(lang)"></nz-option>
     </nz-select>
   </div>
@@ -184,7 +183,7 @@
     {{ 'INPUT.PASSWORD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="password" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -194,7 +193,7 @@
     {{ 'INPUT.PASSWORD_OLD' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="password" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -204,7 +203,7 @@
     {{ 'INPUT.PASSWORD_NEW' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="password" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -214,21 +213,21 @@
     {{ 'INPUT.PASSWORD_REPEAT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="password" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="password" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
 <!-- 确认按钮 -->
 <div *ngIf="name==='confirm'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="confirm">
-    <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+    <button nz-button nzType="primary" (click)="iptChange.emit()">{{ (ipt || 'COMMON.CONFIRM') | translate }}</button>
   </div>
 </div>
 
 <!-- 取消按钮 -->
 <div *ngIf="name==='cancel'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]">
-    <button nz-button nzType="primary" (click)="ngModelChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+    <button nz-button nzType="primary" (click)="iptChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
   </div>
 </div>
 
@@ -236,7 +235,7 @@
 <!-- 文字 -->
 <div *ngIf="name==='text'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
-    {{ ngModel }}
+    {{ ipt }}
   </div>
 </div>
 
@@ -244,7 +243,7 @@
 <div *ngIf="name==='password-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
     <input nz-input (keyup.enter)="submit.emit()" type="password" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
-      [value]="ngModel" (input)="ngModelChange.emit($event.target.value)">
+      [value]="ipt" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -252,13 +251,13 @@
 <div *ngIf="name==='input-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">
     <input nz-input (keyup.enter)="submit.emit()" type="text" nzSize="large" [placeholder]="iptExtra[0] ||('MODEL.OLD_PASSWORD_PLACEHOLDER' | translate)"
-      [value]="ngModel" (input)="ngModelChange.emit($event.target.value)">
+      [value]="ipt" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
 <!-- 帮助链接 -->
 <div *ngIf="name==='help-link'" nz-row nzType="flex" nzAlign="middle" class="help link" (click)="shell.openExternal(iptExtra)">
-  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
+  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ipt }}</div>
   <div nz-col [nzSpan]="span[1]">
     <i class="anticon anticon-right"></i>
   </div>
@@ -266,7 +265,7 @@
 
 <!-- 帮助字符 -->
 <div *ngIf="name==='help-tip'" nz-row nzType="flex" nzAlign="middle" class="help">
-  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ngModel }}</div>
+  <div nz-col [nzSpan]="span[0]" class="label" [nzOffset]="span[2] || 0">{{ ipt }}</div>
   <div nz-col [nzSpan]="span[1]">{{ iptExtra }}</div>
 </div>
 

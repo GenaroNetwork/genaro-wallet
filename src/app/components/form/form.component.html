@@ -1,10 +1,15 @@
 <!-- 发送交易 -->
 <div *ngIf="name==='sendTx'" class="sendTx">
-  <app-input (submit)="submitSendTx()" name="addressTo" [(ipt)]="formSendTx.address"></app-input>
-  <app-input (submit)="submitSendTx()" name="amount" [(ipt)]="formSendTx.amount"></app-input>
-  <app-input (submit)="submitSendTx()" name="gas" [(ipt)]="formSendTx.gas"></app-input>
-  <app-input (submit)="submitSendTx()" name="password" [(ipt)]="formSendTx.password"></app-input>
-  <app-input name="confirm" (click)="submitSendTx()"></app-input>
+  <ng-container *ngIf="sendTxStep===0">
+    <app-input (submit)="submitSendTx()" name="addressTo" [(ipt)]="sendTxAddress"></app-input>
+    <app-input (submit)="submitSendTx()" name="amount" [(ipt)]="sendTxAmount"></app-input>
+    <app-input (submit)="submitSendTx()" name="gas" [(ipt)]="sendTxGas"></app-input>
+  </ng-container>
+  <ng-container *ngIf="sendTxStep===1">
+    <app-input (submit)="submitSendTx()" name="password" [(ipt)]="sendTxPassword"></app-input>
+  </ng-container>
+  <app-input *ngIf="sendTxStep===0" name="confirm" (click)="sendTxStep=1" ipt="COMMON.NEXT"></app-input>
+  <app-input *ngIf="sendTxStep===1" name="confirm" (click)="submitSendTx()"></app-input>
 </div>
 
 

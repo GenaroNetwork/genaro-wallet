@@ -40,7 +40,17 @@ export class SettingService {
   }
 
   languageSet(value) {
-    this.i18n.use(value);
+    this.i18n.use(value).subscribe(next => { }, error => { }, () => {
+      let sharerMsg = this.i18n.instant("COMMON.EXIT_MSG_SHARER");
+      let edenMsg = this.i18n.instant("COMMON.EXIT_MSG_EDEN");
+      let cancel = this.i18n.instant("COMMON.DO_NOT_EXIT");
+      let confirm = this.i18n.instant("COMMON.EXIT");
+      this.ipc.ipcOnce("app.quit.state", "confirmButton", confirm);
+      this.ipc.ipcOnce("app.quit.state", "cancelButton", cancel);
+      this.ipc.ipcOnce("app.quit.state", "edenInprocessMessage", edenMsg);
+      this.ipc.ipcOnce("app.quit.state", "sharerInprocessMessage", sharerMsg);
+
+    });
     this.ipc.ipcOnce("app.set.menu", value);
     return value;
   }
@@ -85,7 +95,8 @@ export class SettingService {
     private router: Router,
     private zone: NgZone,
   ) {
-    if (navigator.language.toLowerCase().indexOf("zh") > -1) this.language = "zh";
+    let defaultLang = "en";
+    if (navigator.language.toLowerCase().indexOf("zh") > -1) defaultLang = "zh";
     const promises = [];
     this.list.forEach(name => {
       promises.push(new Promise(async (res, rej) => {
@@ -99,9 +110,8 @@ export class SettingService {
       }));
     });
     Promise.all(promises).then(() => {
-      this.i18n.setDefaultLang(this.language);
-      this.i18n.use(this.language);
-      this.ipc.ipcOnce("app.set.menu", this.language);
+      this.i18n.setDefaultLang(defaultLang);
+      this.set("language", defaultLang);
     });
 
     let changeUpdateState = (state: UPDATE_STATES, redo: boolean = false) => {
@@ -128,7 +138,7 @@ export class SettingService {
     this.ipc.ipcEvent.on("app.update.downloaded", () => {
       changeUpdateState(UPDATE_STATES.DOWNLOADED);
     });
-    setInterval(this.updateApp("check"), 60 * 60 * 1000);
+    setInterval(this.updateApp, 60 * 60 * 1000, "check");
   }
   languageRendered() {
     this.ipc.ipcOnce("app.loaded.lang");

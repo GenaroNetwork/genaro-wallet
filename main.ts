@@ -5,7 +5,7 @@ Object.defineProperty(global, "_bitcore", {
   set() { },
 });
 
-import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, screen, Menu, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { fork } from 'child_process';
@@ -209,6 +209,29 @@ try {
     if (win === null) {
       createWindow();
     }
+  });
+
+  let quitState = {
+    confirmButton: "",
+    cancelButton: "",
+    edenInprocessMessage: "",
+    sharerInprocessMessage: false,
+    edenInprocess: false,
+    sharerInprocess: false,
+  }
+  ipcMain.on('app.quit.state', (event, ipcId, name, value) => {
+    quitState[name] = value;
+  });
+  app.on('before-quit', event => {
+    let quitMessage;
+    if (quitState.sharerInprocess) quitMessage = quitState.sharerInprocessMessage;
+    else if (quitState.edenInprocess) quitMessage = quitState.edenInprocessMessage;
+    else return;
+    let close = dialog.showMessageBox(win, {
+      message: quitMessage,
+      buttons: [quitState.confirmButton, quitState.cancelButton]
+    });
+    if (close === 1) event.preventDefault();
   });
 
 } catch (e) {
