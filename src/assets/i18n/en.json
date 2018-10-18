@@ -226,7 +226,8 @@
     "TRAFFIC_STATUS": "Traffic status",
     "SHARE_FILE": "Share file",
     "AGREE_SHARE": "确认接收",
-    "REJECT_SHARE": "拒绝接收"
+    "REJECT_SHARE": "拒绝接收",
+    "DELETE_SHARE": "删除分享"
   },
   "TXSHARER": {
     "STAKE": "Stake",

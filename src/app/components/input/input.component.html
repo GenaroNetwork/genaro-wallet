@@ -294,7 +294,7 @@
     {{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ngModel" type="text" nz-input (keyup.enter)="submit.emit()" (input)="ngModelChange.emit($event.target.value)">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
 
@@ -305,7 +305,7 @@
   </div>
   <div nz-col [nzSpan]="span[1]" class="preview">
     <nz-input-group nzAddOnAfter="GNX">
-      <nz-input-number [ngModel]="ngModel" type="number" (input)="ngModelChange.emit($event.target.value)" min="0"></nz-input-number>
+      <nz-input-number [ngModel]="ipt" type="number" (input)="iptChange.emit($event.target.value)" min="0"></nz-input-number>
     </nz-input-group>
   </div>
 </div>

@@ -451,7 +451,7 @@
 
 <!-- 删除分享 -->
 <nz-modal [nzVisible]="dialogName==='deleteShare'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'TXEDEN.REJECT_SHARE' | translate" [nzFooter]="deleteShareFooter" class="buy-space">
+  [nzTitle]="'TXEDEN.DELETE_SHARE' | translate" [nzFooter]="deleteShareFooter" class="buy-space">
   <ng-container *ngIf="deleteShareStep===0">
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>

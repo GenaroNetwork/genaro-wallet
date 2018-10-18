@@ -227,7 +227,8 @@
     "TRAFFIC_STATUS": "流量使用情况",
     "SHARE_FILE": "分享文件",
     "AGREE_SHARE": "确认接收",
-    "REJECT_SHARE": "拒绝接收"
+    "REJECT_SHARE": "拒绝接收",
+    "DELETE_SHARE": "删除分享"
   },
   "TXSHARER": {
     "STAKE": "押注",
