@@ -397,7 +397,7 @@ export class DialogComponent implements OnChanges {
         this.shareFileStep++;
       }
       else {
-        this.alert.error('接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。');
+        this.alert.error(this.i18n.instant("ERROR.NO_SHARE_KEY"));
         this.shareFileDisabled = false;
       }
     } catch (e) { } finally {
