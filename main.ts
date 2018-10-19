@@ -111,6 +111,16 @@ function createWindow() {
         { label: i18n[lang][8], accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: i18n[lang][9], accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
       ]
+    }, {
+      label: i18n[lang][10],
+      submenu: [
+        {
+          label: i18n[lang][11], accelerator: "CmdOrCtrl+Shift+I", click: function () {
+            win.show();
+            win.webContents.openDevTools();
+          }
+        },
+      ]
     }];
     // @ts-ignore
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));

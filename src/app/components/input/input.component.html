@@ -239,6 +239,16 @@
   </div>
 </div>
 
+<!-- 带标签的文字 -->
+<div *ngIf="name==='label-text'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ ipt }}{{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    {{ iptExtra }}
+  </div>
+</div>
+
 <!-- 无标签的密码输入框 -->
 <div *ngIf="name==='password-no-label'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="text">

@@ -1,5 +1,5 @@
 {
-  "productName": "G-BOX",
+  "productName": "G-BOX-dev",
   "directories": {
     "output": "app-builds"
   },
@@ -47,7 +47,7 @@
   "publish": {
     "provider": "generic",
     "url": "http://genaro-auto-update.oss-cn-shanghai.aliyuncs.com/G-BOX",
-    "channel": "latest",
+    "channel": "dev",
     "publishAutoUpdate": true
   }
 }
