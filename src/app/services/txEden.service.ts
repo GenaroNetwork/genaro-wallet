@@ -94,11 +94,11 @@ export class TxEdenService {
       shareSig: this.shareSig,
       publicKey: this.publicKey,
     };
-    const delOldSql = `DELETE FROM txeden WHERE address='${this.walletService.wallets.current}'`;
+    const delOldSql = `DELETE FROM txeden WHERE address='${walletAddr}'`;
     await this.ipc.dbRun('txeden', delOldSql);
-    const insertNewSql = `INSERT INTO txeden (address, tokens) VALUES ('${this.walletService.wallets.current}', '${JSON.stringify(sig)}')`;
+    const insertNewSql = `INSERT INTO txeden (address, tokens) VALUES ('${walletAddr}', '${JSON.stringify(sig)}')`;
     await this.ipc.dbRun('txeden', insertNewSql);
-    this.getAll(false, password);
+    this.getAll(false, password, walletAddr);
     this.requestPassword = false;
   }
 
@@ -109,9 +109,13 @@ export class TxEdenService {
     this.publicKey = null;
   }
 
-  private async checkSig(force: boolean = false) {
+  private async checkSig(force: boolean = false, address: string = '') {
+    let walletAddr = address || this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     if (this.bucketsSig && this.userSig && this.shareSig && this.publicKey) { return; }
-    const data: any = await this.ipc.dbGet('txeden', `SELECT * FROM txeden WHERE address='${this.walletService.wallets.current}'`);
+    const data: any = await this.ipc.dbGet('txeden', `SELECT * FROM txeden WHERE address='${walletAddr}'`);
     if (!data) {
       this.requestPass(force);
       throw new Error('Need Password');
@@ -140,12 +144,18 @@ export class TxEdenService {
     this.publicKey = null;
   }
 
-  async getAll(force: boolean = false, password: string = '') {
+  async getAll(force: boolean = false, password: string = '', address: string = '') {
     try {
-      await this.checkSig(force);
-      await this.getBuckets(force);
-      await this.getUserInfo(force, password);
-      await this.getUserShares(force);
+      await this.checkSig(force, address);
+      let walletAddr = this.walletService.wallets.current;
+      if (!walletAddr.startsWith('0x')) {
+        walletAddr = '0x' + walletAddr;
+      }
+      if(!address || address === walletAddr) {
+        await this.getBuckets(force);
+        await this.getUserInfo(force, password, address);
+        await this.getUserShares(force, address);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -162,9 +172,9 @@ export class TxEdenService {
     }
   }
 
-  async getUserInfo(force: boolean = false, password: string = '') {
+  async getUserInfo(force: boolean = false, password: string = '', address: string = '') {
     try {
-      let walletAddr = this.walletService.wallets.current;
+      let walletAddr = address || this.walletService.wallets.current;
       if (!walletAddr.startsWith('0x')) {
         walletAddr = '0x' + walletAddr;
       }
@@ -181,9 +191,13 @@ export class TxEdenService {
     }
   }
 
-  async getUserShares(force: boolean = false) {
+  async getUserShares(force: boolean = false, address: string = '') {
     try {
-      const shares = await this.send('GET', '/users/0x' + this.walletService.wallets.current + '/shares', null, this.shareSig, this.publicKey);
+      let walletAddr = address || this.walletService.wallets.current;
+      if (!walletAddr.startsWith('0x')) {
+        walletAddr = '0x' + walletAddr;
+      }
+      const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
       this.shareFiles.next(shares || {});
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
