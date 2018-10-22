@@ -419,17 +419,15 @@
 <nz-modal [nzVisible]="dialogName==='rejectShare'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.REJECT_SHARE' | translate" [nzFooter]="rejectShareFooter" class="buy-space">
   <ng-container *ngIf="rejectShareStep===0">
-    <div nz-row class="review">
+    <!-- <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.fileName }}</div>
+    </div> -->
+    <div nz-row class="review">
+      <div nz-col nzSpan="24" class="text-center">{{'COMMON.REJECT_SHARE_CONFIRM' | translate }}</div>
     </div>
     <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.fileSize | humanSize }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ rejectShareInfo.price }}</div>
+      <div nz-col nzSpan="24" class="text-center">{{'COMMON.DELETE_SHARE_CONFIRM' | translate }}</div>
     </div>
     <br />
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="rejectSharePassword" [span]="[6, 14]"></app-input>

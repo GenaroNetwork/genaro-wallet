@@ -40,7 +40,9 @@
     "DOWNLOADMINER_TIPS": "如果你已经进入委员会,可以下载Miner程序,同步全网区块,获得挖矿（链上）奖励",
     "DOWNLOADMINER_TIPS2": "点击",
     "DOWNLOADMINER": "“下载”",
-    "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明"
+    "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明",
+    "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
+    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",

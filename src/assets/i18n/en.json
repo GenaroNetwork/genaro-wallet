@@ -40,7 +40,9 @@
     "DOWNLOADMINER_TIPS": "If you have already entered the committee, you can download the miner program, synchronize the entire network block and get the mining reward.",
     "DOWNLOADMINER_TIPS2": "Click the ",
     "DOWNLOADMINER": "'Download'",
-    "DOWNLOADMINER_TIPS3": " installer and miner userguide"
+    "DOWNLOADMINER_TIPS3": " installer and miner userguide",
+    "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
+    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
