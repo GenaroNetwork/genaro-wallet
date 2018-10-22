@@ -99,6 +99,7 @@ export class TxEdenService {
     const insertNewSql = `INSERT INTO txeden (address, tokens) VALUES ('${this.walletService.wallets.current}', '${JSON.stringify(sig)}')`;
     await this.ipc.dbRun('txeden', insertNewSql);
     this.getAll(false, password);
+    this.requestPassword = false;
   }
 
   clearAllSig() {

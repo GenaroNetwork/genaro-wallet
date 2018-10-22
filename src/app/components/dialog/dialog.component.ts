@@ -243,6 +243,9 @@ export class DialogComponent implements OnChanges {
   txEdenNeedPass = '';
   async txEdenNeedPassDone() {
     await this.txEdenService.beforehandSign(this.txEdenNeedPass);
+    return new Promise((res, rej) => {
+      if (this.edenService.generateEnv(this.txEdenNeedPass)) { res(); } else { (rej()); }
+    });
   }
 
   // common
