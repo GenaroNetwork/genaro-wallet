@@ -125,6 +125,7 @@ export class TxEdenService {
     this.bucketsSig = sigs.bucketsSig;
     this.userSig = sigs.userSig;
     this.shareSig = sigs.shareSig;
+    this.requestPassword = false;
   }
 
   private async requestPass(force: boolean = false) {

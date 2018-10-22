@@ -433,6 +433,10 @@
           </a>
         </div>
         <div *ngIf="data.agree">
+          <a [routerLink]="['/eden', {path: data.toBucket}]">
+            <i class="anticon anticon-folder"></i>
+          </a>
+          &nbsp;&nbsp;
           <a (click)="action.emit(['delete', data])">
             <i class="anticon anticon-delete"></i>
           </a>
@@ -475,6 +479,10 @@
         </div>
       </td>
       <td>
+        <a [routerLink]="['/eden', {path: data.fromBucket}]">
+          <i class="anticon anticon-folder"></i>
+        </a>
+        &nbsp;&nbsp;
         <a (click)="action.emit(['delete', data])">
           <i class="anticon anticon-delete"></i>
         </a>
