@@ -288,7 +288,11 @@
     "EMPTY_FILE_TIP": "暂未存储文件。点击“上传”按钮，上传你要存储的文件",
     "EMPTY_FILE_TIP1": "暂未存储文件",
     "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件",
-    "SHARE_FILE": "分享文件"
+    "SHARE_FILE": "分享文件",
+    "DELETE_FILES_CONFIRM": "确定删除文件",
+    "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
+    "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
+    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。"
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "分享人",

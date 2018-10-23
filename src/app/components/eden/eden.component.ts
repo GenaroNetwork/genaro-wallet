@@ -139,7 +139,27 @@ export class EdenComponent implements OnInit {
     this.edenService.fileDownloadTask(this.getCurrentFiles(), all - used);
   }
   removeFile() {
-    this.edenService.fileRemoveTask(this.getCurrentFiles());
+    let files = this.getCurrentFiles();
+    let sharedFiles = [];
+    let allSharedFiles = this.txEdenService.shareFileList.from;
+    files.forEach(file => {
+      for (let i = 0, length = allSharedFiles.length; i < length; i++) {
+        if (file.id === allSharedFiles[i].bucketEntryId) {
+          sharedFiles.push(file);
+          break;
+        }
+      }
+    });
+    if (sharedFiles.length > 0) {
+      this.edenDialogOpt = {
+        files,
+        sharedFiles
+      };
+      this.edenDialogName = 'edenDeleteFiles';
+    }
+    else {
+      this.edenService.fileRemoveTask(files);
+    }
   }
 
   shareFile() {

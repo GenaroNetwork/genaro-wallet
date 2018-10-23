@@ -16,6 +16,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 })
 export class TxEdenService {
   public bucketList: any = [];
+  public shareFileList: any = [];
   public shareFiles: BehaviorSubject<any> = new BehaviorSubject({});
   public currentUser: any = {};
   public requestPassword: boolean = null;
@@ -199,6 +200,7 @@ export class TxEdenService {
         walletAddr = '0x' + walletAddr;
       }
       const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
+      this.shareFileList = shares;
       this.shareFiles.next(shares || {});
     } catch (e) {
       if (e.message.indexOf('401') > -1) {

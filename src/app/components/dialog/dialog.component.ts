@@ -238,6 +238,24 @@ export class DialogComponent implements OnChanges {
     });
   }
 
+    // eden 删除文件
+    edenDeleteFileNames: string = "";
+    edenDeleteFilesInit() {
+      this.edenDeleteFileNames = "";
+      this.options.sharedFiles.forEach(file => {
+        this.edenDeleteFileNames += file.name + ',';
+      });
+      if(this.edenDeleteFileNames.lastIndexOf(',')) {
+        this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, this.edenDeleteFileNames.length - 1);
+      }
+      if(this.edenDeleteFileNames.length > 6) {
+        this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, 6) + '...';
+      }
+    };
+    edenDeleteFilesDone() {
+      this.edenService.fileRemoveTask(this.options.files);
+    }
+
 
   // txeden 需要密码
   txEdenNeedPass = '';

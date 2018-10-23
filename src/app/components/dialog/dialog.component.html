@@ -170,8 +170,18 @@
 <nz-modal [nzTitle]="'EDEN.DELETE_BUCKET_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteBucket'"
   (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
   [nzCancelText]="'COMMON.CANCEL' | translate">
-  <app-input (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
   <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
+</nz-modal>
+
+<!-- 删除文件 -->
+<nz-modal [nzTitle]="'EDEN.DELETE_FILES_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteFiles'"
+  (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
+  [nzCancelText]="'COMMON.CANCEL' | translate">
+  <div nz-row class="review">
+    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP1' | translate:{fileNames: edenDeleteFileNames} }}</div>
+    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP2' | translate }}</div>
+    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP3' | translate }}</div>
+  </div>
 </nz-modal>
 
 <!-- 帮助 -->
