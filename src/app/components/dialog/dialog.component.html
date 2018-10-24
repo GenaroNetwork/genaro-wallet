@@ -170,6 +170,8 @@
 <nz-modal [nzTitle]="'EDEN.DELETE_BUCKET_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteBucket'"
   (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
   [nzCancelText]="'COMMON.CANCEL' | translate">
+  <app-input (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
+  <app-input *ngIf="!!edenDeleteShareFiles" (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP2'| translate:{fileNames: edenDeleteShareFiles}" [span]="[2, 20]"></app-input>
   <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
 </nz-modal>
 

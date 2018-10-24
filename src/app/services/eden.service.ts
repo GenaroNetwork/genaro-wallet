@@ -168,6 +168,21 @@ export class EdenService {
     }));
   }
 
+  async getFilesByBucketId(bucketId) {
+    return new Promise((res, rej) => {
+      const address = this.walletService.wallets.current;
+      const env = this.allEnvs[address];
+      env.listFiles(bucketId, (err, files) => {
+        if (err) {
+          rej([]);
+          console.log(err);
+          return;
+        }
+        res(files || []);
+      });
+    });
+  }
+
   private newFs(files: any) {
     const fs: any = [];
     files.forEach(file => {

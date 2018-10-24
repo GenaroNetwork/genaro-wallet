@@ -222,9 +222,37 @@ export class DialogComponent implements OnChanges {
 
 
   // eden 删除容器
-  edenDeleteBucket: string = "";
-  edenDeleteBucketInit() {
-    this.edenDeleteBucket = "";
+  edenDeleteBucket: string = '';
+  edenDeleteShareFiles: string = '';
+  async edenDeleteBucketInit() {
+    this.edenDeleteShareFiles = '';
+    let buckets = this.options;
+    let sharedFiles = [];
+    let allSharedFiles = this.txEdenService.shareFileList.from;
+    for(let index = 0, bucketLength = buckets.length; index < bucketLength; index++) {
+      let files = await this.edenService.getFilesByBucketId(buckets[index].id) || [];
+      // @ts-ignore
+      files.forEach(file => {
+        for (let i = 0, length = allSharedFiles.length; i < length; i++) {
+          if (file.id === allSharedFiles[i].bucketEntryId) {
+            sharedFiles.push(file);
+            break;
+          }
+        }
+      });
+    }
+    if (sharedFiles.length > 0) {
+      sharedFiles.forEach(file => {
+        this.edenDeleteShareFiles += file.filename + ',';
+      });
+      if (this.edenDeleteShareFiles.lastIndexOf(',')) {
+        this.edenDeleteShareFiles = this.edenDeleteShareFiles.substring(0, this.edenDeleteShareFiles.length - 1);
+      }
+      if (this.edenDeleteShareFiles.length > 6) {
+        this.edenDeleteShareFiles = this.edenDeleteShareFiles.substring(0, 6) + '...';
+      }
+    }
+    this.edenDeleteBucket = '';
   };
   edenDeleteBucketDone() {
     return new Promise((res, rej) => {
@@ -238,23 +266,23 @@ export class DialogComponent implements OnChanges {
     });
   }
 
-    // eden 删除文件
-    edenDeleteFileNames: string = "";
-    edenDeleteFilesInit() {
-      this.edenDeleteFileNames = "";
-      this.options.sharedFiles.forEach(file => {
-        this.edenDeleteFileNames += file.name + ',';
-      });
-      if(this.edenDeleteFileNames.lastIndexOf(',')) {
-        this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, this.edenDeleteFileNames.length - 1);
-      }
-      if(this.edenDeleteFileNames.length > 6) {
-        this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, 6) + '...';
-      }
-    };
-    edenDeleteFilesDone() {
-      this.edenService.fileRemoveTask(this.options.files);
+  // eden 删除文件
+  edenDeleteFileNames: string = "";
+  edenDeleteFilesInit() {
+    this.edenDeleteFileNames = "";
+    this.options.sharedFiles.forEach(file => {
+      this.edenDeleteFileNames += file.name + ',';
+    });
+    if (this.edenDeleteFileNames.lastIndexOf(',')) {
+      this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, this.edenDeleteFileNames.length - 1);
     }
+    if (this.edenDeleteFileNames.length > 6) {
+      this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, 6) + '...';
+    }
+  };
+  edenDeleteFilesDone() {
+    this.edenService.fileRemoveTask(this.options.files);
+  }
 
 
   // txeden 需要密码

@@ -275,6 +275,7 @@
     "CREATE_BUCKET_DONE": "Create space successfully",
     "DELETE_BUCKET": "Delete spaces",
     "DELETE_BUCKET_TIP": "Are you sure you want to delete the storage you have purchased? Once deleted, you will lose all the files in this storage and will need to purchase again to continue uploading.",
+    "DELETE_BUCKET_TIP2": "其中“{{fileNames}}”已分享给其他用户,删除后,他人无法接收这些文件。",
     "DELETE_BUCKET_DONE": "Delete Space completed",
     "DELETE_BUCKET_CONFIRM": "Delete the following space confirm",
     "CREATE_FOLDER": "New Folder",
