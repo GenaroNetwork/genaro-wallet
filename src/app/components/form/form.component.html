@@ -6,8 +6,8 @@
     <app-input (submit)="submitSendTx()" name="gas" [(ipt)]="sendTxGas"></app-input>
   </ng-container>
   <ng-container *ngIf="sendTxStep===1">
-    <app-input name="label-text" [ipt]="('INPUT.ADDRESS_FROM' | translate)" [iptExtra]="walletService.wallets.current"></app-input>
-    <app-input name="label-text" [ipt]="('INPUT.ADDRESS_TO' | translate)" [iptExtra]="sendTxAddress"></app-input>
+    <app-input name="label-text" [ipt]="('INPUT.ADDRESS_FROM' | translate)" [iptExtra]="walletService.wallets.current | longAddr | shortAddr"></app-input>
+    <app-input name="label-text" [ipt]="('INPUT.ADDRESS_TO' | translate)" [iptExtra]="sendTxAddress | longAddr | shortAddr"></app-input>
     <app-input name="label-text" [ipt]="('INPUT.AMOUNT' | translate)" [iptExtra]="sendTxAmount"></app-input>
     <app-input (submit)="submitSendTx()" name="password" [(ipt)]="sendTxPassword"></app-input>
   </ng-container>
