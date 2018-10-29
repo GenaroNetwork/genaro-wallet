@@ -40,7 +40,9 @@
     "DOWNLOADMINER_TIPS": "If you have already entered the committee, you can download the miner program, synchronize the entire network block and get the mining reward.",
     "DOWNLOADMINER_TIPS2": "Click the ",
     "DOWNLOADMINER": "'Download'",
-    "DOWNLOADMINER_TIPS3": " installer and miner userguide"
+    "DOWNLOADMINER_TIPS3": " installer and miner userguide",
+    "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
+    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
@@ -58,7 +60,13 @@
     "PASSWORD_NEW": "New password",
     "PASSWORD_REPEAT": "Confirm password",
     "BUY_MORE_SPACE": "Buy more Space",
-    "EXTEND_EXPIRY_DATE": "Extend Expiry Date"
+    "EXTEND_EXPIRY_DATE": "Extend Expiry Date",
+    "FILE_NAME": "File name",
+    "FILE_SIZE": "File size",
+    "RECIPIENT": "Recipient",
+    "CHARGE_PRICE": "Charge price",
+    "PAY_PRICE": "支付价格",
+    "STORE_BUCKET": "选择存放空间"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -73,6 +81,8 @@
     "WALLET_DELETE": "Delete wallet",
     "EDEN_NEED_PASS": "Please enter your wallet password to unlock the [File Management] feature",
     "TXEDEN_NEED_PASS": "Please enter your wallet password to unlock the [Space Management] feature",
+    "EDEN_RECEIVE_NEED_PASS": "需要输入您的钱包密码来解锁【文件接收】功能。",
+    "EDEN_SHARE_NEED_PASS": "需要输入您的钱包密码来解锁【我的分享】功能。",
     "FORGET_PASSWORD_TIPS": "Forget password? Your can import mnemonic to reset your password. ",
     "IMPORT_MNEMONIC_NOW": "Import Now",
     "BACK": "Back",
@@ -137,6 +147,8 @@
     "EDEN": "My file",
     "EDEN_FILE": "File management",
     "EDEN_TASK": "Task list",
+    "EDEN_FILE_RECEIVE": "文件接收",
+    "EDEN_FILE_SHARE": "我的分享",
     "EDEN_INPROCESS": "Inprogress",
     "EDEN_DONE": "Completed",
     "TXEDEN": "Space management",
@@ -213,7 +225,11 @@
     "TIME_LIMIT": "Time limit",
     "SPACE_RANGE": "Space capacity",
     "SPACE_STATUS": "Space status",
-    "TRAFFIC_STATUS": "Traffic status"
+    "TRAFFIC_STATUS": "Traffic status",
+    "SHARE_FILE": "Share file",
+    "AGREE_SHARE": "确认接收",
+    "REJECT_SHARE": "拒绝接收",
+    "DELETE_SHARE": "删除分享"
   },
   "TXSHARER": {
     "STAKE": "Stake",
@@ -259,6 +275,7 @@
     "CREATE_BUCKET_DONE": "Create space successfully",
     "DELETE_BUCKET": "Delete spaces",
     "DELETE_BUCKET_TIP": "Are you sure you want to delete the storage you have purchased? Once deleted, you will lose all the files in this storage and will need to purchase again to continue uploading.",
+    "DELETE_BUCKET_TIP2": "其中“{{fileNames}}”已分享给其他用户,删除后,他人无法接收这些文件。",
     "DELETE_BUCKET_DONE": "Delete Space completed",
     "DELETE_BUCKET_CONFIRM": "Delete the following space confirm",
     "CREATE_FOLDER": "New Folder",
@@ -270,7 +287,27 @@
     "EMPTY_BUCKET_TIP2": "Click on the “Buy Space” button in the upper right corner to purchase storage space and get started!",
     "EMPTY_FILE_TIP": "There is no file stored yet. Click the “Upload” button to upload the file you want to store",
     "EMPTY_FILE_TIP1": "There is no file stored yet",
-    "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store"
+    "EMPTY_FILE_TIP2": "Click the “Upload” button in the upper right corner to upload the file you want to store",
+    "SHARE_FILE": "Share file",
+    "DELETE_FILES_CONFIRM": "确定删除文件",
+    "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
+    "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
+    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。"
+  },
+  "EDEN_FILE_SHARE": {
+    "SHARE": "分享人",
+    "RECEIVE": "接收人",
+    "FILE_NAME": "文件名",
+    "STORAGE": "占用空间",
+    "SHARE_TIME": "分享时间",
+    "RECEIVE_TIME": "接收时间",
+    "AMOUNT": "金额",
+    "STATE": "状态",
+    "OPERATION": "操作",
+    "AGREE": "接受",
+    "REJECT": "拒绝",
+    "AGREED": "已接受",
+    "REJECTED": "已拒绝"
   },
   "TASK": {
     "FILE_NAME": "Filename",
@@ -436,6 +473,10 @@
     "BALANCE": "Insufficient balance",
     "OTHER": "Error:{{err}}",
     "NODE_BOUND": "This node has been bound to another wallet. Please unbind it first and then bind it to your current wallet. Or you can directly bind other unbound nodes.",
-    "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易"
+    "SELECT_FILE": "请选择文件",
+    "FILE_CANNOT_SHARE": "该文件不能分享",
+    "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
+    "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
+    "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件"
   }
 }

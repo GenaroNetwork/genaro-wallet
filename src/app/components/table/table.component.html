@@ -199,7 +199,7 @@
           <span *ngIf="data.bridges === 2" class="text-orange">confirming</span>
           <span *ngIf="data.bridges === 3" class="text-green">connected</span>
         </td>
-        <td nzWidth="10%">
+        <td>
           <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
             <a nz-dropdown>
               ...
@@ -310,13 +310,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of rankTable.data">
-          <td nzWidth="10%">{{ data.order + 1 || '300+'}}</td>
-          <!-- <td nzWidth="10%">{{ data.nickName }}</td> -->
-          <td nzWidth="25%">{{ data.address | longAddr | shortAddr}}</td>
-          <td nzWidth="10%">{{ data.currentStake }}</td>
-          <td nzWidth="15%">{{ data.currentDataSize | formatSize }}</td>
-          <td nzWidth="15%">{{ data.currentSentinel * 10000 | formatSentinel }}</td>
-          <td nzWidth="15%">{{ (data.subFarmers || []).length || 0}} / 10</td>
+          <td>{{ data.order + 1 || '300+'}}</td>
+          <!-- <td>{{ data.nickName }}</td> -->
+          <td>{{ data.address | longAddr | shortAddr}}</td>
+          <td>{{ data.currentStake }}</td>
+          <td>{{ data.currentDataSize | formatSize }}</td>
+          <td>{{ data.currentSentinel * 10000 | formatSentinel }}</td>
+          <td>{{ (data.subFarmers || []).length || 0}} / 10</td>
         </tr>
       </tbody>
     </nz-table>
@@ -355,14 +355,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of committeeTable.data">
-          <td nzWidth="8%">{{ data.pendingOrder + 1 || '300+'}}</td>
-          <!-- <td nzWidth="15%">{{ data.nickName }}</td> -->
-          <td nzWidth="15%">{{ data.address | longAddr | shortAddr}}</td>
-          <td nzWidth="15%">{{ data.pendingStake }}</td>
-          <td nzWidth="20%">{{ data.pendingDataSize | formatSize }}</td>
-          <td nzWidth="15%">{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
-          <td nzWidth="12%">{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
-          <td nzWidth="15%">
+          <td>{{ data.pendingOrder + 1 || '300+'}}</td>
+          <!-- <td>{{ data.nickName }}</td> -->
+          <td>{{ data.address | longAddr | shortAddr}}</td>
+          <td>{{ data.pendingStake }}</td>
+          <td>{{ data.pendingDataSize | formatSize }}</td>
+          <td>{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
+          <td>{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
+          <td>
             <button *ngIf="data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="!canApplyJoin"
               (click)="action.emit(['join',data]);">{{ 'TABLE.COMMITTEE.JOIN' | translate }}</button>
             <button *ngIf="!data.canApplyJoin" nz-button nzType="primary" nzSize="small" [disabled]="true">{{
@@ -388,14 +388,105 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of currentCommitteeTable.data">
-        <td nzWidth="20%">{{ data.order + 1 }}</td>
-        <!-- <td nzWidth="20%">{{ data.nickName }}</td> -->
-        <td nzWidth="10%">
+        <td>{{ data.order + 1 }}</td>
+        <!-- <td>{{ data.nickName }}</td> -->
+        <td>
           <img *ngIf="data.self" class="rank-self" src="assets/img/rank_self.png" />
         </td>
-        <td nzWidth="70%">{{ data.address }}</td>
-        <!-- <td nzWidth="20%">{{ (data.subAccounts || []).length || 0}} / 10</td> -->
+        <td>{{ data.address }}</td>
+        <!-- <td>{{ (data.subAccounts || []).length || 0}} / 10</td> -->
       </tr>
     </tbody>
   </nz-table>
 </nz-spin>
+
+<!-- eden-file-receive -->
+<nz-table *ngIf="name==='edenFileReceive'" #edenFileReceive [nzData]="edenFileReceiveData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 64 + "px"}'
+  [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <thead>
+    <tr>
+      <th nzWidth="25%">{{ 'EDEN_FILE_SHARE.SHARE' | translate }}</th>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
+      <th nzWidth="15%">{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of edenFileReceiveData">
+      <td>{{ data.fromAddress | longAddr | shortAddr }}</td>
+      <td>{{ data.fileName }}</td>
+      <td>{{ data.fileSize | formatSize }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.agreeTime | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }} GNX</td>
+      <td>
+        <div *ngIf="!data.agree">
+          <a (click)="action.emit(['agree', data])">
+            {{ 'EDEN_FILE_SHARE.AGREE' | translate }}
+          </a>
+          &nbsp;&nbsp;&nbsp;
+          <a (click)="action.emit(['reject', data])">
+            {{ 'EDEN_FILE_SHARE.REJECT' | translate }}
+          </a>
+        </div>
+        <div *ngIf="data.agree">
+          <a [routerLink]="['/eden', {path: data.toBucket}]">
+            <i class="anticon anticon-folder"></i>
+          </a>
+          &nbsp;&nbsp;
+          <a (click)="action.emit(['delete', data])">
+            <i class="anticon anticon-delete"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+
+<!-- eden-file-share -->
+<nz-table *ngIf="name==='edenFileShare'" #edenFileShare [nzData]="edenFileShareData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 64 + "px"}'
+  [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <thead>
+    <tr>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.RECEIVE' | translate }}</th>
+      <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.FILE_NAME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STORAGE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.SHARE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.RECEIVE_TIME' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.AMOUNT' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.STATE' | translate }}</th>
+      <th nzWidth="10%">{{ 'EDEN_FILE_SHARE.OPERATION' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of edenFileShareData">
+      <td>{{ data.toAddress | longAddr | shortAddr}}</td>
+      <td>{{ data.fileName }}</td>
+      <td>{{ data.fileSize | formatSize }}</td>
+      <td>{{ data.created | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.agreeTime | date:"MM-dd HH:mm" }}</td>
+      <td>{{ data.price }} GNX</td>
+      <td>
+        <div *ngIf="data.agree">
+          {{ 'EDEN_FILE_SHARE.AGREED' | translate }}
+        </div>
+        <div *ngIf="data.reject">
+          {{ 'EDEN_FILE_SHARE.REJECTED' | translate }}
+        </div>
+      </td>
+      <td>
+        <a [routerLink]="['/eden', {path: data.fromBucket}]">
+          <i class="anticon anticon-folder"></i>
+        </a>
+        &nbsp;&nbsp;
+        <a (click)="action.emit(['delete', data])">
+          <i class="anticon anticon-delete"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

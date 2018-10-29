@@ -51,6 +51,8 @@ import { HumanSizePipe } from './pipes/human.pipe';
 import { TablePipe } from './pipes/table.pipe';
 import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
 import { FormatSizePipe } from './pipes/formatSize.pipe';
+import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
+import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
 
 
 // AoT requires an exported function for factories
@@ -69,6 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TableComponent,
     // content component
     EdenComponent,
+    EdenFileShareComponent,
+    EdenFileReceiveComponent,
     WalletComponent,
     TxSharerComponent,
     TxEdenComponent,

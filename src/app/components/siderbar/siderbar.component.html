@@ -3,11 +3,29 @@
     <i class="anticon anticon-wallet"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')" *ngIf="settingService.eden">
-    <i class="anticon anticon-folder"></i>
-    {{ "SIDERBAR.EDEN_FILE" | translate }}
+
+  <li nz-submenu [nzOpen]="page==='/eden' || open(page,'/eden;path=') || page==='/eden-file-share' || page==='/eden-file-receive'"
+    *ngIf="settingService.eden">
+    <span title>
+      <i class="anticon anticon-clock-circle-o"></i>
+      {{ "SIDERBAR.EDEN_FILE" | translate }}
+    </span>
+    <ul>
+      <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')">
+        <i class="anticon anticon-folder"></i>
+        {{ "SIDERBAR.EDEN" | translate }}
+      </li>
+      <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'">
+        <i class="anticon anticon-download"></i>
+        {{ "SIDERBAR.EDEN_FILE_RECEIVE" | translate }}
+      </li>
+      <li nz-menu-item [routerLink]="['/eden-file-share']" [nzSelected]="page==='/eden-file-share'">
+        <i class="anticon anticon-share-alt"></i>
+        {{ "SIDERBAR.EDEN_FILE_SHARE" | translate }}
+      </li>
+    </ul>
   </li>
-  <li nz-submenu [nzOpen]="open(page,'/eden-')" *ngIf="settingService.eden">
+  <li nz-submenu [nzOpen]="page==='/eden-inprocess' || page==='/eden-done'" *ngIf="settingService.eden">
     <span title>
       <i class="anticon anticon-clock-circle-o"></i>
       {{ "SIDERBAR.EDEN_TASK" | translate }}

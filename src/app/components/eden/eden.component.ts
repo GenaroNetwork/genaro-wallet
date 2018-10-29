@@ -5,8 +5,7 @@ import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
-
-
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-eden',
@@ -20,6 +19,7 @@ export class EdenComponent implements OnInit {
     public walletService: WalletService,
     private i18n: TranslateService,
     private route: ActivatedRoute,
+    private alert: NzMessageService,
   ) {
   }
   edenDialogName: string = null;
@@ -139,7 +139,43 @@ export class EdenComponent implements OnInit {
     this.edenService.fileDownloadTask(this.getCurrentFiles(), all - used);
   }
   removeFile() {
-    this.edenService.fileRemoveTask(this.getCurrentFiles());
+    let files = this.getCurrentFiles();
+    let sharedFiles = [];
+    let allSharedFiles = this.txEdenService.shareFileList.from;
+    files.forEach(file => {
+      for (let i = 0, length = allSharedFiles.length; i < length; i++) {
+        if (file.id === allSharedFiles[i].bucketEntryId) {
+          sharedFiles.push(file);
+          break;
+        }
+      }
+    });
+    if (sharedFiles.length > 0) {
+      this.edenDialogOpt = {
+        files,
+        sharedFiles
+      };
+      this.edenDialogName = 'edenDeleteFiles';
+    }
+    else {
+      this.edenService.fileRemoveTask(files);
+    }
+  }
+
+  shareFile() {
+    let selectedFiles = this.getCurrentFiles();
+    let shareFile;
+    if(selectedFiles && selectedFiles.length > 0) {
+      shareFile = selectedFiles[0];
+    }
+    if(!shareFile) {
+      return this.alert.error(this.i18n.instant('ERROR.SELECT_FILE'));
+    }
+    else if(!shareFile.rsaKey || !shareFile.rsaCtr) {
+      return this.alert.error(this.i18n.instant('ERROR.FILE_CANNOT_SHARE'));
+    }
+    this.edenDialogOpt = shareFile;
+    this.edenDialogName = 'shareFile';
   }
 
   openBucket() {

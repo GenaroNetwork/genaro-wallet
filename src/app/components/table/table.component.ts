@@ -309,6 +309,34 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+
+  // eden file share 
+  edenFileReceiveData: any[] = [];
+  edenFileReceiveSubscribe: any;
+  edenFileReceiveInit() {
+    this.edenFileReceiveSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
+      this.edenFileReceiveData = (data || {}).to;
+    });
+  }
+  edenFileReceiveDestroy() {
+    if (this.edenFileReceiveSubscribe) {
+      this.edenFileReceiveSubscribe.unsubscribe();
+    }
+  }
+
+  edenFileShareData: any[] = [];
+  edenFileShareSubscribe: any;
+  edenFileShareInit() {
+    this.edenFileShareSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
+      this.edenFileShareData = (data || {}).from;
+    });
+  }
+  edenFileShareDestroy() {
+    if (this.edenFileShareSubscribe) {
+      this.edenFileShareSubscribe.unsubscribe();
+    }
+  }
+
   allWalletSub: any;
   allBlockSub: any;
   ngOnInit() {

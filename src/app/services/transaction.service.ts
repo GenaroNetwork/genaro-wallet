@@ -346,6 +346,38 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'UNBROTHER_ALL');
   }
 
+  async shareFile(address: string, toAddress: string, password: string, price: number, fileId: string, shareId: string, gasLimit: number, gasPriceInGwei: string | number) {
+    address = this.add0x(address);
+    toAddress = this.add0x(toAddress);
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0xf',
+      synchronizeShareKey: {
+        shareKey: fileId,
+        shareprice: '0x' + (price * Math.pow(10,18)).toString(16),
+        status: 0,
+        shareKeyId: shareId,
+        recipientAddress: toAddress,
+        fromAccount: address
+      }
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'SHARE_FILE');
+  }
+
+  async agreeShare(address: string, password: string, shareId: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x14',
+      synchronizeShareKey: {
+        shareKeyId: shareId
+      }
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'AGREE_SHARE');
+
+  }
+
   async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
     address = this.add0x(address);
     const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');

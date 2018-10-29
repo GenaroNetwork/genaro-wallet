@@ -40,7 +40,9 @@
     "DOWNLOADMINER_TIPS": "如果你已经进入委员会,可以下载Miner程序,同步全网区块,获得挖矿（链上）奖励",
     "DOWNLOADMINER_TIPS2": "点击",
     "DOWNLOADMINER": "“下载”",
-    "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明"
+    "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明",
+    "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
+    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",
@@ -58,7 +60,13 @@
     "PASSWORD_NEW": "新密码",
     "PASSWORD_REPEAT": "确认密码",
     "BUY_MORE_SPACE": "扩容空间",
-    "EXTEND_EXPIRY_DATE": "续期时长"
+    "EXTEND_EXPIRY_DATE": "续期时长",
+    "FILE_NAME": "文件名称",
+    "FILE_SIZE": "所占空间",
+    "RECIPIENT": "收件人",
+    "CHARGE_PRICE": "收费价格",
+    "PAY_PRICE": "支付价格",
+    "STORE_BUCKET": "选择存放空间"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -73,6 +81,8 @@
     "WALLET_DELETE": "删除钱包",
     "EDEN_NEED_PASS": "需要输入您的钱包密码来解锁【文件管理】功能。",
     "TXEDEN_NEED_PASS": "需要输入您的钱包密码来解锁【空间管理】功能。",
+    "EDEN_RECEIVE_NEED_PASS": "需要输入您的钱包密码来解锁【文件接收】功能。",
+    "EDEN_SHARE_NEED_PASS": "需要输入您的钱包密码来解锁【我的分享】功能。",
     "FORGET_PASSWORD_TIPS": "忘记密码？导入助记词可重置密码。",
     "IMPORT_MNEMONIC_NOW": "现在导入",
     "BACK": "返回",
@@ -137,6 +147,8 @@
     "WALLET": "我的钱包",
     "EDEN": "我的文件",
     "EDEN_FILE": "文件管理",
+    "EDEN_FILE_RECEIVE": "文件接收",
+    "EDEN_FILE_SHARE": "我的分享",
     "EDEN_TASK": "任务列表",
     "EDEN_INPROCESS": "进行中",
     "EDEN_DONE": "已完成",
@@ -214,7 +226,11 @@
     "TIME_LIMIT": "使用期限",
     "SPACE_RANGE": "空间容量",
     "SPACE_STATUS": "空间使用情况",
-    "TRAFFIC_STATUS": "流量使用情况"
+    "TRAFFIC_STATUS": "流量使用情况",
+    "SHARE_FILE": "分享文件",
+    "AGREE_SHARE": "确认接收",
+    "REJECT_SHARE": "拒绝接收",
+    "DELETE_SHARE": "删除分享"
   },
   "TXSHARER": {
     "STAKE": "押注",
@@ -260,6 +276,7 @@
     "CREATE_BUCKET_DONE": "创建空间成功",
     "DELETE_BUCKET": "删除空间",
     "DELETE_BUCKET_TIP": "确定要删除您已经购买的存储空间么？删除后，您将丢失该存储空间内的所有的文件，并且需要再次购买才能继续上传。",
+    "DELETE_BUCKET_TIP2": "其中“{{fileNames}}”已分享给其他用户,删除后,他人无法接收这些文件。",
     "DELETE_BUCKET_DONE": "空间已删除",
     "DELETE_BUCKET_CONFIRM": "确定删除下列空间",
     "CREATE_FOLDER": "新建文件夹",
@@ -271,7 +288,27 @@
     "EMPTY_BUCKET_TIP2": "点击右上角“购买空间”按钮，购买存储空间，开始使用吧！",
     "EMPTY_FILE_TIP": "暂未存储文件。点击“上传”按钮，上传你要存储的文件",
     "EMPTY_FILE_TIP1": "暂未存储文件",
-    "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件"
+    "EMPTY_FILE_TIP2": "点击右上角“上传”按钮，上传你要存储的文件",
+    "SHARE_FILE": "分享文件",
+    "DELETE_FILES_CONFIRM": "确定删除文件",
+    "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
+    "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
+    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。"
+  },
+  "EDEN_FILE_SHARE": {
+    "SHARE": "分享人",
+    "RECEIVE": "接收人",
+    "FILE_NAME": "文件名",
+    "STORAGE": "占用空间",
+    "SHARE_TIME": "分享时间",
+    "RECEIVE_TIME": "接收时间",
+    "AMOUNT": "金额",
+    "STATE": "状态",
+    "OPERATION": "操作",
+    "AGREE": "接受",
+    "REJECT": "拒绝",
+    "AGREED": "已接受",
+    "REJECTED": "已拒绝"
   },
   "TASK": {
     "FILE_NAME": "文件名",
@@ -437,6 +474,10 @@
     "BALANCE": "余额不足",
     "OTHER": "错误:{{err}}",
     "NODE_BOUND": "该节点已经与其他钱包绑定。请先解绑，再与当前钱包绑定。 或直接绑定其他还未绑定的节点。",
-    "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易"
+    "SELECT_FILE": "请选择文件",
+    "FILE_CANNOT_SHARE": "该文件不能分享",
+    "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
+    "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
+    "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件"
   }
 }

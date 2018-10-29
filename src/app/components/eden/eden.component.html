@@ -16,6 +16,7 @@
     <button nz-button nzType="primary" *ngIf="edenService.currentPath.length==0" [disabled]="!fileSelected.size" (click)="deleteBucket()">{{ "EDEN.DELETE_BUCKET" | translate }}</button>
     <!-- 容器内 -->
     <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" (click)="edenService.fileUploadTask()">{{ "EDEN.UPLOAD_FILE" | translate }}</button>
+    <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="fileSelected.size !== 1" (click)="shareFile()">{{ "EDEN.SHARE_FILE" | translate }}</button>
     <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size||selectedIncludeFolder"
       (click)="downloadFile()">{{ "EDEN.DOWNLOAD_FILE" | translate }}</button>
     <button nz-button nzType="primary" *ngIf="edenService.currentPath.length>0" [disabled]="!fileSelected.size" (click)="removeFile()">{{ "EDEN.REMOVE_FILE" | translate }}</button>

@@ -11,6 +11,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EdenComponent } from './components/eden/eden.component';
 import { TaskComponent } from './components/task/task.component';
+import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
+import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
 
 const routes: Routes = [{
     path: 'wallet',
@@ -21,6 +23,12 @@ const routes: Routes = [{
 }, {
     path: 'eden/:path',
     component: EdenComponent,
+}, {
+    path: 'eden-file-share',
+    component: EdenFileShareComponent,
+}, {
+    path: 'eden-file-receive',
+    component: EdenFileReceiveComponent,
 }, {
     path: 'eden-inprocess',
     component: TaskComponent,

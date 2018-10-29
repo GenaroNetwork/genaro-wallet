@@ -9,6 +9,8 @@ import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';
 import { basename, join } from 'path';
 import { TransactionService } from './transaction.service';
+import { TxEdenService } from './txEden.service';
+const cryptico = require('cryptico');
 
 const TIP_FILE_LENGTH = 10;
 // &#47; => 正斜杠
@@ -50,6 +52,7 @@ export class EdenService {
     private ipc: IpcService,
     private zone: NgZone,
     private txService: TransactionService,
+    private txEden: TxEdenService
   ) {
     this.ipc.dbRun("task", `UPDATE task SET state = ${TASK_STATE.CANCEL} WHERE state IN (${TASK_STATE.INIT},${TASK_STATE.INPROCESS})`);
 
@@ -156,10 +159,28 @@ export class EdenService {
           mime: file.minetype,
           size: file.size,
           created: file.created,
+          bucketId: bucketId,
+          rsaKey: file.rsaKey,
+          rsaCtr: file.rsaCtr
         });
       });
       this.updateView();
     }));
+  }
+
+  async getFilesByBucketId(bucketId) {
+    return new Promise((res, rej) => {
+      const address = this.walletService.wallets.current;
+      const env = this.allEnvs[address];
+      env.listFiles(bucketId, (err, files) => {
+        if (err) {
+          rej([]);
+          console.log(err);
+          return;
+        }
+        res(files || []);
+      });
+    });
   }
 
   private newFs(files: any) {
@@ -268,6 +289,31 @@ export class EdenService {
     });
   }
 
+  async shareFile(key: string, ctr: string, address: string) {
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
+    let response = await fetch(BRIDGE_API_URL + '/users/' + address + '/filekey', {
+      method: 'GET'
+    });
+    try {
+      let data = await response.json();
+      let publicKey = data.filePublicKey;
+      let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[walletAddr]);
+      let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey[walletAddr]);
+      let encryptionKey = cryptico.encrypt(decryptionKey.plaintext, publicKey);
+      let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
+      return {key: encryptionKey, ctr: encryptionCtr};
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
   private async loadTask() {
     const tasks = await this.ipc.dbAll('task', `SELECT * FROM task WHERE wallet='${this.walletService.wallets.current}' ORDER BY updated DESC`);
     this.zone.run(() => {
@@ -346,6 +392,10 @@ export class EdenService {
   fileUploadTask() {
     const path = Array.from(this.currentPath);
     const bucketName = path.shift();
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     let folderPrefix = path.join('/');
     if (folderPrefix.length > 0) { folderPrefix += '/'; }
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
@@ -372,34 +422,49 @@ export class EdenService {
       });
       let taskEnv;
       try {
-        taskEnv = env.storeFile(bucketId, path, {
-          filename,
-          progressCallback: (process, allBytes) => {
-            if (!taskId) { return; }
-            this.updateTask(taskId, {
-              process, allBytes,
-              state: TASK_STATE.INPROCESS,
-            }, false);
-          },
-          finishedCallback: (err, fileId) => {
-            if (err) {
-              console.log(err);
-              this.updateTask(taskId, {
-                state: TASK_STATE.ERROR,
-              });
-              cb(true);
-            } else {
+        let keyCtr = env.generateEncryptionInfo(bucketId);
+        if(keyCtr !== undefined) {
+          let key = keyCtr.key;
+          let ctr = keyCtr.ctr;
+          let index = keyCtr.index;
+          let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey[walletAddr]);
+          let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
+          let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
+          taskEnv = env.storeFile(bucketId, path, {
+            filename,
+            progressCallback: (process, allBytes) => {
               if (!taskId) { return; }
               this.updateTask(taskId, {
-                fileId,
-                state: TASK_STATE.DONE,
-              });
-              cb(null);
-            }
-          },
-        });
-
-        this.taskEnvs[taskId] = taskEnv;
+                process, allBytes,
+                state: TASK_STATE.INPROCESS,
+              }, false);
+            },
+            finishedCallback: (err, fileId) => {
+              if (err) {
+                console.log(err);
+                this.updateTask(taskId, {
+                  state: TASK_STATE.ERROR,
+                });
+                cb(true);
+              } else {
+                if (!taskId) { return; }
+                this.updateTask(taskId, {
+                  fileId,
+                  state: TASK_STATE.DONE,
+                });
+                cb(null);
+              }
+            },
+            key,
+            ctr,
+            rsaKey: encryptionKey.cipher,
+            rsaCtr: encryptionCtr.cipher,
+            index
+          });
+          this.taskEnvs[taskId] = taskEnv;
+        } else {
+          cb(true);
+        }
       } catch (e) {
         cb(true);
       }
@@ -451,6 +516,10 @@ export class EdenService {
     const bucketName = path.shift();
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
     let tipFileName;
+    let walletAddr = this.walletService.wallets.current;
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
     this.runAll(files, async (file, env, cb) => {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
@@ -463,6 +532,16 @@ export class EdenService {
       });
       let taskEnv;
       try {
+        let key = '';
+        let ctr = '';
+        if(file.rsaKey && file.rsaCtr) {
+          let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey[walletAddr]);
+          let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey[walletAddr]);
+          if(decryptionKey.plaintext && decryptionCtr.plaintext) {
+            key = decryptionKey.plaintext;
+            ctr = decryptionCtr.plaintext;
+          }
+        }
         taskEnv = env.resolveFile(bucketId, file.id, filePath, {
           overwrite: true,
           progressCallback: (process, allBytes) => {
@@ -487,6 +566,8 @@ export class EdenService {
               cb(null);
             }
           },
+          key: key || '',
+          ctr: ctr || '',
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {

@@ -5,7 +5,7 @@ import { remote } from 'electron'; // 有时间的话把界面功能统一挪到
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
-import { SENTINEL_API } from '../libs/config';
+import { SENTINEL_API, BRIDGE_API_URL } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
@@ -98,6 +98,166 @@ export class WalletService {
         'x-pubkey': publicKeyBuffer.toString('hex')
       }
     });
+  }
+
+  async putFileKey(address, password, fileKey) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/users/' + address + '/filekey';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      filePublicKey: fileKey
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async shareFile(address, password, bucketEntryId, toAddress, price, fileName, key) {
+    const method = 'POST';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    if (!toAddress.startsWith('0x')) {
+      toAddress = '0x' + toAddress;
+    }
+    const url = '/shares';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      bucketEntryId: bucketEntryId,
+      toAddress: toAddress,
+      price: price,
+      fileName: fileName,
+      key: key.key.cipher,
+      ctr: key.ctr.cipher
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async agreeShare(address, password, shareId, bucketId) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/shares/' + shareId + '/agree';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      bucketId: bucketId
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async rejectShare(address, password, shareId) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/shares/' + shareId + '/reject';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const hash = this.getHash(method, url, '');
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: '',
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteShare(address, password, shareId) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/shares/' + shareId + '/delete';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const hash = this.getHash(method, url, '');
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: '',
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
   }
 
   private getHash(method, url, data) {

@@ -197,7 +197,8 @@ export class DialogComponent implements OnChanges {
   edenNeedPassInit() {
     this.edenNeedPass = '';
   }
-  edenNeedPassDone() {
+  async edenNeedPassDone() {
+    await this.txEdenService.beforehandSign(this.edenNeedPass);
     return new Promise((res, rej) => {
       if (this.edenService.generateEnv(this.edenNeedPass)) { res(); } else { (rej()); }
     });
@@ -221,9 +222,37 @@ export class DialogComponent implements OnChanges {
 
 
   // eden 删除容器
-  edenDeleteBucket: string = "";
-  edenDeleteBucketInit() {
-    this.edenDeleteBucket = "";
+  edenDeleteBucket: string = '';
+  edenDeleteShareFiles: string = '';
+  async edenDeleteBucketInit() {
+    this.edenDeleteShareFiles = '';
+    let buckets = this.options;
+    let sharedFiles = [];
+    let allSharedFiles = this.txEdenService.shareFileList.from;
+    for(let index = 0, bucketLength = buckets.length; index < bucketLength; index++) {
+      let files = await this.edenService.getFilesByBucketId(buckets[index].id) || [];
+      // @ts-ignore
+      files.forEach(file => {
+        for (let i = 0, length = allSharedFiles.length; i < length; i++) {
+          if (file.id === allSharedFiles[i].bucketEntryId) {
+            sharedFiles.push(file);
+            break;
+          }
+        }
+      });
+    }
+    if (sharedFiles.length > 0) {
+      sharedFiles.forEach(file => {
+        this.edenDeleteShareFiles += file.filename + ',';
+      });
+      if (this.edenDeleteShareFiles.lastIndexOf(',')) {
+        this.edenDeleteShareFiles = this.edenDeleteShareFiles.substring(0, this.edenDeleteShareFiles.length - 1);
+      }
+      if (this.edenDeleteShareFiles.length > 6) {
+        this.edenDeleteShareFiles = this.edenDeleteShareFiles.substring(0, 6) + '...';
+      }
+    }
+    this.edenDeleteBucket = '';
   };
   edenDeleteBucketDone() {
     return new Promise((res, rej) => {
@@ -237,11 +266,32 @@ export class DialogComponent implements OnChanges {
     });
   }
 
+  // eden 删除文件
+  edenDeleteFileNames: string = "";
+  edenDeleteFilesInit() {
+    this.edenDeleteFileNames = "";
+    this.options.sharedFiles.forEach(file => {
+      this.edenDeleteFileNames += file.name + ',';
+    });
+    if (this.edenDeleteFileNames.lastIndexOf(',')) {
+      this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, this.edenDeleteFileNames.length - 1);
+    }
+    if (this.edenDeleteFileNames.length > 6) {
+      this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, 6) + '...';
+    }
+  };
+  edenDeleteFilesDone() {
+    this.edenService.fileRemoveTask(this.options.files);
+  }
+
 
   // txeden 需要密码
   txEdenNeedPass = '';
   async txEdenNeedPassDone() {
     await this.txEdenService.beforehandSign(this.txEdenNeedPass);
+    return new Promise((res, rej) => {
+      if (this.edenService.generateEnv(this.txEdenNeedPass)) { res(); } else { (rej()); }
+    });
   }
 
   // common
@@ -365,6 +415,120 @@ export class DialogComponent implements OnChanges {
     this.spaceExpansionPrice = ((durationTime * this.spaceExpansionRange) + (limitStorage + this.spaceExpansionRange) * this.spaceExpansionLimit) * this.SPACE_UNIT_PRICE;
     if (this.spaceExpansionPrice !== 0 && this.spaceExpansionPrice < 0.01) {
       this.spaceExpansionPrice = 0.01;
+    }
+  }
+
+
+  // shareFile
+  shareFileStep = 0;
+  shareFilePassword = '';
+  shareFileGas: number[] = [null, 2100000];
+  shareFileInfo: any = {};
+  shareFileDisabled = false;
+  shareFileRecipient = '';
+  shareFileChargePrice = 0;
+  shareFileInit() {
+    this.shareFileStep = 0;
+    this.shareFilePassword = '';
+    this.shareFileInfo = this.options;
+    this.shareFileDisabled = false;
+    this.shareFileRecipient = '';
+    this.shareFileChargePrice = 0;
+  }
+  async shareFileSubmit() {
+    this.shareFileDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      let key = await this.edenService.shareFile(this.shareFileInfo.rsaKey, this.shareFileInfo.rsaCtr, this.shareFileRecipient);
+      if (key && key.key.cipher && key.ctr.cipher) {
+        let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
+        await this.txService.shareFile(address, this.shareFileRecipient, this.shareFilePassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
+        this.shareFileStep++;
+      }
+      else {
+        this.alert.error(this.i18n.instant("ERROR.NO_SHARE_KEY"));
+        this.shareFileDisabled = false;
+      }
+    } catch (e) { } finally {
+      this.shareFileDisabled = false;
+    }
+  }
+
+  // agreeShare
+  agreeShareStep = 0;
+  agreeSharePassword = '';
+  agreeShareBucketId = '';
+  agreeShareDisabled = false;
+  agreeShareInfo: any = {};
+  agreeShareBuckets: any = [];
+  agreeShareGas: number[] = [null, 2100000];
+  agreeShareInit() {
+    this.agreeShareStep = 0;
+    this.agreeSharePassword = '';
+    this.agreeShareBucketId = '';
+    this.agreeShareDisabled = false;
+    this.agreeShareInfo = this.options;
+    this.agreeShareBuckets = this.edenService.currentBuckets;
+  }
+  async agreeShareSubmit() {
+    this.agreeShareDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
+      await this.walletService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareBucketId);
+      await this.txEdenService.getUserShares();
+      this.agreeShareStep++;
+    } catch (e) { } finally {
+      this.agreeShareDisabled = false;
+    }
+  }
+  agreeShareBucketChange(id) {
+    this.agreeShareBucketId = id;
+  }
+
+  // rejectShare
+  rejectShareStep = 0;
+  rejectSharePassword = '';
+  rejectShareDisabled = false;
+  rejectShareInfo: any = {};
+  rejectShareInit() {
+    this.rejectShareStep = 0;
+    this.rejectSharePassword = '';
+    this.rejectShareDisabled = false;
+    this.rejectShareInfo = this.options;
+  }
+  async rejectShareSubmit() {
+    this.rejectShareDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.walletService.rejectShare(address, this.rejectSharePassword, this.rejectShareInfo._id);
+      await this.txEdenService.getUserShares();
+      this.rejectShareStep++;
+    } catch (e) { } finally {
+      this.rejectShareDisabled = false;
+    }
+  }
+
+  // deleteShare
+  deleteShareStep = 0;
+  deleteSharePassword = '';
+  deleteShareDisabled = false;
+  deleteShareInfo: any = {};
+  deleteShareInit() {
+    this.deleteShareStep = 0;
+    this.deleteSharePassword = '';
+    this.deleteShareDisabled = false;
+    this.deleteShareInfo = this.options;
+  }
+  async deleteShareSubmit() {
+    this.deleteShareDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id);
+      await this.txEdenService.getUserShares();
+      this.deleteShareStep++;
+    } catch (e) { } finally {
+      this.deleteShareDisabled = false;
     }
   }
 }
