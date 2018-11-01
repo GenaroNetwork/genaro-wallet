@@ -293,7 +293,9 @@
     "DELETE_FILES_CONFIRM": "确定删除文件",
     "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
     "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
-    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。"
+    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。",
+    "SEND_MESSAGE_ERROR": "邮件发送失败",
+    "SEND_MESSAGE_DONE": "邮件发送成功"
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "分享人",
@@ -327,7 +329,8 @@
     "STOP_TASK_TIP": "确认停止任务？\n任务停止后无法恢复。",
     "REMOVE_TASK": "删除任务记录",
     "DOWNLOAD_START_TIP": "文件{{ filename }}正在下载。可以在左侧的任务列表中，查看该文件的下载状态。",
-    "UPLOAD_START_TIP": "文件{{ filename }}正在上传中。可以在左侧的任务列表中，查看该文件的上传状态。"
+    "UPLOAD_START_TIP": "文件{{ filename }}正在上传中。可以在左侧的任务列表中，查看该文件的上传状态。",
+    "SEND_MESSAGE_TIP": "邮件发送中..."
   },
   "DRIVE": {
     "CANCEL": "取消",

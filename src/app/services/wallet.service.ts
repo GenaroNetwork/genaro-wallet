@@ -260,6 +260,38 @@ export class WalletService {
     }
   }
 
+  async setInOutbox(address, password, bucketId, type) {
+    const method = 'PUT';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    const url = '/buckets/' + bucketId + '/type';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      type: type
+    };
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = new Buffer(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
   private getHash(method, url, data) {
     const contract = new Buffer([
       method,

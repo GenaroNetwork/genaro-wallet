@@ -531,4 +531,58 @@ export class DialogComponent implements OnChanges {
       this.deleteShareDisabled = false;
     }
   }
+
+  // sendMessage
+  sendMessageStep = 0;
+  sendMessageToAddress = '';
+  sendMessageTitle = '';
+  sendMessageContent = '';
+  sendMessagePassword = '';
+  sendMessageGas: number[] = [null, 2100000];
+  sendMessageDisabled = false;
+  sendMessageInit() {
+    this.sendMessageStep = 0;
+    this.sendMessageToAddress = '';
+    this.sendMessageTitle = '';
+    this.sendMessageContent = '';
+    this.sendMessagePassword = '';
+  }
+  async sendMessageSubmit() {
+    this.sendMessageDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageTitle, this.sendMessageContent, this.options);
+      // @ts-ignore
+      let { fileId, fileSize, fileHash, key, ctr} = message;
+      let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
+      if (key && key.key.cipher && key.ctr.cipher) {
+        let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
+        await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
+        this.sendMessageStep++;
+      }
+      else {
+        this.alert.error(this.i18n.instant("EDEN.SEND_MESSAGE_ERROR"));
+        this.sendMessageDisabled = false;
+      }
+    } catch (e) { } finally {
+      this.sendMessageDisabled = false;
+    }
+  }
+
+  // openMessage
+  openMessageTitle = '';
+  openMessageContent = '';
+  openMessageFromAddress = '';
+  openMessageToAddress = '';
+  async openMessageInit() {
+    try {
+      let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
+      // if(data) {
+      //   this.openMessageTitle = data.title;
+      //   this.openMessageContent = data.content;
+      //   this.openMessageFromAddress = data.fromAddress;
+      //   this.openMessageToAddress = data.toAddress;
+      // }
+    }catch (e) {}
+  }
 }

@@ -346,7 +346,7 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'UNBROTHER_ALL');
   }
 
-  async shareFile(address: string, toAddress: string, password: string, price: number, fileId: string, shareId: string, gasLimit: number, gasPriceInGwei: string | number) {
+  async shareFile(address: string, toAddress: string, password: string, price: number, fileId: string, shareId: string, gasLimit: number, gasPriceInGwei: string | number, size: number = 0, hash: string = '') {
     address = this.add0x(address);
     toAddress = this.add0x(toAddress);
     const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
@@ -358,7 +358,9 @@ export class TransactionService {
         status: 0,
         shareKeyId: shareId,
         recipientAddress: toAddress,
-        fromAccount: address
+        fromAccount: address,
+        mail_hash: hash,
+        mail_size: size
       }
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);

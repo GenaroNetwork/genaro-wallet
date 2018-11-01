@@ -8,6 +8,7 @@ export const SHARER = true;
 export const GENARO_ROOT_PATH = join(homedir(), '.genaro');
 export const WALLET_CONFIG_PATH = join(GENARO_ROOT_PATH, 'wallet');
 export const BC_STORAGE_PATH = join(GENARO_ROOT_PATH, 'node'); // block chain storage path
+export const MESSAGE_STORAGE_PATH = join(GENARO_ROOT_PATH, 'message');
 export const BC_EXISTS_FILE = join(GENARO_ROOT_PATH, 'bc-genesis.lock');
 export const BC_LOG_FILE = join(GENARO_ROOT_PATH, 'bc-log.log');
 export const BC_ERR_FILE = join(GENARO_ROOT_PATH, 'bc-err.log');
@@ -16,6 +17,7 @@ export const SQLITE_CONFIG_PATH = join(GENARO_ROOT_PATH, 'sqlite');
 if (!existsSync(GENARO_ROOT_PATH)) { mkdirSync(GENARO_ROOT_PATH); }
 if (!existsSync(WALLET_CONFIG_PATH)) { mkdirSync(WALLET_CONFIG_PATH); }
 if (!existsSync(SQLITE_CONFIG_PATH)) { mkdirSync(SQLITE_CONFIG_PATH); }
+if (!existsSync(BC_STORAGE_PATH)) { mkdirSync(BC_STORAGE_PATH); }
 
 export const PLATFORM = 'darwin-x64';
 export const FULL_NODE_URL = 'enode://bf9599927eaf4993fdb6ff15f6918a6ca35f9126ef25a51acb3c94e93d39113acb40794643b4dd7a30a7f4db537a9cf0fef65d3ebddb89d5ddd0487fc265e65a@118.31.61.119:30315';
@@ -60,6 +62,7 @@ export const FARMER_URL = SENTINEL_API + '/farmer/';
 export enum TASK_TYPE {
     FILE_UPLOAD = 0,
     FILE_DOWNLOAD = 1,
+    SEND_MESSAGE = 2,
 }
 
 export enum TASK_STATE {

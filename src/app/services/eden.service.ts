@@ -1,13 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Environment } from 'libgenaro';
 import { WalletService } from './wallet.service';
-import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE } from '../libs/config';
+import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE, BC_STORAGE_PATH } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { IpcService } from './ipc.service';
 import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';
 import { basename, join } from 'path';
+import { existsSync } from 'fs';
 import { TransactionService } from './transaction.service';
 import { TxEdenService } from './txEden.service';
 const cryptico = require('cryptico');
@@ -430,7 +431,7 @@ export class EdenService {
           let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey[walletAddr]);
           let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
           let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
-          taskEnv = env.storeFile(bucketId, path, {
+          taskEnv = env.storeFile(bucketId, path, true, {
             filename,
             progressCallback: (process, allBytes) => {
               if (!taskId) { return; }
@@ -487,7 +488,7 @@ export class EdenService {
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
-  fileDownloadTask(files: any | any[], traffic: number) {
+  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true) {
     if (!(files instanceof Array)) {
       files = [files];
     }
@@ -568,6 +569,7 @@ export class EdenService {
           },
           key: key || '',
           ctr: ctr || '',
+          decrypt: decryptFlg
         });
         this.taskEnvs[taskId] = taskEnv;
       } catch (e) {
@@ -656,5 +658,128 @@ export class EdenService {
       env.deleteBucket(bucket.id, cb);
     });
     this.messageService.success(this.i18n.instant('EDEN.DELETE_BUCKET_DONE'));
+  }
+
+  async sendMessageTask(toAddress, title, content, bucketId) {
+    return new Promise((res, rej) => {
+      let fromAddress = this.walletService.wallets.current;
+      if (!fromAddress.startsWith('0x')) {
+        fromAddress = '0x' + fromAddress;
+      }
+      const data = {
+        fromAddress,
+        toAddress,
+        title,
+        content
+      };
+      const filename = uuidv1();
+      const dataStr = JSON.stringify(data);
+  
+      this.runAll([dataStr], async (jsonStr, env, cb) => {
+        try {
+          let keyCtr = env.generateEncryptionInfo(bucketId);
+          if(keyCtr !== undefined) {
+            let key = keyCtr.key;
+            let ctr = keyCtr.ctr;
+            let index = keyCtr.index;
+            let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey[fromAddress]);
+            let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
+            let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
+            env.storeFile(bucketId, jsonStr, false, {
+              filename,
+              progressCallback: (process, allBytes) => {
+  
+              },
+              finishedCallback: (err, fileId, fileSize, fileHash) => {
+                if (err) {
+                  console.log(err);
+                  cb(true);
+                  rej(err);
+                } else {
+                  cb(null);
+                  res({
+                    fileId, 
+                    fileSize, 
+                    fileHash,
+                    key,
+                    ctr
+                  });
+                }
+              },
+              key,
+              ctr,
+              rsaKey: encryptionKey.cipher,
+              rsaCtr: encryptionCtr.cipher,
+              index
+            });
+          } else {
+            cb(true);
+            rej();
+          }
+        } catch (e) {
+          cb(true);
+          rej();
+        }
+      }).then(errCount => {
+        if (Number.isNaN(errCount)) { return; }
+        if (errCount) {
+          this.messageService.warning(this.i18n.instant('EDEN.SEND_MESSAGE_ERROR'));
+        } else {
+          this.messageService.success(this.i18n.instant('EDEN.SEND_MESSAGE_DONE'));
+        }
+      });
+  
+      this.messageService.info(this.i18n.instant('TASK.SEND_MESSAGE_TIP'));
+    });
+  }
+
+  async showMessage(file, bucketId) {
+    const filePath = join(BC_STORAGE_PATH, file.id);
+    let walletAddr = this.walletService.wallets.current;
+    const env = this.allEnvs[walletAddr];
+    if (!walletAddr.startsWith('0x')) {
+      walletAddr = '0x' + walletAddr;
+    }
+    if (!existsSync(filePath)) { 
+      try {
+        let key = '';
+        let ctr = '';
+        if(file.rsaKey && file.rsaCtr) {
+          let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey[walletAddr]);
+          let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey[walletAddr]);
+          if(decryptionKey.plaintext && decryptionCtr.plaintext) {
+            key = decryptionKey.plaintext;
+            ctr = decryptionCtr.plaintext;
+          }
+        }
+        env.resolveFile(bucketId, file.id, filePath, {
+          overwrite: true,
+          progressCallback: (process, allBytes) => {
+            
+          },
+          finishedCallback: (err, fileId) => {
+            if (err) {
+              console.log(err);
+            } else {
+             
+            }
+          },
+          key: key || '',
+          ctr: ctr || '',
+          decrypt: true
+        });
+      } catch (e) {
+      }
+    }
+  }
+
+  async encryptMetaToFile(str, fileId) {
+    const env = this.allEnvs[this.walletService.wallets.current];
+    return env.encryptMetaToFile(str, join(BC_STORAGE_PATH, fileId));
+  }
+
+  async decryptMetaFromFile(fileId, key, ctr) {
+    const env = this.allEnvs[this.walletService.wallets.current];
+    return env.decryptFile(join(BC_STORAGE_PATH, fileId), key, ctr);
   }
 }
