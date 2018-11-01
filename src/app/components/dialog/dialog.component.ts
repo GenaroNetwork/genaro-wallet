@@ -594,7 +594,7 @@ export class DialogComponent implements OnChanges {
       // @ts-ignore
       let { fileId, fileSize, fileHash, key, ctr} = message;
       let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
-      if (key && key.key.cipher && key.ctr.cipher) {
+      if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
         let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
         await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
         this.sendMessageStep++;
