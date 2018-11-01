@@ -1,0 +1,30 @@
+@import "../../config.scss";
+
+:host {
+  @extend .right-container;
+}
+
+.header {
+  padding: .5rem;
+  text-align: right;
+
+  button {
+    margin-left: .5rem;
+  }
+}
+
+
+.folder {
+  float: left;
+  height: 8rem;
+  width: 10rem;
+  margin: 1rem;
+  border: $border-line;
+  border-radius: $border-radius;
+  text-align: center;
+  position: relative;
+  border-style: dashed;
+  overflow: hidden;
+  color: gray;
+  cursor: pointer;
+}

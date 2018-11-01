@@ -12,10 +12,32 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // And Design
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { AccountBookFill, AlertFill, AlertOutline } from '@ant-design/icons-angular/icons';
+import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
 
 // elecreon
-import { ElectronService } from './providers/electron.service';
+// import { ElectronService } from './providers/electron.service';
+
+// services
+
+
+// pipes
+import { LongAddrPipe, ShortAddrPipe, GetWalletPipe } from './pipes/addr.pipe';
+import { SafePipe } from './pipes/safe.pipe';
+import { TranserUnitPipe, ShortGNXPipe } from './pipes/web3Util.pipe';
+import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
+import { HumanSizePipe } from './pipes/human.pipe';
+import { TablePipe } from './pipes/table.pipe';
+import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
+import { FormatSizePipe } from './pipes/formatSize.pipe';
+import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
+import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
 
 // component
 import { AppComponent } from './app.component';
@@ -38,21 +60,7 @@ import { CurrentCommitteeComponent } from './components/currentCommittee/current
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
-
-// services
-
-
-// pipes
-import { LongAddrPipe, ShortAddrPipe, GetWalletPipe } from './pipes/addr.pipe';
-import { SafePipe } from './pipes/safe.pipe';
-import { TranserUnitPipe, ShortGNXPipe } from './pipes/web3Util.pipe';
-import { SpecialTxPipe, maxNodePipe } from './pipes/transaction.pipe';
-import { HumanSizePipe } from './pipes/human.pipe';
-import { TablePipe } from './pipes/table.pipe';
-import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
-import { FormatSizePipe } from './pipes/formatSize.pipe';
-import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
-import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
+import { MailComponent } from './components/mail/mail.component';
 
 
 // AoT requires an exported function for factories
@@ -73,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EdenComponent,
     EdenFileShareComponent,
     EdenFileReceiveComponent,
+    MailComponent,
     WalletComponent,
     TxSharerComponent,
     TxEdenComponent,
@@ -120,7 +129,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-    ElectronService,
+    { provide: NZ_ICON_DEFAULT_TWOTONE_COLOR, useValue: '#00ff00' }, // 不提供的话，即为 Ant Design 的主题蓝色
+    { provide: NZ_ICONS, useValue: icons }
   ],
   bootstrap: [AppComponent]
 })

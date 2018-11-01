@@ -1,0 +1,10 @@
+version: 0.3.19
+files:
+  - url: G-BOX-0.3.19-mac.zip
+    sha512: PxzzNfJj5n0c9MOy5oK+7OofREBmmkCz+gtOvBJF4htHjdYPh+mUfEoxLNyCeZN8wyyy2E3H330vH4nyCIPr6w==
+  - url: G-BOX-0.3.19.dmg
+    sha512: sxg4eHs8AVmOZgHsGYEUhjf16qTasuyHJfz7KZCGvf7+fX7RLK6sxJf6xDioxKUvzXNOl3iRDjqoy3h+NJNGyA==
+    size: 124295985
+path: G-BOX-0.3.19-mac.zip
+sha512: PxzzNfJj5n0c9MOy5oK+7OofREBmmkCz+gtOvBJF4htHjdYPh+mUfEoxLNyCeZN8wyyy2E3H330vH4nyCIPr6w==
+releaseDate: '2018-10-23T10:07:39.760Z'
