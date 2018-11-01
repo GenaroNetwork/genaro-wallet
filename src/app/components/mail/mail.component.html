@@ -1,12 +1,15 @@
 <div class="mask" *ngIf="edenService.requestEnv"></div>
 
 <div class="header">
-  <button nz-button nzType="primary" (click)="edenDialogName='buySpace'">{{ "TXEDEN.BUY_SPACE" | translate }}</button>
 </div>
 <div class="content">
   <ng-container *ngIf="!path">
-    <div *ngIf="inbox" class="folder inbox" (dblclick)="openInbox()"></div>
-    <div *ngIf="outbox" class="folder outbox" (dblclick)="openOutbox()"></div>
+    <div *ngIf="inbox" class="folder inbox" (dblclick)="openInbox()">
+      {{ "MAIL.INBOX" | translate }}
+    </div>
+    <div *ngIf="outbox" class="folder outbox" (dblclick)="openOutbox()">
+      {{ "MAIL.OUTBOX" | translate }}
+    </div>
     <ng-container *ngIf=" !inbox && !outbox">
     </ng-container>
   </ng-container>
