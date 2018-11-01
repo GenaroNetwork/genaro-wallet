@@ -688,7 +688,6 @@ export class EdenService {
       // const filename = uuidv1();
       const filename = title;
       const dataStr = JSON.stringify(data);
-
       this.runAll([dataStr], async (jsonStr, env, cb) => {
         try {
           let keyCtr = env.generateEncryptionInfo(bucketId);
@@ -716,7 +715,8 @@ export class EdenService {
                     fileSize,
                     fileHash,
                     key: encryptionKey.cipher,
-                    ctr: encryptionCtr.cipher
+                    ctr: encryptionCtr.cipher,
+                    str: jsonStr
                   });
                 }
               },
@@ -752,7 +752,7 @@ export class EdenService {
     if (!existsSync(filePath)) {
       await this.downloadMessage(file, bucketId);
     }
-    let data = this.decryptMetaFromFile(file.id, file.rsaKey, file.rsaCtr);
+    let data = this.decryptMetaFromFile(file.id);
     return data;
   }
 
@@ -801,17 +801,10 @@ export class EdenService {
     return env.encryptMetaToFile(str, join(MESSAGE_STORAGE_PATH, fileId));
   }
 
-  async decryptMetaFromFile(fileId, rsaKey, rsaCtr) {
+  async decryptMetaFromFile(fileId) {
     let address = this.walletService.wallets.current;
     const env = this.allEnvs[address];
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
-    let decryptionKey = cryptico.decrypt(rsaKey, this.txEden.RSAPrivateKey[address]);
-    let decryptionCtr = cryptico.decrypt(rsaCtr, this.txEden.RSAPrivateKey[address]);
-    let key = decryptionKey.plaintext;
-    let ctr = decryptionCtr.plaintext;
-    const meta = env.decryptFile(join(MESSAGE_STORAGE_PATH, fileId), key, ctr);
-    return meta;
+    const meta = env.decryptMetaFromFile(join(MESSAGE_STORAGE_PATH, fileId));
+    return JSON.parse(meta);
   }
 }

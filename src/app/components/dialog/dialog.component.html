@@ -539,7 +539,7 @@
       <div nz-col nzSpan="2">
       </div>
       <div nz-col nzSpan="18">
-        <textarea row="6" nz-input [(ngModel)]="sendMessageContent"></textarea>
+        <textarea row="6" nz-input [(ngModel)]="sendMessageContent" style="height:300px"></textarea>
       </div>
     </div>
   </ng-container>
@@ -556,7 +556,7 @@
       <div nz-col nzSpan="2">
       </div>
       <div nz-col nzSpan="18">
-        <textarea disabled="true" row="6" nz-input [(ngModel)]="sendMessageContent"></textarea>
+        <textarea disabled="true" row="6" nz-input [(ngModel)]="sendMessageContent" style="height:300px"></textarea>
       </div>
     </div>
     <br />
@@ -600,13 +600,13 @@
       <div nz-col nzSpan="2">
       </div>
       <div nz-col nzSpan="18">
-        <textarea disabled="true" row="6" nz-input [(ngModel)]="openMessageContent"></textarea>
+        <textarea disabled="true" row="6" nz-input [(ngModel)]="openMessageContent" style="height:300px"></textarea>
       </div>
     </div>
   </ng-container>
 </nz-modal>
 <ng-template #openMessageFooter>
   <ng-container>
-    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.NEXT' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
 </ng-template>
