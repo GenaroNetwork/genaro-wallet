@@ -24,12 +24,12 @@ export class MailComponent implements OnInit {
 
   openInbox() {
     this.path = "inbox";
-    this.edenService.changePath([this.edenService.mail.inbox]);
+    this.edenService.changePath(["/", this.edenService.mail.inbox]);
   }
 
   openOutbox() {
     this.path = "outbox";
-    this.edenService.changePath([this.edenService.mail.outbox]);
+    this.edenService.changePath(["/", this.edenService.mail.outbox]);
   }
 
   sendMessage() {
