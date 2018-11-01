@@ -532,6 +532,35 @@ export class DialogComponent implements OnChanges {
     }
   }
 
+  // setInbox
+  setInboxPass = '';
+  setInboxInit() {
+    this.setInboxPass = '';
+  }
+  async setInboxDone() {
+    const address = this.walletService.wallets.current;
+    await this.walletService.setInOutbox(address, this.setInboxPass, this.options, 'inbox');
+  }
+
+  // setOutbox
+  setOutboxPass = '';
+  setOutboxInit() {
+    this.setOutboxPass = '';
+  }
+  async setOutboxDone() {
+    const address = this.walletService.wallets.current;
+    await this.walletService.setInOutbox(address, this.setOutboxPass, this.options, 'outbox');
+  }
+
+  // signInMessage
+  signInMessagePass = '';
+  signInMessageInit() {
+    this.signInMessagePass = '';
+  }
+  signInMessageSubmit() {
+
+  }
+
   // sendMessage
   sendMessageStep = 0;
   sendMessageToAddress = '';

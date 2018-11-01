@@ -159,7 +159,8 @@
     "CO_CONSTRUCTION_NODES": "共建节点",
     "CURRENT_RANKS": "当前排名",
     "JOIN_COMMITTEE": "加入共建",
-    "DOWNLOAD_MINER": "下载Miner挖矿"
+    "DOWNLOAD_MINER": "下载Miner挖矿",
+    "MAIL": "我的邮箱"
   },
   "WALLET": {
     "CONFIG": "管理钱包",
@@ -482,5 +483,17 @@
     "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
     "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
     "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件"
+  },
+  "MAIL": {
+    "SET_RECEIVE": "设置收件箱",
+    "SET_SEND": "设置发件箱",
+    "SENDER": "发件人",
+    "RECEIVER": "收件人",
+    "TITLE": "邮件标题",
+    "STORAGE": "占用空间",
+    "SEND_TIME": "发送时间",
+    "RECEIVE_TIME": "接收时间",
+    "OPERATION": "操作",
+    "SIGN_IN_MESSAGE": "签收"
   }
 }

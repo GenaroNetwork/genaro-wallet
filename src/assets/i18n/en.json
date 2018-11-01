@@ -158,7 +158,8 @@
     "CO_CONSTRUCTION_NODES": "Co construction nodes",
     "CURRENT_RANKS": "Current Ranks",
     "JOIN_COMMITTEE": "Join Construction",
-    "DOWNLOAD_MINER": "Download Miner"
+    "DOWNLOAD_MINER": "Download Miner",
+    "MAIL": "我的邮箱"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
@@ -481,5 +482,17 @@
     "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
     "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
     "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件"
+  },
+  "MAIL": {
+    "SET_RECEIVE": "设置收件箱",
+    "SET_SEND": "设置发件箱",
+    "SENDER": "发件人",
+    "RECEIVER": "收件人",
+    "TITLE": "邮件标题",
+    "STORAGE": "占用空间",
+    "SEND_TIME": "发送时间",
+    "RECEIVE_TIME": "接收时间",
+    "OPERATION": "操作",
+    "SIGN_IN_MESSAGE": "签收"
   }
 }

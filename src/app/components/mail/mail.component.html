@@ -1,7 +1,7 @@
 <div class="header">
   <button nz-button nzType="primary" (click)="edenDialogName='buySpace'">{{ "TXEDEN.BUY_SPACE" | translate }}</button>
-  <button nz-button nzType="primary" [disabled]="receiveBox">{{ "MAIL.SET_RECEIVE" | translate }}</button>
-  <button nz-button nzType="primary" [disabled]="sendBox">{{ "MAIL.SET_SEND" | translate }}</button>
+  <button nz-button nzType="primary" [disabled]="receiveBox" (click)="setInbox()">{{ "MAIL.SET_RECEIVE" | translate }}</button>
+  <button nz-button nzType="primary" [disabled]="sendBox" (click)="setOutbox()">{{ "MAIL.SET_SEND" | translate }}</button>
 </div>
 <div class="content">
   <ng-container *ngIf="!path">
