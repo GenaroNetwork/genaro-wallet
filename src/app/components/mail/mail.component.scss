@@ -38,4 +38,22 @@
   overflow: hidden;
   color: gray;
   cursor: pointer;
+
+  i.icon {
+    height: 5.5rem;
+    font-size: 4rem;
+    line-height: 6.5rem;
+    display: block;
+    background-size: auto 70%;
+    background-position: calc(50% + 10px) 90%;
+    background-repeat: no-repeat;
+
+    &.inbox {
+      background-image: url(assets/img/inbox.png);
+    }
+
+    &.outbox {
+      background-image: url(assets/img/outbox.png);
+    }
+  }
 }

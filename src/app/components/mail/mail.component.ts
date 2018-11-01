@@ -13,8 +13,8 @@ export class MailComponent implements OnInit {
   public edenDialogOpt: any = null;
 
   // inbox 内可以保存 receive bucketid 或其他数据，保证存在 inbox 时 !receive 为 false 即可。 outbox 同理
-  public inbox: string = "null";
-  public outbox: string = "null";
+  public inbox: string = null;
+  public outbox: string = null;
 
   public mails: any[] = [];
 
@@ -23,6 +23,7 @@ export class MailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.edenService.updateAll();
     this.edenService.currentBuckets.forEach(bucket => {
       if (bucket.type === 1) this.outbox = bucket.id;
       if (bucket.type === 2) this.inbox = bucket.id;
@@ -31,14 +32,12 @@ export class MailComponent implements OnInit {
 
   openInbox() {
     this.path = "inbox";
-    this.edenService.currentPathId = [this.inbox];
-    this.edenService.updateAll();
+    this.edenService.changePath([this.inbox])
   }
 
   openOutbox() {
     this.path = "outbox";
-    this.edenService.currentPathId = [this.outbox];
-    this.edenService.updateAll();
+    this.edenService.changePath([this.outbox])
   }
 
   sendMessage() {
