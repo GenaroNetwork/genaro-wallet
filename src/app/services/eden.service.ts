@@ -105,6 +105,7 @@ export class EdenService {
       return;
     }
     let update = (result, force: boolean = false) => {
+      console.log(result);
       if (force) {
         let newBuckets = [];
         result.forEach(bucket => {
@@ -134,6 +135,7 @@ export class EdenService {
           old.usedStorage = bucket.usedStorage || 0;
           old.limitStorage = bucket.limitStorage || 0;
           old.bucketId = bucket.bucketId;
+          old.type = bucket.type;
         });
       }
       this.mail = {
