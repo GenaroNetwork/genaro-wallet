@@ -34,6 +34,14 @@ export class MailComponent implements OnInit {
 
   sendMessage() {
     this.edenDialogName = "sendMessage";
-    this.edenDialogOpt = this.outbox;
+    this.edenDialogOpt = this.edenService.mail.outbox;
+  }
+
+  showMessage(data) {
+    this.edenDialogName = "openMessage";
+    this.edenDialogOpt = {
+      file: data,
+      bucketId: this.edenService.currentPathId[0]
+    };
   }
 }

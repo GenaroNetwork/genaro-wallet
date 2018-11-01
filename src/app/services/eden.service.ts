@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Environment } from 'libgenaro';
 import { WalletService } from './wallet.service';
-import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE, BC_STORAGE_PATH } from '../libs/config';
+import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE, MESSAGE_STORAGE_PATH } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TranslateService } from '@ngx-translate/core';
 import { IpcService } from './ipc.service';
@@ -280,7 +280,7 @@ export class EdenService {
     this.currentPath = this.currentPathId.map((id, index) => {
       if (index === 0) { return this.currentBuckets.find(bucket => bucket.id === id).name; } else {
         let filename = this.currentFiles.find(file => file.id === id);
-        if (filename.endsWith('/')) { filename = filename.substr(0, filename.length - 1); }
+        if (filename && filename.endsWith('/')) { filename = filename.substr(0, filename.length - 1); }
         return filename;
       }
     });
@@ -685,7 +685,8 @@ export class EdenService {
         title,
         content
       };
-      const filename = uuidv1();
+      // const filename = uuidv1();
+      const filename = title;
       const dataStr = JSON.stringify(data);
 
       this.runAll([dataStr], async (jsonStr, env, cb) => {
@@ -747,7 +748,7 @@ export class EdenService {
   }
 
   async showMessage(file, bucketId) {
-    const filePath = join(BC_STORAGE_PATH, file.id);
+    const filePath = join(MESSAGE_STORAGE_PATH, file.id);
     if (!existsSync(filePath)) {
       await this.downloadMessage(file, bucketId);
     }
@@ -757,7 +758,7 @@ export class EdenService {
   async downloadMessage(file, bucketId) {
     return new Promise((res, rej) => {
       try {
-        const filePath = join(BC_STORAGE_PATH, file.id);
+        const filePath = join(MESSAGE_STORAGE_PATH, file.id);
         let walletAddr = this.walletService.wallets.current;
         const env = this.allEnvs[walletAddr];
         if (!walletAddr.startsWith('0x')) {
@@ -796,11 +797,11 @@ export class EdenService {
 
   async encryptMetaToFile(str, fileId) {
     const env = this.allEnvs[this.walletService.wallets.current];
-    return env.encryptMetaToFile(str, join(BC_STORAGE_PATH, fileId));
+    return env.encryptMetaToFile(str, join(MESSAGE_STORAGE_PATH, fileId));
   }
 
   async decryptMetaFromFile(fileId, key, ctr) {
     const env = this.allEnvs[this.walletService.wallets.current];
-    return env.decryptFile(join(BC_STORAGE_PATH, fileId), key, ctr);
+    return env.decryptFile(join(MESSAGE_STORAGE_PATH, fileId), key, ctr);
   }
 }
