@@ -145,7 +145,7 @@ export class EdenService {
       this.requestEnv = true;
       return;
     }
-    if (this.currentPath.length === 0) {
+    if (this.currentPathId.length === 0) {
       throw new Error('请先选择一个bucket');
     }
     const bucket = this.currentBuckets.find(bucket => bucket.name === this.currentPath[0]);
@@ -309,7 +309,7 @@ export class EdenService {
       let decryptionCtr = cryptico.decrypt(ctr, this.txEden.RSAPrivateKey[walletAddr]);
       let encryptionKey = cryptico.encrypt(decryptionKey.plaintext, publicKey);
       let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
-      return {key: encryptionKey, ctr: encryptionCtr};
+      return { key: encryptionKey, ctr: encryptionCtr };
     } catch (e) {
       console.log(e);
       return null;
@@ -425,7 +425,7 @@ export class EdenService {
       let taskEnv;
       try {
         let keyCtr = env.generateEncryptionInfo(bucketId);
-        if(keyCtr !== undefined) {
+        if (keyCtr !== undefined) {
           let key = keyCtr.key;
           let ctr = keyCtr.ctr;
           let index = keyCtr.index;
@@ -536,10 +536,10 @@ export class EdenService {
       try {
         let key = '';
         let ctr = '';
-        if(file.rsaKey && file.rsaCtr) {
+        if (file.rsaKey && file.rsaCtr) {
           let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey[walletAddr]);
           let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey[walletAddr]);
-          if(decryptionKey.plaintext && decryptionCtr.plaintext) {
+          if (decryptionKey.plaintext && decryptionCtr.plaintext) {
             key = decryptionKey.plaintext;
             ctr = decryptionCtr.plaintext;
           }
@@ -675,11 +675,11 @@ export class EdenService {
       };
       const filename = uuidv1();
       const dataStr = JSON.stringify(data);
-  
+
       this.runAll([dataStr], async (jsonStr, env, cb) => {
         try {
           let keyCtr = env.generateEncryptionInfo(bucketId);
-          if(keyCtr !== undefined) {
+          if (keyCtr !== undefined) {
             let key = keyCtr.key;
             let ctr = keyCtr.ctr;
             let index = keyCtr.index;
@@ -689,7 +689,7 @@ export class EdenService {
             env.storeFile(bucketId, jsonStr, false, {
               filename,
               progressCallback: (process, allBytes) => {
-  
+
               },
               finishedCallback: (err, fileId, fileSize, fileHash) => {
                 if (err) {
@@ -699,8 +699,8 @@ export class EdenService {
                 } else {
                   cb(null);
                   res({
-                    fileId, 
-                    fileSize, 
+                    fileId,
+                    fileSize,
                     fileHash,
                     key,
                     ctr
@@ -729,7 +729,7 @@ export class EdenService {
           this.messageService.success(this.i18n.instant('EDEN.SEND_MESSAGE_DONE'));
         }
       });
-  
+
       this.messageService.info(this.i18n.instant('TASK.SEND_MESSAGE_TIP'));
     });
   }
@@ -741,14 +741,14 @@ export class EdenService {
     if (!walletAddr.startsWith('0x')) {
       walletAddr = '0x' + walletAddr;
     }
-    if (!existsSync(filePath)) { 
+    if (!existsSync(filePath)) {
       try {
         let key = '';
         let ctr = '';
-        if(file.rsaKey && file.rsaCtr) {
+        if (file.rsaKey && file.rsaCtr) {
           let decryptionKey = cryptico.decrypt(file.rsaKey, this.txEden.RSAPrivateKey[walletAddr]);
           let decryptionCtr = cryptico.decrypt(file.rsaCtr, this.txEden.RSAPrivateKey[walletAddr]);
-          if(decryptionKey.plaintext && decryptionCtr.plaintext) {
+          if (decryptionKey.plaintext && decryptionCtr.plaintext) {
             key = decryptionKey.plaintext;
             ctr = decryptionCtr.plaintext;
           }
@@ -756,13 +756,13 @@ export class EdenService {
         env.resolveFile(bucketId, file.id, filePath, {
           overwrite: true,
           progressCallback: (process, allBytes) => {
-            
+
           },
           finishedCallback: (err, fileId) => {
             if (err) {
               console.log(err);
             } else {
-             
+
             }
           },
           key: key || '',

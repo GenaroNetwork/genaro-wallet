@@ -1,22 +1,22 @@
+<div class="mask" *ngIf="edenService.requestEnv"></div>
+
 <div class="header">
   <button nz-button nzType="primary" (click)="edenDialogName='buySpace'">{{ "TXEDEN.BUY_SPACE" | translate }}</button>
-  <button nz-button nzType="primary" [disabled]="receiveBox" (click)="setInbox()">{{ "MAIL.SET_RECEIVE" | translate }}</button>
-  <button nz-button nzType="primary" [disabled]="sendBox" (click)="setOutbox()">{{ "MAIL.SET_SEND" | translate }}</button>
 </div>
 <div class="content">
   <ng-container *ngIf="!path">
-    <div *ngIf="receiveBox" class="folder receive" (dblclick)="path='receive'"></div>
-    <div *ngIf="sendBox" class="folder send" (dblclick)="path='send'"></div>
-    <ng-container *ngIf=" !receiveBox && !sendBox">
+    <div *ngIf="inbox" class="folder inbox" (dblclick)="openInbox()"></div>
+    <div *ngIf="outbox" class="folder outbox" (dblclick)="openOutbox()"></div>
+    <ng-container *ngIf=" !inbox && !outbox">
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="path==='receive' || path === 'send'">
+  <ng-container *ngIf="path==='inbox' || path === 'outbox'">
     <nz-table [nzData]="mails" #mailsTable>
       <thead>
         <tr>
           <th></th>
-          <th *ngIf="path==='receive'">{{ "MAIL.SENDER" | translate }}</th>
-          <th *ngIf="path==='send'">{{ "MAIL.RECEIVER" | translate }}</th>
+          <th *ngIf="path==='inbox'">{{ "MAIL.SENDER" | translate }}</th>
+          <th *ngIf="path==='outbox'">{{ "MAIL.RECEIVER" | translate }}</th>
           <th>{{ "MAIL.TITLE" | translate }}</th>
           <th>{{ "MAIL.STORAGE" | translate }}</th>
           <th>{{ "MAIL.SEND_TIME" | translate }}</th>
@@ -44,4 +44,5 @@
 </div>
 
 
+<app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.EDEN_NEED_PASS' | translate"></app-dialog>
 <app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>

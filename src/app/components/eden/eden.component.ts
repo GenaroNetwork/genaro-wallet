@@ -128,6 +128,16 @@ export class EdenComponent implements OnInit {
     this.edenDialogOpt = this.fileSelected;
     this.edenDialogName = 'edenRenameBucket';
   }
+
+  setInbox() {
+    this.edenDialogName = 'setInbox';
+    this.edenDialogOpt = '';
+  }
+
+  setOutbox() {
+    this.edenDialogName = 'setOutbox';
+    this.edenDialogOpt = '';
+  }
   uploadFile() {
     this.edenService.fileUploadTask();
   }
@@ -165,13 +175,13 @@ export class EdenComponent implements OnInit {
   shareFile() {
     let selectedFiles = this.getCurrentFiles();
     let shareFile;
-    if(selectedFiles && selectedFiles.length > 0) {
+    if (selectedFiles && selectedFiles.length > 0) {
       shareFile = selectedFiles[0];
     }
-    if(!shareFile) {
+    if (!shareFile) {
       return this.alert.error(this.i18n.instant('ERROR.SELECT_FILE'));
     }
-    else if(!shareFile.rsaKey || !shareFile.rsaCtr) {
+    else if (!shareFile.rsaKey || !shareFile.rsaCtr) {
       return this.alert.error(this.i18n.instant('ERROR.FILE_CANNOT_SHARE'));
     }
     this.edenDialogOpt = shareFile;
