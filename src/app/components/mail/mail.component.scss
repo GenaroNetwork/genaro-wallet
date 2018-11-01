@@ -6,10 +6,15 @@
 
 .header {
   padding: .5rem;
+  flex: 0 3rem;
 
   button {
     margin-left: .5rem;
   }
+}
+
+.content {
+  flex: 1;
 }
 
 .mask {

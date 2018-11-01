@@ -20,6 +20,7 @@ export class MailComponent implements OnInit {
 
   ngOnInit() {
     this.edenService.updateAll();
+    console.log(this.edenService.mail)
   }
 
   openInbox() {
