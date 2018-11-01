@@ -582,7 +582,7 @@
 
 <!-- openMessage -->
 <nz-modal [nzVisible]="dialogName==='openMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'MAIL.SEND_MESSAGE' | translate"
-  [nzFooter]="sendMessageFooter" class="buy-space">
+  [nzFooter]="openMessageFooter" class="buy-space">
   <ng-container>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
@@ -605,7 +605,7 @@
     </div>
   </ng-container>
 </nz-modal>
-<ng-template #sendMessageFooter>
+<ng-template #openMessageFooter>
   <ng-container>
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.NEXT' | translate }}</button>
   </ng-container>
