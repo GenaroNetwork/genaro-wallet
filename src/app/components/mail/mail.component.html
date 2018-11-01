@@ -1,6 +1,19 @@
 <div class="mask" *ngIf="edenService.requestEnv"></div>
 
 <div class="header">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a (click)="path=null">
+        {{ "SIDERBAR.MAIL" | translate }}
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="path==='inbox'">
+      {{ "MAIL.INBOX" | translate }}
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="path==='outbox'">
+      {{ "MAIL.OUTBOX" | translate }}
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
 </div>
 <div class="content">
   <ng-container *ngIf="!path">
