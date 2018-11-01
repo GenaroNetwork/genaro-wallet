@@ -1,6 +1,7 @@
 <div class="mask" *ngIf="edenService.requestEnv"></div>
 
 <div class="header">
+  <button *ngIf="outbox" nz-button nzSize="large" nzType="primary" (click)="sendMessage()">发送邮件</button>
 </div>
 <div class="content">
   <ng-container *ngIf="!path">

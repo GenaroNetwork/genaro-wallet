@@ -41,18 +41,8 @@ export class MailComponent implements OnInit {
     this.edenService.updateAll();
   }
 
-  setInbox() {
-    this.edenDialogName = 'setInbox';
-    this.edenDialogOpt = '';
-  }
-
-  setOutbox() {
-    this.edenDialogName = 'setOutbox';
-    this.edenDialogOpt = '';
-  }
-
   sendMessage() {
     this.edenDialogName = "sendMessage";
+    this.edenDialogOpt = this.outbox;
   }
-
 }

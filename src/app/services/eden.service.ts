@@ -702,8 +702,8 @@ export class EdenService {
                     fileId,
                     fileSize,
                     fileHash,
-                    key,
-                    ctr
+                    key: encryptionKey.cipher,
+                    ctr: encryptionCtr.cipher
                   });
                 }
               },
