@@ -37,6 +37,10 @@ export class MailComponent implements OnInit {
     this.edenDialogOpt = '';
   }
 
+  sendMessage() {
+    this.edenDialogName = "sendMessage";
+  }
+
   ngOnInit() {
   }
 

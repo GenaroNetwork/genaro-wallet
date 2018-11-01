@@ -113,6 +113,7 @@ export class EdenService {
             usedStorage: bucket.usedStorage || 0,
             limitStorage: bucket.limitStorage || 0,
             bucketId: bucket.bucketId,
+            type: bucket.type
           });
         });
         this.currentBuckets = newBuckets;

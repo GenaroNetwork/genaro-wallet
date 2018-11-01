@@ -309,3 +309,13 @@
     </nz-input-group>
   </div>
 </div>
+
+<!-- 邮件标题 -->
+<div *ngIf="name==='messageTitle'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.MESSAGE_TITLE' | translate }}{{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
+  </div>
+</div>

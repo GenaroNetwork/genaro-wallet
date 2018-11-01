@@ -66,7 +66,8 @@
     "RECIPIENT": "收件人",
     "CHARGE_PRICE": "收费价格",
     "PAY_PRICE": "支付价格",
-    "STORE_BUCKET": "选择存放空间"
+    "STORE_BUCKET": "选择存放空间",
+    "MESSAGE_TITLE": "邮件标题"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -494,6 +495,7 @@
     "SEND_TIME": "发送时间",
     "RECEIVE_TIME": "接收时间",
     "OPERATION": "操作",
-    "SIGN_IN_MESSAGE": "签收"
+    "SIGN_IN_MESSAGE": "签收",
+    "SEND_MESSAGE": "发送邮件"
   }
 }
