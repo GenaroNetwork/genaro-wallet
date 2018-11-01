@@ -130,13 +130,17 @@ export class EdenComponent implements OnInit {
   }
 
   setInbox() {
+    const i = this.fileSelected.values().next().value;
+    const id = this.edenService.currentView[i].id;
     this.edenDialogName = 'setInbox';
-    this.edenDialogOpt = '';
+    this.edenDialogOpt = id;
   }
 
   setOutbox() {
+    const i = this.fileSelected.values().next().value;
+    const id = this.edenService.currentView[i].id;
     this.edenDialogName = 'setOutbox';
-    this.edenDialogOpt = '';
+    this.edenDialogOpt = id;
   }
   uploadFile() {
     this.edenService.fileUploadTask();
