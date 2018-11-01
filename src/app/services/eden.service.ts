@@ -21,6 +21,10 @@ const TIP_FILE_LENGTH = 10;
 })
 export class EdenService {
 
+  public mail: any = {
+    inbox: null,
+    outbox: null,
+  };
   allEnvs: any = {};
   requestEnv: boolean = null;
   currentBuckets: any = [];
@@ -132,6 +136,14 @@ export class EdenService {
           old.bucketId = bucket.bucketId;
         });
       }
+      this.mail = {
+        inbox: null,
+        outbox: null,
+      }
+      this.currentBuckets.forEach(bucket => {
+        if (bucket.type === 1) this.mail.outbox = bucket.id;
+        if (bucket.type === 2) this.mail.inbox = bucket.id;
+      });
     }
     env.getBuckets((err, result) => {
       if (err) { throw new Error(err); }
