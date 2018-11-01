@@ -1,0 +1,47 @@
+<div class="header">
+  <button nz-button nzType="primary" (click)="edenDialogName='buySpace'">{{ "TXEDEN.BUY_SPACE" | translate }}</button>
+  <button nz-button nzType="primary" [disabled]="receiveBox">{{ "MAIL.SET_RECEIVE" | translate }}</button>
+  <button nz-button nzType="primary" [disabled]="sendBox">{{ "MAIL.SET_SEND" | translate }}</button>
+</div>
+<div class="content">
+  <ng-container *ngIf="!path">
+    <div *ngIf="receiveBox" class="folder receive" (dblclick)="path='receive'"></div>
+    <div *ngIf="sendBox" class="folder send" (dblclick)="path='send'"></div>
+    <ng-container *ngIf=" !receiveBox && !sendBox">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="path==='receive' || path === 'send'">
+    <nz-table [nzData]="mails" #mailsTable>
+      <thead>
+        <tr>
+          <th></th>
+          <th *ngIf="path==='receive'">{{ "MAIL.SENDER" | translate }}</th>
+          <th *ngIf="path==='send'">{{ "MAIL.RECEIVER" | translate }}</th>
+          <th>{{ "MAIL.TITLE" | translate }}</th>
+          <th>{{ "MAIL.STORAGE" | translate }}</th>
+          <th>{{ "MAIL.SEND_TIME" | translate }}</th>
+          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th>
+          <th>{{ "MAIL.OPERATION" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mail of mailsTable.data">
+          <td>已读未读</td>
+          <td>发送者 OR 接受者</td>
+          <td>邮件标题</td>
+          <td>占用空间</td>
+          <td>发送时间</td>
+          <td>接收时间</td>
+          <td>
+            <button nz-button><i nz-icon type="eye" theme="outline"></i></button>
+            <button nz-button><i nz-icon type="delete" theme="outline"></i></button>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</div>
+
+
+<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>

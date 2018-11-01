@@ -1,42 +1,43 @@
 <ul nz-menu nzMode="inline">
   <li nz-menu-item [routerLink]="['/wallet']" [nzSelected]="page==='/wallet'" *ngIf="settingService.wallet">
-    <i class="anticon anticon-wallet"></i>
+    <i nz-icon type="wallet" theme="outline"></i>
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
 
   <li nz-submenu [nzOpen]="page==='/eden' || open(page,'/eden;path=') || page==='/eden-file-share' || page==='/eden-file-receive'"
     *ngIf="settingService.eden">
     <span title>
-      <i class="anticon anticon-clock-circle-o"></i>
+      <i nz-icon type="file" theme="outline"></i>
       {{ "SIDERBAR.EDEN_FILE" | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')">
-        <i class="anticon anticon-folder"></i>
+        <i nz-icon type="folder" theme="outline"></i>
         {{ "SIDERBAR.EDEN" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'">
-        <i class="anticon anticon-download"></i>
+        <i nz-icon type="download" theme="outline"></i>
         {{ "SIDERBAR.EDEN_FILE_RECEIVE" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-file-share']" [nzSelected]="page==='/eden-file-share'">
-        <i class="anticon anticon-share-alt"></i>
+        <i nz-icon type="share-alt" theme="outline"></i>
         {{ "SIDERBAR.EDEN_FILE_SHARE" | translate }}
       </li>
     </ul>
   </li>
   <li nz-submenu [nzOpen]="page==='/eden-inprocess' || page==='/eden-done'" *ngIf="settingService.eden">
     <span title>
-      <i class="anticon anticon-clock-circle-o"></i>
+      <i nz-icon type="ordered-list" theme="outline"></i>
       {{ "SIDERBAR.EDEN_TASK" | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden-inprocess']" [nzSelected]="page==='/eden-inprocess'">
-        <i class="anticon anticon-sync" [class.anticon-spin]="(this.edenService.tasks | tableTask:'eden-inprocess').length>0"></i>
+        <i nz-icon type="loading" theme="outline"></i>
+        <!-- <i class="anticon anticon-sync" [class.anticon-spin]="(this.edenService.tasks | tableTask:'eden-inprocess').length>0"></i> -->
         {{ "SIDERBAR.EDEN_INPROCESS" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-done']" [nzSelected]="page==='/eden-done'">
-        <i class="anticon anticon-check-circle-o"></i>
+        <i nz-icon type="check-circle" theme="outline"></i>
         {{ "SIDERBAR.EDEN_DONE" | translate }}
       </li>
     </ul>
@@ -44,6 +45,10 @@
   <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'" *ngIf="settingService.txEden">
     <i class="anticon anticon-shop"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
+  </li>
+  <li nz-menu-item [routerLink]="['/mail']" [nzSelected]="page==='/mail'" *ngIf="settingService.mail">
+    <i class="anticon anticon-mail"></i>
+    {{ "SIDERBAR.MAIL" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.sharer">
     <i class="anticon anticon-database"></i>

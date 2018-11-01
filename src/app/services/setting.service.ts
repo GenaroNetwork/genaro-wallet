@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class SettingService {
 
-  private list = ["firstRun", "appType", "language", "wallet", "eden", "sharer", "txEden", "txSharer", "committee"];
+  private list = ["firstRun", "appType", "language", "wallet", "eden", "sharer", "txEden", "txSharer", "committee", "mail"];
   firstRun: boolean = true;
   appType: string = null;
   appTypeSet(value) {
@@ -18,6 +18,7 @@ export class SettingService {
     switch (value) {
       case "eden":
         this.set("eden", true);
+        this.set("mail", true);
         this.set("txEden", true);
 
         this.set("sharer", false);
@@ -26,6 +27,7 @@ export class SettingService {
         break;
       case "sharer":
         this.set("eden", false);
+        this.set("mail", false);
         this.set("txEden", false);
 
         this.set("sharer", true);
@@ -58,6 +60,7 @@ export class SettingService {
   language: string = "en";
   wallet: boolean = true;
   eden: boolean = true;
+  mail: boolean = true;
   sharer: boolean = true;
   txEden: boolean = true;
   txSharer: boolean = true;
@@ -138,7 +141,7 @@ export class SettingService {
     this.ipc.ipcEvent.on("app.update.downloaded", () => {
       changeUpdateState(UPDATE_STATES.DOWNLOADED);
     });
-    setInterval(this.updateApp, 60 * 60 * 1000, "check");
+    setInterval(this.updateApp.bind(this), 60 * 60 * 1000, "check");
   }
   languageRendered() {
     this.ipc.ipcOnce("app.loaded.lang");
