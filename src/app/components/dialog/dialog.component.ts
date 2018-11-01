@@ -553,12 +553,22 @@ export class DialogComponent implements OnChanges {
   }
 
   // signInMessage
-  signInMessagePass = '';
+  signInMessageStep = 0;
+  signInMessagePassword = '';
+  signInMessageGas: number[] = [null, 2100000];
+  signInMessageDisabled = false;
   signInMessageInit() {
-    this.signInMessagePass = '';
+    this.signInMessageStep = 0;
+    this.signInMessagePassword = '';
   }
-  signInMessageSubmit() {
-
+  async signInMessageSubmit() {
+    this.signInMessageDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.txService.agreeShare(address, this.signInMessagePassword, this.options, this.signInMessageGas[1], this.signInMessageGas[0]);
+    } catch (e) { } finally {
+      this.sendMessageDisabled = false;
+    }
   }
 
   // sendMessage
@@ -606,12 +616,14 @@ export class DialogComponent implements OnChanges {
   async openMessageInit() {
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
-      // if(data) {
-      //   this.openMessageTitle = data.title;
-      //   this.openMessageContent = data.content;
-      //   this.openMessageFromAddress = data.fromAddress;
-      //   this.openMessageToAddress = data.toAddress;
-      // }
+      if(data) {
+        // @ts-ignore
+        let { title, content, fromAddress, toAddress} = data;
+        this.openMessageTitle = title;
+        this.openMessageContent = content;
+        this.openMessageFromAddress = fromAddress;
+        this.openMessageToAddress = toAddress;
+      }
     }catch (e) {}
   }
 }

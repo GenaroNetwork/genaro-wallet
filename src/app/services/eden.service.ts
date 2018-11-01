@@ -736,13 +736,21 @@ export class EdenService {
 
   async showMessage(file, bucketId) {
     const filePath = join(BC_STORAGE_PATH, file.id);
-    let walletAddr = this.walletService.wallets.current;
-    const env = this.allEnvs[walletAddr];
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
     if (!existsSync(filePath)) {
+      await this.downloadMessage(file, bucketId);
+    }
+    return await this.decryptMetaFromFile(file.fileId, file.key, file.ctr);
+  }
+
+  async downloadMessage(file, bucketId) {
+    return new Promise((res, rej) => {
       try {
+        const filePath = join(BC_STORAGE_PATH, file.id);
+        let walletAddr = this.walletService.wallets.current;
+        const env = this.allEnvs[walletAddr];
+        if (!walletAddr.startsWith('0x')) {
+          walletAddr = '0x' + walletAddr;
+        }
         let key = '';
         let ctr = '';
         if (file.rsaKey && file.rsaCtr) {
@@ -762,7 +770,7 @@ export class EdenService {
             if (err) {
               console.log(err);
             } else {
-
+              res();
             }
           },
           key: key || '',
@@ -771,7 +779,7 @@ export class EdenService {
         });
       } catch (e) {
       }
-    }
+    });
   }
 
   async encryptMetaToFile(str, fileId) {
