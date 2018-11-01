@@ -5,9 +5,11 @@
 <div class="content">
   <ng-container *ngIf="!path">
     <div *ngIf="inbox" class="folder inbox" (dblclick)="openInbox()">
+      <i class="icon inbox"></i>
       {{ "MAIL.INBOX" | translate }}
     </div>
     <div *ngIf="outbox" class="folder outbox" (dblclick)="openOutbox()">
+      <i class="icon outbox"></i>
       {{ "MAIL.OUTBOX" | translate }}
     </div>
     <ng-container *ngIf=" !inbox && !outbox">
