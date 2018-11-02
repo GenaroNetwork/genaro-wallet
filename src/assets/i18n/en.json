@@ -64,6 +64,7 @@
     "FILE_NAME": "File name",
     "FILE_SIZE": "File size",
     "RECIPIENT": "Recipient",
+    "SENDER": "发件人",
     "CHARGE_PRICE": "Charge price",
     "PAY_PRICE": "支付价格",
     "STORE_BUCKET": "选择存放空间",
