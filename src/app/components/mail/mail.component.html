@@ -46,8 +46,8 @@
       <tbody>
         <tr *ngFor="let mail of mailsTable.data">
           <!-- <td>已读未读</td> -->
-          <th *ngIf="path==='inbox'">{{mail.fromAddress | longAddr | shortAddr}}</th>
-          <th *ngIf="path==='outbox'">{{mail.toAddress | longAddr | shortAddr}}</th>
+          <th *ngIf="path==='inbox'">{{mail.fromAddress}}</th>
+          <th *ngIf="path==='outbox'">{{mail.toAddress}}</th>
           <td>{{mail.fileName}}</td>
           <td>{{mail.fileSize | humanSize }}</td>
           <td>{{mail.created | date }}</td>

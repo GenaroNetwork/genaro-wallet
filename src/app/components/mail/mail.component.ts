@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
+import { NickService } from '../../services/nick.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -19,6 +20,7 @@ export class MailComponent implements OnInit {
   constructor(
     public edenService: EdenService,
     public txEdenService: TxEdenService,
+    public nickService: NickService,
     private alert: NzMessageService,
   ) { }
 
@@ -33,6 +35,7 @@ export class MailComponent implements OnInit {
       } else {
         this.mails = []; 
       }
+      this.getAddressNick();
     });
   }
 
@@ -40,12 +43,21 @@ export class MailComponent implements OnInit {
     this.path = "inbox";
     this.edenService.changePath(["/", this.edenService.mail.inbox]);
     this.mails = (this.txEdenService.mailList || {}).to;
+    this.getAddressNick();
   }
 
   openOutbox() {
     this.path = "outbox";
     this.edenService.changePath(["/", this.edenService.mail.outbox]);
     this.mails = (this.txEdenService.mailList || {}).from;
+    this.getAddressNick();
+  }
+
+  getAddressNick() {
+    this.mails.forEach(async mail => {
+      mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
+      mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+    });
   }
 
   sendMessage() {

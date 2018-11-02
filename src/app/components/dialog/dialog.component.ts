@@ -578,6 +578,7 @@ export class DialogComponent implements OnChanges {
 
   // sendMessage
   sendMessageStep = 0;
+  sendMessageTo = '';
   sendMessageToAddress = '';
   sendMessageTitle = '';
   sendMessageContent = '';
@@ -586,6 +587,7 @@ export class DialogComponent implements OnChanges {
   sendMessageDisabled = false;
   sendMessageInit() {
     this.sendMessageStep = 0;
+    this.sendMessageTo = '';
     this.sendMessageToAddress = '';
     this.sendMessageTitle = '';
     this.sendMessageContent = '';
@@ -595,6 +597,14 @@ export class DialogComponent implements OnChanges {
     this.sendMessageDisabled = true;
     const address = this.walletService.wallets.current;
     try {
+      let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
+      if(!nickAddress) {
+        nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
+        if(nickAddress) {
+          this.nickService.update(nickAddress, this.sendMessageTo);
+        }
+      }
+      this.sendMessageToAddress = nickAddress || this.sendMessageTo;
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageTitle, this.sendMessageContent, this.options);
       // @ts-ignore
       let { fileId, fileSize, fileHash, key, ctr, str} = message;
@@ -632,8 +642,8 @@ export class DialogComponent implements OnChanges {
         let { title, content, fromAddress, toAddress} = data;
         this.openMessageTitle = title;
         this.openMessageContent = content;
-        this.openMessageFromAddress = fromAddress;
-        this.openMessageToAddress = toAddress;
+        this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
+        this.openMessageToAddress = (await this.nickService.getNick(toAddress)) || toAddress;
       }
     }catch (e) {}
   }

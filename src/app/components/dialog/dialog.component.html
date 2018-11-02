@@ -533,7 +533,7 @@
 <nz-modal [nzVisible]="dialogName==='sendMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'MAIL.SEND_MESSAGE' | translate"
   [nzFooter]="sendMessageFooter" class="buy-space">
   <ng-container *ngIf="sendMessageStep===0">
-    <app-input (submit)="dialogDone()" name="recipient" [(ipt)]="sendMessageToAddress" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="recipient" [(ipt)]="sendMessageTo" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="messageTitle" [(ipt)]="sendMessageTitle" [span]="[6, 14]"></app-input>
     <div nz-row class="review">
       <div nz-col nzSpan="2">
@@ -546,7 +546,7 @@
   <ng-container *ngIf="sendMessageStep===1">
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ sendMessageToAddress }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ sendMessageTo }}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.MESSAGE_TITLE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
