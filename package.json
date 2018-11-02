@@ -42,7 +42,7 @@
     "dnode": "^1.2.2",
     "electron-updater": "^3.1.2",
     "ethereumjs-wallet": "^0.6.0",
-    "genaro-web3": "^0.6.5",
+    "genaro-web3": "^0.6.8",
     "genaroshare-daemon": "^1.4.8",
     "hdkey": "^1.0.0",
     "human-size": "^1.1.0",
