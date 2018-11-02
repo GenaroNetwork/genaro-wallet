@@ -66,6 +66,11 @@ export class MailComponent implements OnInit {
     };
   }
 
+  signInMessage(data) {
+    this.edenDialogName = "signInMessage";
+    this.edenDialogOpt = data._id;
+  }
+
   deleteMessage(data) {
     this.edenDialogName = "deleteMessage";
     let file = this.getFileByShare(data);

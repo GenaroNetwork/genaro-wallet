@@ -555,7 +555,6 @@ export class DialogComponent implements OnChanges {
   // signInMessage
   signInMessageStep = 0;
   signInMessagePassword = '';
-  signInMessageGas: number[] = [null, 2100000];
   signInMessageDisabled = false;
   signInMessageInit() {
     this.signInMessageStep = 0;
@@ -565,9 +564,11 @@ export class DialogComponent implements OnChanges {
     this.signInMessageDisabled = true;
     const address = this.walletService.wallets.current;
     try {
-      await this.txService.agreeShare(address, this.signInMessagePassword, this.options, this.signInMessageGas[1], this.signInMessageGas[0]);
+      await this.walletService.rejectShare(address, this.signInMessagePassword, this.options);
+      await this.txEdenService.getUserMails();
+      this.signInMessageStep++;
     } catch (e) { } finally {
-      this.sendMessageDisabled = false;
+      this.signInMessageDisabled = false;
     }
   }
 

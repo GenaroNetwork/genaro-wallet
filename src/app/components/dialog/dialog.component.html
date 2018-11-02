@@ -511,7 +511,6 @@
 <nz-modal [nzVisible]="dialogName==='signInMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.AGREE_SHARE' | translate" [nzFooter]="signInMessageFooter" class="buy-space">
   <ng-container *ngIf="signInMessageStep===0">
-    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="signInMessageGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="signInMessagePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
@@ -611,7 +610,7 @@
   </ng-container>
 </ng-template>
 
-<!-- 删除分享 -->
+<!-- 删除邮件 -->
 <nz-modal [nzVisible]="dialogName==='deleteMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'MAIL.DELETE_MESSAGE' | translate" [nzFooter]="deleteMessageFooter" class="buy-space">
   <ng-container *ngIf="deleteMessageStep===0">
