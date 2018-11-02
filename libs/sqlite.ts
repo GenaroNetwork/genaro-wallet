@@ -70,6 +70,13 @@ export default class {
             applyAddress TEXT
         )`).run();
 
+        // nick
+        sql.nick = new DB(join(SQLITE_CONFIG_PATH, "nick.sqlite"));
+        sql.nick.prepare(`CREATE TABLE IF NOT EXISTS nick (
+            address TEXT,
+            nick TEXT
+        )`).run();
+
         for (let name in sql) {
             let env = sql[name];
             ipcMain.on(`db.${name}.run`, (event, ipcId, sql) => {

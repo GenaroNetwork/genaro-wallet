@@ -34,6 +34,10 @@
       {{ walletService.wallets.current | longAddr | shortAddr}}
       <app-copy [data]="walletService.wallets.current | longAddr"></app-copy>
     </div>
+    <div class="address">
+      {{ walletService.wallets.currentNick }}
+      <app-copy *ngIf="walletService.wallets.currentNick" [data]="walletService.wallets.currentNick"></app-copy>
+    </div>
     <div class="operations">
       <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight" [nzContent]="popoverReceive">
         {{ "WALLET.RECEIVE_COIN" | translate}}

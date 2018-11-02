@@ -5,6 +5,7 @@ import { remote } from 'electron'; // 有时间的话把界面功能统一挪到
 import { TranslateService } from '@ngx-translate/core';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
+import { NickService } from './nick.service';
 import { SENTINEL_API, BRIDGE_API_URL } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
 const secp256k1 = require('secp256k1');
@@ -19,6 +20,7 @@ export class WalletService {
   currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   wallets: any = {
     current: null,
+    currentNick: null,
     all: {},
   };
   balances: any = {};
@@ -27,6 +29,7 @@ export class WalletService {
     private i18n: TranslateService,
     private txService: TransactionService,
     private alert: NzMessageService,
+    private nickService: NickService
   ) {
     this.walletManager = this.txService.walletManager;
     this.walletList.next(this.walletManager.listWallet());
@@ -46,8 +49,14 @@ export class WalletService {
       this.currentWallet.next(walletList[0]);
     });
 
-    this.currentWallet.subscribe(wallet => {
-      if (wallet) { this.wallets.current = wallet.address; } else { this.wallets.current = null; }
+    this.currentWallet.subscribe(async wallet => {
+      if (wallet) { 
+        this.wallets.current = wallet.address; 
+        this.wallets.currentNick = await this.nickService.getNick('0x' + wallet.address);
+      } else { 
+        this.wallets.current = null;
+        this.wallets.currentNick = null;
+      }
     });
 
     this.txService.newBlockHeaders.subscribe(async bh => {

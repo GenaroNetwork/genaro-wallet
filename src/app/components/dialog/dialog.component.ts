@@ -10,6 +10,7 @@ import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
+import { NickService } from '../../services/nick.service';
 import { shell } from 'electron';
 import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from '../../libs/config';
 
@@ -30,6 +31,7 @@ export class DialogComponent implements OnChanges {
     public settingService: SettingService,
     private brotherhoodService: BrotherhoodService,
     private committeeService: CommitteeService,
+    private nickService: NickService
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -683,6 +685,8 @@ export class DialogComponent implements OnChanges {
       }
       this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10,18);
       this.applyNickStep++;
+      this.nickService.update('0x' + this.walletService.wallets.current, this.applyNickName);
+      this.walletService.wallets.currentNick = this.applyNickName;
     } catch (e) { } finally {
       this.applyNickDisabled = false;
     }
