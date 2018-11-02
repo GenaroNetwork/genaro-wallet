@@ -592,7 +592,8 @@ export class DialogComponent implements OnChanges {
     try {
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageTitle, this.sendMessageContent, this.options);
       // @ts-ignore
-      let { fileId, fileSize, fileHash, key, ctr} = message;
+      let { fileId, fileSize, fileHash, key, ctr, str} = message;
+      this.edenService.encryptMetaToFile(str, fileId);
       let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
       if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
         let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
@@ -614,6 +615,10 @@ export class DialogComponent implements OnChanges {
   openMessageFromAddress = '';
   openMessageToAddress = '';
   async openMessageInit() {
+    this.openMessageTitle = '';
+    this.openMessageFromAddress = '';
+    this.openMessageToAddress = '';
+    this.openMessageContent = '';
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
       if(data) {
