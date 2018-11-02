@@ -695,8 +695,6 @@ export class DialogComponent implements OnChanges {
       }
       this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10,18);
       this.applyNickStep++;
-      this.nickService.update('0x' + this.walletService.wallets.current, this.applyNickName);
-      this.walletService.wallets.currentNick = this.applyNickName;
     } catch (e) { } finally {
       this.applyNickDisabled = false;
     }
@@ -706,6 +704,8 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
+      this.nickService.update('0x' + this.walletService.wallets.current, this.applyNickName);
+      this.walletService.wallets.currentNick = this.applyNickName;
       this.applyNickStep++;
     } catch (e) { } finally {
       this.applyNickDisabled = false;
