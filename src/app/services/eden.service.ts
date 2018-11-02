@@ -105,7 +105,6 @@ export class EdenService {
       return;
     }
     let update = (result, force: boolean = false) => {
-      console.log(result);
       if (force) {
         let newBuckets = [];
         result.forEach(bucket => {

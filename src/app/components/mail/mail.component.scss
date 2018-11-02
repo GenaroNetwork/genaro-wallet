@@ -8,6 +8,10 @@
   padding: .5rem;
   flex: 0 3rem;
 
+  nz-breadcrumb {
+    float: left;
+  }
+
   button {
     float: right;
   }
@@ -15,6 +19,18 @@
 
 .content {
   flex: 1;
+  overflow: hidden;
+
+  ::ng-deep nz-table {
+    overflow: hidden;
+    height: 100%;
+    display: block;
+
+    .ant-table-wrapper {
+      overflow-x: hidden;
+      height: 100%;
+    }
+  }
 }
 
 .mask {
