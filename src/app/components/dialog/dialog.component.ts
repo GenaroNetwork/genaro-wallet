@@ -636,29 +636,65 @@ export class DialogComponent implements OnChanges {
     }catch (e) {}
   }
 
-    // deleteMesage
-    deleteMessageStep = 0;
-    deleteMessagePassword = '';
-    deleteMessageDisabled = false;
-    deleteMessageInfo: any = {};
-    deleteMessageInit() {
-      this.deleteMessageStep = 0;
-      this.deleteMessagePassword = '';
-      this.deleteMessageDisabled = false;
-      this.deleteMessageInfo = this.options;
-    }
-    async deleteMessageSubmit() {
-      this.deleteMessageDisabled = true;
-      const address = this.walletService.wallets.current;
-      try {
-        await this.walletService.deleteShare(address, this.deleteMessagePassword, this.deleteMessageInfo.shareId);
-        if(this.deleteMessageInfo.fileId) {
-          await this.edenService.fileRemoveTask([{id: this.deleteMessageInfo.fileId}]);
-        }
-        await this.txEdenService.getUserMails();
-        this.deleteMessageStep++;
-      } catch (e) { } finally {
-        this.deleteShareDisabled = false;
+  // deleteMesage
+  deleteMessageStep = 0;
+  deleteMessagePassword = '';
+  deleteMessageDisabled = false;
+  deleteMessageInfo: any = {};
+  deleteMessageInit() {
+    this.deleteMessageStep = 0;
+    this.deleteMessagePassword = '';
+    this.deleteMessageDisabled = false;
+    this.deleteMessageInfo = this.options;
+  }
+  async deleteMessageSubmit() {
+    this.deleteMessageDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.walletService.deleteShare(address, this.deleteMessagePassword, this.deleteMessageInfo.shareId);
+      if (this.deleteMessageInfo.fileId) {
+        await this.edenService.fileRemoveTask([{ id: this.deleteMessageInfo.fileId }]);
       }
+      await this.txEdenService.getUserMails();
+      this.deleteMessageStep++;
+    } catch (e) { } finally {
+      this.deleteShareDisabled = false;
     }
+  }
+
+  // applyNick
+  applyNickStep = 0;
+  applyNickName = '';
+  applyNickPassword = '';
+  applyNickDisabled = false;
+  applyNickGas: number[] = [null, 2100000];
+  applyNickPrice = 0;
+  applyNickInit() {
+    this.applyNickStep = 0;
+    this.applyNickName = '';
+    this.applyNickPassword = '';
+    this.applyNickDisabled = false;
+  }
+  async getNamePrice() {
+    try {
+      const nickAddress = await this.txService.getAccountByName(this.applyNickName);
+      if(nickAddress) {
+        return this.alert.error("别名已被使用");
+      }
+      this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10,18);
+      this.applyNickStep++;
+    } catch (e) { } finally {
+      this.applyNickDisabled = false;
+    }
+  }
+  async applyNickSubmit() {
+    this.applyNickDisabled = true;
+    const address = this.walletService.wallets.current;
+    try {
+      await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
+      this.applyNickStep++;
+    } catch (e) { } finally {
+      this.applyNickDisabled = false;
+    }
+  }
 }

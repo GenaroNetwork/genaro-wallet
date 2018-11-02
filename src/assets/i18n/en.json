@@ -68,7 +68,9 @@
     "CHARGE_PRICE": "Charge price",
     "PAY_PRICE": "支付价格",
     "STORE_BUCKET": "选择存放空间",
-    "MESSAGE_TITLE": "邮件标题"
+    "MESSAGE_TITLE": "邮件标题",
+    "NICK_NAME": "别名",
+    "NICK_PRICE": "别名价格"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "Please enter the current wallet password",
@@ -172,7 +174,8 @@
     "DELETE_WALLET": "Delete wallet",
     "DELETE_WALLET_TIP": "Please confirm that the wallet has been safely backed up. Otherwise, after the wallet is deleted, the assets in the wallet will be permanently deleted and cannot be retrieved. The assets include your wallet balance and the file information stored.",
     "RECEIVE_COIN": "Receive",
-    "SEND_COIN": "Transfer"
+    "SEND_COIN": "Transfer",
+    "APPLY_NICK": "申请别名"
   },
   "WALLETNEW": {
     "TITLE": "Create a wallet",

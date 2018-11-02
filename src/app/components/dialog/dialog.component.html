@@ -631,3 +631,34 @@
       translate }}</button>
   </ng-container>
 </ng-template>
+
+<!-- 申请别名 -->
+<nz-modal [nzVisible]="dialogName==='applyNick'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false" [nzTitle]="'NICK.APPLY_NICK' | translate"
+  [nzFooter]="applyNickFooter" class="buy-space">
+  <ng-container *ngIf="applyNickStep===0">
+    <app-input (submit)="dialogDone()" name="nickName" [(ipt)]="applyNickName" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="applyNickStep===1">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'INPUT.NICK_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ applyNickPrice }} GNX</div>
+    </div>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="applyNickGas" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="applyNickPassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="applyNickStep===2">
+    <i class="anticon anticon-check-circle"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #applyNickFooter>
+  <ng-container *ngIf="applyNickStep===0">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="applyNickDisabled" (click)="getNamePrice()">{{ 'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="applyNickStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="applyNickStep=applyNickStep-1">{{ 'COMMON.PREV' | translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="applyNickDisabled" (click)="applyNickSubmit()">{{ 'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="sendMessageStep===2">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' | translate }}</button>
+  </ng-container>
+</ng-template>

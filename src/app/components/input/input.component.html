@@ -319,3 +319,13 @@
     <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
   </div>
 </div>
+
+<!-- 申请别名 -->
+<div *ngIf="name==='nickName'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[0]" class="label">
+    {{ 'INPUT.NICK_NAME' | translate }}{{ 'COMMON.COLON' | translate }}
+  </div>
+  <div nz-col [nzSpan]="span[1]">
+    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
+  </div>
+</div>

@@ -68,7 +68,9 @@
     "CHARGE_PRICE": "收费价格",
     "PAY_PRICE": "支付价格",
     "STORE_BUCKET": "选择存放空间",
-    "MESSAGE_TITLE": "邮件标题"
+    "MESSAGE_TITLE": "邮件标题",
+    "NICK_NAME": "别名",
+    "NICK_PRICE": "别名价格"
   },
   "MODEL": {
     "OLD_PASSWORD_PLACEHOLDER": "请输入当前钱包密码",
@@ -173,7 +175,8 @@
     "DELETE_WALLET": "删除钱包",
     "DELETE_WALLET_TIP": "请确认已经安全备份钱包。否则钱包删除后，该钱包内的资产将永久删除，无法找回。资产包括你的钱包余额，以及存储的文件资料。",
     "RECEIVE_COIN": "收款",
-    "SEND_COIN": "转账"
+    "SEND_COIN": "转账",
+    "APPLY_NICK": "申请别名"
   },
   "WALLETNEW": {
     "TITLE": "创建钱包",
@@ -501,5 +504,8 @@
     "SIGN_IN_MESSAGE": "签收",
     "SEND_MESSAGE": "发送邮件",
     "DELETE_MESSAGE": "删除邮件"
+  },
+  "NICK": {
+    "APPLY_NICK": "申请别名"
   }
 }

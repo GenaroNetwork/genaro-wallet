@@ -377,7 +377,37 @@ export class TransactionService {
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'AGREE_SHARE');
+  }
 
+  async applyNick(address: string, password: string, nickName: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x17',
+      msg: nickName
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'APPLY_NICK');
+  }
+
+  async transferNick(address: string, password: string, nickName: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x18',
+      msg: nickName
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'TRANSFER_NICK');
+  }
+
+  async logoutNick(address: string, password: string, nickName: string, toAddress: string, gasLimit: number, gasPriceInGwei: string | number) {
+    const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
+    const inputData = {
+      type: '0x19',
+      msg: nickName,
+      address: toAddress
+    };
+    const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
+    return this.sendTransaction(address, password, txOptions, 'LOUOUT_NICK');
   }
 
   async sendContractTransaction(address: string, password: string, contractAddr: string, inputData: string, TxType: string, gasLimit: number, gasPriceInGwei: string | number) {
@@ -400,6 +430,16 @@ export class TransactionService {
   async getHeft(address: string) {
     // @ts-ignore
     return await web3.genaro.getHeft(address, 'latest');
+  }
+
+  async getAccountByName(name: string) {
+    // @ts-ignore
+    return await web3.genaro.getAccountByName(name, 'latest');
+  }
+
+  async getNamePrice(name: string) {
+    // @ts-ignore
+    return await web3.genaro.getNamePrice(name);
   }
 
   alertError(error: Error) {
