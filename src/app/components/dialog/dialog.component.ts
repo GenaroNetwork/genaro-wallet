@@ -615,6 +615,10 @@ export class DialogComponent implements OnChanges {
   openMessageFromAddress = '';
   openMessageToAddress = '';
   async openMessageInit() {
+    this.openMessageTitle = '';
+    this.openMessageFromAddress = '';
+    this.openMessageToAddress = '';
+    this.openMessageContent = '';
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
       if(data) {

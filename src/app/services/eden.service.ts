@@ -751,17 +751,21 @@ export class EdenService {
 
   async showMessage(file, bucketId) {
     const filePath = join(MESSAGE_STORAGE_PATH, file.id);
-    if (!existsSync(filePath)) {
-      await this.downloadMessage(file, bucketId);
+    if (existsSync(filePath)) {
+      return this.decryptMetaFromFile(filePath);
     }
-    let data = this.decryptMetaFromFile(file.id);
-    return data;
+    else {
+      const downloadPath = join(MESSAGE_STORAGE_PATH, file.id + '_inbox');
+      if (!existsSync(downloadPath)) {
+        await this.downloadMessage(file, bucketId, downloadPath);
+      }
+      return this.decryptFile(downloadPath, file.rsaKey, file.rsaCtr);
+    }
   }
 
-  async downloadMessage(file, bucketId) {
+  async downloadMessage(file, bucketId, filePath) {
     return new Promise((res, rej) => {
       try {
-        const filePath = join(MESSAGE_STORAGE_PATH, file.id);
         let walletAddr = this.walletService.wallets.current;
         const env = this.allEnvs[walletAddr];
         if (!walletAddr.startsWith('0x')) {
@@ -791,7 +795,7 @@ export class EdenService {
           },
           key: key || '',
           ctr: ctr || '',
-          decrypt: true
+          decrypt: false
         });
       } catch (e) {
       }
@@ -803,10 +807,24 @@ export class EdenService {
     return env.encryptMetaToFile(str, join(MESSAGE_STORAGE_PATH, fileId));
   }
 
-  async decryptMetaFromFile(fileId) {
+  async decryptMetaFromFile(filePath) {
     let address = this.walletService.wallets.current;
     const env = this.allEnvs[address];
-    const meta = env.decryptMetaFromFile(join(MESSAGE_STORAGE_PATH, fileId));
+    const meta = env.decryptMetaFromFile(filePath);
+    return JSON.parse(meta);
+  }
+
+  async decryptFile(filePath, rsaKey, rsaCtr) {
+    let address = this.walletService.wallets.current;
+    const env = this.allEnvs[address];
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    let decryptionKey = cryptico.decrypt(rsaKey, this.txEden.RSAPrivateKey[address]);
+    let decryptionCtr = cryptico.decrypt(rsaCtr, this.txEden.RSAPrivateKey[address]);
+    let key = decryptionKey.plaintext;
+    let ctr = decryptionCtr.plaintext;
+    const meta = env.decryptFile(filePath, key, ctr);
     return JSON.parse(meta);
   }
 }
