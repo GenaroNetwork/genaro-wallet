@@ -555,6 +555,7 @@ export class DialogComponent implements OnChanges {
   // signInMessage
   signInMessageStep = 0;
   signInMessagePassword = '';
+  signInMessageGas: number[] = [null, 2100000];
   signInMessageDisabled = false;
   signInMessageInit() {
     this.signInMessageStep = 0;
@@ -564,6 +565,7 @@ export class DialogComponent implements OnChanges {
     this.signInMessageDisabled = true;
     const address = this.walletService.wallets.current;
     try {
+      await this.txService.agreeShare(address, this.signInMessagePassword, this.options, this.signInMessageGas[1], this.signInMessageGas[0]);
       await this.walletService.rejectShare(address, this.signInMessagePassword, this.options);
       await this.txEdenService.getUserMails();
       this.signInMessageStep++;
@@ -599,6 +601,7 @@ export class DialogComponent implements OnChanges {
       if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
         let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
         await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
+        await this.txEdenService.getUserMails();
         this.sendMessageStep++;
       }
       else {
