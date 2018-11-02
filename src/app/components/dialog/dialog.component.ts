@@ -631,4 +631,30 @@ export class DialogComponent implements OnChanges {
       }
     }catch (e) {}
   }
+
+    // deleteMesage
+    deleteMessageStep = 0;
+    deleteMessagePassword = '';
+    deleteMessageDisabled = false;
+    deleteMessageInfo: any = {};
+    deleteMessageInit() {
+      this.deleteMessageStep = 0;
+      this.deleteMessagePassword = '';
+      this.deleteMessageDisabled = false;
+      this.deleteMessageInfo = this.options;
+    }
+    async deleteMessageSubmit() {
+      this.deleteMessageDisabled = true;
+      const address = this.walletService.wallets.current;
+      try {
+        await this.walletService.deleteShare(address, this.deleteMessagePassword, this.deleteMessageInfo.shareId);
+        if(this.deleteMessageInfo.fileId) {
+          await this.edenService.fileRemoveTask([{id: this.deleteMessageInfo.fileId}]);
+        }
+        await this.txEdenService.getUserMails();
+        this.deleteMessageStep++;
+      } catch (e) { } finally {
+        this.deleteShareDisabled = false;
+      }
+    }
 }

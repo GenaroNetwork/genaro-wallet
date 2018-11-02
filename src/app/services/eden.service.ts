@@ -687,8 +687,8 @@ export class EdenService {
         title,
         content
       };
-      // const filename = uuidv1();
-      const filename = title;
+      const filename = uuidv1();
+      //const filename = title;
       const dataStr = JSON.stringify(data);
       this.runAll([dataStr], async (jsonStr, env, cb) => {
         try {

@@ -30,30 +30,31 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="path==='inbox' || path === 'outbox'">
-    <nz-table [nzData]="edenService.currentFiles" #mailsTable>
+    <nz-table [nzData]="mails" #mailsTable>
       <thead>
         <tr>
           <!-- <th></th> -->
-          <!-- <th *ngIf="path==='inbox'">{{ "MAIL.SENDER" | translate }}</th>
-          <th *ngIf="path==='outbox'">{{ "MAIL.RECEIVER" | translate }}</th> -->
+          <th *ngIf="path==='inbox'">{{ "MAIL.SENDER" | translate }}</th>
+          <th *ngIf="path==='outbox'">{{ "MAIL.RECEIVER" | translate }}</th>
           <th>{{ "MAIL.TITLE" | translate }}</th>
           <th>{{ "MAIL.STORAGE" | translate }}</th>
-          <!-- <th>{{ "MAIL.SEND_TIME" | translate }}</th>
-          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th> -->
+          <th>{{ "MAIL.SEND_TIME" | translate }}</th>
+          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th>
           <th>{{ "MAIL.OPERATION" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let mail of mailsTable.data">
           <!-- <td>已读未读</td> -->
-          <!-- <td>发送者 OR 接受者</td> -->
-          <td>{{mail.name}}</td>
-          <td>{{mail.size}}</td>
-          <!-- <td>发送时间</td>
-          <td>接收时间</td> -->
+          <th *ngIf="path==='inbox'">{{mail.fromAddress | longAddr | shortAddr}}</th>
+          <th *ngIf="path==='outbox'">{{mail.toAddress | longAddr | shortAddr}}</th>
+          <td>{{mail.fileName}}</td>
+          <td>{{mail.fileSize | humanSize }}</td>
+          <td>{{mail.created | date }}</td>
+          <td>{{mail.agreeTime | date }}</td>
           <td>
             <button nz-button (click)="showMessage(mail)"><i nz-icon type="eye" theme="outline"></i></button>
-            <button nz-button><i nz-icon type="delete" theme="outline"></i></button>
+            <button nz-button (click)="deleteMessage(mail)"><i nz-icon type="delete" theme="outline"></i></button>
           </td>
           <td></td>
         </tr>

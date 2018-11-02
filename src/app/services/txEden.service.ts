@@ -18,6 +18,8 @@ export class TxEdenService {
   public bucketList: any = [];
   public shareFileList: any = [];
   public shareFiles: BehaviorSubject<any> = new BehaviorSubject({});
+  public mailList: any = [];
+  public mailFiles: BehaviorSubject<any> = new BehaviorSubject({});
   public currentUser: any = {};
   public requestPassword: boolean = null;
 
@@ -27,6 +29,7 @@ export class TxEdenService {
   private bucketsSig = '';
   private userSig = '';
   private shareSig = '';
+  private mailSig = '';
 
   private async send(method, url, data, sig, pubKey) {
     if (!sig || !pubKey) {
@@ -89,10 +92,12 @@ export class TxEdenService {
     this.bucketsSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/buckets', null).signature).toString('hex');
     this.userSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/user/' + walletAddr, null).signature).toString('hex');
     this.shareSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/users/' + walletAddr + '/shares', null).signature).toString('hex');
+    this.mailSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/users/' + walletAddr + '/mails', null).signature).toString('hex');
     const sig = {
       bucketsSig: this.bucketsSig,
       userSig: this.userSig,
       shareSig: this.shareSig,
+      mailSig: this.mailSig,
       publicKey: this.publicKey,
     };
     const delOldSql = `DELETE FROM txeden WHERE address='${walletAddr}'`;
@@ -107,6 +112,7 @@ export class TxEdenService {
     this.bucketsSig = null;
     this.userSig = null;
     this.shareSig = null;
+    this.mailSig = null;
     this.publicKey = null;
   }
 
@@ -115,7 +121,7 @@ export class TxEdenService {
     if (!walletAddr.startsWith('0x')) {
       walletAddr = '0x' + walletAddr;
     }
-    if (this.bucketsSig && this.userSig && this.shareSig && this.publicKey) { return; }
+    if (this.bucketsSig && this.userSig && this.shareSig && this.mailSig && this.publicKey) { return; }
     const data: any = await this.ipc.dbGet('txeden', `SELECT * FROM txeden WHERE address='${walletAddr}'`);
     if (!data) {
       this.requestPass(force);
@@ -126,6 +132,7 @@ export class TxEdenService {
     this.bucketsSig = sigs.bucketsSig;
     this.userSig = sigs.userSig;
     this.shareSig = sigs.shareSig;
+    this.mailSig = sigs.mailSig;
     this.requestPassword = false;
   }
 
@@ -143,6 +150,7 @@ export class TxEdenService {
     this.bucketsSig = null;
     this.userSig = null;
     this.shareSig = null;
+    this.mailSig = null;
     this.publicKey = null;
   }
 
@@ -157,6 +165,7 @@ export class TxEdenService {
         await this.getBuckets(force);
         await this.getUserInfo(force, password, address);
         await this.getUserShares(force, address);
+        await this.getUserMails(force, address);
       }
     } catch (e) {
       console.log(e);
@@ -202,6 +211,22 @@ export class TxEdenService {
       const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
       this.shareFileList = shares;
       this.shareFiles.next(shares || {});
+    } catch (e) {
+      if (e.message.indexOf('401') > -1) {
+        this.requestPass(force);
+      }
+    }
+  }
+
+  async getUserMails(force: boolean = false, address: string = '') {
+    try {
+      let walletAddr = address || this.walletService.wallets.current;
+      if (!walletAddr.startsWith('0x')) {
+        walletAddr = '0x' + walletAddr;
+      }
+      const mails = await this.send('GET', '/users/' + walletAddr + '/mails', null, this.mailSig, this.publicKey);
+      this.mailList = mails;
+      this.mailFiles.next(mails || {});
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);
