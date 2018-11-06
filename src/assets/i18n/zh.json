@@ -278,7 +278,7 @@
     "DELETE_BUCKET_TIP": "确定要删除您已经购买的存储空间么？删除后，您将丢失该存储空间内的所有的文件，并且需要再次购买才能继续上传。",
     "DELETE_BUCKET_TIP2": "其中“{{fileNames}}”已分享给其他用户,删除后,他人无法接收这些文件。",
     "DELETE_BUCKET_DONE": "空间已删除",
-    "DELETE_BUCKET_CONFIRM": "确定删除下列空间",
+    "DELETE_BUCKET_CONFIRM": "删除空间",
     "CREATE_FOLDER": "新建文件夹",
     "DELETE_FOLDER": "删除文件夹",
     "REMOVE_TASK_SUCCESS": "已删除任务记录",
@@ -308,7 +308,8 @@
     "AGREE": "接受",
     "REJECT": "拒绝",
     "AGREED": "已接受",
-    "REJECTED": "已拒绝"
+    "REJECTED": "已拒绝",
+    "DELETE_SHARE_TIP": "确定要删除选中的分享记录吗？"
   },
   "TASK": {
     "FILE_NAME": "文件名",
