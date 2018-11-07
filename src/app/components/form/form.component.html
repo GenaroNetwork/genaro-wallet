@@ -32,7 +32,7 @@
         <app-input name="confirm" (iptChange)="stakeConfirm()" [span]="[6,14]"></app-input>
       </ng-container>
       <div>
-        <i *ngIf="stakeStep===2" class="anticon anticon-check-circle"></i>
+        <i *ngIf="stakeStep===2" nz-icon type="check-circle" theme="outline"></i>
       </div>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
@@ -51,7 +51,7 @@
           <app-input name="confirm" (iptChange)="stakeConfirm()" [span]="[6,14]"></app-input>
         </ng-container>
         <div *ngIf="stakeStep===2">
-          <i class="anticon anticon-check-circle"></i>
+          <i nz-icon type="check-circle" theme="outline"></i>
         </div>
       </ng-container>
     </nz-tab>
@@ -76,7 +76,7 @@
     <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
   </div>
   <div *ngIf="bindNodeStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </div>
 </ng-container>
 
@@ -92,6 +92,6 @@
     <app-input name="confirm" (iptChange)="removeNodeConfirm()" [span]="[6,14]"></app-input>
   </div>
   <div *ngIf="removeNodeStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </div>
 </ng-container>

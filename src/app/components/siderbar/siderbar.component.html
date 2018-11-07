@@ -42,39 +42,39 @@
     </ul>
   </li>
   <li nz-menu-item [routerLink]="['/tx-eden']" [nzSelected]="page==='/tx-eden'" *ngIf="settingService.txEden">
-    <i class="anticon anticon-shop"></i>
+    <i nz-icon type="shop" theme="outline"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.sharer">
-    <i class="anticon anticon-database"></i>
+    <i nz-icon type="database" theme="outline"></i>
     {{ "SIDERBAR.SHARER" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/tx-sharer']" [nzSelected]="page==='/tx-sharer'" *ngIf="settingService.txSharer">
-    <i class="anticon anticon-shop"></i>
+    <i nz-icon type="shop" theme="outline"></i>
     {{ "SIDERBAR.TXSHARER" | translate }}
   </li>
   <li nz-menu-item [routerLink]="['/currentCommittee']" [nzSelected]="page==='/currentCommittee'" *ngIf="settingService.committee">
-    <i class="anticon anticon-team"></i>
+    <i nz-icon type="team" theme="outline"></i>
     {{ "SIDERBAR.COMMITTEE" | translate }}
   </li>
   <li nz-submenu *ngIf="settingService.committee" [nzOpen]="page==='/committee' || page==='/joinCommittee'">
     <span title>
-      <i class="anticon anticon-appstore-o"></i>
+      <i nz-icon type="appstore" theme="outline"></i>
       {{ "SIDERBAR.CO_CONSTRUCTION_NODES" | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/committee']" [nzSelected]="page==='/committee'">
-        <i class="anticon anticon-solution"></i>
+        <i nz-icon type="solution" theme="outline"></i>
         {{ "SIDERBAR.CURRENT_RANKS" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/joinCommittee']" [nzSelected]="page==='/joinCommittee'">
-        <i class="anticon anticon-usergroup-add"></i>
+        <i nz-icon type="usergroup-add" theme="outline"></i>
         {{ "SIDERBAR.JOIN_COMMITTEE" | translate }}
       </li>
     </ul>
   </li>
   <li nz-menu-item [routerLink]="['/downloadMiner']" [nzSelected]="page==='/downloadMiner'" *ngIf="settingService.committee">
-    <i class="anticon anticon-team"></i>
+    <i nz-icon type="team" theme="outline"></i>
     {{ "SIDERBAR.DOWNLOAD_MINER" | translate }}
   </li>
 </ul>

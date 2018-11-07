@@ -70,7 +70,7 @@
     <app-input (submit)="buySpaceSubmit()" name="password" [(ipt)]="buySpacePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buySpaceStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #buySpaceFooter>
@@ -111,7 +111,7 @@
     <app-input (submit)="buyTrafficSubmit()" name="password" [(ipt)]="buyTrafficPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="buyTrafficStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #buyTrafficFooter class="btfooter">
@@ -171,16 +171,17 @@
   (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
   [nzCancelText]="'COMMON.CANCEL' | translate">
   <app-input (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP'| translate" [span]="[2, 20]"></app-input>
-  <app-input *ngIf="!!edenDeleteShareFiles" (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP2'| translate:{fileNames: edenDeleteShareFiles}" [span]="[2, 20]"></app-input>
+  <app-input *ngIf="!!edenDeleteShareFiles" (submit)="dialogDone()" name="text" [ipt]="'EDEN.DELETE_BUCKET_TIP2'| translate:{fileNames: edenDeleteShareFiles}"
+    [span]="[2, 20]"></app-input>
   <app-input (submit)="dialogDone()" name="password-no-label" [(ipt)]="edenDeleteBucket" [span]="[2, 20]"></app-input>
 </nz-modal>
 
 <!-- 删除文件 -->
-<nz-modal [nzTitle]="'EDEN.DELETE_FILES_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteFiles'"
-  (nzOnCancel)="dialogNameChange.emit(null)" (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate"
-  [nzCancelText]="'COMMON.CANCEL' | translate">
+<nz-modal [nzTitle]="'EDEN.DELETE_FILES_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteFiles'" (nzOnCancel)="dialogNameChange.emit(null)"
+  (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
   <div nz-row class="review">
-    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP1' | translate:{fileNames: edenDeleteFileNames} }}</div>
+    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP1' | translate:{fileNames: edenDeleteFileNames}
+      }}</div>
     <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP2' | translate }}</div>
     <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP3' | translate }}</div>
   </div>
@@ -217,7 +218,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="joinCommitteePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="joinCommitteeStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #joinCommitteeFooter>
@@ -239,7 +240,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="approveJoinPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="approveJoinStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #approveJoinFooter>
@@ -260,7 +261,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="relievePassword"></app-input>
   </ng-container>
   <ng-container *ngIf="relieveStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #relieveFooter>
@@ -308,7 +309,7 @@
     <app-input name="password" [(ipt)]="spaceExpansionPassword"></app-input>
   </ng-container>
   <ng-container *ngIf="spaceExpansionStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #spaceExpansionFooter>
@@ -366,7 +367,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="shareFilePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="shareFileStep===2">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #shareFileFooter>
@@ -405,15 +406,15 @@
     <br />
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.STORE_BUCKET' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-        <nz-select nz-col nzSpan="14" [ngModel]="agreeShareBucketId" (ngModelChange)="agreeShareBucketChange($event)">
-          <nz-option *ngFor="let b of agreeShareBuckets" [nzValue]="b.id" [nzLabel]="b.name"></nz-option>
-        </nz-select>
+      <nz-select nz-col nzSpan="14" [ngModel]="agreeShareBucketId" (ngModelChange)="agreeShareBucketChange($event)">
+        <nz-option *ngFor="let b of agreeShareBuckets" [nzValue]="b.id" [nzLabel]="b.name"></nz-option>
+      </nz-select>
     </div>
     <app-input (submit)="dialogDone()" name="gas" [(ipt)]="agreeShareGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="agreeSharePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="agreeShareStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #agreeShareFooter>
@@ -445,7 +446,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="rejectSharePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="rejectShareStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #rejectShareFooter>
@@ -470,7 +471,7 @@
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="deleteSharePassword" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="deleteShareStep===1">
-    <i class="anticon anticon-check-circle"></i>
+    <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
 <ng-template #deleteShareFooter>

@@ -9,7 +9,7 @@
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
         <a nz-dropdown>
           {{ 'WALLET.CONFIG' | translate }}
-          <i class="anticon anticon-down"></i>
+          <i nz-icon type="down" theme="outline"></i>
         </a>
         <ul nz-menu>
           <li nz-menu-item (click)="dialogName='walletChangeName'">
@@ -32,11 +32,12 @@
       <app-copy [data]="walletService.wallets.current | longAddr"></app-copy>
     </div>
     <div class="operations">
-      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight" [nzContent]="popoverReceive">
+      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight"
+        [nzContent]="popoverReceive">
         {{ "WALLET.RECEIVE_COIN" | translate}}
       </button>
-      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomLeft" [nzContent]="popoverSend"
-        [(nzVisible)]="popoverSendVisible">
+      <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomLeft"
+        [nzContent]="popoverSend" [(nzVisible)]="popoverSendVisible">
         {{ "WALLET.SEND_COIN" | translate}}
       </button>
       <!-- QRCODE -->

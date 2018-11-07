@@ -4,15 +4,15 @@
       <div class="back" (click)="toFrontPage()" *ngIf="newWalletType!==null">&lt;&nbsp;{{ "COMMON.BACK" | translate }}</div>
       {{ title | translate }}
       <div class="close" (click)="ALL_DONE()" *ngIf="wallet.wallets.current !== null">
-        <i class="anticon anticon-close"></i>
+        <i nz-icon type="close" theme="outline"></i>
       </div>
     </div>
 
     <div *ngIf="newWalletType===null" class="front-page">
       <div class="generate"></div>
-      <br/>
+      <br />
       <button nz-button nzType="primary" (click)="toCreate()">{{ 'WALLETNEW.BUTTON_NEWWALLET' | translate }}</button>
-      <br/>
+      <br />
       <button nz-button nzType="dashed" (click)="toImport()">{{ 'WALLETNEW.BUTTON_IMPORTWALLET' | translate }}</button>
     </div>
 
@@ -62,12 +62,13 @@
       <div *ngIf="createStep===2">
         <div class="password">
           <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="password">
-          <br/>
-          <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="passwordRepeat">
+          <br />
+          <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}"
+            [(ngModel)]="passwordRepeat">
         </div>
         <button nz-button (click)="createStep=createStep-1">{{ 'COMMON.PREV' | translate }}</button>
         <button nz-button nzType="primary" (click)="validatePassword()" [disabled]="loading">
-          <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+          <i *ngIf="loading" nz-icon type="loading" theme="outline" [spin]="true"></i>
           {{ 'COMMON.NEXT' | translate }}
         </button>
       </div>
@@ -83,7 +84,7 @@
             </nz-input-group>
             <ng-template #createWalletChangeName>
               <button nzSearch nz-button (click)="isEdit ? changeWalletName() : null;isEdit=!isEdit;">
-                <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
+                <i nz-icon [type]="isEdit ? 'check' : 'edit'" theme="outline"></i>
               </button>
             </ng-template>
             <div>{{ walletAddress | longAddr }}</div>
@@ -113,7 +114,8 @@
             {{ 'WALLETNEW.IMPORTWALLET_FROM_JSON' | translate }}
           </div>
         </div>
-        <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="importType===null">{{ 'COMMON.NEXT' | translate }}</button>
+        <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="importType===null">{{
+          'COMMON.NEXT' | translate }}</button>
       </div>
 
       <!-- Step 1 -->
@@ -125,7 +127,7 @@
           <div class="inputmnemonic">
             <textarea row="4" nz-input [(ngModel)]="mnemonic" placeholder="{{ 'WALLETNEW.MNEMONIC_PLACEHOLDER' | translate }}"></textarea>
           </div>
-          <br/>
+          <br />
           <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
           <button nz-button nzType="primary" (click)="validateOldMnemonic()">{{ 'COMMON.NEXT' | translate }}</button>
         </div>
@@ -134,38 +136,43 @@
         <div *ngIf="importType === 'json'">
           <div class="tip">{{ 'WALLETNEW.JSON_TIP' | translate }}</div>
           <div class="selectjson" (click)="selectJson()">
-            <i class="anticon anticon-plus"></i>
+            <i nz-icon type="plus" theme="outline"></i>
             <div *ngIf="!walletJson">{{ 'WALLETNEW.JSON_SELECT_TIP' | translate }}</div>
             <div *ngIf="walletJson">{{ walletJsonName }}</div>
           </div>
           <div class="tip">{{ 'WALLETNEW.JSON_PRIVATE_TIP' | translate }}</div>
-          <br/>
+          <br />
           <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
-          <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="!walletJson">{{ 'COMMON.NEXT' | translate }}</button>
+          <button nz-button nzType="primary" (click)="importStep=importStep+1" [disabled]="!walletJson">{{
+            'COMMON.NEXT' | translate }}</button>
         </div>
       </div>
 
       <div *ngIf="importStep===2">
         <div *ngIf="importType === 'mnemonic'">
           <div class="password">
-            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="password">
-            <br/>
-            <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="passwordRepeat">
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}"
+              [(ngModel)]="password">
+            <br />
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.REPEAT_PASSWORD_PLACEHOLDER' | translate }}"
+              [(ngModel)]="passwordRepeat">
           </div>
           <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
           <button nz-button nzType="primary" (click)="validatePassword()" [disabled]="loading">
-            <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+
+            <i *ngIf="loading" nz-icon type="loading" theme="outline" [spin]="true"></i>
             {{ 'COMMON.NEXT' | translate }}
           </button>
         </div>
 
         <div *ngIf="importType === 'json'">
           <div class="password">
-            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="oldPassword">
+            <input nz-input type="password" placeholder="{{ 'WALLETNEW.PASSWORD_PLACEHOLDER' | translate }}"
+              [(ngModel)]="oldPassword">
           </div>
           <button nz-button (click)="importStep=importStep-1">{{ 'COMMON.PREV' | translate }}</button>
           <button nz-button nzType="primary" (click)="validateOldPassword()" [disabled]="loading">
-            <i *ngIf="loading" class="anticon anticon-spin anticon-loading"></i>
+            <i *ngIf="loading" nz-icon type="loading" theme="outline" [spin]="true"></i>
             {{ 'COMMON.NEXT' | translate }}
           </button>
         </div>
