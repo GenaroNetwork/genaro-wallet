@@ -172,6 +172,18 @@ export class WalletService {
     }
   }
 
+  async getShareExist(shareId) {
+    let res = await fetch(BRIDGE_API_URL + '/share/' + shareId + '/exist', {
+      method: 'GET'
+    });
+    try {
+      let data = await res.json();
+      return data.exist;
+    } catch (e) {
+      return false;
+    }
+  }
+
   async agreeShare(address, password, shareId, bucketId) {
     const method = 'PUT';
     if (!address.startsWith('0x')) {

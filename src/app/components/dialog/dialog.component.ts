@@ -474,6 +474,9 @@ export class DialogComponent implements OnChanges {
     this.agreeShareDisabled = true;
     const address = this.walletService.wallets.current;
     try {
+      if(!(await this.walletService.getShareExist(this.agreeShareInfo._id))) {
+        return this.alert.error(this.i18n.instant("ERROR.SHARE_FILE_NOT_EXIST"));
+      }
       await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
       await this.walletService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareBucketId);
       await this.txEdenService.getUserShares();
