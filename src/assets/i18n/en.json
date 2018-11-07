@@ -315,7 +315,8 @@
     "AGREE": "接受",
     "REJECT": "拒绝",
     "AGREED": "已接受",
-    "REJECTED": "已拒绝"
+    "REJECTED": "已拒绝",
+    "DELETE_SHARE_TIP": "确定要删除选中的分享记录吗？"
   },
   "TASK": {
     "FILE_NAME": "Filename",
@@ -486,7 +487,8 @@
     "FILE_CANNOT_SHARE": "该文件不能分享",
     "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
     "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
-    "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件"
+    "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件",
+    "SHARE_FILE_NOT_EXIST": "分享源文件不存在或已被删除，不能接收"
   },
   "MAIL": {
     "INBOX": "收件箱",

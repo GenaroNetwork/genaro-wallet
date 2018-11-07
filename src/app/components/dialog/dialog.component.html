@@ -464,16 +464,7 @@
   [nzTitle]="'TXEDEN.DELETE_SHARE' | translate" [nzFooter]="deleteShareFooter" class="buy-space">
   <ng-container *ngIf="deleteShareStep===0">
     <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.fileName }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.FILE_SIZE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.fileSize | humanSize }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ deleteShareInfo.price }}</div>
+      <div nz-col nzSpan="24" class="text-center">{{'EDEN_FILE_SHARE.DELETE_SHARE_TIP' | translate }}</div>
     </div>
     <br />
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="deleteSharePassword" [span]="[6, 14]"></app-input>
