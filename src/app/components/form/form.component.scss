@@ -3,7 +3,7 @@
 .sendTx {
   min-width: 20rem;
 
-  .anticon {
+  [nz-icon] {
     line-height: 40px;
     cursor: pointer;
   }

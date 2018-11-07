@@ -1,8 +1,8 @@
 <div class="header">
   <div class="card info">
     <div>
-        {{'TXSHARER.HEFT' | translate}}
-        <span>{{ heft * 10000 | formatSentinel }}<span> {{'TXSHARER.SCORE' | translate}}</span></span>
+      {{'TXSHARER.HEFT' | translate}}
+      <span>{{ heft * 10000 | formatSentinel }}<span> {{'TXSHARER.SCORE' | translate}}</span></span>
     </div>
     <a (click)='openSentinel()'>
       <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: heftRank}">
@@ -11,20 +11,23 @@
     <div [innerHtml]="'TXSHARER.STAKE_AMOUNT' | translate:{stake: stakeAmount}">
     </div>
     <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()" class="genaro-question-button">
-        <i class="anticon genaro-question"></i>
+      <i class="anticon genaro-question"></i>
     </button>
   </div>
   <div class="card opera">
     <div class="status">
-      <span>{{ 'TXSHARER.BINDED' | translate }}/{{ 'TXSHARER.ALLBINDABLE' | translate }}{{ 'COMMON.COLON' | translate }}</span>
+      <span>{{ 'TXSHARER.BINDED' | translate }}/{{ 'TXSHARER.ALLBINDABLE' | translate }}{{ 'COMMON.COLON' | translate
+        }}</span>
       &nbsp;
       <span class="stake-percent">{{ staked }}/{{stakeAll }}</span>
     </div>
     <div class="opera">
-      <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="stakePopover" nzTrigger="click" nzPlacement="bottomRight">
+      <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="stakePopover" nzTrigger="click"
+        nzPlacement="bottomRight">
         {{ 'TXSHARER.STAKE' | translate }}
       </button>
-      <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="bindNodePopover" nzTrigger="click" nzPlacement="bottomLeft">
+      <button nz-button nzType="primary" nzSize="large" nz-popover [nzContent]="bindNodePopover" nzTrigger="click"
+        nzPlacement="bottomLeft">
         {{ 'TXSHARER.BIND_NODE' | translate }}
       </button>
       <ng-template #stakePopover>

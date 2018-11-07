@@ -8,7 +8,7 @@
           <nz-dropdown [nzTrigger]="'click'">
             <a nz-dropdown>
               {{ ("TABLE.TX." + txType) | translate }}
-              <i class="anticon anticon-down"></i>
+              <i nz-icon type="down" theme="outline"></i>
             </a>
             <ul nz-menu>
               <li nz-menu-item (click)="txChangeType('TYPE_ALL')">{{ "TABLE.TX.TYPE_ALL" | translate }}</li>
@@ -32,9 +32,9 @@
     <tbody>
       <tr *ngFor="let data of txTable.data">
         <td>
-          <i *ngIf="data.state===1 || data.state===2" class="anticon anticon-question-circle"></i>
-          <i *ngIf="data.state===3" class="anticon anticon-close-circle"></i>
-          <i *ngIf="data.state===4" class="anticon anticon-check-circle"></i>
+          <i *ngIf="data.state===1 || data.state===2" nz-icon type="question-circle" theme="outline"></i>
+          <i *ngIf="data.state===3" nz-icon type="close-circle" theme="outline"></i>
+          <i *ngIf="data.state===4" nz-icon type="check-circle" theme="outline"></i>
         </td>
         <td>{{ data.hash | shortAddr }}
           <app-copy [data]="data.hash"></app-copy>
@@ -116,7 +116,8 @@
 
   <!-- sharer -->
   <nz-table *ngIf="name==='sharer'" #sharerTable [nzData]="sharer.driversData | async" nzShowPagination="false"
-    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate" [nzPageSize]="100">
+    [nzScroll]='{ y: el.nativeElement.offsetHeight - 60 + "px"}' [nzNoResult]="'DRIVE.NONE_DRIVE_TIP' | translate"
+    [nzPageSize]="100">
     <thead>
       <tr>
         <th nzWidth="25%" *ngIf="opt.nodeColShow">{{ "DRIVE.NODE" | translate}}</th>
@@ -257,20 +258,20 @@
         <td>
           <a *ngIf="opt==='eden-inprocess' && !edenService.requestEnv; else showDelete" nz-popconfirm [nzTitle]="'TASK.STOP_TASK_TIP'| translate"
             (nzOnConfirm)="edenService.cancelTask(task.id)" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-            <i class="anticon anticon-close"></i>
+            <i nz-icon type="close-circle" theme="outline"></i>
           </a>
           <ng-template #showDelete>
             <a [routerLink]="['/eden', {path: task.onlinePath}]" *ngIf="task.type === TASK_TYPE['FILE_UPLOAD']">
               <!-- [task.bucketName].concat(task.fileName.split("/").slice(0,-1)).join("/") }} -->
-              <i class="anticon anticon-folder"></i>
+              <i nz-icon type="folder" theme="outline"></i>
             </a>
             <a (click)="shell.showItemInFolder(task.nativePath)" *ngIf="task.type === TASK_TYPE['FILE_DOWNLOAD']">
-              <i class="anticon anticon-folder"></i>
+              <i nz-icon type="folder" theme="outline"></i>
             </a>
             &nbsp;
             &nbsp;
             <a (click)="edenService.removeTask(task.id)">
-              <i class="anticon anticon-delete"></i>
+              <i nz-icon type="delete" theme="outline"></i>
             </a>
           </ng-template>
         </td>
@@ -282,7 +283,7 @@
   <div *ngIf="name==='rank'" class="panel">
     <div class="header">
       <a *ngIf="showRankBack" (click)="resetSearchRankFarmer()">
-        <i class="anticon anticon-left"></i>
+        <i nz-icon type="left" theme="outline"></i>
       </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
@@ -291,7 +292,7 @@
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="searchRankFarmer()">
-          <i class="anticon anticon-search"></i>
+          <i nz-icon type="search" theme="outline"></i>
         </button>
       </ng-template>
     </div>
@@ -326,7 +327,7 @@
   <div *ngIf="name==='committee'" class="panel">
     <div class="header">
       <a *ngIf="showBack" (click)="resetSearchFarmer()">
-        <i class="anticon anticon-left"></i>
+        <i nz-icon type="left" theme="outline"></i>
       </a>
       <span>{{ 'TABLE.COMMITTEE.NODE_LIST' | translate }}</span>
       <nz-input-group nzSearch [nzSuffix]="suffixIconButton" class="searchInput">
@@ -335,7 +336,7 @@
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="searchFarmer()">
-          <i class="anticon anticon-search"></i>
+          <i nz-icon type="search" theme="outline"></i>
         </button>
       </ng-template>
     </div>
@@ -434,11 +435,11 @@
         </div>
         <div *ngIf="data.agree">
           <a [routerLink]="['/eden', {path: data.toBucket}]">
-            <i class="anticon anticon-folder"></i>
+            <i nz-icon type="folder" theme="outline"></i>
           </a>
           &nbsp;&nbsp;
           <a (click)="action.emit(['delete', data])">
-            <i class="anticon anticon-delete"></i>
+            <i nz-icon type="delete" theme="outline"></i>
           </a>
         </div>
       </td>
@@ -480,11 +481,11 @@
       </td>
       <td>
         <a [routerLink]="['/eden', {path: data.fromBucket}]">
-          <i class="anticon anticon-folder"></i>
+          <i nz-icon type="folder" theme="outline"></i>
         </a>
         &nbsp;&nbsp;
         <a (click)="action.emit(['delete', data])">
-          <i class="anticon anticon-delete"></i>
+          <i nz-icon type="delete" theme="outline"></i>
         </a>
       </td>
     </tr>

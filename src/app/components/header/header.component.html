@@ -1,7 +1,7 @@
 <div class="header">
   <div class="left">
     <a href="javascript:void(0)" (click)="setting.set('appType', null)" *ngIf="setting.appType!==null">
-      <i class="anticon anticon-menu-fold"></i>
+      <i nz-icon type="menu-unfold" theme="outline"></i>
     </a>
     G-BOX
   </div>
@@ -12,14 +12,15 @@
     </span>
     <div class="block-height" *ngIf="txService.readyState===true">
       {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
-      <i *ngIf="txService.chainSyncing[0]" class="anticon anticon-spin anticon-sync"></i>
+      <i *ngIf="txService.chainSyncing[0]" nz-icon type="sync" theme="outline" [spin]="true"></i>
     </div>
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click" [nzDisabled]="setting.appType===null">
         <a nz-dropdown>
           <nz-avatar [nzSrc]="('avatar://' + walletService.wallets.current) | safe"></nz-avatar>
-          {{ (walletService.wallets.all | getWallet:walletService.wallets.current).name || ("HEADER.NO_ACCOUNT" | translate) }}
-          <i class="anticon anticon-down"></i>
+          {{ (walletService.wallets.all | getWallet:walletService.wallets.current).name || ("HEADER.NO_ACCOUNT" |
+          translate) }}
+          <i nz-icon type="down" theme="outline"></i>
         </a>
         <ul nz-menu>
           <li nz-menu-item *ngFor="let wallet of walletService.wallets.all">
