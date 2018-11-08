@@ -31,18 +31,10 @@ $error-color: rgb(200, 50, 25);
   width: 16px;
   height: 16px;
   top: 4px;
-  >.genaro-question::before {
-    content: url('assets/img/question_circle_grey.svg');
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-  }
+  background-image: url('assets/img/question_circle_grey.svg');
+ 
   &:hover {
-    >.genaro-question::before {
-      content: url('assets/img/question_circle_blue.svg');
-    }
+    background-image: url('assets/img/question_circle_blue.svg');
   }
 }
 
