@@ -152,7 +152,8 @@ export class WalletService {
     const url = '/shares';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
-    const privKeyBuffer = new Buffer(privKey, 'hex');
+    // @ts-ignore
+    const privKeyBuffer = new Buffer.from(privKey, 'hex');
     const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
     const data = {
       bucketEntryId: bucketEntryId,
@@ -164,7 +165,8 @@ export class WalletService {
     }
     const dataStr = JSON.stringify(data);
     const hash = this.getHash(method, url, dataStr);
-    const msg = new Buffer(hash, 'hex');
+    // @ts-ignore
+    const msg = new Buffer.from(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
     let res = await fetch(BRIDGE_API_URL + url, {
       method: method,
@@ -314,7 +316,8 @@ export class WalletService {
   }
 
   private getHash(method, url, data) {
-    const contract = new Buffer([
+    // @ts-ignore
+    const contract = new Buffer.from([
       method,
       url,
       data
