@@ -42,7 +42,7 @@
     "DOWNLOADMINER": "'Download'",
     "DOWNLOADMINER_TIPS3": " installer and miner userguide",
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
-    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
+    "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
@@ -306,7 +306,8 @@
     "OPERATION": "操作",
     "AGREE": "接受",
     "REJECT": "拒绝",
-    "AGREED": "已接受",
+    "WAITING_AGREE": "等待接收",
+    "AGREED": "已接收",
     "REJECTED": "已拒绝",
     "DELETE_SHARE_TIP": "确定要删除选中的分享记录吗？"
   },
