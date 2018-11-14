@@ -165,13 +165,13 @@ export class EdenComponent implements OnInit {
   shareFile() {
     let selectedFiles = this.getCurrentFiles();
     let shareFile;
-    if(selectedFiles && selectedFiles.length > 0) {
+    if (selectedFiles && selectedFiles.length > 0) {
       shareFile = selectedFiles[0];
     }
-    if(!shareFile) {
+    if (!shareFile) {
       return this.alert.error(this.i18n.instant('ERROR.SELECT_FILE'));
     }
-    else if(!shareFile.rsaKey || !shareFile.rsaCtr) {
+    else if (!shareFile.rsaKey || !shareFile.rsaCtr) {
       return this.alert.error(this.i18n.instant('ERROR.FILE_CANNOT_SHARE'));
     }
     this.edenDialogOpt = shareFile;
@@ -195,7 +195,7 @@ export class EdenComponent implements OnInit {
     this.edenDialogName = 'edenDeleteBucket';
   }
 
-  type2icon(type: string, rotate: boolean = false) {
+  type2icon(type: string) {
     type = type.toLowerCase();
     let icon = '';
     switch (type) {
@@ -248,7 +248,7 @@ export class EdenComponent implements OnInit {
         icon = 'file-unknown';
         break;
     }
-    return `anticon anticon-${icon} ${rotate ? 'anticon-spin' : ''}`;
+    return `${icon}`;
   }
 
 }
