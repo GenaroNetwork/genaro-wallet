@@ -33,7 +33,11 @@ export class FormComponent implements OnChanges {
   sendTxAmount = 0;
   sendTxGas = [null, 21000];
   sendTxPassword = '';
-  async submitSendTx() {
+  async submitSendTx(e) {
+    if (e === 'cancel') {
+      this.sendTxStep = 0;
+      return;
+    }
     const from = this.walletService.wallets.current;
     let to = this.sendTxAddress;
     await this.txService.transfer(from, this.sendTxPassword, to, this.sendTxAmount, this.sendTxGas[1], this.sendTxGas[0]);

@@ -7,7 +7,7 @@
   <li nz-submenu [nzOpen]="page==='/eden' || open(page,'/eden;path=') || page==='/eden-file-share' || page==='/eden-file-receive'"
     *ngIf="settingService.eden">
     <span title>
-      <i nz-icon type="clock-circle" theme="outline"></i>
+      <i nz-icon type="file" theme="outline"></i>
       {{ "SIDERBAR.EDEN_FILE" | translate }}
     </span>
     <ul>
@@ -16,7 +16,7 @@
         {{ "SIDERBAR.EDEN" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'">
-        <i nz-icon type="folder" theme="outline"></i>
+        <i nz-icon type="download" theme="outline"></i>
         {{ "SIDERBAR.EDEN_FILE_RECEIVE" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-file-share']" [nzSelected]="page==='/eden-file-share'">
