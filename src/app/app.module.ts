@@ -13,21 +13,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // And Design
 import { IconDefinition } from '@ant-design/icons-angular';
-<<<<<<< HEAD
-import { AccountBookFill, AlertFill, AlertOutline } from '@ant-design/icons-angular/icons';
 import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
-=======
-import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
-import * as AllIcons from '@ant-design/icons-angular/icons';
-const antDesignIcons = AllIcons as {[key: string]: IconDefinition;};
+const antDesignIcons = AllIcons as { [key: string]: IconDefinition; };
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
->>>>>>> master
 
 // elecreon
 // import { ElectronService } from './providers/electron.service';
