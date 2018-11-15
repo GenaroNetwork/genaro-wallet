@@ -13,6 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // And Design
 import { IconDefinition } from '@ant-design/icons-angular';
+<<<<<<< HEAD
 import { AccountBookFill, AlertFill, AlertOutline } from '@ant-design/icons-angular/icons';
 import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
 import * as AllIcons from '@ant-design/icons-angular/icons';
@@ -20,6 +21,13 @@ const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
+=======
+import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
+import * as AllIcons from '@ant-design/icons-angular/icons';
+const antDesignIcons = AllIcons as {[key: string]: IconDefinition;};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+
+>>>>>>> master
 
 // elecreon
 // import { ElectronService } from './providers/electron.service';
@@ -61,6 +69,7 @@ import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 import { MailComponent } from './components/mail/mail.component';
+import { ElectronService } from './providers/electron.service';
 
 
 // AoT requires an exported function for factories
@@ -129,8 +138,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-    { provide: NZ_ICON_DEFAULT_TWOTONE_COLOR, useValue: '#00ff00' }, // 不提供的话，即为 Ant Design 的主题蓝色
-    { provide: NZ_ICONS, useValue: icons }
+    ElectronService,
+    { provide: NZ_ICON_DEFAULT_TWOTONE_COLOR, useValue: '#00ff00' },
+    { provide: NZ_ICONS, useValue: icons },
   ],
   bootstrap: [AppComponent]
 })

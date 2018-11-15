@@ -6,6 +6,10 @@
 
     .label {
       text-align: right;
+
+      &+div {
+        word-break: break-all;
+      }
     }
 
     &.gas {
@@ -20,8 +24,13 @@
       }
     }
 
-    .confirm {
+    .step {
       text-align: right;
+
+      button {
+        display: inline-block;
+        margin-left: 1rem;
+      }
     }
   }
 

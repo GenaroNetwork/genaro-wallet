@@ -27,12 +27,15 @@
   </li>
   <li nz-submenu [nzOpen]="page==='/eden-inprocess' || page==='/eden-done'" *ngIf="settingService.eden">
     <span title>
-      <i nz-icon type="ordered-list" theme="outline"></i>
-      {{ "SIDERBAR.EDEN_TASK" | translate }}
+      <<<<<<< HEAD <i nz-icon type="ordered-list" theme="outline"></i>
+        =======
+        <i nz-icon type="clock-circle" theme="outline"></i>
+        >>>>>>> master
+        {{ "SIDERBAR.EDEN_TASK" | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden-inprocess']" [nzSelected]="page==='/eden-inprocess'">
-        <i nz-icon type="loading" theme="outline"></i>
+        <i nz-icon type="sync" theme="outline" [spin]="(this.edenService.tasks | tableTask:'eden-inprocess').length>0"></i>
         {{ "SIDERBAR.EDEN_INPROCESS" | translate }}
       </li>
       <li nz-menu-item [routerLink]="['/eden-done']" [nzSelected]="page==='/eden-done'">

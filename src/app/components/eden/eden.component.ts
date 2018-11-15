@@ -209,7 +209,7 @@ export class EdenComponent implements OnInit {
     this.edenDialogName = 'edenDeleteBucket';
   }
 
-  type2icon(type: string, rotate: boolean = false) {
+  type2icon(type: string) {
     type = type.toLowerCase();
     let icon = '';
     switch (type) {
@@ -262,7 +262,7 @@ export class EdenComponent implements OnInit {
         icon = 'file-unknown';
         break;
     }
-    return `anticon anticon-${icon} ${rotate ? 'anticon-spin' : ''}`;
+    return `${icon}`;
   }
 
 }

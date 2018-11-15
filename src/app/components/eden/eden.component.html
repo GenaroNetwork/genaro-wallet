@@ -38,7 +38,7 @@
 <div class="content" (contextmenu)="rightClick($event)" (mousedown)="mouseDown($event, -1)">
   <div *ngFor="let file of edenService.currentView; let i = index" class="file" [class.selected]="fileSelected.has(i)"
     [class.notblur]="file.type!=='bucket'" (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(i)">
-    <i *ngIf="file.type!=='bucket'" [class]="type2icon(file.type)"></i>
+    <i *ngIf="file.type!=='bucket'" nz-icon [type]="type2icon(file.type)" theme="outline"></i>
     <i *ngIf="file.type==='bucket'" class="bucket-icon"></i>
     <div class="name">{{ file.name }}</div>
     <ng-container *ngIf="file.type==='bucket'">
