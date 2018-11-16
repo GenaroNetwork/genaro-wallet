@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { remote } from 'electron';
 import { WalletService } from '../../services/wallet.service';
@@ -12,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd';
   templateUrl: './eden.component.html',
   styleUrls: ['./eden.component.scss']
 })
-export class EdenComponent implements OnInit {
+export class EdenComponent implements OnInit, OnDestroy {
   constructor(
     public edenService: EdenService,
     private txEdenService: TxEdenService,
@@ -28,6 +28,7 @@ export class EdenComponent implements OnInit {
   lastFileSelected: number = null;
   selectedIncludeFolder = false;
   zone: NgZone;
+  walletSub: any;
 
   ngOnInit() {
     this.edenService.updateAll();
@@ -42,6 +43,15 @@ export class EdenComponent implements OnInit {
       pathArr.unshift('/');
       this.edenService.changePath(pathArr);
     }
+    this.walletSub = this.walletService.currentWallet.subscribe(async () => {
+      this.txEdenService.clearAllSig();
+      await this.txEdenService.getAll(true);
+      await this.edenService.updateAll([]);
+    });
+  }
+
+  ngOnDestroy() {
+    this.walletSub.unsubscribe();
   }
 
   clearSelect() {

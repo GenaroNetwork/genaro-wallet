@@ -287,7 +287,7 @@ export class DialogComponent implements OnChanges {
     }
   };
   edenDeleteFilesDone() {
-    this.edenService.fileRemoveTask(this.options.files);
+    this.edenService.fileRemoveTask(this.options);
   }
 
 
