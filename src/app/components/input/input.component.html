@@ -27,7 +27,9 @@
     {{ 'INPUT.AMOUNT' | translate }}{{ 'COMMON.COLON' | translate }}
   </div>
   <div nz-col [nzSpan]="span[1]">
-    <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
+    <nz-input-group nzAddOnAfter="GNX">
+      <input [value]="ipt" type="text" nz-input (keyup.enter)="submit.emit()" (input)="iptChange.emit($event.target.value)">
+    </nz-input-group>
   </div>
 </div>
 
@@ -217,19 +219,18 @@
   </div>
 </div>
 
-<!-- 确认按钮 -->
-<div *ngIf="name==='confirm'" nz-row nzType="flex" nzAlign="middle">
-  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="confirm">
-    <button nz-button nzType="primary" (click)="iptChange.emit()">{{ (ipt || 'COMMON.CONFIRM') | translate }}</button>
+<!-- 确认/取消 按钮 -->
+<div *ngIf="name==='step'" nz-row nzType="flex" nzAlign="middle">
+  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="step">
+    <button *ngIf="ipt[0]!==null" nz-button (click)="iptChange.emit('cancel')">{{ (ipt[0] ||
+      'COMMON.CANCEL')
+      | translate }}</button>
+    <button *ngIf="ipt[1]!==null" nz-button nzType="primary" (click)="iptChange.emit()">{{ (ipt[1] || 'COMMON.CONFIRM')
+      | translate }}</button>
   </div>
 </div>
 
-<!-- 取消按钮 -->
-<div *ngIf="name==='cancel'" nz-row nzType="flex" nzAlign="middle">
-  <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]">
-    <button nz-button nzType="primary" (click)="iptChange.emit()">{{ 'COMMON.CONFIRM' | translate }}</button>
-  </div>
-</div>
+
 
 
 <!-- 文字 -->
