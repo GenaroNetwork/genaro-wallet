@@ -42,7 +42,7 @@
     "DOWNLOADMINER": "“下载”",
     "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明",
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
-    "DELETE_SHARE_CONFIRM": "点击确认后，将自动删除本条文信息。"
+    "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",
@@ -300,6 +300,7 @@
     "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
     "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
     "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。",
+    "DELETE_FILES_TIP4": "确定要删除所选文件么?",
     "SEND_MESSAGE_ERROR": "邮件发送失败",
     "SEND_MESSAGE_DONE": "邮件发送成功"
   },
@@ -315,7 +316,8 @@
     "OPERATION": "操作",
     "AGREE": "接受",
     "REJECT": "拒绝",
-    "AGREED": "已接受",
+    "WAITING_AGREE": "等待接收",
+    "AGREED": "已接收",
     "REJECTED": "已拒绝",
     "DELETE_SHARE_TIP": "确定要删除选中的分享记录吗？"
   },

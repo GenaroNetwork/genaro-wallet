@@ -13,10 +13,10 @@ import { UPDATE_STATES } from "../../libs/config";
 export class InputComponent implements OnChanges {
 
   @Input('name') name: string;
-  @Input('ipt') ipt: any;
   @Input('span') span: number[] = [6, 18];
-  @Input('iptExtra') iptExtra: string[] = [];
+  @Input('ipt') ipt: any;
   @Output('iptChange') iptChange: EventEmitter<any> = new EventEmitter;
+  @Input('iptExtra') iptExtra: string[] = [];
   @Output("submit") submit: EventEmitter<any> = new EventEmitter;
 
   shell = shell;

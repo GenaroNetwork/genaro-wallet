@@ -13,16 +13,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // And Design
 import { IconDefinition } from '@ant-design/icons-angular';
-import { AccountBookFill, AlertFill, AlertOutline } from '@ant-design/icons-angular/icons';
 import { NgZorroAntdModule, NZ_ICON_DEFAULT_TWOTONE_COLOR, NZ_ICONS } from 'ng-zorro-antd';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
+const antDesignIcons = AllIcons as {[key: string]: IconDefinition;};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+
 
 // elecreon
-// import { ElectronService } from './providers/electron.service';
+import { ElectronService } from './providers/electron.service';
 
 // services
 
@@ -129,8 +127,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   providers: [
-    { provide: NZ_ICON_DEFAULT_TWOTONE_COLOR, useValue: '#00ff00' }, // 不提供的话，即为 Ant Design 的主题蓝色
-    { provide: NZ_ICONS, useValue: icons }
+    ElectronService,
+    { provide: NZ_ICON_DEFAULT_TWOTONE_COLOR, useValue: '#00ff00' },
+    { provide: NZ_ICONS, useValue: icons },
   ],
   bootstrap: [AppComponent]
 })

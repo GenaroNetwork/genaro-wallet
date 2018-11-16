@@ -188,7 +188,7 @@
             </nz-input-group>
             <ng-template #createWalletChangeName>
               <button nzSearch nz-button (click)="isEdit ? changeWalletName() : null;isEdit=!isEdit;">
-                <i [class]="isEdit ? 'anticon anticon-check' : 'anticon anticon-edit'"></i>
+                <i nz-icon [type]="isEdit ? 'check' : 'edit'" theme="outline"></i>
               </button>
             </ng-template>
             <div>{{ walletAddress | longAddr }}</div>
