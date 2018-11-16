@@ -77,3 +77,48 @@
     }
   }
 }
+
+:host:not(.long-page) {
+  ::ng-deep .ant-spin-nested-loading {
+    position: static;
+    .ant-spin-container {
+      position: static;
+      nz-pagination {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+}
+
+nz-table {
+  ::ng-deep nz-pagination>ul {
+    position: relative;
+    right: 1rem;
+  }
+  th,
+  td {
+    padding: 1rem 0.5rem;
+    &:first-of-type {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.tx {
+  td {
+    i.anticon {
+      font-size: 1rem;
+      &.anticon-check-circle {
+        color: $success-color;
+      }
+      &.anticon-question-circle {
+        color: $warn-color;
+      }
+      &.anticon-close-circle {
+        color: $error-color;
+      }
+    }
+  }
+}

@@ -30,7 +30,7 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="path==='inbox' || path === 'outbox'">
-    <nz-table [nzData]="mails" #mailsTable>
+    <nz-table [nzData]="mails" #mailsTable class="tx" [nzScroll]='{y: el.nativeElement.offsetHeight - 180 + "px"}'>
       <thead>
         <tr>
           <!-- <th></th> -->
