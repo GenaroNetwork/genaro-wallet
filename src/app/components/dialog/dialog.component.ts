@@ -270,8 +270,14 @@ export class DialogComponent implements OnChanges {
   edenDeleteFileNames: string = "";
   edenDeleteFilesInit() {
     this.edenDeleteFileNames = "";
-    this.options.sharedFiles.forEach(file => {
-      this.edenDeleteFileNames += file.name + ',';
+    let allSharedFiles = this.txEdenService.shareFileList.from;
+    this.options.forEach(file => {
+      for (let i = 0, length = allSharedFiles.length; i < length; i++) {
+        if (file.id === allSharedFiles[i].bucketEntryId) {
+          this.edenDeleteFileNames += file.name + ',';
+          break;
+        }
+      }
     });
     if (this.edenDeleteFileNames.lastIndexOf(',')) {
       this.edenDeleteFileNames = this.edenDeleteFileNames.substring(0, this.edenDeleteFileNames.length - 1);

@@ -293,7 +293,8 @@
     "DELETE_FILES_CONFIRM": "确定删除文件",
     "DELETE_FILES_TIP1": "确定要删除“{{fileNames}}”吗？",
     "DELETE_FILES_TIP2": "该文件已分享给其他用户,",
-    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。"
+    "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。",
+    "DELETE_FILES_TIP4": "确定要删除所选文件么?"
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "分享人",

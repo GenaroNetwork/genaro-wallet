@@ -315,7 +315,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   edenFileReceiveSubscribe: any;
   edenFileReceiveInit() {
     this.edenFileReceiveSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
-      this.edenFileReceiveData = (data || {}).to;
+      this.edenFileReceiveData = ((data || {}).to || []).reverse();
     });
   }
   edenFileReceiveDestroy() {
@@ -328,7 +328,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   edenFileShareSubscribe: any;
   edenFileShareInit() {
     this.edenFileShareSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
-      this.edenFileShareData = (data || {}).from;
+      this.edenFileShareData = ((data || {}).from || []).reverse();
     });
   }
   edenFileShareDestroy() {

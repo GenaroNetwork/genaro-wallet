@@ -179,11 +179,14 @@
 <!-- 删除文件 -->
 <nz-modal [nzTitle]="'EDEN.DELETE_FILES_CONFIRM' | translate" [nzVisible]="dialogName==='edenDeleteFiles'" (nzOnCancel)="dialogNameChange.emit(null)"
   (nzOnOk)="dialogDone()" [nzOkText]="'COMMON.CONFIRM' | translate" [nzCancelText]="'COMMON.CANCEL' | translate">
-  <div nz-row class="review">
+  <div nz-row class="review" *ngIf="edenDeleteFileNames">
     <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP1' | translate:{fileNames: edenDeleteFileNames}
       }}</div>
     <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP2' | translate }}</div>
     <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP3' | translate }}</div>
+  </div>
+  <div nz-row class="review" *ngIf="!edenDeleteFileNames">
+    <div nz-col nzSpan="24" class="text-center">{{'EDEN.DELETE_FILES_TIP4' | translate }}</div>
   </div>
 </nz-modal>
 
