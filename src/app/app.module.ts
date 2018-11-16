@@ -59,7 +59,6 @@ import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 import { MailComponent } from './components/mail/mail.component';
-import { ElectronService } from './providers/electron.service';
 
 
 // AoT requires an exported function for factories

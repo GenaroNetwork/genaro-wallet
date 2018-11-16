@@ -53,11 +53,12 @@
           <td>{{mail.created | date }}</td>
           <td>{{mail.agreeTime | date }}</td>
           <td *ngIf="path==='outbox' || mail.reject">
-            <button nz-button (click)="showMessage(mail)"><i nz-icon type="eye" theme="outline"></i></button>
-            <button nz-button (click)="deleteMessage(mail)"><i nz-icon type="delete" theme="outline"></i></button>
+            <a (click)="showMessage(mail)"><i nz-icon type="eye" theme="outline"></i></a>
+            &nbsp;
+            <a (click)="deleteMessage(mail)"><i nz-icon type="delete" theme="outline"></i></a>
           </td>
           <td *ngIf="path==='inbox' && !mail.reject">
-            <button nz-button (click)="signInMessage(mail)">签收</button>
+            <a (click)="signInMessage(mail)">签收</a>
           </td>
           <td></td>
         </tr>
