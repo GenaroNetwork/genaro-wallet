@@ -416,7 +416,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of edenFileReceiveData">
+    <tr *ngFor="let data of edenFileReceive.data">
       <td>{{ data.fromAddress | longAddr | shortAddr }}</td>
       <td>{{ data.fileName }}</td>
       <td>{{ data.fileSize | formatSize }}</td>
@@ -464,7 +464,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of edenFileShareData">
+    <tr *ngFor="let data of edenFileShare.data">
       <td>{{ data.toAddress | longAddr | shortAddr}}</td>
       <td>{{ data.fileName }}</td>
       <td>{{ data.fileSize | formatSize }}</td>
