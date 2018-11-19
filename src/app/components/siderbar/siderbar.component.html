@@ -4,8 +4,7 @@
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
 
-  <li nz-submenu [nzOpen]="page==='/eden' || open(page,'/eden;path=') || page==='/eden-file-share' || page==='/eden-file-receive'"
-    *ngIf="settingService.eden">
+  <li nz-submenu *ngIf="settingService.eden">
     <span title>
       <i nz-icon type="file" theme="outline"></i>
       {{ "SIDERBAR.EDEN_FILE" | translate }}
@@ -25,7 +24,7 @@
       </li>
     </ul>
   </li>
-  <li nz-submenu [nzOpen]="page==='/eden-inprocess' || page==='/eden-done'" *ngIf="settingService.eden">
+  <li nz-submenu *ngIf="settingService.eden">
     <span title>
       <i nz-icon type="ordered-list" theme="outline"></i>
       {{ "SIDERBAR.EDEN_TASK" | translate }}
@@ -61,7 +60,7 @@
     <i nz-icon type="team" theme="outline"></i>
     {{ "SIDERBAR.COMMITTEE" | translate }}
   </li>
-  <li nz-submenu *ngIf="settingService.committee" [nzOpen]="page==='/committee' || page==='/joinCommittee'">
+  <li nz-submenu *ngIf="settingService.committee">
     <span title>
       <i nz-icon type="appstore" theme="outline"></i>
       {{ "SIDERBAR.CO_CONSTRUCTION_NODES" | translate }}

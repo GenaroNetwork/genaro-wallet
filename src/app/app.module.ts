@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { LMarkdownEditorModule } from "ngx-markdown-editor";
 
 // route
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +21,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 
 
 // elecreon
-// import { ElectronService } from './providers/electron.service';
+import { ElectronService } from './providers/electron.service';
 
 // services
 
@@ -59,7 +60,6 @@ import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 import { MailComponent } from './components/mail/mail.component';
-import { ElectronService } from './providers/electron.service';
 
 
 // AoT requires an exported function for factories
@@ -119,6 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    LMarkdownEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

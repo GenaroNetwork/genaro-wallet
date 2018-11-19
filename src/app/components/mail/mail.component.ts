@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { NickService } from '../../services/nick.service';
@@ -18,6 +18,7 @@ export class MailComponent implements OnInit {
   public mails: any[] = [];
 
   constructor(
+    public el: ElementRef,
     public edenService: EdenService,
     public txEdenService: TxEdenService,
     public nickService: NickService,
