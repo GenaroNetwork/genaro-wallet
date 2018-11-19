@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { LMarkdownEditorModule } from "ngx-markdown-editor";
 
 // route
 import { AppRoutingModule } from './app-routing.module';
@@ -119,7 +118,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    LMarkdownEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
