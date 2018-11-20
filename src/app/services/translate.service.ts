@@ -1,6 +1,7 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import langs from "../i18n/langs";
 import { EventEmitter } from 'events';
+import { nextTick } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,12 @@ export class TranslateService {
   event: EventEmitter = new EventEmitter();
   use(language: any = "") {
     let use = langs[0].id;
+    let trigger = false;
     langs.forEach(lang => {
       if (lang.id === language) use = language;
+      trigger = true;
     });
-    this.load(use);
+    this.load(use, trigger);
   }
 
   instant(name: string, args?: any): string {
@@ -40,7 +43,7 @@ export class TranslateService {
     return langs;
   };
 
-  private load(lang: string) {
+  private load(lang: string, trigger: boolean = false) {
     let translateBefore = require(`../i18n/${lang}`).default;
     let translateAfter = {};
     let deepParse = (obj: any, key: string = null, prefix: string[] = []) => {
@@ -59,10 +62,9 @@ export class TranslateService {
     }
     deepParse(translateBefore);
     this.translate = translateAfter;
-  }
-
-  get(name: string, lang?: string): string {
-
-    return "";
+    nextTick(() => {
+      if (trigger) this.event.emit("loaded-with-given");
+      else this.event.emit("loaded-without-given");
+    });
   }
 }

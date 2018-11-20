@@ -55,7 +55,7 @@ export class SettingService {
     return value;
   }
 
-  language: string = "en";
+  language: string = navigator.language.toLowerCase().indexOf("zh") > -1 ? "zh-Hans" : "en-US";
   wallet: boolean = true;
   eden: boolean = true;
   mail: boolean = true;
@@ -96,16 +96,17 @@ export class SettingService {
     private router: Router,
     private zone: NgZone,
   ) {
-    let defaultLang = "en-US";
-    if (navigator.language.toLowerCase().indexOf("zh") > -1) defaultLang = "zh-Hans";
-    const promises = [];
     this.list.forEach(async name => {
       const db: any = await this.ipc.dbGet('setting', `SELECT * FROM setting WHERE name = '${name}'`);
       if (db) {
-        this.set(name, JSON.parse(db.value));
+        this[name] = JSON.parse(db.value);
       } else {
         await this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${name}', '${JSON.stringify(this[name])}')`);
       }
+      this.set(name, this[name]);
+    });
+    this.i18n.event.once("loaded-with-given", () => {
+      this.ipc.ipcOnce("app.loaded.lang")
     });
 
     let changeUpdateState = (state: UPDATE_STATES, redo: boolean = false) => {
