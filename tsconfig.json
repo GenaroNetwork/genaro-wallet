@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "target": "es5",
     "downlevelIteration": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ],

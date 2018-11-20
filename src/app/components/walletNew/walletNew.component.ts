@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { clipboard, remote } from 'electron';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 import { WalletService } from '../../services/wallet.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { readFileSync, writeFile } from 'fs';

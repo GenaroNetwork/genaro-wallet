@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 import { TransactionService } from '../../services/transaction.service';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
@@ -57,25 +57,25 @@ export class TxSharerComponent implements OnInit, OnDestroy {
       let addr = address;
       if (!addr.startsWith('0x')) { addr = '0x' + addr; }
 
-      for(let i = 0, length = allCommittees.length; i< length; i++) {
-        if(addr === allCommittees[i].address) {
+      for (let i = 0, length = allCommittees.length; i < length; i++) {
+        if (addr === allCommittees[i].address) {
           this.heft = allCommittees[i].currentSentinel;
           this.heftRank = allCommittees[i].order + 1;
           break;
         }
-        if(allCommittees[i].subFarmers && allCommittees[i].subFarmers.length > 0) {
-          for(let j = 0, lj = allCommittees[i].subFarmers.length; j< lj; j++) {
-            if(addr === allCommittees[i].subFarmers[j].address) {
+        if (allCommittees[i].subFarmers && allCommittees[i].subFarmers.length > 0) {
+          for (let j = 0, lj = allCommittees[i].subFarmers.length; j < lj; j++) {
+            if (addr === allCommittees[i].subFarmers[j].address) {
               this.heftRank = allCommittees[i].order + 1;
               break;
             }
           }
         }
-        if(this.heftRank !== '300+') {
+        if (this.heftRank !== '300+') {
           break;
         }
       }
-    }    
+    }
   }
 
   tableChangeIndex = 0;

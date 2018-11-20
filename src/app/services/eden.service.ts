@@ -3,7 +3,7 @@ import { Environment } from 'libgenaro';
 import { WalletService } from './wallet.service';
 import { BRIDGE_API_URL, TASK_STATE, TASK_TYPE, MESSAGE_STORAGE_PATH } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from './translate.service';
 import { IpcService } from './ipc.service';
 import { v1 as uuidv1 } from 'uuid';
 import { remote } from 'electron';

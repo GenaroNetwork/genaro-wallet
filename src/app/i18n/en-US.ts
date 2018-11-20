@@ -1,4 +1,4 @@
-{
+export default {
   "LANGUAGE_NAME": "English",
   "COMMON": {
     "COPY": "Copy",

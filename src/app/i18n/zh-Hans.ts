@@ -1,4 +1,4 @@
-{
+export default {
   "LANGUAGE_NAME": "简体中文",
   "COMMON": {
     "COPY": "复制",

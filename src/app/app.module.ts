@@ -8,9 +8,6 @@ import { LMarkdownEditorModule } from "ngx-markdown-editor";
 // route
 import { AppRoutingModule } from './app-routing.module';
 
-// NG Translate
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // And Design
 import { IconDefinition } from '@ant-design/icons-angular';
@@ -22,8 +19,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 
 // elecreon
 import { ElectronService } from './providers/electron.service';
-
-// services
 
 
 // pipes
@@ -60,12 +55,7 @@ import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
 import { MailComponent } from './components/mail/mail.component';
-
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { TranslatePipe } from './pipes/translate.pipe';
 
 
 @NgModule({
@@ -110,6 +100,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormatSentinelPipe,
     FormatSizePipe,
     GetWalletPipe,
+    TranslatePipe,
   ],
   imports: [
     BrowserModule,
@@ -120,13 +111,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     AppRoutingModule,
     LMarkdownEditorModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
-      }
-    })
   ],
   providers: [
     ElectronService,

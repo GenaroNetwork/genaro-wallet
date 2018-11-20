@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { generateMnemonic, validateMnemonic, addressFromMnemonic } from 'jswallet-manager';
 import { BehaviorSubject } from 'rxjs';
 import { remote } from 'electron'; // 有时间的话把界面功能统一挪到 component 中，service 不要涉及任何界面功能
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from './translate.service';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
 import { NickService } from './nick.service';
@@ -50,10 +50,10 @@ export class WalletService {
     });
 
     this.currentWallet.subscribe(async wallet => {
-      if (wallet) { 
-        this.wallets.current = wallet.address; 
+      if (wallet) {
+        this.wallets.current = wallet.address;
         this.wallets.currentNick = await this.nickService.getNick('0x' + wallet.address);
-      } else { 
+      } else {
         this.wallets.current = null;
         this.wallets.currentNick = null;
       }

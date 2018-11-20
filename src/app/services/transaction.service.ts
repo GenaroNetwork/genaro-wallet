@@ -8,7 +8,7 @@ import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';
 import { createHash } from 'crypto';
 import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from './translate.service';
 import { newWalletManager } from 'jswallet-manager';
 
 let web3: Web3;
@@ -354,7 +354,7 @@ export class TransactionService {
       type: '0xf',
       synchronizeShareKey: {
         shareKey: fileId,
-        shareprice: '0x' + (price * Math.pow(10,18)).toString(16),
+        shareprice: '0x' + (price * Math.pow(10, 18)).toString(16),
         status: 0,
         shareKeyId: shareId,
         recipientAddress: toAddress,
