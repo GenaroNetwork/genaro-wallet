@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { remote } from 'electron';
 import { WalletService } from '../../services/wallet.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
 import { NzMessageService } from 'ng-zorro-antd';

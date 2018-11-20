@@ -174,7 +174,7 @@
   <div nz-col [nzSpan]="span[1]">
     <nz-switch *ngIf="ipt!=='language'" [ngModel]="settingService[ipt]" (ngModelChange)="settingChange($event)"></nz-switch>
     <nz-select *ngIf="ipt==='language'" [ngModel]="settingService[ipt]" (ngModelChange)="settingChange($event)">
-      <nz-option *ngFor="let lang of settingLangs" [nzValue]="lang" [nzLabel]="settingGetLanguageName(lang)"></nz-option>
+      <nz-option *ngFor="let lang of '__LANGS__' | translate " [nzValue]="lang.id" [nzLabel]="lang.name"></nz-option>
     </nz-select>
   </div>
 </div>

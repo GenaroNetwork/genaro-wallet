@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from 
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 import { nextTick } from 'q';
 import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from '../../libs/config';
 import { TransactionService } from '../../services/transaction.service';
@@ -231,7 +231,7 @@ export class DialogComponent implements OnChanges {
     let buckets = this.options;
     let sharedFiles = [];
     let allSharedFiles = this.txEdenService.shareFileList.from;
-    for(let index = 0, bucketLength = buckets.length; index < bucketLength; index++) {
+    for (let index = 0, bucketLength = buckets.length; index < bucketLength; index++) {
       let files = await this.edenService.getFilesByBucketId(buckets[index].id) || [];
       // @ts-ignore
       files.forEach(file => {
@@ -482,7 +482,7 @@ export class DialogComponent implements OnChanges {
     this.agreeShareDisabled = true;
     const address = this.walletService.wallets.current;
     try {
-      if(!(await this.walletService.getShareExist(this.agreeShareInfo._id))) {
+      if (!(await this.walletService.getShareExist(this.agreeShareInfo._id))) {
         return this.alert.error(this.i18n.instant("ERROR.SHARE_FILE_NOT_EXIST"));
       }
       await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
@@ -607,16 +607,16 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
-      if(!nickAddress) {
+      if (!nickAddress) {
         nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
-        if(nickAddress) {
+        if (nickAddress) {
           this.nickService.update(nickAddress, this.sendMessageTo);
         }
       }
       this.sendMessageToAddress = nickAddress || this.sendMessageTo;
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageTitle, this.sendMessageContent, this.options);
       // @ts-ignore
-      let { fileId, fileSize, fileHash, key, ctr, str} = message;
+      let { fileId, fileSize, fileHash, key, ctr, str } = message;
       this.edenService.encryptMetaToFile(str, fileId);
       let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
       if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
@@ -646,15 +646,15 @@ export class DialogComponent implements OnChanges {
     this.openMessageContent = '';
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
-      if(data) {
+      if (data) {
         // @ts-ignore
-        let { title, content, fromAddress, toAddress} = data;
+        let { title, content, fromAddress, toAddress } = data;
         this.openMessageTitle = title;
         this.openMessageContent = content;
         this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
         this.openMessageToAddress = (await this.nickService.getNick(toAddress)) || toAddress;
       }
-    }catch (e) {}
+    } catch (e) { }
   }
 
   // deleteMesage
@@ -699,10 +699,10 @@ export class DialogComponent implements OnChanges {
   async getNamePrice() {
     try {
       const nickAddress = await this.txService.getAccountByName(this.applyNickName);
-      if(nickAddress) {
+      if (nickAddress) {
         return this.alert.error("别名已被使用");
       }
-      this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10,18);
+      this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10, 18);
       this.applyNickStep++;
     } catch (e) { } finally {
       this.applyNickDisabled = false;

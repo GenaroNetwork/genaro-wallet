@@ -3,7 +3,7 @@ import { TxEdenService } from '../../services/txEden.service';
 import { WalletService } from '../../services/wallet.service';
 import { EdenService } from '../../services/eden.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 
 @Component({
   selector: 'app-edenFileReceive',
@@ -18,7 +18,7 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
     public edenService: EdenService,
     private alert: NzMessageService,
     private i18n: TranslateService,
-  ) { 
+  ) {
     this.txEden.getAll();
   }
 
@@ -44,10 +44,10 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
   }
 
   async agree(data) {
-    if(!this.edenService.currentBuckets || this.edenService.currentBuckets.length === 0) {
+    if (!this.edenService.currentBuckets || this.edenService.currentBuckets.length === 0) {
       return this.alert.error(this.i18n.instant("ERROR.NO_BUCKETS"));
     }
-    if(!(await this.walletService.getShareExist(data._id))) {
+    if (!(await this.walletService.getShareExist(data._id))) {
       return this.alert.error(this.i18n.instant("ERROR.SHARE_FILE_NOT_EXIST"));
     }
     this.dialogOpt = data;

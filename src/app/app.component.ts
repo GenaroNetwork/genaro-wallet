@@ -1,11 +1,6 @@
 import { Component, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from './services/translate.service';
 import { SettingService } from './services/setting.service';
-import { nextTick } from 'q';
-import { remote } from "electron";
-import { EdenService } from './services/eden.service';
-import { SharerService } from './services/sharer.service';
-import { IpcService } from './services/ipc.service';
 const LANGS = ['en', 'zh'];
 
 @Component({
@@ -21,18 +16,12 @@ export class AppComponent implements AfterViewChecked {
   constructor(
     private i18n: TranslateService,
     public setting: SettingService,
-  ) {
-
-    this.i18n.addLangs(LANGS);
-  }
+  ) { }
 
   ngAfterViewChecked() {
     if (this.currentLang === this.setting.language) return;
     if (this.i18n.instant("LANGUAGE_NAME") === "LANGUAGE_NAME") return;
     if (this.checkLang.nativeElement.innerHTML !== this.i18n.instant("LANGUAGE_NAME")) return;
     this.currentLang = this.setting.language;
-    nextTick(() => {
-      this.setting.languageRendered();
-    });
   }
 }

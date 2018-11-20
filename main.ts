@@ -61,10 +61,10 @@ function createWindow() {
     height: size.height,
   });
 
-  let setMenu = (lang: string = "en") => {
+  let setMenu = (lang: string = "en-US") => {
     // set menu
     let i18n = {
-      "en": [
+      "en-US": [
         "G-BOX",
         "About Application",
         "Quit",
@@ -78,7 +78,7 @@ function createWindow() {
         "Dev",
         "Open Dev Tools",
       ],
-      "zh": [
+      "zh-Hans": [
         "G-BOX",
         "关于",
         "退出",
@@ -93,6 +93,7 @@ function createWindow() {
         "打开控制台",
       ]
     };
+    if (!i18n[lang]) lang = "en-US";
     let template = [{
       label: i18n[lang][0],
       submenu: [
@@ -122,6 +123,7 @@ function createWindow() {
         },
       ]
     }];
+    if (process.env.NODE_ENV !== 'development') template.pop();
     // @ts-ignore
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   };

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translate.service';
 import { TransactionService } from '../../services/transaction.service';
 import { SettingService } from '../../services/setting.service';
 import { shell } from 'electron';
@@ -31,12 +31,10 @@ export class InputComponent implements OnChanges {
     this.gasDefault = await this.txService.getGas();
     this.gasMin = Number(this.gasDefault);
     this.gasMax = this.gasMin + 10;
-    this.i18n.get('COMMON.DONE').subscribe(() => {
-      this.gasMarks = {
-        '1': this.i18n.instant('INPUT.GAS_SLOW'),
-        [this.gasMax]: this.i18n.instant('INPUT.GAS_FAST'),
-      };
-    });
+    this.gasMarks = {
+      '1': this.i18n.instant('INPUT.GAS_SLOW'),
+      [this.gasMax]: this.i18n.instant('INPUT.GAS_FAST'),
+    };
     if (this.ipt && this.ipt[0]) {
       this.gasDefault = this.ipt[0];
     }
@@ -47,21 +45,11 @@ export class InputComponent implements OnChanges {
   }
 
   // setting
-  settingLangs: any[];
   settingInit() {
     this.span = [16, 6, 1];
-    this.settingLangs = this.i18n.getLangs();
   }
   settingChange(value) {
     this.settingService.set(this.ipt, value);
-  }
-  settingGetLanguageName(lang) {
-    try {
-      const name = require(`../../../assets/i18n/${lang}.json`).LANGUAGE_NAME;
-      if (name) { return name; } else { return lang; }
-    } catch (e) {
-      return lang;
-    }
   }
 
   buyTrafficInit() {

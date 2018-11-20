@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { IpcService } from './ipc.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from './translate.service';
 import { UPDATE_STATES } from '../libs/config';
 import { remote } from 'electron';
 import { Router } from '@angular/router';
@@ -42,22 +42,20 @@ export class SettingService {
   }
 
   languageSet(value) {
-    this.i18n.use(value).subscribe(next => { }, error => { }, () => {
-      let sharerMsg = this.i18n.instant("COMMON.EXIT_MSG_SHARER");
-      let edenMsg = this.i18n.instant("COMMON.EXIT_MSG_EDEN");
-      let cancel = this.i18n.instant("COMMON.DO_NOT_EXIT");
-      let confirm = this.i18n.instant("COMMON.EXIT");
-      this.ipc.ipcOnce("app.quit.state", "confirmButton", confirm);
-      this.ipc.ipcOnce("app.quit.state", "cancelButton", cancel);
-      this.ipc.ipcOnce("app.quit.state", "edenInprocessMessage", edenMsg);
-      this.ipc.ipcOnce("app.quit.state", "sharerInprocessMessage", sharerMsg);
-
-    });
+    this.i18n.use(value);
+    let sharerMsg = this.i18n.instant("COMMON.EXIT_MSG_SHARER");
+    let edenMsg = this.i18n.instant("COMMON.EXIT_MSG_EDEN");
+    let cancel = this.i18n.instant("COMMON.DO_NOT_EXIT");
+    let confirm = this.i18n.instant("COMMON.EXIT");
+    this.ipc.ipcOnce("app.quit.state", "confirmButton", confirm);
+    this.ipc.ipcOnce("app.quit.state", "cancelButton", cancel);
+    this.ipc.ipcOnce("app.quit.state", "edenInprocessMessage", edenMsg);
+    this.ipc.ipcOnce("app.quit.state", "sharerInprocessMessage", sharerMsg);
     this.ipc.ipcOnce("app.set.menu", value);
     return value;
   }
 
-  language: string = "en";
+  language: string = navigator.language.toLowerCase().indexOf("zh") > -1 ? "zh-Hans" : "en-US";
   wallet: boolean = true;
   eden: boolean = true;
   mail: boolean = true;
@@ -98,23 +96,17 @@ export class SettingService {
     private router: Router,
     private zone: NgZone,
   ) {
-    let defaultLang = "en";
-    if (navigator.language.toLowerCase().indexOf("zh") > -1) defaultLang = "zh";
-    const promises = [];
-    this.list.forEach(name => {
-      promises.push(new Promise(async (res, rej) => {
-        const db: any = await this.ipc.dbGet('setting', `SELECT * FROM setting WHERE name = '${name}'`);
-        if (db) {
-          this[name] = JSON.parse(db.value);
-        } else {
-          await this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${name}', '${JSON.stringify(this[name])}')`);
-        }
-        res();
-      }));
+    this.list.forEach(async name => {
+      const db: any = await this.ipc.dbGet('setting', `SELECT * FROM setting WHERE name = '${name}'`);
+      if (db) {
+        this[name] = JSON.parse(db.value);
+      } else {
+        await this.ipc.dbRun('setting', `INSERT INTO setting (name, value) VALUES ('${name}', '${JSON.stringify(this[name])}')`);
+      }
+      this.set(name, this[name]);
     });
-    Promise.all(promises).then(() => {
-      this.i18n.setDefaultLang(defaultLang);
-      this.set("language", defaultLang);
+    this.i18n.event.once("loaded-with-given", () => {
+      this.ipc.ipcOnce("app.loaded.lang")
     });
 
     let changeUpdateState = (state: UPDATE_STATES, redo: boolean = false) => {
@@ -142,8 +134,5 @@ export class SettingService {
       changeUpdateState(UPDATE_STATES.DOWNLOADED);
     });
     setInterval(this.updateApp.bind(this), 60 * 60 * 1000, "check");
-  }
-  languageRendered() {
-    this.ipc.ipcOnce("app.loaded.lang");
   }
 }
