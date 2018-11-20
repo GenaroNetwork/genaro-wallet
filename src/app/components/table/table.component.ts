@@ -275,39 +275,19 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
     this.isSpinning = true;
-    let self = this;
-    this.walletService.currentWallet.subscribe(async w => {
-      self.currentCommitteeData = await self.committeeService.getCurrentCommittee() || [];
-      let currentWalletAddr = add0x(self.walletService.wallets.current);
-      self.currentCommitteeData.forEach(d => {
-        d.self = d.address === currentWalletAddr;
+    this.walletService.currentWallet.subscribe(async wallet => {
+      this.currentCommitteeData = await this.committeeService.getCurrentCommittee() || [];
+      let currentWalletAddr = add0x(this.walletService.wallets.current);
+      this.currentCommitteeData.forEach(d => {
+        d.this = d.address === currentWalletAddr;
       });
-      self.isSpinning = false;
+      this.isSpinning = false;
     });
   }
 
   // sharer
-  sharerSubscribe: any;
-  sharerInit() {
-    this.isSpinning = false;
-    let self = this;
-    if (this.sharer.getSharerNodeIds().length > 0) {
-      this.isSpinning = true;
-      this.sharerSubscribe = this.sharer.driversData.subscribe((data) => {
-        if (data && data.length > 0) {
-          self.isSpinning = false;
-          if (self.sharerSubscribe) {
-            self.sharerSubscribe.unsubscribe();
-          }
-        }
-      });
-    }
-  }
-  sharerDestroy() {
-    if (this.sharerSubscribe) {
-      this.sharerSubscribe.unsubscribe();
-    }
-  }
+  sharerInit() { }
+  sharerDestroy() { }
 
 
   // eden file share 

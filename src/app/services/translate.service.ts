@@ -24,16 +24,14 @@ export class TranslateService {
     });
     this.load(use, trigger);
   }
-
   instant(name: string, args?: any): string {
     let translate = this.translate[name];
     if (!translate) translate = "";
     if (args) {
       for (let key in args) {
         let value = args[key];
-        let regExp = new RegExp(`/^.*\\{\\{ *${key} *\\}\\}.*$/`, "g");
-        console.log(regExp)
-        translate = translate.replace(regExp, args);
+        let regExp = new RegExp(`^(.*)\\{\\{ *${key} *\\}\\}(.*)$`, "g");
+        translate = translate.replace(regExp, `$1${value}$2`);
       }
     }
     return translate;
