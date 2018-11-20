@@ -12,7 +12,7 @@ import { shell } from "electron";
 
 
 function add0x(addr: string) {
-  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+  if (addr && !addr.startsWith('0x')) return '0x' + addr;
   return addr;
 }
 
@@ -139,30 +139,17 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   // }
 
   // rank
-  rankData: any[] = [];
   rankAddress = '';
-  rankSubscribe: any;
   showRankBack: boolean = false;
   rankInit() {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
-    let self = this;
-    this.rankSubscribe = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.isSpinning = true;
-      self.rankData = ranks;
-      self.isSpinning = false;
-    });
   }
   async searchRankFarmer() {
-    if (this.rankSubscribe) {
-      this.rankSubscribe.unsubscribe();
-    }
     if (this.rankAddress) {
       this.showRankBack = true;
-      this.isSpinning = true;
-      this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
-      this.isSpinning = false;
+      await this.committeeService.getCurrentFarmer(this.rankAddress);
     }
     else {
       this.showRankBack = false;
@@ -173,11 +160,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.rankAddress = '';
     this.searchRankFarmer();
   }
-  rankDestroy() {
-    if (this.rankSubscribe) {
-      this.rankSubscribe.unsubscribe();
-    }
-  }
+  rankDestroy() { }
 
   // committee
   committeeData: any[] = [];
@@ -190,34 +173,25 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.isSpinning = true;
     this.committeeAddress = '';
     this.committeeDataUpdate();
-    let self = this;
-    let broSub = null;
-    this.walletSub = this.walletService.currentWallet.subscribe(w => {
-      self.isSpinning = true;
-      self.canApplyJoin = false;
-      if (broSub) {
-        broSub.unsubscribe();
+    this.walletSub = this.walletService.currentWallet.subscribe(async currentWallet => {
+      this.canApplyJoin = false;
+      let datas = this.committeeService.pendingSentinelRank || [];
+      let data;
+      let currentWalletAddr = add0x(currentWallet.address);
+      for (let i = 0, length = datas.length; i < length; i++) {
+        if (currentWalletAddr === datas[i].address) {
+          data = datas[i];
+          break;
+        }
       }
-      broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas: any[]) => {
-        let data;
-        let currentWalletAddr = add0x(self.walletService.wallets.current);
-        datas = datas || [];
-        for (let i = 0, length = datas.length; i < length; i++) {
-          if (currentWalletAddr === datas[i].address) {
-            data = datas[i];
-            break;
-          }
-        }
-        if (!data || !data.pendingSubFarmers || data.pendingSubFarmers.length === 0) {
-          self.canApplyJoin = true;
-        }
-        let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
-        if (state && state.tempState && state.tempState.role === Role.Free) {
-          self.committeeService.delete(self.walletService.wallets.current);
-        }
-        self.activateJoinButton.apply(self);
-        self.isSpinning = false;
-      });
+      if (!data || !data.pendingSubFarmers || data.pendingSubFarmers.length === 0) {
+        this.canApplyJoin = true;
+      }
+      let state = await this.brotherhoodService.fetchState2(currentWalletAddr);
+      if (state && state.tempState && state.tempState.role === Role.Free) {
+        this.committeeService.delete(currentWallet.address);
+      }
+      this.activateJoinButton();
     });
     this.activeBtnSub = this.committeeService.activeJoinBtn.subscribe((action) => {
       this.activateJoinButton();
@@ -232,7 +206,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   async searchFarmer() {
     if (this.committeeAddress) {
       this.showBack = true;
-      this.committeeData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
+      await this.committeeService.getCurrentFarmer(this.committeeAddress);
       this.activateJoinButton();
     }
     else {
@@ -277,7 +251,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.isSpinning = true;
     this.walletService.currentWallet.subscribe(async wallet => {
       this.currentCommitteeData = await this.committeeService.getCurrentCommittee() || [];
-      let currentWalletAddr = add0x(this.walletService.wallets.current);
+      let currentWalletAddr = add0x(wallet.address);
       this.currentCommitteeData.forEach(d => {
         d.this = d.address === currentWalletAddr;
       });

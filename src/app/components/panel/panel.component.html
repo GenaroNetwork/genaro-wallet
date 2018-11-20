@@ -14,7 +14,7 @@
           <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ accountTeamInfo.order + 1 || '300+' }}
+              {{ committeeService.currentMainWalletState.order + 1 || '300+' }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -24,7 +24,7 @@
           <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ accountTeamInfo.shortAddr }}
+              {{ committeeService.currentMainWalletState.shortAddr }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -34,7 +34,7 @@
           <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ accountTeamInfo.currentSentinel * 10000 | formatSentinel }}
+              {{ committeeService.currentMainWalletState.currentSentinel * 10000 | formatSentinel }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -52,7 +52,7 @@
           <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ accountTeamInfo.currentStake }}
+              {{ committeeService.currentMainWalletState.currentStake }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -62,7 +62,7 @@
           <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ accountTeamInfo.currentDataSize | formatSize }}
+              {{ committeeService.currentMainWalletState.currentDataSize | formatSize }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -72,15 +72,15 @@
           <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ (accountTeamInfo.subFarmers || []).length }} / 10
+              {{ (committeeService.currentMainWalletState.subFarmers || []).length }} / 10
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
   </form>
-  <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subFarmers" nzShowPagination="false"
-    [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="committeeService.currentMainWalletState.subFarmers"
+    nzShowPagination="false" [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <!-- <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
@@ -184,11 +184,12 @@
       <div nz-col [nzSpan]="6">
         <nz-form-item nzFlex>
           <nz-form-control>
-            <nz-badge nzDot *ngIf="hasTempSubAccount">
+            <nz-badge nzDot *ngIf="committeeService.pendingMainWalletState.tempAccounts && committeeService.pendingMainWalletState.tempAccounts.length > 0">
               <button style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
                 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
             </nz-badge>
-            <button *ngIf="!hasTempSubAccount" style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
+            <button *ngIf="!committeeService.pendingMainWalletState.tempAccounts || committeeService.pendingMainWalletState.tempAccounts.length <= 0"
+              style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
               'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
           </nz-form-control>
         </nz-form-item>

@@ -158,7 +158,6 @@ export class BrotherhoodService {
   }
 
   private async alwaysFetch() {
-    console.log("TEST!!!")
     //return;
     try {
       const promises = this.lastState.getAllAddress().map(this.fetchState2.bind(this));

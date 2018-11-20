@@ -295,7 +295,7 @@
     </ng-template>
   </div>
   <br>
-  <nz-table #rankTable [nzData]="rankData" [nzScroll]='{ y: false}' [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <nz-table #rankTable [nzData]="committeeService.currentSentinelRank" [nzScroll]='{ y: false}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <th nzWidth="10%">{{ 'TABLE.COMMITTEE.RANK' | translate }}</th>
