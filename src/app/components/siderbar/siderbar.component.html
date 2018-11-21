@@ -44,10 +44,6 @@
     <i nz-icon type="shop" theme="outline"></i>
     {{ "SIDERBAR.TXEDEN" | translate }}
   </li>
-  <li nz-menu-item [routerLink]="['/mail']" [nzSelected]="page==='/mail'" *ngIf="settingService.mail">
-    <i nz-icon type="mail" theme="outline"></i>
-    {{ "SIDERBAR.MAIL" | translate }}
-  </li>
   <li nz-menu-item [routerLink]="['/sharer']" [nzSelected]="page==='/sharer'" *ngIf="settingService.sharer">
     <i nz-icon type="database" theme="outline"></i>
     {{ "SIDERBAR.SHARER" | translate }}

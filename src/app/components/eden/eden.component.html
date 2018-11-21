@@ -2,8 +2,19 @@
 
 <div class="header">
   <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <span (click)="edenService.changePath(['/'])">{{ "EDEN.HOME_DIR" | translate }}</span>
+    <nz-breadcrumb-item *ngIf="mailPath==='inbox' || mailPath==='outbox' || mailPath==='mail'">
+      <a (click)="edenService.changePath(['/']);mailPath='mail'">
+        {{ "SIDERBAR.MAIL" | translate }}
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="mailPath==='inbox'">
+      {{ "MAIL.INBOX" | translate }}
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="mailPath==='outbox'">
+      {{ "MAIL.OUTBOX" | translate }}
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item *ngIf="mailPath===''">
+      <span (click)="edenService.changePath(['/']);mailPath='mail'">{{ "EDEN.HOME_DIR" | translate }}</span>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item *ngFor="let path of edenService.currentPath">
       <span>{{ path }}</span>
@@ -11,7 +22,7 @@
   </nz-breadcrumb>
   <div class="opera">
     <!-- 容器 -->
-    <ng-container *ngIf="edenService.currentPath.length==0">
+    <ng-container *ngIf="edenService.currentPath.length==0 && mailPath!=='inbox' && mailPath!=='outbox'">
       <button nz-button nzType="primary" (click)="createBucket()">{{ "TXEDEN.BUY_SPACE" | translate }}</button>
       <button nz-button nzType="primary" [disabled]="fileSelected.size!==1" (click)="renameBucket()">{{
         "EDEN.RENAME_BUCKET" | translate }}</button>
@@ -24,7 +35,7 @@
         translate }}</button>
     </ng-container>
     <!-- 容器内 -->
-    <ng-container *ngIf="edenService.currentPath.length>0">
+    <ng-container *ngIf="edenService.currentPath.length>0 && mailPath!=='inbox' && mailPath!=='outbox'">
       <button nz-button nzType="primary" (click)="edenService.fileUploadTask()">{{ "EDEN.UPLOAD_FILE" | translate }}</button>
       <button nz-button nzType="primary" [disabled]="fileSelected.size !== 1" (click)="shareFile()">{{
         "EDEN.SHARE_FILE" | translate }}</button>
@@ -33,11 +44,76 @@
       <button nz-button nzType="primary" [disabled]="!fileSelected.size" (click)="removeFile()">{{ "EDEN.REMOVE_FILE" |
         translate }}</button>
     </ng-container>
+    <!-- 发件箱 -->
+    <ng-container *ngIf="mailPath==='outbox'">
+        <button nz-button nzType="primary" (click)="sendMessage()">{{ "MAIL.SEND_MESSAGE" | translate }}</button>
+    </ng-container>
   </div>
 </div>
-<div class="content" (contextmenu)="rightClick($event)" (mousedown)="mouseDown($event, -1)">
-  <div *ngFor="let file of edenService.currentView; let i = index" class="file" [class.selected]="fileSelected.has(i)"
-    [class.notblur]="file.type!=='bucket'" (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(i)">
+<div *ngIf="mailPath==='inbox' || mailPath==='outbox' || mailPath==='mail'" class="content">
+  <ng-container *ngIf="mailPath==='mail'">
+    <div *ngIf="edenService.mail.inbox" class="folder inbox" (dblclick)="openInbox()">
+      <i class="icon inbox"></i>
+      {{ "MAIL.INBOX" | translate }}
+    </div>
+    <div *ngIf="edenService.mail.outbox" class="folder outbox" (dblclick)="openOutbox()">
+      <i class="icon outbox"></i>
+      {{ "MAIL.OUTBOX" | translate }}
+    </div>
+    <ng-container *ngIf=" !edenService.mail.inbox && !edenService.mail.outbox">
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="mailPath==='inbox' || mailPath === 'outbox'">
+    <nz-table [nzData]="mails" #mailsTable class="tx" [nzScroll]='{y: el.nativeElement.offsetHeight - 180 + "px"}'>
+      <thead>
+        <tr>
+          <!-- <th></th> -->
+          <th *ngIf="mailPath==='inbox'">{{ "MAIL.SENDER" | translate }}</th>
+          <th *ngIf="mailPath==='outbox'">{{ "MAIL.RECEIVER" | translate }}</th>
+          <th>{{ "MAIL.TITLE" | translate }}</th>
+          <th>{{ "MAIL.STORAGE" | translate }}</th>
+          <th>{{ "MAIL.SEND_TIME" | translate }}</th>
+          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th>
+          <th>{{ "MAIL.OPERATION" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mail of mailsTable.data">
+          <!-- <td>已读未读</td> -->
+          <td *ngIf="mailPath==='inbox'">{{mail.fromAddress}}</td>
+          <td *ngIf="mailPath==='outbox'">{{mail.toAddress}}</td>
+          <td>{{mail.fileName}}</td>
+          <td>{{mail.fileSize | humanSize }}</td>
+          <td>{{mail.created | date }}</td>
+          <td>{{mail.agreeTime | date }}</td>
+          <td *ngIf="mailPath==='outbox' || mail.reject">
+            <a (click)="showMessage(mail)">
+              <i nz-icon type="eye" theme="outline"></i>
+            </a>
+            &nbsp;
+            <a (click)="deleteMessage(mail)">
+              <i nz-icon type="delete" theme="outline"></i>
+            </a>
+          </td>
+          <td *ngIf="mailPath==='inbox' && !mail.reject">
+            <a (click)="signInMessage(mail)">签收</a>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+</div>
+<div *ngIf="edenService.currentPath.length==0 && mailPath!=='inbox' && mailPath!=='outbox'" class="header">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item *ngIf="mailPath==='mail'">
+      <span (click)="edenService.changePath(['/'])">{{ "EDEN.HOME_DIR" | translate }}</span>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<div *ngIf="mailPath!=='inbox' && mailPath!=='outbox'" class="content" (contextmenu)="rightClick($event)" (mousedown)="mouseDown($event, -1)">
+  <div *ngFor="let file of edenService.currentView; let i = index" class="file" [class.selected]="fileSelected.has(i)" [class.notblur]="file.type!=='bucket'"
+    (mousedown)="mouseDown($event, i)" (dblclick)="dblclick(i)">
     <i *ngIf="file.type!=='bucket'" nz-icon [type]="type2icon(file.type)" theme="outline"></i>
     <i *ngIf="file.type==='bucket'" class="bucket-icon"></i>
     <div class="name">{{ file.name }}</div>
@@ -59,7 +135,6 @@
     <p>{{ "EDEN.EMPTY_FILE_TIP2" | translate }}</p>
   </div>
 </div>
-
 
 <app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.EDEN_NEED_PASS' | translate"></app-dialog>
 <app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>

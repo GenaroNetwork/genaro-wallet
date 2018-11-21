@@ -53,7 +53,6 @@ import { CurrentCommitteeComponent } from './components/currentCommittee/current
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
-import { MailComponent } from './components/mail/mail.component';
 import { TranslatePipe } from './pipes/translate.pipe';
 
 
@@ -69,7 +68,6 @@ import { TranslatePipe } from './pipes/translate.pipe';
     EdenComponent,
     EdenFileShareComponent,
     EdenFileReceiveComponent,
-    MailComponent,
     WalletComponent,
     TxSharerComponent,
     TxEdenComponent,

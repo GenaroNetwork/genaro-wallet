@@ -165,3 +165,86 @@
     }
   }
 }
+
+hr {
+  width: 98%;
+  text-align: center;
+}
+
+.folder {
+  float: left;
+  height: 8rem;
+  width: 10rem;
+  margin: 1rem;
+  border: $border-line;
+  border-radius: $border-radius;
+  text-align: center;
+  position: relative;
+  border-style: dashed;
+  overflow: hidden;
+  color: gray;
+  cursor: pointer;
+
+  i.icon {
+    height: 5.5rem;
+    font-size: 4rem;
+    line-height: 6.5rem;
+    display: block;
+    background-size: auto 70%;
+    background-position: calc(50% + 10px) 90%;
+    background-repeat: no-repeat;
+
+    &.inbox {
+      background-image: url(assets/img/inbox.png);
+    }
+
+    &.outbox {
+      background-image: url(assets/img/outbox.png);
+    }
+  }
+}
+
+:host:not(.long-page) {
+  ::ng-deep .ant-spin-nested-loading {
+    position: static;
+    .ant-spin-container {
+      position: static;
+      nz-pagination {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+}
+
+nz-table {
+  ::ng-deep nz-pagination>ul {
+    position: relative;
+    right: 1rem;
+  }
+  th,
+  td {
+    padding: 1rem 0.5rem;
+    &:first-of-type {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.tx {
+  td {
+    i.anticon {
+      font-size: 1rem;
+      &.anticon-check-circle {
+        color: $success-color;
+      }
+      &.anticon-question-circle {
+        color: $warn-color;
+      }
+      &.anticon-close-circle {
+        color: $error-color;
+      }
+    }
+  }
+}

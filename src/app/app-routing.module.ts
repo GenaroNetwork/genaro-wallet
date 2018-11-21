@@ -13,7 +13,6 @@ import { EdenComponent } from './components/eden/eden.component';
 import { TaskComponent } from './components/task/task.component';
 import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
 import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
-import { MailComponent } from './components/mail/mail.component';
 
 const routes: Routes = [{
     path: 'wallet',
@@ -39,9 +38,6 @@ const routes: Routes = [{
 }, {
     path: 'tx-eden',
     component: TxEdenComponent,
-}, {
-    path: 'mail',
-    component: MailComponent,
 }, {
     path: 'tx-sharer',
     component: TxSharerComponent,

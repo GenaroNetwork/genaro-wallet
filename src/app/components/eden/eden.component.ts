@@ -1,10 +1,11 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy, ElementRef } from '@angular/core';
 import { EdenService } from '../../services/eden.service';
 import { remote } from 'electron';
 import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '../../services/translate.service';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
+import { NickService } from '../../services/nick.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -14,12 +15,14 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class EdenComponent implements OnInit, OnDestroy {
   constructor(
+    public el: ElementRef,
     public edenService: EdenService,
     private txEdenService: TxEdenService,
     public walletService: WalletService,
     private i18n: TranslateService,
     private route: ActivatedRoute,
     private alert: NzMessageService,
+    public nickService: NickService,
   ) {
   }
   edenDialogName: string = null;
@@ -29,6 +32,9 @@ export class EdenComponent implements OnInit, OnDestroy {
   selectedIncludeFolder = false;
   zone: NgZone;
   walletSub: any;
+  mailSub: any;
+  mailPath: string = 'mail';
+  mails: any[] = [];
 
   ngOnInit() {
     this.edenService.updateAll();
@@ -48,10 +54,22 @@ export class EdenComponent implements OnInit, OnDestroy {
       await this.txEdenService.getAll(true);
       await this.edenService.updateAll([]);
     });
+    this.mailSub = this.txEdenService.mailFiles.subscribe((data) => {
+      if(this.mailPath === 'inbox') {
+        this.mails = (data || {}).to;
+      } else if (this.mailPath === 'outbox') {
+        this.mails = (data || {}).from;
+      } else {
+        this.mailPath === 'mail'
+        this.mails = []; 
+      }
+      this.getAddressNick();
+    });
   }
 
   ngOnDestroy() {
     this.walletSub.unsubscribe();
+    this.mailSub.unsubscribe();
   }
 
   clearSelect() {
@@ -98,6 +116,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   dblclick(index: number) {
     const file = this.edenService.currentView[index];
     if (file.type !== 'bucket' && file.type !== 'folder') { return; }
+    this.mailPath = '';
     this.edenService.changePath(['/', file.id]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
@@ -187,6 +206,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   openBucket() {
     const i = this.fileSelected.values().next().value;
     const id = this.edenService.currentView[i].id;
+    this.mailPath = "mail";
     this.edenService.changePath([`/${id}`]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
@@ -255,6 +275,76 @@ export class EdenComponent implements OnInit, OnDestroy {
         break;
     }
     return `${icon}`;
+  }
+
+  openInbox() {
+    this.mailPath = "inbox";
+    //this.edenService.changePath(["/", this.edenService.mail.inbox]);
+    this.mails = (this.txEdenService.mailList || {}).to;
+    this.getAddressNick();
+  }
+
+  openOutbox() {
+    this.mailPath = "outbox";
+    //this.edenService.changePath(["/", this.edenService.mail.outbox]);
+    this.mails = (this.txEdenService.mailList || {}).from;
+    this.getAddressNick();
+  }
+
+  getAddressNick() {
+    this.mails.forEach(async mail => {
+      mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
+      mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+    });
+  }
+
+  sendMessage() {
+    this.edenDialogName = "sendMessage";
+    this.edenDialogOpt = this.edenService.mail.outbox;
+  }
+
+  showMessage(data) {
+    this.edenDialogName = "openMessage";
+    let file = this.getFileByShare(data);
+    if(!file) {
+      this.alert.error("未找到邮件");
+      return;
+    }
+    this.edenDialogOpt = {
+      file: file,
+      bucketId: this.edenService.currentPathId[0]
+    };
+  }
+
+  signInMessage(data) {
+    this.edenDialogName = "signInMessage";
+    this.edenDialogOpt = data._id;
+  }
+
+  deleteMessage(data) {
+    this.edenDialogName = "deleteMessage";
+    let file = this.getFileByShare(data);
+    this.edenDialogOpt = {
+      fileId: file ? file.id : '',
+      shareId: data._id
+    };
+  }
+
+  getFileByShare(share) {
+    const {bucketEntryId, key, ctr} = share;
+    let file;
+    for(let i = 0, length = this.edenService.currentFiles.length; i < length; i++) {
+      let f = this.edenService.currentFiles[i];
+      if(f.id === bucketEntryId) {
+        file = f;
+        break;
+      }
+      if(f.rsaKey === key && f.rsaCtr == ctr) {
+        file = f;
+        break;
+      }
+    }
+    return file;
   }
 
 }

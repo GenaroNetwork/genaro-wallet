@@ -117,7 +117,7 @@ export class EdenService {
             usedStorage: bucket.usedStorage || 0,
             limitStorage: bucket.limitStorage || 0,
             bucketId: bucket.bucketId,
-            type: bucket.type
+            bucketType: bucket.type
           });
         });
         this.currentBuckets = newBuckets;
@@ -134,7 +134,7 @@ export class EdenService {
           old.usedStorage = bucket.usedStorage || 0;
           old.limitStorage = bucket.limitStorage || 0;
           old.bucketId = bucket.bucketId;
-          old.type = bucket.type;
+          old.bucketType = bucket.type;
         });
       }
       this.mail = {
@@ -142,8 +142,8 @@ export class EdenService {
         outbox: null,
       }
       this.currentBuckets.forEach(bucket => {
-        if (bucket.type === 1) this.mail.outbox = bucket.id;
-        if (bucket.type === 2) this.mail.inbox = bucket.id;
+        if (bucket.bucketType === 1) this.mail.outbox = bucket.id;
+        if (bucket.bucketType === 2) this.mail.inbox = bucket.id;
       });
     }
     env.getBuckets((err, result) => {
@@ -250,10 +250,11 @@ export class EdenService {
       }
     }
     this.zone.run(() => {
-      this.currentPage.count = this.allView.length;
+      let av = this.allView.filter(bucket => !bucket.bucketType);
+      this.currentPage.count = av.length;
       const pageStart = (this.currentPage.page - 1) * this.currentPage.pageSize;
       const pageEnd = this.currentPage.page * this.currentPage.pageSize;
-      this.currentView = this.allView.slice(pageStart, pageEnd);
+      this.currentView = av.slice(pageStart, pageEnd);
     });
   }
 
@@ -279,7 +280,9 @@ export class EdenService {
     });
     this.currentPathId = currentPathId;
     this.currentPath = this.currentPathId.map((id, index) => {
-      if (index === 0) { return this.currentBuckets.find(bucket => bucket.id === id).name; } else {
+      if (index === 0) { 
+        return this.currentBuckets.find(bucket => bucket.id === id).name; 
+      } else {
         let filename = this.currentFiles.find(file => file.id === id);
         if (filename && filename.endsWith('/')) { filename = filename.substr(0, filename.length - 1); }
         return filename;
