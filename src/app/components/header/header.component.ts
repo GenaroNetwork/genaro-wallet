@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   walletNewShown = false;
   blockHeight: number = null;
   dialogName: string = null;
+  netType: string = 'main';
   constructor(
     public txService: TransactionService, // 会在 html 中用到，
     public walletService: WalletService, // 会在 html 中用到，
@@ -30,4 +31,13 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  setNet(netType) {
+    this.netType = netType;
+    if (netType === 'main') {
+
+    }
+    else if (netType === 'test') {
+
+    }
+  }
 }

@@ -144,7 +144,9 @@ export default {
     "SETTINGS": "Settings",
     "HELP": "Help",
     "ABOUT": "About",
-    "JOIN": "Apply to join"
+    "JOIN": "Apply to join",
+    "MAIN_NET": "主链 ",
+    "TEST_NET": "测试链 "
   },
   "SIDERBAR": {
     "WALLET": "My wallet",

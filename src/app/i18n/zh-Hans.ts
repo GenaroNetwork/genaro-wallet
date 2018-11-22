@@ -145,7 +145,9 @@ export default {
     "SETTINGS": "设置",
     "HELP": "帮助",
     "ABOUT": "关于",
-    "JOIN": "申请加入"
+    "JOIN": "申请加入",
+    "MAIN_NET": "主链",
+    "TEST_NET": "测试链"
   },
   "SIDERBAR": {
     "WALLET": "我的钱包",
