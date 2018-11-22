@@ -533,6 +533,7 @@
       </div>
       <div nz-col nzSpan="18">
         <textarea row="6" nz-input [(ngModel)]="sendMessageContent" style="height:250px"></textarea>
+        <div *ngFor="let attach of sendMessageAttaches" class="mail-attach"></div>
       </div>
     </div>
   </ng-container>

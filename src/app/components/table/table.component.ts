@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, HostListener, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef, OnChanges, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { SharerService } from '../../services/sharer.service';
 import { TransactionDbService } from '../../services/transaction-db.service';
 import { TransactionService } from '../../services/transaction.service';

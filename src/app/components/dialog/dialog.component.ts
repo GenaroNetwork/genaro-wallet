@@ -593,6 +593,7 @@ export class DialogComponent implements OnChanges {
   sendMessageContent = '';
   sendMessagePassword = '';
   sendMessageGas: number[] = [null, 2100000];
+  sendMessageAttaches: any[] = [];
   sendMessageDisabled = false;
   sendMessageInit() {
     this.sendMessageStep = 0;
