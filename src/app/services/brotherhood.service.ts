@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransactionService } from './transaction.service';
 import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL, BROTHER_STATE_FILE, BROTHER_CONTRACT_ADDR } from '../libs/config';
-import { BehaviorSubject } from 'rxjs';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { NzNotificationService } from 'ng-zorro-antd';
 
 function add0x(addr: string) {
@@ -79,7 +77,7 @@ class BrotherContract {
 class LastStateStorage {
   private allState = {};
   constructor(
-    private bs: BehaviorSubject<[string, any]>,
+    private bs: [string, any],
     private NotiService: NzNotificationService
   ) {
     this.ReadAll();
@@ -94,7 +92,7 @@ class LastStateStorage {
       if (!equals) {
         sthChanged = true;
         this.allState[addr] = state;
-        this.bs.next([addr, state]);
+        this.bs = [addr, state];
       }
     });
     if (sthChanged) {
@@ -131,7 +129,7 @@ class LastStateStorage {
     //   this.allState = JSON.parse(content);
     // }
     for (const addr in this.allState) {
-      this.bs.next([addr, this.allState[addr]]);
+      this.bs = [addr, this.allState[addr]];
     }
   }
 
@@ -149,7 +147,7 @@ class LastStateStorage {
 export class BrotherhoodService {
 
   private lastState: LastStateStorage;
-  public stateUpdate: BehaviorSubject<[string, any]> = new BehaviorSubject(null);
+  public stateUpdate: [string, any] = null;
 
   constructor(
     private TxService: TransactionService,

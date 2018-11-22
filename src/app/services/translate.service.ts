@@ -24,7 +24,6 @@ export class TranslateService {
     });
     this.load(use, trigger);
   }
-
   instant(name: string, args?: any): string {
     let translate = this.translate[name];
     if (!translate) translate = "";
