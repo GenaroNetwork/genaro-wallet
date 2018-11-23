@@ -21,26 +21,26 @@
       </span>
       {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
       <i *ngIf="txService.chainSyncing[0]" nz-icon type="sync" theme="outline" [spin]="true"></i>
-      <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
-        <a nz-dropdown>
-          <i nz-icon type="down" theme="outline"></i>
-        </a>
-        <ul nz-menu>
-          <li nz-menu-item *ngIf="netType==='test'">
-            <a (click)="setNet('main')">
-              <nz-badge nzStatus="default" [nzStyle]="{'background-color':'#f5222d', 'margin-bottom': '4px'}"></nz-badge>
-              {{ "HEADER.MAIN_NET" | translate}}
-            </a>
-          </li>
-          <li nz-menu-item *ngIf="netType==='main'">
-            <a (click)="setNet('test')">
-              <nz-badge nzStatus="default" [nzStyle]="{'background-color':'#faad14', 'margin-bottom': '4px'}"></nz-badge>
-              {{ "HEADER.TEST_NET" | translate}}
-            </a>
-          </li>
-        </ul>
-      </nz-dropdown>
     </div>
+    <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
+      <a nz-dropdown>
+        <i nz-icon type="down" theme="outline"></i>
+      </a>
+      <ul nz-menu>
+        <li nz-menu-item *ngIf="netType==='test'">
+          <a (click)="setNet('main')">
+            <nz-badge nzStatus="default" [nzStyle]="{'background-color':'#f5222d', 'margin-bottom': '4px'}"></nz-badge>
+            {{ "HEADER.MAIN_NET" | translate}}
+          </a>
+        </li>
+        <li nz-menu-item *ngIf="netType==='main'">
+          <a (click)="setNet('test')">
+            <nz-badge nzStatus="default" [nzStyle]="{'background-color':'#faad14', 'margin-bottom': '4px'}"></nz-badge>
+            {{ "HEADER.TEST_NET" | translate}}
+          </a>
+        </li>
+      </ul>
+    </nz-dropdown>
     <div class="menu">
       <nz-dropdown nzPlacement="bottomRight" nzTrigger="click" [nzDisabled]="setting.appType===null">
         <a nz-dropdown>
