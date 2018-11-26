@@ -165,7 +165,7 @@ export default {
     "CURRENT_RANKS": "Current Ranks",
     "JOIN_COMMITTEE": "Join Construction",
     "DOWNLOAD_MINER": "Download Miner",
-    "MAIL": "我的邮箱"
+    "MAIL": "云邮箱"
   },
   "WALLET": {
     "CONFIG": "Wallet management",

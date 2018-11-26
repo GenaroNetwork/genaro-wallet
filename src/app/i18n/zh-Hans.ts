@@ -166,7 +166,7 @@ export default {
     "CURRENT_RANKS": "当前排名",
     "JOIN_COMMITTEE": "加入共建",
     "DOWNLOAD_MINER": "下载Miner挖矿",
-    "MAIL": "我的邮箱"
+    "MAIL": "云邮箱"
   },
   "WALLET": {
     "CONFIG": "管理钱包",

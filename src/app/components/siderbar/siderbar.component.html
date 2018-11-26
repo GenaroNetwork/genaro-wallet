@@ -7,7 +7,7 @@
   <li nz-submenu *ngIf="settingService.eden">
     <span title>
       <i nz-icon type="file" theme="outline"></i>
-      {{ "SIDERBAR.EDEN_FILE" | translate }}
+      {{ (settingService.appType === 'gmail' ? "SIDERBAR.MAIL" : "SIDERBAR.EDEN_FILE") | translate }}
     </span>
     <ul>
       <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden' || open(page,'/eden;path=')">
