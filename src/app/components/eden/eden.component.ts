@@ -6,6 +6,7 @@ import { TranslateService } from '../../services/translate.service';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
 import { NickService } from '../../services/nick.service';
+import { SettingService } from '../../services/setting.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
@@ -22,6 +23,7 @@ export class EdenComponent implements OnInit, OnDestroy {
     private i18n: TranslateService,
     private route: ActivatedRoute,
     private alert: NzMessageService,
+    public settingService: SettingService,
     public nickService: NickService,
   ) {
   }
@@ -33,10 +35,13 @@ export class EdenComponent implements OnInit, OnDestroy {
   zone: NgZone;
   walletSub: any;
   mailSub: any;
-  mailPath: string = 'mail';
+  mailPath: string = '';
   mails: any[] = [];
 
   ngOnInit() {
+    if(this.settingService.appType === 'gmail') {
+      this.mailPath = 'mail';
+    }
     this.edenService.updateAll();
     // let env = this.edenService.allEnvs[this.walletService.wallets.current]
     // if (!env)
@@ -54,22 +59,28 @@ export class EdenComponent implements OnInit, OnDestroy {
       await this.txEdenService.getAll(true);
       await this.edenService.updateAll([]);
     });
-    this.mailSub = this.txEdenService.mailFiles.subscribe((data) => {
-      if(this.mailPath === 'inbox') {
-        this.mails = (data || {}).to;
-      } else if (this.mailPath === 'outbox') {
-        this.mails = (data || {}).from;
-      } else {
-        this.mailPath === 'mail'
-        this.mails = []; 
-      }
-      this.getAddressNick();
-    });
+    if(this.settingService.appType === 'gmail') {
+      this.mailSub = this.txEdenService.mailFiles.subscribe((data) => {
+        if(this.mailPath === 'inbox') {
+          this.mails = (data || {}).to;
+        } else if (this.mailPath === 'outbox') {
+          this.mails = (data || {}).from;
+        } else {
+          this.mailPath === 'mail'
+          this.mails = []; 
+        }
+        this.getAddressNick();
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.walletSub.unsubscribe();
-    this.mailSub.unsubscribe();
+    if(this.walletSub) {
+      this.walletSub.unsubscribe();
+    }
+    if(this.mailSub) {
+      this.mailSub.unsubscribe();
+    }
   }
 
   clearSelect() {
@@ -206,7 +217,12 @@ export class EdenComponent implements OnInit, OnDestroy {
   openBucket() {
     const i = this.fileSelected.values().next().value;
     const id = this.edenService.currentView[i].id;
-    this.mailPath = "mail";
+    if(this.settingService.appType === 'gmail') {
+      this.mailPath = 'mail';
+    }
+    else {
+      this.mailPath = '';
+    }
     this.edenService.changePath([`/${id}`]);
     this.fileSelected = new Set();
     this.lastFileSelected = null;
@@ -345,6 +361,15 @@ export class EdenComponent implements OnInit, OnDestroy {
       }
     }
     return file;
+  }
+
+  changeMailPath() {
+    if(this.settingService.appType === 'gmail') {
+      this.mailPath = 'mail';
+    }
+    else {
+      this.mailPath = '';
+    }
   }
 
 }

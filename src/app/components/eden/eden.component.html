@@ -14,7 +14,7 @@
       {{ "MAIL.OUTBOX" | translate }}
     </nz-breadcrumb-item>
     <nz-breadcrumb-item *ngIf="mailPath===''">
-      <span (click)="edenService.changePath(['/']);mailPath='mail'">{{ "EDEN.HOME_DIR" | translate }}</span>
+      <span (click)="edenService.changePath(['/']);changeMailPath();">{{ "EDEN.HOME_DIR" | translate }}</span>
     </nz-breadcrumb-item>
     <nz-breadcrumb-item *ngFor="let path of edenService.currentPath">
       <span>{{ path }}</span>
@@ -28,10 +28,10 @@
         "EDEN.RENAME_BUCKET" | translate }}</button>
       <button nz-button nzType="primary" [disabled]="!fileSelected.size" (click)="deleteBucket()">{{
         "EDEN.DELETE_BUCKET" | translate }}</button>
-      <button nz-button nzType="primary" [disabled]="fileSelected.size!==1" (click)="setInbox()">{{ "MAIL.SET_RECEIVE"
+      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="fileSelected.size!==1" (click)="setInbox()">{{ "MAIL.SET_RECEIVE"
         | translate
         }}</button>
-      <button nz-button nzType="primary" [disabled]="fileSelected.size!==1" (click)="setOutbox()">{{ "MAIL.SET_SEND" |
+      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="fileSelected.size!==1" (click)="setOutbox()">{{ "MAIL.SET_SEND" |
         translate }}</button>
     </ng-container>
     <!-- 容器内 -->
@@ -104,7 +104,7 @@
     </nz-table>
   </ng-container>
 </div>
-<div *ngIf="edenService.currentPath.length==0 && mailPath!=='inbox' && mailPath!=='outbox'" class="header">
+<div *ngIf="edenService.currentPath.length==0 && mailPath!=='inbox' && mailPath!=='outbox' && mailPath==='mail'" class="header">
   <nz-breadcrumb>
     <nz-breadcrumb-item *ngIf="mailPath==='mail'">
       <span (click)="edenService.changePath(['/'])">{{ "EDEN.HOME_DIR" | translate }}</span>

@@ -68,7 +68,7 @@ export class FormComponent implements OnChanges {
         break;
       case 1:
         await this.txService.unStake(address, this.stakePassword, this.stakeGas[1], this.stakeGas[0]);
-        this.stakeStep++;
+        this.stakeStep = 2;
         this.onSubmit.emit();
         break;
     }

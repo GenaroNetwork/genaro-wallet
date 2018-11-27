@@ -859,4 +859,28 @@ export class EdenService {
     const meta = env.decryptFile(filePath, key, ctr);
     return JSON.parse(meta);
   }
+
+  resetAll() {
+    this.allEnvs = [];
+    this.mail = {
+      inbox: null,
+      outbox: null,
+    };
+    this.requestEnv = null;
+    this.currentBuckets = [];
+    this.currentFiles = [];
+    this.fs = [];
+    this.allView = [];
+    this.currentView = [];
+    this.currentPath = [];
+    this.currentPathId = [];
+    this.currentPage = {
+      count: 0,
+      pageSize: Infinity,
+      page: 1,
+    };
+    this.tasks = [];
+    this.taskEnvs = {};
+    this.taskCount = 0;
+  }
 }

@@ -42,7 +42,8 @@ export default {
     "DOWNLOADMINER": "'Download'",
     "DOWNLOADMINER_TIPS3": " installer and miner userguide",
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
-    "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。"
+    "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。",
+    "START_USE": "开始使用"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
@@ -144,7 +145,9 @@ export default {
     "SETTINGS": "Settings",
     "HELP": "Help",
     "ABOUT": "About",
-    "JOIN": "Apply to join"
+    "JOIN": "Apply to join",
+    "MAIN_NET": "主链 ",
+    "TEST_NET": "测试链 "
   },
   "SIDERBAR": {
     "WALLET": "My wallet",
@@ -163,7 +166,7 @@ export default {
     "CURRENT_RANKS": "Current Ranks",
     "JOIN_COMMITTEE": "Join Construction",
     "DOWNLOAD_MINER": "Download Miner",
-    "MAIL": "我的邮箱"
+    "MAIL": "云邮箱"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
