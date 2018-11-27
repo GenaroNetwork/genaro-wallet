@@ -96,6 +96,10 @@ textarea {
     position: absolute;
     pointer-events: none;
     background-image: linear-gradient(to right, #44dede, #0060E7);
+
+    &.done {
+      background: #199633;
+    }
   }
 
   &:nth-of-type(2n-1) {

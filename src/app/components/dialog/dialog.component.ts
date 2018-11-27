@@ -619,6 +619,7 @@ export class DialogComponent implements OnChanges {
         rsaCtr: null,
         id: null,
         taskEnv: null,
+        done: false,
       };
       this.sendMessageAttaches.push(attach);
       let { key, ctr, taskEnv } = await this.edenService.mailAttach(this.options, `1|${this.sendMessageId}|${attach.name}`, file,
@@ -631,6 +632,7 @@ export class DialogComponent implements OnChanges {
           this.zone.run(() => {
             attach.percentage = 100;
             attach.id = fileId;
+            attach.done = true;
           });
         });
       attach.rsaKey = key;
@@ -656,9 +658,16 @@ export class DialogComponent implements OnChanges {
       // 发送附件 
 
       this.sendMessageAttaches.forEach(async attach => {
-        let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.shareFileRecipient);
-        let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
-        await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
+        try {
+          console.log(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          console.log(key);
+          let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+          console.log(share);
+          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
+        } catch (e) {
+          console.log(e);
+        }
       });
 
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, this.sendMessageTitle, this.sendMessageContent, this.options);

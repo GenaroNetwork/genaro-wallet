@@ -535,7 +535,7 @@
         <textarea row="6" nz-input [(ngModel)]="sendMessageContent" style="height:250px"></textarea>
         <div *ngFor="let attach of sendMessageAttaches;let i = index" class="mail-attach" nz-tooltip [nzTitle]="attach.name">
           {{ attach.name }}
-          <div class="process" [style.width]="attach.percentage + '%'"></div>
+          <div class="process" [style.width]="attach.percentage + '%'" [class.done]="attach.done"></div>
           <i nz-icon type="close-circle" theme="outline" (click)="sendMessageRemoveAttach(i)"></i>
         </div>
       </div>

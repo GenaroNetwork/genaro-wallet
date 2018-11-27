@@ -319,6 +319,7 @@ export class EdenService {
       method: 'GET'
     });
     try {
+      debugger;
       let data = await response.json();
       let publicKey = data.filePublicKey;
       let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[walletAddr]);

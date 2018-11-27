@@ -108,7 +108,6 @@ export class TransactionService {
     connectedWeb3 = web3Provider;
     const baseNumber = await web3.eth.getBlockNumber();
     const syncInterval = setInterval(async () => {
-      console.log("track interval")
       const blockNumber = await web3.eth.getBlockNumber();
       if (blockNumber === baseNumber) {
         this.chainSyncing = [true, blockNumber];
