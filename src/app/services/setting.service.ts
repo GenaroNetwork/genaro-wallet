@@ -35,9 +35,7 @@ export class SettingService {
         this.set("committee", true);
         break;
     }
-    setTimeout(() => {
-      this.router.navigate(["/wallet"]);
-    }, 0);
+    this.router.navigate(["/wallet"]);
     return value;
   }
 

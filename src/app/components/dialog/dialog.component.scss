@@ -1,12 +1,15 @@
 @import "../../config.scss";
+
 .buy-space,
 .buy-traffic {
   .review {
     margin-bottom: 1rem;
+
     .label {
       text-align: right;
     }
   }
+
   ::ng-deep .ant-modal-footer {
     &>span {
       margin-right: 1rem;
@@ -24,6 +27,7 @@
 .right-btn {
   border-color: #fff;
   background-color: #fff;
+
   &.ant-btn-danger:hover {
     color: #ff4d4f;
   }
@@ -36,6 +40,7 @@
 .no-mask {
   ::ng-deep .ant-modal-wrap {
     pointer-events: none;
+
     .ant-modal-content {
       pointer-events: all;
     }
@@ -58,4 +63,42 @@ textarea {
 .text-center {
   text-align: center;
   padding: 6px 0;
+}
+
+.mail-attach {
+  float: left;
+  height: 2rem;
+  width: 49%;
+  color: $theme-color;
+  box-sizing: border-box;
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  margin-top: .5rem;
+  line-height: calc(2rem - 2px);
+  padding: 0 1rem 0 .5rem;
+  position: relative;
+  overflow: hidden;
+
+  i {
+    position: absolute;
+    right: .5rem;
+    top: 0;
+    line-height: 2rem;
+    height: 2rem;
+    cursor: pointer;
+  }
+
+  .process {
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    pointer-events: none;
+    background-image: linear-gradient(to right, #44dede, #0060E7);
+  }
+
+  &:nth-of-type(2n-1) {
+    margin-right: 2%;
+  }
 }

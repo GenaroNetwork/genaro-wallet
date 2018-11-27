@@ -399,8 +399,8 @@
 </nz-table>
 
 <!-- eden-file-receive -->
-<nz-table *ngIf="name==='edenFileReceive'" #edenFileReceive [nzData]="edenFileReceiveData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
-  [nzNoResult]="'TABLE.NO_DATA' | translate">
+<nz-table *ngIf="name==='edenFileReceive'" #edenFileReceive [nzData]="(this.txEdenService.shareFiles.to || []).reverse()"
+  [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
     <tr>
       <th nzWidth="25%">{{ 'EDEN_FILE_SHARE.SHARE' | translate }}</th>
@@ -446,8 +446,8 @@
 
 
 <!-- eden-file-share -->
-<nz-table *ngIf="name==='edenFileShare'" #edenFileShare [nzData]="edenFileShareData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}'
-  [nzNoResult]="'TABLE.NO_DATA' | translate">
+<nz-table *ngIf="name==='edenFileShare'" #edenFileShare [nzData]="(this.txEdenService.shareFiles.from || []).reverse()"
+  [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
     <tr>
       <th nzWidth="20%">{{ 'EDEN_FILE_SHARE.RECEIVE' | translate }}</th>

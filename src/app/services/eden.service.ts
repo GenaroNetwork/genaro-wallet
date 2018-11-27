@@ -280,8 +280,8 @@ export class EdenService {
     });
     this.currentPathId = currentPathId;
     this.currentPath = this.currentPathId.map((id, index) => {
-      if (index === 0) { 
-        return this.currentBuckets.find(bucket => bucket.id === id).name; 
+      if (index === 0) {
+        return this.currentBuckets.find(bucket => bucket.id === id).name;
       } else {
         let filename = this.currentFiles.find(file => file.id === id);
         if (filename && filename.endsWith('/')) { filename = filename.substr(0, filename.length - 1); }
@@ -677,7 +677,37 @@ export class EdenService {
     this.messageService.success(this.i18n.instant('EDEN.DELETE_BUCKET_DONE'));
   }
 
-  async sendMessageTask(toAddress, title, content, bucketId) {
+  async mailAttach(bucketId, filename, path, onProcess, onFinish): Promise<any> {
+    try {
+      let env = this.allEnvs[this.walletService.wallets.current];
+      let keyCtr = env.generateEncryptionInfo(bucketId);
+      let key = keyCtr.key;
+      let ctr = keyCtr.ctr;
+      let index = keyCtr.index;
+      let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey["0x" + this.walletService.wallets.current]);
+      let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
+      let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
+      let taskEnv = env.storeFile(bucketId, path, true, {
+        filename,
+        progressCallback: onProcess,
+        finishedCallback: onFinish,
+        key,
+        ctr,
+        rsaKey: encryptionKey.cipher,
+        rsaCtr: encryptionCtr.cipher,
+        index
+      });
+      return {
+        key,
+        ctr,
+        taskEnv,
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async sendMessageTask(toAddress, id, title, content, bucketId) {
     return new Promise((res, rej) => {
       let fromAddress = this.walletService.wallets.current;
       if (!fromAddress.startsWith('0x')) {
@@ -689,8 +719,8 @@ export class EdenService {
         title,
         content
       };
-      const filename = uuidv1();
-      //const filename = title;
+      const filename = `0|${id}|${title}`;
+
       const dataStr = JSON.stringify(data);
       this.runAll([dataStr], async (jsonStr, env, cb) => {
         try {

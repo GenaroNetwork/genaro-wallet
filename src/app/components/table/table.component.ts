@@ -173,29 +173,29 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.isSpinning = true;
     this.committeeAddress = '';
     this.committeeDataUpdate();
-    this.walletSub = this.walletService.currentWallet.subscribe(async currentWallet => {
-      this.canApplyJoin = false;
-      let datas = this.committeeService.pendingSentinelRank || [];
-      let data;
-      let currentWalletAddr = add0x(currentWallet.address);
-      for (let i = 0, length = datas.length; i < length; i++) {
-        if (currentWalletAddr === datas[i].address) {
-          data = datas[i];
-          break;
-        }
-      }
-      if (!data || !data.pendingSubFarmers || data.pendingSubFarmers.length === 0) {
-        this.canApplyJoin = true;
-      }
-      let state = await this.brotherhoodService.fetchState2(currentWalletAddr);
-      if (state && state.tempState && state.tempState.role === Role.Free) {
-        this.committeeService.delete(currentWallet.address);
-      }
-      this.activateJoinButton();
-    });
     this.activeBtnSub = this.committeeService.activeJoinBtn.subscribe((action) => {
       this.activateJoinButton();
     });
+  }
+  async committeeWalletSub(currentWallet) {
+    this.canApplyJoin = false;
+    let datas = this.committeeService.pendingSentinelRank || [];
+    let data;
+    let currentWalletAddr = add0x(currentWallet.address);
+    for (let i = 0, length = datas.length; i < length; i++) {
+      if (currentWalletAddr === datas[i].address) {
+        data = datas[i];
+        break;
+      }
+    }
+    if (!data || !data.pendingSubFarmers || data.pendingSubFarmers.length === 0) {
+      this.canApplyJoin = true;
+    }
+    let state = await this.brotherhoodService.fetchState2(currentWalletAddr);
+    if (state && state.tempState && state.tempState.role === Role.Free) {
+      this.committeeService.delete(currentWallet.address);
+    }
+    this.activateJoinButton();
   }
   async committeeDataUpdate() {
     this.isSpinning = true;
@@ -218,9 +218,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     if (this.committeeData) {
       let currentWalletAddr = this.walletService.wallets.current;
       let hasAppliedAccounts = await this.committeeService.get(currentWalletAddr) || [];
-      let acs = hasAppliedAccounts.map(a => {
-        return a.applyAddress;
-      })
+      let acs = hasAppliedAccounts.map(a => a.applyAddress);
       this.committeeData.forEach(cd => {
         if (acs.indexOf(cd.address) > -1) {
           cd.canApplyJoin = false;
@@ -236,12 +234,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.searchFarmer();
   }
   committeeDestroy() {
-    if (this.walletSub) {
-      this.walletSub.unsubscribe();
-    }
-    if (this.activeBtnSub) {
-      this.activeBtnSub.unsubscribe();
-    }
+    if (this.activeBtnSub) this.activeBtnSub.unsubscribe();
   }
 
 
@@ -249,14 +242,14 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   currentCommitteeData: any[] = [];
   async currentCommitteeInit() {
     this.isSpinning = true;
-    this.walletService.currentWallet.subscribe(async wallet => {
-      this.currentCommitteeData = await this.committeeService.getCurrentCommittee() || [];
-      let currentWalletAddr = add0x(wallet.address);
-      this.currentCommitteeData.forEach(d => {
-        d.this = d.address === currentWalletAddr;
-      });
-      this.isSpinning = false;
+  }
+  async currentCommitteeWalletSub(currentWallet) {
+    this.currentCommitteeData = await this.committeeService.getCurrentCommittee() || [];
+    let currentWalletAddr = add0x(currentWallet.address);
+    this.currentCommitteeData.forEach(d => {
+      d.this = d.address === currentWalletAddr;
     });
+    this.isSpinning = false;
   }
 
   // sharer
@@ -265,41 +258,20 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
 
 
   // eden file share 
-  edenFileReceiveData: any[] = [];
-  edenFileReceiveSubscribe: any;
-  edenFileReceiveInit() {
-    this.edenFileReceiveSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
-      this.edenFileReceiveData = ((data || {}).to || []).reverse();
-    });
-  }
-  edenFileReceiveDestroy() {
-    if (this.edenFileReceiveSubscribe) {
-      this.edenFileReceiveSubscribe.unsubscribe();
-    }
-  }
-
-  edenFileShareData: any[] = [];
-  edenFileShareSubscribe: any;
-  edenFileShareInit() {
-    this.edenFileShareSubscribe = this.txEdenService.shareFiles.subscribe((data) => {
-      this.edenFileShareData = ((data || {}).from || []).reverse();
-    });
-  }
-  edenFileShareDestroy() {
-    if (this.edenFileShareSubscribe) {
-      this.edenFileShareSubscribe.unsubscribe();
-    }
-  }
+  edenFileReceiveInit() { }
+  edenFileReceiveDestroy() { }
+  edenFileShareInit() { }
+  edenFileShareDestroy() { }
 
   allWalletSub: any;
   allBlockSub: any;
   ngOnInit() {
     if (this[`${this.name}Init`]) { this[`${this.name}Init`](); }
-    this.allWalletSub = this.walletService.currentWallet.subscribe(() => {
-      if (this[`${this.name}WalletSub`]) { this[`${this.name}WalletSub`](); }
+    this.allWalletSub = this.walletService.currentWallet.subscribe((currentWallet) => {
+      if (this[`${this.name}WalletSub`]) { this[`${this.name}WalletSub`](currentWallet); }
     });
-    this.allBlockSub = this.txService.newBlockHeaders.subscribe(() => {
-      if (this[`${this.name}BlockSub`]) { this[`${this.name}BlockSub`](); }
+    this.allBlockSub = this.txService.newBlockHeaders.subscribe((currentBlock) => {
+      if (this[`${this.name}BlockSub`]) { this[`${this.name}BlockSub`](currentBlock); }
     });
   }
 

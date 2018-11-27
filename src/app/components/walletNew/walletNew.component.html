@@ -32,15 +32,15 @@
           <div>{{ mnemonic }}</div>
           <nz-button-group nzSize="small">
             <button nz-button (click)="generateMnemonic()">
-              <i mat-icon>refresh</i>
+              <i nz-icon type="reload" theme="outline"></i>
               {{ 'WALLETNEW.REGENERATE' | translate }}
             </button>
             <button nz-button (click)="downloadMnemonic()">
-              <i mat-icon>cloud_download</i>
+              <i nz-icon type="download" theme="outline"></i>
               {{ 'COMMON.DOWNLOAD' | translate }}
             </button>
             <button nz-button (click)="copy()" [type]="copied ? 'success' : ''">
-              <i mat-icon>{{ copied ? "check" : "file_copy" }}</i>
+              <i nz-icon [type]="copied ? 'check':'copy'" theme="outline"></i>
               {{ (copied ? "COMMON.COPIED" : "COMMON.COPY") | translate }}
             </button>
           </nz-button-group>

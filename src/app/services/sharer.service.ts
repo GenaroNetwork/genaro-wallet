@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { shell } from 'electron';
 import Dnode from 'dnode';
 import prettyms from 'pretty-ms';

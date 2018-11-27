@@ -533,7 +533,11 @@
       </div>
       <div nz-col nzSpan="18">
         <textarea row="6" nz-input [(ngModel)]="sendMessageContent" style="height:250px"></textarea>
-        <div *ngFor="let attach of sendMessageAttaches" class="mail-attach"></div>
+        <div *ngFor="let attach of sendMessageAttaches;let i = index" class="mail-attach" nz-tooltip [nzTitle]="attach.name">
+          {{ attach.name }}
+          <div class="process" [style.width]="attach.percentage + '%'"></div>
+          <i nz-icon type="close-circle" theme="outline" (click)="sendMessageRemoveAttach(i)"></i>
+        </div>
       </div>
     </div>
   </ng-container>
@@ -563,6 +567,8 @@
 </nz-modal>
 <ng-template #sendMessageFooter>
   <ng-container *ngIf="sendMessageStep===0">
+    <button nz-button nzSize="large" (click)="sendMessageAttach()">{{ 'MAIL.ATTACH' |
+      translate }}</button>
     <button nz-button nzSize="large" nzType="primary" (click)="sendMessageStep=sendMessageStep+1">{{ 'COMMON.NEXT' |
       translate }}</button>
   </ng-container>

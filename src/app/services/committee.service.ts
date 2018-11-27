@@ -315,6 +315,6 @@ export class CommitteeService {
     private zone: NgZone,
   ) {
     this.initSentinelRank();
-    setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
+    // setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
   }
 }
