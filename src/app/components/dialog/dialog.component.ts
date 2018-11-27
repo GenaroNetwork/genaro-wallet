@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange, NgZone } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
 import { CommitteeService } from '../../services/committee.service';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -11,8 +11,9 @@ import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
 import { NickService } from '../../services/nick.service';
-import { shell } from 'electron';
-import { GET_AGREEMENT, GET_TUTORIAL, INSTRUCTIONS_URL, DOWNLOAD_EDEN_URL, DOWNLOAD_SHARER_URL } from '../../libs/config';
+import { remote } from 'electron';
+import { v1 as uuidv1 } from 'uuid';
+import { basename } from "path";
 
 @Component({
   selector: 'app-dialog',
@@ -31,7 +32,8 @@ export class DialogComponent implements OnChanges {
     public settingService: SettingService,
     private brotherhoodService: BrotherhoodService,
     private committeeService: CommitteeService,
-    private nickService: NickService
+    private nickService: NickService,
+    private zone: NgZone,
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -589,21 +591,60 @@ export class DialogComponent implements OnChanges {
   sendMessageStep = 0;
   sendMessageTo = '';
   sendMessageToAddress = '';
+  sendMessageId = null;
   sendMessageTitle = '';
   sendMessageContent = '';
   sendMessagePassword = '';
   sendMessageGas: number[] = [null, 2100000];
+  sendMessageAttaches: any[] = null;
   sendMessageDisabled = false;
   sendMessageInit() {
     this.sendMessageStep = 0;
     this.sendMessageTo = '';
+    this.sendMessageId = Date.now();
     this.sendMessageToAddress = '';
     this.sendMessageTitle = '';
     this.sendMessageContent = '';
     this.sendMessagePassword = '';
+    this.sendMessageAttaches = [];
   }
+  sendMessageAttach() {
+    let files = remote.dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] });
+
+    files.forEach(async file => {
+      let attach = {
+        name: basename(file),
+        percentage: 0,
+        rsaKey: null,
+        rsaCtr: null,
+        id: null,
+        taskEnv: null,
+        done: false,
+      };
+      this.sendMessageAttaches.push(attach);
+      let { key, ctr, taskEnv } = await this.edenService.mailAttach(this.options, `1|${this.sendMessageId}|${attach.name}`, file,
+        (process, allBytes) => {
+          this.zone.run(() => {
+            attach.percentage = process;
+          });
+        },
+        (err, fileId) => {
+          this.zone.run(() => {
+            attach.percentage = 100;
+            attach.id = fileId;
+            attach.done = true;
+          });
+        });
+      attach.rsaKey = key;
+      attach.rsaCtr = ctr;
+      attach.taskEnv = taskEnv;
+    });
+  }
+  sendMessageUnAttach() { }
+
   async sendMessageSubmit() {
     this.sendMessageDisabled = true;
+    this.sendMessageTitle = `0|${this.sendMessageId}|${this.sendMessageTitle}`
     const address = this.walletService.wallets.current;
     try {
       let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
@@ -614,7 +655,22 @@ export class DialogComponent implements OnChanges {
         }
       }
       this.sendMessageToAddress = nickAddress || this.sendMessageTo;
-      let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageTitle, this.sendMessageContent, this.options);
+      // 发送附件 
+
+      this.sendMessageAttaches.forEach(async attach => {
+        try {
+          console.log(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          console.log(key);
+          let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+          console.log(share);
+          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
+        } catch (e) {
+          console.log(e);
+        }
+      });
+
+      let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, this.sendMessageTitle, this.sendMessageContent, this.options);
       // @ts-ignore
       let { fileId, fileSize, fileHash, key, ctr, str } = message;
       this.edenService.encryptMetaToFile(str, fileId);

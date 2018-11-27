@@ -26,7 +26,6 @@ export default class {
             receipt TEXT
         )`).run();
 
-
         //  txeden
         sql.txeden = new DB(join(SQLITE_CONFIG_PATH, "txeden.sqlite"));
         sql.txeden.prepare(`CREATE TABLE IF NOT EXISTS txeden (

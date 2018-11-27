@@ -1,4 +1,4 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
@@ -17,7 +17,7 @@ const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
 export class TxEdenService {
   public bucketList: any = [];
   public shareFileList: any = [];
-  public shareFiles: BehaviorSubject<any> = new BehaviorSubject({});
+  public shareFiles: any = {};
   public mailList: any = [];
   public mailFiles: BehaviorSubject<any> = new BehaviorSubject({});
   public currentUser: any = {};
@@ -161,7 +161,7 @@ export class TxEdenService {
       if (!walletAddr.startsWith('0x')) {
         walletAddr = '0x' + walletAddr;
       }
-      if(!address || address === walletAddr) {
+      if (!address || address === walletAddr) {
         await this.getBuckets(force);
         await this.getUserInfo(force, password, address);
         await this.getUserShares(force, address);
@@ -191,7 +191,7 @@ export class TxEdenService {
       }
       const user = await this.send('GET', '/user/' + walletAddr, null, this.userSig, this.publicKey);
       this.currentUser = user;
-      if(password && this.currentUser && !this.currentUser.filePublicKey) {
+      if (password && this.currentUser && !this.currentUser.filePublicKey) {
         let RSAPublicKeyString = cryptico.publicKeyString(this.RSAPrivateKey[walletAddr]);
         await this.walletService.putFileKey(walletAddr, password, RSAPublicKeyString);
       }
@@ -210,7 +210,9 @@ export class TxEdenService {
       }
       const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
       this.shareFileList = shares;
-      this.shareFiles.next(shares || {});
+      this.zone.run(() => {
+        this.shareFiles.next(shares || {})
+      });
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);
@@ -236,7 +238,7 @@ export class TxEdenService {
 
   constructor(
     private walletService: WalletService,
-    private appRef: ApplicationRef,
     private ipc: IpcService,
+    private zone: NgZone,
   ) { }
 }

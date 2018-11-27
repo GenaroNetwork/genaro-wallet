@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
 import { shell } from 'electron';
 import Dnode from 'dnode';
 import prettyms from 'pretty-ms';
@@ -26,7 +25,7 @@ export class SharerService {
     if (this.runningNodes > 0) this.ipc.ipcOnce("app.quit.state", "sharerInprocess", true);
     else this.ipc.ipcOnce("app.quit.state", "sharerInprocess", false);
   };
-  driversData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  driversData: any[] = [];
   tableOpt: any = {
     nodeColShow: true,
     statusColShow: true,
@@ -324,8 +323,9 @@ export class SharerService {
                 return !_data.delete;
               });
             }
-
-            this.driversData.next(datas);
+            this.zone.run(() => {
+              this.driversData = datas;
+            });
           } else {
             console.log(err);
             // clearInterval(this.interval);
@@ -377,6 +377,7 @@ export class SharerService {
   constructor(
     private txService: TransactionService,
     private ipc: IpcService,
+    private zone: NgZone,
   ) {
     try {
       this.mkdirPSync(BASE_PATH, null);

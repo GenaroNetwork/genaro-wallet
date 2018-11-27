@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { IpcService } from './ipc.service';
 
 enum TXSTATE {
@@ -20,8 +19,6 @@ const addr2hash = add => {
 })
 
 export class TransactionDbService {
-
-  public table1: BehaviorSubject<any>;
   constructor(
     private ipc: IpcService,
   ) {

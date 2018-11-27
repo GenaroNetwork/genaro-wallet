@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IpcService } from './ipc.service';
 import { TOP_FARMER_URL, FARMER_URL, Role, RELATION_FETCH_INTERVAL } from '../libs/config';
@@ -6,8 +6,8 @@ import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
 
 function add0x(addr: string) {
-  if (addr && !addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr || '';
+  if (addr && !addr.startsWith('0x')) return addr = '0x' + addr;
+  return addr;
 }
 
 @Injectable({
@@ -15,13 +15,13 @@ function add0x(addr: string) {
 })
 export class CommitteeService {
 
-  public currentSentinelRank: BehaviorSubject<[any]> = new BehaviorSubject(null);
+  public currentSentinelRank: any[] = [];
 
-  public pendingSentinelRank: BehaviorSubject<[any]> = new BehaviorSubject(null);
+  public pendingSentinelRank: any[] = [];
 
-  public currentMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
+  public currentMainWalletState: any = {};
 
-  public pendingMainWalletState: BehaviorSubject<any> = new BehaviorSubject(null);
+  public pendingMainWalletState: any = {};
 
   private allDatas: any = [];
 
@@ -95,7 +95,7 @@ export class CommitteeService {
         data.pendingOrder = this.pendingSentinelRanks.indexOf(orderAddr);
       }
     }
-    return data || {};
+    this.currentSentinelRank = data || [];
   }
 
   async getCurrentCommittee() {
@@ -126,7 +126,7 @@ export class CommitteeService {
     if (datas) {
       datas.forEach(async (d, i) => {
         const subFarmers = d.subFarmers || [],
-              pendingSubFarmers = d.pendingSubFarmers || [];
+          pendingSubFarmers = d.pendingSubFarmers || [];
         d.currentSentinel = d.sentinel || 0;
         d.currentStake = d.stake || 0;
         d.currentDataSize = d.data_size || 0;
@@ -190,8 +190,10 @@ export class CommitteeService {
       psrd.pendingOrder = i;
       this.pendingSentinelRanks.push(psrd.address);
     });
-    this.currentSentinelRank.next(this.currentSentinelRankDatas);
-    this.pendingSentinelRank.next(this.pendingSentinelRankDatas);
+    this.zone.run(() => {
+      this.currentSentinelRank = this.currentSentinelRankDatas;
+      this.pendingSentinelRank = this.pendingSentinelRankDatas;
+    });
     this.initCurrentWalletState();
   }
 
@@ -199,14 +201,14 @@ export class CommitteeService {
     const self = this;
     let currentMainAddr = '',
       pendingMainAddr = '';
-    if(this.walletSub) {
+    if (this.walletSub) {
       this.walletSub.unsubscribe();
     }
-    this.walletSub = this.walletService.currentWallet.subscribe(async w => {
+    this.walletSub = this.walletService.currentWallet.subscribe(async wallet => {
       currentMainAddr = '';
       pendingMainAddr = '';
-      const currentWalletAddr = add0x(self.walletService.wallets.current);
-      if(this.allDatas) {
+      const currentWalletAddr = add0x(wallet.address);
+      if (this.allDatas) {
         for (let i = 0, length = this.allDatas.length; i < length; i++) {
           if (currentWalletAddr === this.allDatas[i].address) {
             currentMainAddr = this.allDatas[i].mainFarmer || currentWalletAddr;
@@ -231,7 +233,10 @@ export class CommitteeService {
         }
         mainData.order = self.currentSentinelRanks.indexOf(currentMainAddr);
         mainData.currentAddress = currentWalletAddr;
-        self.currentMainWalletState.next(mainData);
+        mainData.shortAddr = mainData.address.slice(0, 6);
+        this.zone.run(() => {
+          self.currentMainWalletState = mainData;
+        });
 
         let pendingData;
         for (let i = 0, length = self.pendingSentinelRankDatas.length; i < length; i++) {
@@ -258,7 +263,7 @@ export class CommitteeService {
         }
         if (pendingMainAddr === currentWalletAddr) {
           let state = await self.brotherhoodService.fetchState2(currentWalletAddr);
-          if(state && state.tempState) {
+          if (state && state.tempState) {
             const tempSubAccountIds = state.tempState.subAccounts || [];
             const tempSubAccounts = [];
             // @ts-ignore
@@ -277,7 +282,10 @@ export class CommitteeService {
           pendingData.tempAccounts = [];
         }
         pendingData.currentAddress = currentWalletAddr;
-        self.pendingMainWalletState.next(pendingData);
+        this.zone.run(() => {
+          pendingData.shortAddr = pendingData.address.slice(0, 6);
+          this.pendingMainWalletState = pendingData;
+        });
       }
     });
   }
@@ -303,9 +311,10 @@ export class CommitteeService {
   constructor(
     private brotherhoodService: BrotherhoodService,
     private walletService: WalletService,
-    private ipc: IpcService
+    private ipc: IpcService,
+    private zone: NgZone,
   ) {
     this.initSentinelRank();
-    setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
+    // setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
   }
 }
