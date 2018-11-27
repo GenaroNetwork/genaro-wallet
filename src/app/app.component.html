@@ -1,39 +1,47 @@
 <app-header></app-header>
 <div class="choose" *ngIf="setting.appType === null; else main">
-  <div (click)="setting.set('appType', 'gmail')">
-    <div class="show">
-      <img src="assets/img/choose-eden.png">
-    </div>
-    <div class="detail">
-      <img src="assets/img/app-eden.png">
-      <div>
-        <span>Genaro Mail</span> v{{ setting.appVersion }}
-      </div>
-      <div>{{ "COMMON.CHOOSE_EDEN" | translate }}</div>
-    </div>
-  </div>
-  <div (click)="setting.set('appType', 'eden')">
-    <div class="show">
-      <img src="assets/img/choose-eden.png">
-    </div>
+  <div>
+    <div class="eden bg"></div>
     <div class="detail">
       <img src="assets/img/app-eden.png">
       <div>
         <span>Genaro Eden</span> v{{ setting.appVersion }}
       </div>
       <div>{{ "COMMON.CHOOSE_EDEN" | translate }}</div>
+      <button nz-button nzType="primary" (click)="setting.set('appType', 'eden')">{{ "COMMON.START_USE" | translate }}</button>
     </div>
   </div>
-  <div (click)="setting.set('appType', 'sharer')">
-    <div class="show">
-      <img src="assets/img/choose-sharer.png">
-    </div>
+  <div>
+    <div class="sharer bg"></div>
     <div class="detail">
       <img src="assets/img/app-sharer.png">
       <div>
         <span>Genaro Sharer</span> v{{ setting.appVersion }}
       </div>
       <div>{{ "COMMON.CHOOSE_SHARER" | translate }}</div>
+      <button nz-button nzType="primary" (click)="setting.set('appType', 'sharer')">{{ "COMMON.START_USE" | translate }}</button>
+    </div>
+  </div>
+  <div>
+    <div class="gmail bg"></div>
+    <div class="detail">
+      <img src="assets/img/app-eden.png">
+      <div>
+        <span>Genaro Mail</span> v{{ setting.appVersion }}
+      </div>
+      <div>{{ "COMMON.CHOOSE_EDEN" | translate }}</div>
+      <button nz-button nzType="primary" (click)="setting.set('appType', 'gmail')">{{ "COMMON.START_USE" | translate }}</button>
+    </div>
+  </div>
+  <div>
+    <div class="dapp bg"></div>
+    <div class="detail">
+      <img src="assets/img/app-eden.png">
+      <div>
+        <span>DApp</span> v{{ setting.appVersion }}
+      </div>
+      <div>{{ "COMMON.CHOOSE_EDEN" | translate }}</div>
+      <button nz-button nzType="primary">{{ "COMMON.START_USE" | translate }}</button>
     </div>
   </div>
 </div>

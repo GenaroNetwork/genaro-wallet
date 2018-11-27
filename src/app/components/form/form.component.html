@@ -36,17 +36,14 @@
       </div>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
-      <ng-container *ngIf="stakeStep===0">
+      <ng-container *ngIf="stakeStep===0 || stakeStep===1">
         <app-input [span]="[2,20]" *ngIf="stakeUnstakable===-1" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_DISABLED' | translate"></app-input>
         <ng-container *ngIf="stakeUnstakable===0">
           <app-input [span]="[2,20]" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_ENABLED' | translate"></app-input>
-          <app-input [span]="[2,20]" name="step" (iptChange)="stakeUnstakable=1" [ipt]="[null,'']"></app-input>
-          <app-input name="step" (iptChange)="stakeStep=stakeStep+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
+          <app-input name="step" (iptChange)="stakeUnstakable=stakeUnstakable+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
         </ng-container>
         <ng-container *ngIf="stakeUnstakable===1">
           <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
-        </ng-container>
-        <ng-container *ngIf="stakeStep===1">
           <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
           <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
         </ng-container>
@@ -64,16 +61,16 @@
     <app-input (submit)="bindNodeConfirm()" name="bindNode" [(ipt)]="bindNodeId" [iptExtra]="selectBindNodes" [span]="[6,18]"
       (iptChange)="setNodeId()"></app-input>
     <app-input (submit)="bindNodeConfirm()" name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
-    <app-input name="confirm" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" ipt="COMMON.NEXT"></app-input>
+    <app-input name="step" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
   </div>
   <div *ngIf="bindNodeStep===0 && bindNodeTokenFlg" class="bind-node">
     <app-input (submit)="bindNodeConfirm()" name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,18]"></app-input>
     <app-input (submit)="bindNodeConfirm()" name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
-    <app-input name="confirm" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" ipt="COMMON.NEXT"></app-input>
+    <app-input name="step" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" [ipt]="[COMMON.PREV,'COMMON.NEXT']"></app-input>
   </div>
   <div *ngIf="bindNodeStep===1">
     <app-input (submit)="bindNodeConfirm()" name="password" [(ipt)]="bindNodePassword" [span]="[6,18]"></app-input>
-    <app-input name="confirm" (iptChange)="bindNodeConfirm()"></app-input>
+    <app-input name="step" (iptChange)="bindNodeConfirm()" [ipt]="[null,'']"></app-input>
   </div>
   <div *ngIf="bindNodeStep===2">
     <i nz-icon type="check-circle" theme="outline"></i>
@@ -84,12 +81,12 @@
 <ng-container *ngIf="name==='removeNode'">
   <div *ngIf="removeNodeStep===0" class="bind-node">
     <div class="tip remove-tip">{{ 'TABLE.TXSHARER.REMOVE_NODE_TIPS' | translate }}</div>
-    <app-input name="confirm" (iptChange)="removeNodeTipConfirm()"></app-input>
+    <app-input name="step" (iptChange)="removeNodeTipConfirm()" [ipt]="[null,'']"></app-input>
   </div>
   <div *ngIf="removeNodeStep===1" class="bind-node">
     <app-input (submit)="removeNodeConfirm()" name="gas" [(ipt)]="removeNodeGas" [span]="[6,14]"></app-input>
     <app-input (submit)="removeNodeConfirm()" name="password" [(ipt)]="removeNodePassword" [span]="[6,14]"></app-input>
-    <app-input name="confirm" (iptChange)="removeNodeConfirm()" [span]="[6,14]"></app-input>
+    <app-input name="step" (iptChange)="removeNodeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
   </div>
   <div *ngIf="removeNodeStep===2">
     <i nz-icon type="check-circle" theme="outline"></i>
