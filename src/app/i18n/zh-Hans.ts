@@ -45,7 +45,9 @@ export default {
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
     "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。",
     "START_USE": "开始使用",
-    "USE_DAPP": "开发DApp"
+    "USE_DAPP": "开发DApp",
+    "BECOME_DEVELOPER": "成为开发者",
+    "CHOOSE_DAPP": "一站式DApp开发平台"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",
