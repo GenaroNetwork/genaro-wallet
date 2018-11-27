@@ -201,6 +201,14 @@ hr {
     &.outbox {
       background-image: url(assets/img/outbox.png);
     }
+
+    &.noInbox {
+      background-image: url(assets/img/no-inbox.png);
+    }
+
+    &.noOutbox {
+      background-image: url(assets/img/no-outbox.png);
+    }
   }
 }
 
