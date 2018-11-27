@@ -32,6 +32,7 @@ export default {
     "KEEP_LINK_3": "重新连接",
     "CHOOSE_EDEN": "数据创造价值",
     "CHOOSE_SHARER": "分享空间，获取收益",
+    "CHOOSE_GMAIL": "私人加密邮箱",
     "EXIT": "退出",
     "DO_NOT_EXIT": "不退出",
     "EXIT_TITLE": "退出程序",
@@ -43,7 +44,8 @@ export default {
     "DOWNLOADMINER_TIPS3": "Miner安装程序和使用说明",
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
     "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。",
-    "START_USE": "开始使用"
+    "START_USE": "开始使用",
+    "USE_DAPP": "开发DApp"
   },
   "INPUT": {
     "ADDRESS_FROM": "转出地址",

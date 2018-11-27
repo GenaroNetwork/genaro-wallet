@@ -88,7 +88,7 @@ export function setNetType(type) {
     if (type === 'main') {
         GENARO_ROOT_PATH = join(GENARO_ROOT_PATH_0, 'main');
         WEB3_URL = 'ws://47.100.107.16:8547';
-        BRIDGE_API_URL = 'http://47.100.107.16:8080';
+        BRIDGE_API_URL = 'http://118.31.61.119:8080';
     }
     else if (type === 'test') {
         GENARO_ROOT_PATH = join(GENARO_ROOT_PATH_0, 'test');
