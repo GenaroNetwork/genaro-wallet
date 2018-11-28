@@ -14,7 +14,7 @@ export class IpcService {
   public ipcSync(name: string, ...datas) { // [fixable] 此处应改为 private，并且不应该出现同步ipc方法
     return ipcRenderer.sendSync(name, ...datas);
   }
-  public ipcOnce(name: string, ...datas) {
+  public ipcOnce(name: string, ...datas): Promise<any> {
     return new Promise((res, rej) => {
       ipcRenderer.once(`${name}.${this.ipcId}`, (sender, ...datas) => {
         res(...datas);
@@ -22,7 +22,7 @@ export class IpcService {
       ipcRenderer.send(name, this.ipcId++, ...datas);
     });
   }
-  private ipcMulti(name: string, ...datas) {
+  private ipcMulti(name: string, ...datas): Observable<any> {
     return new Observable(ob => {
       ipcRenderer.on(`${name}.${this.ipcId}`, (sender, ...datas) => {
         ob.next(...datas);
@@ -39,14 +39,13 @@ export class IpcService {
   private db(type: string, sql: string) {
     return this.ipcOnce(`db.${type}`, sql);
   }
-  dbRun(table: string, sql) {
+  dbRun(table: string, sql): Promise<any> {
     return this.db(`${table}.run`, sql);
   }
-  dbGet(table: string, sql) {
+  dbGet(table: string, sql): Promise<any> {
     return this.db(`${table}.get`, sql);
   }
   dbAll(table: string, sql): Promise<any[]> {
-    // @ts-ignore
     return this.db(`${table}.all`, sql);
   }
 

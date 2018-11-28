@@ -12,7 +12,6 @@ const dnode = require('dnode');
 let api = new genaroshare.RPC();
 
 dnode(api.methods).listen(process.env.RPC_PORT, () => {
-  console.log('listening..');
   process.send({
     state: 'init'
   });

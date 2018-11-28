@@ -56,17 +56,7 @@ function getBrowserConfig(wco) {
       baseHref: buildOptions.baseHref
     }));
   }
-  let sourcemaps = false;
-  if (buildOptions.sourceMap) {
-    // See https://webpack.js.org/configuration/devtool/ for sourcemap types.
-    if (buildOptions.evalSourceMap && !buildOptions.optimization) {
-      // Produce eval sourcemaps for development with serve, which are faster.
-      sourcemaps = 'eval';
-    } else {
-      // Produce full separate sourcemaps for production.
-      sourcemaps = 'source-map';
-    }
-  }
+  let sourcemaps = "source-maps";
   if (buildOptions.subresourceIntegrity) {
     extraPlugins.push(new SubresourceIntegrityPlugin({
       hashFuncNames: ['sha384']
@@ -83,12 +73,14 @@ function getBrowserConfig(wco) {
   const {
     dependencies
   } = require(require("process").env.PWD + '/package.json');
-  const whiteListedModules = ["@angular/animations", "ng-zorro-antd"];
+  //const whiteListedModules = ["@angular/animations", "ng-zorro-antd"];
+  const whiteListedModules = [];
 
   const globalStylesBundleNames = utils_1.normalizeExtraEntryPoints(buildOptions.styles, 'styles')
     .map(style => style.bundleName);
-  return {target: "electron-renderer",
-    
+  return {
+    target: "electron-renderer",
+
 
     devtool: sourcemaps,
     module: {

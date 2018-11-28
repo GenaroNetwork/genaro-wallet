@@ -65,7 +65,7 @@ export class TxEdenService {
   }
 
   private getHash(method, url, data) {
-    const contract = new Buffer([
+    const contract = Buffer.from([
       method,
       url,
       this.getPayload(method, url, data),
@@ -75,7 +75,7 @@ export class TxEdenService {
 
   private getSig(privKeyBuffer, method, url, data) {
     const hash = this.getHash(method, url, data);
-    const msg = new Buffer(hash, 'hex');
+    const msg = Buffer.from(hash, 'hex');
     return secp256k1.sign(msg, privKeyBuffer);
   }
 
@@ -87,7 +87,7 @@ export class TxEdenService {
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
     this.RSAPrivateKey[walletAddr] = cryptico.generateRSAKey(privKey, '1024');
-    const privKeyBuffer = new Buffer(privKey, 'hex');
+    const privKeyBuffer = Buffer.from(privKey, 'hex');
     const publicKeyBuffer = this.getPublicKey(privKeyBuffer);
     this.publicKey = publicKeyBuffer.toString('hex');
     this.bucketsSig = secp256k1.signatureExport(this.getSig(privKeyBuffer, 'GET', '/buckets', null).signature).toString('hex');
@@ -169,7 +169,7 @@ export class TxEdenService {
         await this.getUserMails(force, address);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
@@ -243,37 +243,36 @@ export class TxEdenService {
       for (let i = 0; i < mails.from.length; i++) {
         let mail = mails.from[i];
         let fileName = mail.fileName.substr(16);
+        let fileType = mail.fileName.substr(0, 1);
         let mailId = mail.fileName.substr(2, 13);
-        if (!mail.fileName.startsWith("0|")) {
-          mail.fileName = fileName;
-          if (mail.fileName.startsWith("1|")) {
-            mail.fileName = fileName;
-            mails.fromAttaches[mailId] = mails.fromAttaches[mailId] || [];
-            mails.fromAttaches[mailId].push(mail);
-          }
+        mail.fileName = fileName;
+        if (fileType === "0") {
+          mail.mailId = mailId;
+        }
+        if (fileType === "1") {
+          mails.fromAttaches[mailId] = mails.fromAttaches[mailId] || [];
+          mails.fromAttaches[mailId].push(mail);
           mails.from.splice(i, 1);
           i--;
         }
-        mail.fileName = fileName;
-        mail.mailId = mailId;
         mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
         mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
       }
       for (let i = 0; i < mails.to.length; i++) {
         let mail = mails.to[i];
         let fileName = mail.fileName.substr(16);
+        let fileType = mail.fileName.substr(0, 1);
         let mailId = mail.fileName.substr(2, 13);
-        if (!mail.fileName.startsWith("0|")) {
-          if (mail.fileName.startsWith("1|")) {
-            mail.fileName = fileName;
-            mails.toAttaches[mailId] = mails.toAttaches[mailId] || [];
-            mails.toAttaches[mailId].push(mail);
-          }
+        mail.fileName = fileName;
+        if (fileType === "0") {
+          mail.mailId = mailId;
+        }
+        if (fileType === "1") {
+          mails.toAttaches[mailId] = mails.toAttaches[mailId] || [];
+          mails.toAttaches[mailId].push(mail);
           mails.to.splice(i, 1);
           i--;
         }
-        mail.fileName = fileName;
-        mail.mailId = mailId;
         mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
         mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
       }
@@ -283,7 +282,6 @@ export class TxEdenService {
         this.mailList = mails;
       });
     } catch (e) {
-      console.log(e);
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);
       }

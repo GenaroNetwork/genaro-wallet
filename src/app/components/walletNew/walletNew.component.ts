@@ -87,7 +87,6 @@ export class WalletNewComponent {
   }
 
   downloadMnemonic() {
-    // @ts-ignore
     let path = remote.dialog.showSaveDialog(remote.getCurrentWindow(), {
       defaultPath: "mnemonic.txt",
     });
@@ -173,7 +172,6 @@ export class WalletNewComponent {
   }
 
   selectJson() {
-    // @ts-ignore
     const files = remote.dialog.showOpenDialog(remote.getCurrentWindow(), { properties: ['openFile'] });
     this.walletJson = files[0];
     this.walletJsonName = basename(this.walletJson);

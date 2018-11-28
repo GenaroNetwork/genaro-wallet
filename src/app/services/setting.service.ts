@@ -120,7 +120,7 @@ export class SettingService {
     }
     this.ipc.ipcEvent.on("app.update.error", (error) => {
       changeUpdateState(UPDATE_STATES.ERROR, true);
-      console.log(error);
+      console.error(error);
     });
     this.ipc.ipcEvent.on("app.update.available", () => {
       changeUpdateState(UPDATE_STATES.DOWNLOADING);

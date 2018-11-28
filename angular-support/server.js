@@ -18,11 +18,12 @@ Object.defineProperty(exports, "__esModule", {
 const {
   dependencies
 } = require(require("process").env.PWD + '/package.json');
-const whiteListedModules = ["@angular/animations", "ng-zorro-antd"];
+//const whiteListedModules = ["@angular/animations", "ng-zorro-antd"];
+const whiteListedModules = [];
 
 function getServerConfig(wco) {
   const config = {
-    devtool: wco.buildOptions.sourceMap ? 'source-map' : false,
+    devtool: 'source-map',
     resolve: {
       mainFields: [
         ...(wco.supportES2015 ? ['es2015'] : []),
@@ -33,7 +34,7 @@ function getServerConfig(wco) {
     externals: [
       ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
     ],
-    target: 'electron-main',
+    target: 'node',
     output: {
       libraryTarget: 'commonjs2'
     },

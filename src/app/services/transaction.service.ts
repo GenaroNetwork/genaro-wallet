@@ -162,8 +162,8 @@ export class TransactionService {
     return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER');
   }
 
-  async getNonce(address) {
-    return await web3.eth.getTransactionCount(address, 'pending');
+  getNonce(address) {
+    return web3.eth.getTransactionCount(address, 'pending');
   }
 
   private async generateTxOptions2(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any, toAddr: string) {
@@ -200,19 +200,16 @@ export class TransactionService {
       this.transactionDb.addNewTransaction(transactionType, txOptions);
       web3.eth.sendSignedTransaction(rawTx)
         .once('transactionHash', async hash => {
-          console.log('hash get, transaction sent: ' + hash);
           await tdb.updateTxHash(txOptions.transactionId, hash);
           res();
         })
         .on('receipt', async receipt => {
           // will be fired once the receipt its mined
-          console.log('receipt mined, transaction success: ');
-          console.log('receipt:\n' + JSON.stringify(receipt));
           await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt));
         })
         .on('error', async error => {
           await tdb.txError(txOptions.transactionId, error.message);
-          console.log(error);
+          console.error(error);
           this.alertError(error);
           rej(error.message);
         });
@@ -446,7 +443,7 @@ export class TransactionService {
     if (!error) {
       return;
     } else if (!error.message) {
-      console.log(error);
+      console.error(error);
     } else if (error.message.indexOf("chain not ready") > -1) {
       this.alert.error(this.i18n.instant('ERROR.CHAIN_NOT_READY'));
     } else if (error.message.indexOf('wrong passphrase') > -1) {

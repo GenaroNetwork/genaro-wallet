@@ -62,7 +62,6 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   shell = shell;
   async txUpdateData() {
     const address = this.walletService.wallets.current;
-    // @ts-ignore
     this.txData = await this.txdb.getTransactions(null, null);
     let data = this.txData;
     data = data.filter(tx => tx.addrFrom === address || tx.addrTo === address);

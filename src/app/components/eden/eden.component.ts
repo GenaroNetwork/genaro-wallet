@@ -280,14 +280,14 @@ export class EdenComponent implements OnInit, OnDestroy {
   openInbox() {
     // to
     this.mailPath = "inbox";
-    //this.edenService.changePath(["/", this.edenService.mail.inbox]);
+    this.edenService.changePath(["/", this.edenService.mail.inbox]);
     //this.mails = (this.txEdenService.mailList || {}).to;
   }
 
   openOutbox() {
     // from 
     this.mailPath = "outbox";
-    //this.edenService.changePath(["/", this.edenService.mail.outbox]);
+    this.edenService.changePath(["/", this.edenService.mail.outbox]);
     //this.mails = (this.txEdenService.mailList || {}).from;
   }
 
@@ -303,9 +303,13 @@ export class EdenComponent implements OnInit, OnDestroy {
       this.alert.error("未找到邮件");
       return;
     }
+    let mailId = file.name.substr(2, 13);
+    let allAttaches = this.mailPath === "inbox" ? this.txEdenService.mailList.toAttaches : this.txEdenService.mailList.fromAttaches;
+    let attaches = allAttaches[mailId];
     this.edenDialogOpt = {
       file: file,
-      bucketId: this.edenService.currentPathId[0]
+      bucketId: this.edenService.currentPathId[0],
+      attaches,
     };
   }
 

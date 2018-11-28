@@ -21,7 +21,6 @@ export class CurrentCommitteeComponent implements OnInit {
   tipOpt: any = {};
   async initBlockNumber() {
     const web3 = await this.txService.getWeb3Instance();
-    // @ts-ignore
     const bno = await web3.eth.getBlockNumber();
     this.thisRoundFirstBlock = bno - bno % BLOCK_COUNT_OF_ROUND;
     this.nextRoundFirstBlock = this.thisRoundFirstBlock + BLOCK_COUNT_OF_ROUND;

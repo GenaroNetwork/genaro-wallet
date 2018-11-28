@@ -83,8 +83,7 @@ export default class {
                     env.prepare(sql).run();
                     event.sender.send(`db.${name}.run.${ipcId}`);
                 } catch (e) {
-                    console.log(sql);
-                    console.log(e);
+                    console.error(e);
                 }
             });
             ipcMain.on(`db.${name}.get`, (event, ipcId, sql) => {

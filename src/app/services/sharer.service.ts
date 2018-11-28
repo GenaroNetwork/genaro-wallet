@@ -327,7 +327,7 @@ export class SharerService {
               this.driversData = datas;
             });
           } else {
-            console.log(err);
+            console.error(err);
             // clearInterval(this.interval);
           }
           d.end();

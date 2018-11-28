@@ -190,7 +190,6 @@ export class BrotherhoodService {
 
   private async getCurrentRoundExtra() {
     const web3 = await this.TxService.getWeb3Instance();
-    // @ts-ignore
     const bno = await web3.eth.getBlockNumber();
     const thisRoundFirstBlock = bno - bno % BLOCK_COUNT_OF_ROUND;
     // @ts-ignore

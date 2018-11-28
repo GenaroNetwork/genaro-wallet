@@ -235,7 +235,6 @@ export class DialogComponent implements OnChanges {
     let allSharedFiles = this.txEdenService.shareFileList.from;
     for (let index = 0, bucketLength = buckets.length; index < bucketLength; index++) {
       let files = await this.edenService.getFilesByBucketId(buckets[index].id) || [];
-      // @ts-ignore
       files.forEach(file => {
         for (let i = 0, length = allSharedFiles.length; i < length; i++) {
           if (file.id === allSharedFiles[i].bucketEntryId) {
@@ -580,7 +579,6 @@ export class DialogComponent implements OnChanges {
     this.options.attaches.forEach(attach => {
       this.signInMessageAttahcesSize[3] += attach.fileSize;
     });
-    console.log(this.signInMessageAttahcesSize);
     this.signInMessageDisabled = this.signInMessageAttahcesSize[3] > this.signInMessageAttahcesSize[2];
   }
   async signInMessageSubmit() {
@@ -641,6 +639,10 @@ export class DialogComponent implements OnChanges {
           });
         },
         (err, fileId) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
           this.zone.run(() => {
             attach.percentage = 100;
             attach.id = fileId;
@@ -652,7 +654,16 @@ export class DialogComponent implements OnChanges {
       attach.taskEnv = taskEnv;
     });
   }
-  sendMessageUnAttach() { }
+  sendMessageRemoveAttach(i) {
+    let attach = this.sendMessageAttaches[i];
+    delete this.sendMessageAttaches[i];
+    if (!attach.taskEnv) return;
+    if (attach.done) { }
+    else {
+      let env = this.edenService.allEnvs[this.walletService.wallets.current];
+      env.storeFileCancel(attach.taskEnv);
+    }
+  }
 
   async sendMessageSubmit() {
     this.sendMessageDisabled = true;
@@ -670,17 +681,12 @@ export class DialogComponent implements OnChanges {
       // 发送附件 
 
       for (let attach of this.sendMessageAttaches) {
-        try {
-          let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
-          let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
-          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
-        } catch (e) {
-          console.log(e);
-        }
+        let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+        let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+        await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
       };
 
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, this.sendMessageTitle, this.sendMessageContent, this.options);
-      // @ts-ignore
       let { fileId, fileSize, fileHash, key, ctr, str } = message;
       this.edenService.encryptMetaToFile(str, fileId);
       let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
@@ -693,7 +699,9 @@ export class DialogComponent implements OnChanges {
         this.alert.error(this.i18n.instant("EDEN.SEND_MESSAGE_ERROR"));
         this.sendMessageDisabled = false;
       }
-    } catch (e) { } finally {
+    } catch (e) {
+      console.error(e);
+    } finally {
       this.sendMessageDisabled = false;
     }
   }
@@ -711,14 +719,21 @@ export class DialogComponent implements OnChanges {
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
       if (data) {
-        // @ts-ignore
         let { title, content, fromAddress, toAddress } = data;
-        this.openMessageTitle = title;
+        this.openMessageTitle = title.substr(16);
         this.openMessageContent = content;
         this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
         this.openMessageToAddress = (await this.nickService.getNick(toAddress)) || toAddress;
       }
     } catch (e) { }
+  }
+  async openMessageDownload(fileId) {
+    await this.txEdenService.getAll()
+    let user = this.txEdenService.currentUser;
+    let used = user.usedDownloadBytes || 0;
+    let all = user.limitBytes || 0;
+    let file = this.edenService.currentFiles.find(file => file.id === fileId);
+    this.edenService.fileDownloadTask(file, all - used, true, true)
   }
 
   // deleteMesage

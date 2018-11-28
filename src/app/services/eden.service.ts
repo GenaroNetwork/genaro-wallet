@@ -183,14 +183,14 @@ export class EdenService {
     }));
   }
 
-  async getFilesByBucketId(bucketId) {
+  getFilesByBucketId(bucketId): Promise<any[]> {
     return new Promise((res, rej) => {
       const address = this.walletService.wallets.current;
       const env = this.allEnvs[address];
       env.listFiles(bucketId, (err, files) => {
         if (err) {
+          console.error(err);
           rej([]);
-          console.log(err);
           return;
         }
         res(files || []);
@@ -297,8 +297,8 @@ export class EdenService {
       const env = this.allEnvs[address];
       env.renameBucket(id, newName, (err, result) => {
         if (err) {
+          console.error(err);
           rej(err);
-          console.log(err);
           return;
         }
         this.updateAll();
@@ -327,7 +327,7 @@ export class EdenService {
       let encryptionCtr = cryptico.encrypt(decryptionCtr.plaintext, publicKey);
       return { key: encryptionKey, ctr: encryptionCtr };
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return null;
     }
   }
@@ -417,7 +417,6 @@ export class EdenService {
     let folderPrefix = path.join('/');
     if (folderPrefix.length > 0) { folderPrefix += '/'; }
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
-    // @ts-ignore
     const nativePaths = remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       properties: ['openFile', 'multiSelections']
     });
@@ -459,7 +458,7 @@ export class EdenService {
             },
             finishedCallback: (err, fileId) => {
               if (err) {
-                console.log(err);
+                console.error(err);
                 this.updateTask(taskId, {
                   state: TASK_STATE.ERROR,
                 });
@@ -505,7 +504,7 @@ export class EdenService {
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
-  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true) {
+  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true, removePrefix: boolean = false) {
     if (!(files instanceof Array)) {
       files = [files];
     }
@@ -521,12 +520,11 @@ export class EdenService {
       const filePath = nativePath;
       let filename = files[0].name.split('/').pop();
       filename = this.convertChar(filename, false);
-      // @ts-ignore
+      if (removePrefix) filename = filename.substr(16);
       nativePath = remote.dialog.showSaveDialog(remote.getCurrentWindow(), {
         defaultPath: filename,
       });
     } else {
-      // @ts-ignore
       nativePath = remote.dialog.showOpenDialog(remote.getCurrentWindow(), { properties: ['openDirectory', 'createDirectory'] });
     }
     if (!nativePath) { return; }
@@ -542,6 +540,7 @@ export class EdenService {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
       filename = this.convertChar(filename, false);
+      if (removePrefix) filename = filename.substr(16);
       tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + '...' : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
 
@@ -571,7 +570,7 @@ export class EdenService {
           },
           finishedCallback: (err, fileId) => {
             if (err) {
-              console.log(err);
+              console.error(err);
               this.updateTask(taskId, {
                 state: TASK_STATE.ERROR,
               });
@@ -652,7 +651,6 @@ export class EdenService {
       this.messageService.success(this.i18n.instant('EDEN.REMOVE_TASK_SUCCESS'));
     };
     taskId.forEach(async _taskId => {
-      console.log('task');
       await this.ipc.dbRun('task', `DELETE FROM task WHERE id='${_taskId}'`);
       allDone();
     });
@@ -703,11 +701,18 @@ export class EdenService {
         taskEnv,
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
-  async sendMessageTask(toAddress, id, title, content, bucketId) {
+  sendMessageTask(toAddress, id, title, content, bucketId): Promise<{
+    fileId: string,
+    fileSize: number,
+    fileHash: string,
+    key: string,
+    ctr: string,
+    str: string,
+  }> {
     return new Promise((res, rej) => {
       let fromAddress = this.walletService.wallets.current;
       if (!fromAddress.startsWith('0x')) {
@@ -739,7 +744,7 @@ export class EdenService {
               },
               finishedCallback: (err, fileId, fileSize, fileHash) => {
                 if (err) {
-                  console.log(err);
+                  console.error(err);
                   cb(true);
                   rej(err);
                 } else {
@@ -781,7 +786,12 @@ export class EdenService {
     });
   }
 
-  async showMessage(file, bucketId) {
+  async showMessage(file, bucketId): Promise<{
+    title: string,
+    content: string,
+    fromAddress: string,
+    toAddress: string,
+  }> {
     const filePath = join(MESSAGE_STORAGE_PATH, file.id);
     if (existsSync(filePath)) {
       return this.decryptMetaFromFile(filePath);
@@ -820,7 +830,7 @@ export class EdenService {
           },
           finishedCallback: (err, fileId) => {
             if (err) {
-              console.log(err);
+              console.error(err);
             } else {
               res();
             }

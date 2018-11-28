@@ -4,7 +4,6 @@ import { autoUpdater } from "electron-updater";
 let sender = null;
 let send = (name, ...args) => {
     if (!sender) return;
-    console.log(sender);
     sender.send(name, ...args);
 }
 

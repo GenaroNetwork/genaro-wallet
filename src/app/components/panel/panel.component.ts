@@ -61,7 +61,6 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
 
   async getEffectBlock() {
     const web3 = await this.txService.getWeb3Instance();
-    // @ts-ignore
     const bno = await web3.eth.getBlockNumber();
     this.effectBlock = bno - bno % BLOCK_COUNT_OF_ROUND + BLOCK_COUNT_OF_ROUND;
   }
