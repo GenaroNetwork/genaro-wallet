@@ -478,7 +478,12 @@ export class DialogComponent implements OnChanges {
     this.agreeShareBucketId = '';
     this.agreeShareDisabled = false;
     this.agreeShareInfo = this.options;
-    this.agreeShareBuckets = this.edenService.currentBuckets;
+    this.agreeShareBuckets = (this.edenService.currentBuckets || []).filter(bucket => {
+      if (this.edenService.mail.inbox === bucket.id || this.edenService.mail.outbox === bucket.id) {
+        return false;
+      }
+      return true
+    });
   }
   async agreeShareSubmit() {
     this.agreeShareDisabled = true;
