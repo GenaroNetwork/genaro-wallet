@@ -1,8 +1,10 @@
 @import "./config.scss";
+
 .choose {
   margin: $border-blank;
   display: flex;
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
+
   &>div {
     flex: 1;
     margin-right: $border-blank;
@@ -11,16 +13,20 @@
     border-radius: 1rem;
     box-shadow: $box-shadow;
     border: 2px solid $content-bg;
+
     &:hover {
       border-color: $theme-color;
       box-shadow: 0 0 1rem rgba(0, 0, 0, .3);
     }
+
     &:last-of-type {
       margin: 0;
     }
+
     .show {
       height: 80%;
       position: relative;
+
       img {
         position: absolute;
         top: 0;
@@ -32,32 +38,39 @@
         height: auto;
       }
     }
+
     &>img {
       display: block;
       width: 50%;
       height: auto;
       margin: 5rem auto;
     }
+
     .detail {
       height: 64px;
       margin: -240px auto;
       text-align: center;
       position: relative;
+
       img {
         height: 100%;
         width: auto;
       }
+
       div {
         line-height: 32px;
+
         span {
           font-size: 1.2em;
           font-weight: bold;
         }
       }
+
       button {
         margin: 10px auto;
       }
     }
+
     >.bg {
       filter: blur(4px);
       background-repeat: no-repeat;
@@ -66,21 +79,26 @@
       background-color: #c5c2c2;
       height: 100%;
       border-radius: 0.9rem;
+
       &:hover {
         filter: blur(0px);
       }
     }
-    >.eden {
-      background-image: url(assets/img/eden_bg.png);
+
+    &>.eden {
+      background-image: url("assets/img/eden_bg.png");
     }
-    >.sharer {
-      background-image: url(assets/img/sharer_bg.png);
+
+    &>.sharer {
+      background-image: url("assets/img/sharer_bg.png");
     }
-    >.gmail {
-      background-image: url(assets/img/gmail_bg.png);
+
+    &>.gmail {
+      background-image: url("assets/img/gmail_bg.png");
     }
-    >.dapp {
-      background-image: url(assets/img/dapp_bg.png);
+
+    &>.dapp {
+      background-image: url("assets/img/dapp_bg.png");
     }
   }
 }
@@ -89,6 +107,7 @@
   margin: $border-blank;
   display: flex;
   height: calc(100vh - #{$header-height} - #{$border-blank} - #{$border-blank} - 1px);
+
   &>* {
     &.sider {
       margin-right: $border-blank;
@@ -96,28 +115,34 @@
       flex: 0 $left-menu-width;
       box-shadow: $box-shadow;
       position: relative;
+
       .icon {
         position: absolute;
         left: 0;
         right: 0;
         bottom: 1rem;
         margin: 0;
+
         img {
           display: block;
           margin: 0 auto 0.5rem;
           width: 64px;
           height: auto;
         }
+
         div {
           text-align: center;
         }
       }
+
       ::ng-deep .ant-card-body {
         padding: $border-blank 0 0;
       }
     }
+
     &.right {
       flex: 1;
+
       ::ng-deep .ant-card-body {
         height: 100%;
         width: 100%;

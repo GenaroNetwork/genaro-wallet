@@ -1,4 +1,5 @@
 @import "../../config";
+
 :host {
   border-radius: $border-radius;
   box-shadow: $box-shadow;
@@ -26,25 +27,31 @@
   flex: 0 0 3rem;
   line-height: $line-height;
   padding: 0 1rem;
+
   nz-breadcrumb {
     float: left;
     height: $line-height;
     line-height: $line-height;
+
     nz-breadcrumb-item {
       span {
         cursor: pointer;
+
         &:hover {
           color: $theme-color;
         }
       }
+
       ::ng-deep .ant-breadcrumb-separator {
         margin: 0;
       }
     }
   }
+
   .opera {
     float: right;
     overflow: hidden;
+
     button {
       margin: 0 0 0 1rem;
     }
@@ -56,6 +63,7 @@
   padding: 1rem;
   overflow: auto;
   position: relative;
+
   .file {
     float: left;
     height: 8rem;
@@ -69,22 +77,26 @@
     overflow: hidden;
     color: gray;
     cursor: pointer;
+
     *:not(.detail) {
       position: relative;
       z-index: 1;
     }
+
     i {
       height: 5.5rem;
       font-size: 4rem;
       line-height: 6.5rem;
+
       &.bucket-icon {
-        background-image: url(assets/img/bucket_icon.png);
+        background-image: url("assets/img/bucket_icon.png");
         display: block;
         background-size: auto 70%;
         background-position: 50% 90%;
         background-repeat: no-repeat;
       }
     }
+
     .name {
       font-size: 0.75rem;
       line-height: 1.5rem;
@@ -95,6 +107,7 @@
       white-space: nowrap;
       user-select: none;
     }
+
     .storage {
       position: absolute;
       top: 0;
@@ -103,6 +116,7 @@
       bottom: 0;
       width: calc(100% + 2px);
       z-index: 0;
+
       div {
         position: absolute;
         bottom: 0;
@@ -112,13 +126,16 @@
         opacity: 0.1;
       }
     }
+
     *:not(.detail) {
       transition: ease .1s all;
       filter: blur(0);
     }
+
     &:not(.notblur):hover>*:not(.detail) {
       filter: blur(5px);
     }
+
     .detail {
       position: absolute;
       top: 0;
@@ -131,20 +148,23 @@
       width: 100%;
       line-height: 12rem;
     }
+
     &:hover .detail {
       opacity: 1;
     }
+
     &.selected {
       border-style: solid;
       border-color: $theme-color;
     }
   }
+
   .empty-bucket {
     text-align: center;
     position: absolute;
     height: 18rem;
     padding-top: 8rem;
-    background-image: url(assets/img/empty_bucket.jpg);
+    background-image: url("assets/img/empty_bucket.jpg");
     background-size: auto 30%;
     background-position: 50% 10%;
     background-repeat: no-repeat;
@@ -153,11 +173,13 @@
     left: 0;
     right: 0;
     margin: auto;
+
     h1 {
       margin: 0 0 1rem;
       color: #888;
       font-size: 1rem;
     }
+
     p {
       margin: 0;
       font-size: 0.75rem;
@@ -195,19 +217,19 @@ hr {
     background-repeat: no-repeat;
 
     &.inbox {
-      background-image: url(assets/img/inbox.png);
+      background-image: url("assets/img/inbox.png");
     }
 
     &.outbox {
-      background-image: url(assets/img/outbox.png);
+      background-image: url("assets/img/outbox.png");
     }
 
     &.noInbox {
-      background-image: url(assets/img/no-inbox.png);
+      background-image: url("assets/img/no-inbox.png");
     }
 
     &.noOutbox {
-      background-image: url(assets/img/no-outbox.png);
+      background-image: url("assets/img/no-outbox.png");
     }
   }
 }
@@ -215,8 +237,10 @@ hr {
 :host:not(.long-page) {
   ::ng-deep .ant-spin-nested-loading {
     position: static;
+
     .ant-spin-container {
       position: static;
+
       nz-pagination {
         position: absolute;
         bottom: 0;
@@ -231,9 +255,11 @@ nz-table {
     position: relative;
     right: 1rem;
   }
+
   th,
   td {
     padding: 1rem 0.5rem;
+
     &:first-of-type {
       padding-left: 1rem;
     }
@@ -244,12 +270,15 @@ nz-table {
   td {
     i.anticon {
       font-size: 1rem;
+
       &.anticon-check-circle {
         color: $success-color;
       }
+
       &.anticon-question-circle {
         color: $warn-color;
       }
+
       &.anticon-close-circle {
         color: $error-color;
       }
