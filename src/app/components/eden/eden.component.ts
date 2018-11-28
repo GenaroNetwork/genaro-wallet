@@ -41,6 +41,18 @@ export class EdenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
+      if(this.edenService.currentPathId && this.edenService.currentPathId.length > 0) {
+        let pathId = this.edenService.currentPathId[this.edenService.currentPathId.length - 1];
+        if (pathId === this.edenService.mail.inbox) {
+          this.mailPath = 'inbox';
+        }
+        else if (pathId === this.edenService.mail.outbox) {
+          this.mailPath = 'outbox';
+        }
+        else if (pathId) {
+          this.mailPath = '';
+        }
+      }
     }
     this.edenService.updateAll();
     // let env = this.edenService.allEnvs[this.walletService.wallets.current]
