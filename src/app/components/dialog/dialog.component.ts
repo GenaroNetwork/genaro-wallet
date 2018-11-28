@@ -489,7 +489,6 @@ export class DialogComponent implements OnChanges {
       }
       await this.txService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareGas[1], this.agreeShareGas[0]);
       await this.walletService.agreeShare(address, this.agreeSharePassword, this.agreeShareInfo._id, this.agreeShareBucketId);
-      await this.txEdenService.getUserShares();
       this.agreeShareStep++;
     } catch (e) { } finally {
       this.agreeShareDisabled = false;
@@ -570,17 +569,30 @@ export class DialogComponent implements OnChanges {
   signInMessagePassword = '';
   signInMessageGas: number[] = [null, 2100000];
   signInMessageDisabled = false;
+
+  // 0: all  1: usage 2: free  3: attaches
+  signInMessageAttahcesSize: number[] = [];
   signInMessageInit() {
     this.signInMessageStep = 0;
     this.signInMessagePassword = '';
+    let inbox = this.edenService.currentBuckets.find(bucket => bucket.id === this.edenService.mail.inbox);
+    this.signInMessageAttahcesSize = [inbox.limitStorage, inbox.usedStorage, inbox.limitStorage - inbox.usedStorage, 0];
+    this.options.attaches.forEach(attach => {
+      this.signInMessageAttahcesSize[3] += attach.fileSize;
+    });
+    console.log(this.signInMessageAttahcesSize);
+    this.signInMessageDisabled = this.signInMessageAttahcesSize[3] > this.signInMessageAttahcesSize[2];
   }
   async signInMessageSubmit() {
     this.signInMessageDisabled = true;
     const address = this.walletService.wallets.current;
     try {
-      await this.txService.agreeShare(address, this.signInMessagePassword, this.options, this.signInMessageGas[1], this.signInMessageGas[0]);
-      await this.walletService.rejectShare(address, this.signInMessagePassword, this.options);
-      await this.txEdenService.getUserMails();
+      this.options.attaches.forEach(async attach => {
+        await this.txService.agreeShare(address, this.signInMessagePassword, attach._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+        await this.walletService.agreeShare(address, this.signInMessagePassword, attach._id, this.edenService.mail.inbox);
+      });
+      await this.txService.agreeShare(address, this.signInMessagePassword, this.options.message._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+      await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
       this.signInMessageStep++;
     } catch (e) { } finally {
       this.signInMessageDisabled = false;
@@ -622,7 +634,7 @@ export class DialogComponent implements OnChanges {
         done: false,
       };
       this.sendMessageAttaches.push(attach);
-      let { key, ctr, taskEnv } = await this.edenService.mailAttach(this.options, `1|${this.sendMessageId}|${attach.name}`, file,
+      let { rsaKey, rsaCtr, taskEnv } = await this.edenService.mailAttach(this.options, `1|${this.sendMessageId}|${attach.name}`, file,
         (process, allBytes) => {
           this.zone.run(() => {
             attach.percentage = process;
@@ -635,8 +647,8 @@ export class DialogComponent implements OnChanges {
             attach.done = true;
           });
         });
-      attach.rsaKey = key;
-      attach.rsaCtr = ctr;
+      attach.rsaKey = rsaKey;
+      attach.rsaCtr = rsaCtr;
       attach.taskEnv = taskEnv;
     });
   }
@@ -657,18 +669,15 @@ export class DialogComponent implements OnChanges {
       this.sendMessageToAddress = nickAddress || this.sendMessageTo;
       // 发送附件 
 
-      this.sendMessageAttaches.forEach(async attach => {
+      for (let attach of this.sendMessageAttaches) {
         try {
-          console.log(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
           let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
-          console.log(key);
           let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
-          console.log(share);
           await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
         } catch (e) {
           console.log(e);
         }
-      });
+      };
 
       let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, this.sendMessageTitle, this.sendMessageContent, this.options);
       // @ts-ignore
@@ -678,7 +687,6 @@ export class DialogComponent implements OnChanges {
       if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
         let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
         await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
-        await this.txEdenService.getUserMails();
         this.sendMessageStep++;
       }
       else {
@@ -732,7 +740,6 @@ export class DialogComponent implements OnChanges {
       if (this.deleteMessageInfo.fileId) {
         await this.edenService.fileRemoveTask([{ id: this.deleteMessageInfo.fileId }]);
       }
-      await this.txEdenService.getUserMails();
       this.deleteMessageStep++;
     } catch (e) { } finally {
       this.deleteShareDisabled = false;

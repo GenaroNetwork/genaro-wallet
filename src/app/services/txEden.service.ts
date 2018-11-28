@@ -7,6 +7,8 @@ const cryptico = require('cryptico');
 import { BRIDGE_API_URL } from '../libs/config';
 import { WalletService } from './wallet.service';
 import { IpcService } from './ipc.service';
+import { NickService } from './nick.service';
+import { TransactionService } from './transaction.service';
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
 const fromQuery = ['GET', 'DELETE', 'OPTIONS'];
@@ -19,7 +21,6 @@ export class TxEdenService {
   public shareFileList: any = [];
   public shareFiles: any = {};
   public mailList: any = [];
-  public mailFiles: BehaviorSubject<any> = new BehaviorSubject({});
   public currentUser: any = {};
   public requestPassword: boolean = null;
 
@@ -211,7 +212,7 @@ export class TxEdenService {
       const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
       this.shareFileList = shares;
       this.zone.run(() => {
-        this.shareFiles.next(shares || {})
+        this.shareFiles = shares || {};
       });
     } catch (e) {
       if (e.message.indexOf('401') > -1) {
@@ -223,13 +224,66 @@ export class TxEdenService {
   async getUserMails(force: boolean = false, address: string = '') {
     try {
       let walletAddr = address || this.walletService.wallets.current;
+      await this.getUserShares(force, address);
       if (!walletAddr.startsWith('0x')) {
         walletAddr = '0x' + walletAddr;
       }
-      const mails = await this.send('GET', '/users/' + walletAddr + '/mails', null, this.mailSig, this.publicKey);
-      this.mailList = mails;
-      this.mailFiles.next(mails || {});
+      let mails = await this.send('GET', '/users/' + walletAddr + '/mails', null, this.mailSig, this.publicKey);
+      let share = this.shareFiles;
+      for (let from of share.from) {
+        if (mails.from.find(mail => mail.fileName === from.fileName)) continue;
+        mails.from.push(Object.assign({}, from));
+      }
+      for (let to of share.to) {
+        if (mails.to.find(mail => mail.fileName === to.fileName)) continue;
+        mails.to.push(Object.assign({}, to));
+      }
+      mails.fromAttaches = {};
+      mails.toAttaches = {};
+      for (let i = 0; i < mails.from.length; i++) {
+        let mail = mails.from[i];
+        let fileName = mail.fileName.substr(16);
+        let mailId = mail.fileName.substr(2, 13);
+        if (!mail.fileName.startsWith("0|")) {
+          mail.fileName = fileName;
+          if (mail.fileName.startsWith("1|")) {
+            mail.fileName = fileName;
+            mails.fromAttaches[mailId] = mails.fromAttaches[mailId] || [];
+            mails.fromAttaches[mailId].push(mail);
+          }
+          mails.from.splice(i, 1);
+          i--;
+        }
+        mail.fileName = fileName;
+        mail.mailId = mailId;
+        mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
+        mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+      }
+      for (let i = 0; i < mails.to.length; i++) {
+        let mail = mails.to[i];
+        let fileName = mail.fileName.substr(16);
+        let mailId = mail.fileName.substr(2, 13);
+        if (!mail.fileName.startsWith("0|")) {
+          if (mail.fileName.startsWith("1|")) {
+            mail.fileName = fileName;
+            mails.toAttaches[mailId] = mails.toAttaches[mailId] || [];
+            mails.toAttaches[mailId].push(mail);
+          }
+          mails.to.splice(i, 1);
+          i--;
+        }
+        mail.fileName = fileName;
+        mail.mailId = mailId;
+        mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
+        mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+      }
+
+
+      this.zone.run(() => {
+        this.mailList = mails;
+      });
     } catch (e) {
+      console.log(e);
       if (e.message.indexOf('401') > -1) {
         this.requestPass(force);
       }
@@ -238,7 +292,22 @@ export class TxEdenService {
 
   constructor(
     private walletService: WalletService,
+    private txService: TransactionService,
     private ipc: IpcService,
     private zone: NgZone,
-  ) { }
+    private nickService: NickService,
+  ) {
+    this.walletService.currentWallet.subscribe(wallet => {
+      let addr = wallet.address;
+      if (!addr.startsWith("0x")) addr = `0x${addr}`;
+      this.getUserMails();
+      this.getUserShares();
+    });
+    this.txService.newBlockHeaders.subscribe(() => {
+      let addr = this.walletService.wallets.current;
+      if (!addr.startsWith("0x")) addr = `0x${addr}`;
+      this.getUserMails();
+      this.getUserShares();
+    })
+  }
 }

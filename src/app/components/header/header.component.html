@@ -19,11 +19,12 @@
         <nz-badge nzStatus="default" [nzStyle]="{'background-color':'#faad14', 'margin-bottom': '4px'}"></nz-badge>
         {{ "HEADER.TEST_NET" | translate}}
       </span>
-      {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}} {{ txService.chainSyncing[1]}}
-      <i *ngIf="txService.chainSyncing[0]" nz-icon type="sync" theme="outline" [spin]="true"></i>
+      {{ "HEADER.BLOCK_HEIGHT" | translate}} {{ "COMMON.COLON" | translate}}
     </div>
     <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
       <a nz-dropdown>
+        {{ txService.chainSyncing[1]}}
+        <i *ngIf="txService.chainSyncing[0]" nz-icon type="sync" theme="outline" [spin]="true"></i>
         <i nz-icon type="down" theme="outline"></i>
       </a>
       <ul nz-menu>

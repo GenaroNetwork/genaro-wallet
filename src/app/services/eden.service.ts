@@ -319,7 +319,6 @@ export class EdenService {
       method: 'GET'
     });
     try {
-      debugger;
       let data = await response.json();
       let publicKey = data.filePublicKey;
       let decryptionKey = cryptico.decrypt(key, this.txEden.RSAPrivateKey[walletAddr]);
@@ -699,8 +698,8 @@ export class EdenService {
         index
       });
       return {
-        key,
-        ctr,
+        rsaKey: encryptionKey.cipher,
+        rsaCtr: encryptionCtr.cipher,
         taskEnv,
       }
     } catch (e) {

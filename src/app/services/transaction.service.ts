@@ -163,7 +163,7 @@ export class TransactionService {
   }
 
   async getNonce(address) {
-    return await web3.eth.getTransactionCount(address);
+    return await web3.eth.getTransactionCount(address, 'pending');
   }
 
   private async generateTxOptions2(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any, toAddr: string) {

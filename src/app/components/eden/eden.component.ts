@@ -39,7 +39,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   mails: any[] = [];
 
   ngOnInit() {
-    if(this.settingService.appType === 'gmail') {
+    if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
     }
     this.edenService.updateAll();
@@ -59,27 +59,11 @@ export class EdenComponent implements OnInit, OnDestroy {
       await this.txEdenService.getAll(true);
       await this.edenService.updateAll([]);
     });
-    if(this.settingService.appType === 'gmail') {
-      this.mailSub = this.txEdenService.mailFiles.subscribe((data) => {
-        if(this.mailPath === 'inbox') {
-          this.mails = (data || {}).to;
-        } else if (this.mailPath === 'outbox') {
-          this.mails = (data || {}).from;
-        } else {
-          this.mailPath === 'mail'
-          this.mails = []; 
-        }
-        this.getAddressNick();
-      });
-    }
   }
 
   ngOnDestroy() {
-    if(this.walletSub) {
+    if (this.walletSub) {
       this.walletSub.unsubscribe();
-    }
-    if(this.mailSub) {
-      this.mailSub.unsubscribe();
     }
   }
 
@@ -217,7 +201,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   openBucket() {
     const i = this.fileSelected.values().next().value;
     const id = this.edenService.currentView[i].id;
-    if(this.settingService.appType === 'gmail') {
+    if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
     }
     else {
@@ -294,24 +278,17 @@ export class EdenComponent implements OnInit, OnDestroy {
   }
 
   openInbox() {
+    // to
     this.mailPath = "inbox";
     //this.edenService.changePath(["/", this.edenService.mail.inbox]);
-    this.mails = (this.txEdenService.mailList || {}).to;
-    this.getAddressNick();
+    //this.mails = (this.txEdenService.mailList || {}).to;
   }
 
   openOutbox() {
+    // from 
     this.mailPath = "outbox";
     //this.edenService.changePath(["/", this.edenService.mail.outbox]);
-    this.mails = (this.txEdenService.mailList || {}).from;
-    this.getAddressNick();
-  }
-
-  getAddressNick() {
-    this.mails.forEach(async mail => {
-      mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
-      mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
-    });
+    //this.mails = (this.txEdenService.mailList || {}).from;
   }
 
   sendMessage() {
@@ -322,7 +299,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   showMessage(data) {
     this.edenDialogName = "openMessage";
     let file = this.getFileByShare(data);
-    if(!file) {
+    if (!file) {
       this.alert.error("未找到邮件");
       return;
     }
@@ -333,8 +310,12 @@ export class EdenComponent implements OnInit, OnDestroy {
   }
 
   signInMessage(data) {
+    let attaches = this.txEdenService.mailList.toAttaches[data.mailId];
+    this.edenDialogOpt = {
+      mail: data,
+      attaches,
+    }
     this.edenDialogName = "signInMessage";
-    this.edenDialogOpt = data._id;
   }
 
   deleteMessage(data) {
@@ -347,15 +328,15 @@ export class EdenComponent implements OnInit, OnDestroy {
   }
 
   getFileByShare(share) {
-    const {bucketEntryId, key, ctr} = share;
+    const { bucketEntryId, key, ctr } = share;
     let file;
-    for(let i = 0, length = this.edenService.currentFiles.length; i < length; i++) {
+    for (let i = 0, length = this.edenService.currentFiles.length; i < length; i++) {
       let f = this.edenService.currentFiles[i];
-      if(f.id === bucketEntryId) {
+      if (f.id === bucketEntryId) {
         file = f;
         break;
       }
-      if(f.rsaKey === key && f.rsaCtr == ctr) {
+      if (f.rsaKey === key && f.rsaCtr == ctr) {
         file = f;
         break;
       }
@@ -364,7 +345,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   }
 
   changeMailPath() {
-    if(this.settingService.appType === 'gmail') {
+    if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
     }
     else {
