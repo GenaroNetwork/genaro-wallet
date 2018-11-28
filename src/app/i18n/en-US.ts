@@ -45,7 +45,9 @@ export default {
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
     "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。",
     "START_USE": "开始使用",
-    "USE_DAPP": "开发DApp"
+    "USE_DAPP": "开发DApp",
+    "BECOME_DEVELOPER": "BECOME A DAPP DEVELOPER",
+    "CHOOSE_DAPP": "One-stop Solution for DApp Developers"
   },
   "INPUT": {
     "ADDRESS_FROM": "Transfer from address",
@@ -511,6 +513,11 @@ export default {
     "OPERATION": "操作",
     "SIGN_IN_MESSAGE": "签收",
     "SEND_MESSAGE": "发送邮件",
-    "DELETE_MESSAGE": "删除邮件"
+    "DELETE_MESSAGE": "删除邮件",
+    "NO_INBOX": "暂未设置收件箱",
+    "NO_OUTBOX": "暂未设置发件箱"
+  },
+  "NICK": {
+    "APPLY_NICK": "申请别名"
   }
 }

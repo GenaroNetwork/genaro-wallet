@@ -54,14 +54,26 @@
 </div>
 <div *ngIf="mailPath==='inbox' || mailPath==='outbox' || mailPath==='mail'" class="content">
   <ng-container *ngIf="mailPath==='mail'">
-    <div *ngIf="edenService.mail.inbox" class="folder inbox" (dblclick)="openInbox()">
+    <div *ngIf="edenService.mail.inbox; else noInbox" class="folder inbox" (dblclick)="openInbox()">
       <i class="icon inbox"></i>
       {{ "MAIL.INBOX" | translate }}
     </div>
-    <div *ngIf="edenService.mail.outbox" class="folder outbox" (dblclick)="openOutbox()">
+    <ng-template #noInbox>
+      <div class="folder noInbox">
+        <i class="icon noInbox"></i>
+        {{ "MAIL.NO_INBOX" | translate }}
+      </div>
+    </ng-template>
+    <div *ngIf="edenService.mail.outbox; else noOutbox" class="folder outbox" (dblclick)="openOutbox()">
       <i class="icon outbox"></i>
       {{ "MAIL.OUTBOX" | translate }}
     </div>
+    <ng-template #noOutbox>
+      <div class="folder noOutbox">
+        <i class="icon noOutbox"></i>
+        {{ "MAIL.NO_OUTBOX" | translate }}
+      </div>
+    </ng-template>
     <ng-container *ngIf=" !edenService.mail.inbox && !edenService.mail.outbox">
     </ng-container>
   </ng-container>
