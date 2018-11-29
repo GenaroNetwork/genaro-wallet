@@ -142,8 +142,14 @@ export class EdenService {
         outbox: null,
       }
       this.currentBuckets.forEach(bucket => {
-        if (bucket.bucketType === 1) this.mail.outbox = bucket.id;
-        if (bucket.bucketType === 2) this.mail.inbox = bucket.id;
+        if (bucket.bucketType === 1) {
+          this.mail.outbox = bucket.id;
+          bucket.name = this.i18n.instant('MAIL.OUTBOX');
+        }
+        if (bucket.bucketType === 2) {
+          this.mail.inbox = bucket.id;
+          bucket.name = this.i18n.instant('MAIL.INBOX');
+        }
       });
     }
     env.getBuckets((err, result) => {

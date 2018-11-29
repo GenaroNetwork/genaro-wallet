@@ -498,7 +498,8 @@ export default {
     "CHAIN_NOT_READY": "链接已断开，请重新链接后再次交易",
     "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
     "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件",
-    "SHARE_FILE_NOT_EXIST": "分享源文件不存在或已被删除，不能接收"
+    "SHARE_FILE_NOT_EXIST": "分享源文件不存在或已被删除，不能接收",
+    "SET_BOX_ERROR": "设置失败,空存储空间才可以设置为发件箱/收件箱"
   },
   "MAIL": {
     "INBOX": "收件箱",
