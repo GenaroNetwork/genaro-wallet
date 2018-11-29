@@ -579,6 +579,7 @@ export class DialogComponent implements OnChanges {
   signInMessageInit() {
     this.signInMessageStep = 0;
     this.signInMessagePassword = '';
+    this.options.attaches = this.options.attaches || [];
     let inbox = this.edenService.currentBuckets.find(bucket => bucket.id === this.edenService.mail.inbox);
     this.signInMessageAttahcesSize = [inbox.limitStorage, inbox.usedStorage, inbox.limitStorage - inbox.usedStorage, 0];
     this.options.attaches.forEach(attach => {
@@ -594,7 +595,7 @@ export class DialogComponent implements OnChanges {
         await this.txService.agreeShare(address, this.signInMessagePassword, attach._id, this.signInMessageGas[1], this.signInMessageGas[0]);
         await this.walletService.agreeShare(address, this.signInMessagePassword, attach._id, this.edenService.mail.inbox);
       });
-      await this.txService.agreeShare(address, this.signInMessagePassword, this.options.message._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+      await this.txService.agreeShare(address, this.signInMessagePassword, this.options.mail._id, this.signInMessageGas[1], this.signInMessageGas[0]);
       await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
       this.signInMessageStep++;
     } catch (e) { } finally {
