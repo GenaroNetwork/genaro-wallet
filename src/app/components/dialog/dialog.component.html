@@ -515,11 +515,12 @@
         </div>
       </div>
     </div>
-    <br />
+  </ng-container>
+  <ng-container *ngIf="signInMessageStep===1">
     <app-input (submit)="dialogDone()" name="gas" [(ipt)]="signInMessageGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="signInMessagePassword" [span]="[6, 14]"></app-input>
   </ng-container>
-  <ng-container *ngIf="signInMessageStep===1">
+  <ng-container *ngIf="signInMessageStep===2">
     <i nz-icon type="check-circle" theme="outline"></i>
   </ng-container>
 </nz-modal>
@@ -531,10 +532,14 @@
     <span *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]">
       邮件大小/邮箱剩余： {{signInMessageAttahcesSize[3] | humanSize}}/{{signInMessageAttahcesSize[2] | humanSize}}
     </span>
-    <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageSubmit()">{{
+    <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageStep=signInMessageStep+1">{{
       'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageSubmit()">{{
+      'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="signInMessageStep===2">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
       translate }}</button>
   </ng-container>
@@ -560,14 +565,8 @@
     </div>
   </ng-container>
   <ng-container *ngIf="sendMessageStep===1">
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ sendMessageTo }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.MESSAGE_TITLE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ sendMessageTitle }}</div>
-    </div>
+    <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="sendMessageTo"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.MESSAGE_TITLE' | translate" [iptExtra]="sendMessageTitle"></app-input>
     <div nz-row class="review">
       <div nz-col nzSpan="2">
       </div>
@@ -585,8 +584,9 @@
 </nz-modal>
 <ng-template #sendMessageFooter>
   <ng-container *ngIf="sendMessageStep===0">
-    <button nz-button nzSize="large" (click)="sendMessageAttach()">{{ 'MAIL.ATTACH' |
-      translate }}</button>
+    <a (click)="sendMessageAttach()" style="float:left;line-height: 2.5rem;"><i nz-icon type="paper-clip" theme="outline"></i>{{
+      'MAIL.ATTACH' |
+      translate }}&gt;&gt;</a>
     <button nz-button nzSize="large" nzType="primary" (click)="sendMessageStep=sendMessageStep+1">{{ 'COMMON.NEXT' |
       translate }}</button>
   </ng-container>
