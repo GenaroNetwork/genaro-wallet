@@ -13,6 +13,7 @@
     border-radius: 1rem;
     box-shadow: $box-shadow;
     border: 2px solid $content-bg;
+    transition: border .2s ease;
 
     &:hover {
       border-color: $theme-color;
@@ -71,14 +72,15 @@
       }
     }
 
-    >.bg {
-      filter: blur(4px);
-      background-repeat: no-repeat;
-      background-size: 110% 110%;
-      background-position: center center;
-      background-color: #c5c2c2;
+    &>.bg {
+      filter: blur(2px);
       height: 100%;
       border-radius: 0.9rem;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #c5c2c2;
+      transition: filter .2s ease;
 
       &:hover {
         filter: blur(0px);
@@ -86,19 +88,19 @@
     }
 
     &>.eden {
-      background-image: url("assets/img/eden_bg.png");
+      background-image: url(assets/img/eden-bg.png);
     }
 
     &>.sharer {
-      background-image: url("assets/img/sharer_bg.png");
+      background-image: url(assets/img/sharer-bg.png);
     }
 
     &>.gmail {
-      background-image: url("assets/img/gmail_bg.png");
+      background-image: url(assets/img/gmail-bg.png);
     }
 
     &>.dapp {
-      background-image: url("assets/img/dapp_bg.png");
+      background-image: url(assets/img/dapp-bg.png);
     }
   }
 }

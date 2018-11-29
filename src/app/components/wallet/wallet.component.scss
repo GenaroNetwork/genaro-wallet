@@ -1,4 +1,5 @@
 @import "../../config.scss";
+
 :host {
   height: 100%;
   width: 100%;
@@ -11,10 +12,11 @@
   display: flex;
   margin-bottom: 1rem;
   overflow: visible;
+
   .card {
     flex: 0 26rem;
     margin-right: 1rem;
-    background: url("assets/img/gnx_white.svg") 1rem 1rem / 4rem auto no-repeat, url("assets/img/gnx_blue.svg") 120% 120%/ 15rem auto no-repeat, linear-gradient(to right bottom, #409eff, #188be2);
+    background: url(assets/img/gnx-white.svg) 1rem 1rem / 4rem auto no-repeat, url(assets/img/gnx-blue.svg) 120% 120%/ 15rem auto no-repeat, linear-gradient(to right bottom, #409eff, #188be2);
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     line-height: 16rem;
@@ -22,10 +24,12 @@
     font-size: 3rem;
     color: white;
     white-space: nowrap;
+
     span {
       font-size: 1rem;
     }
   }
+
   .info {
     $img-size: 6rem;
     background: $content-bg;
@@ -35,35 +39,42 @@
     flex: 0 26rem;
     position: relative;
     padding-left: $img-size + 2rem;
+
     img {
       height: $img-size;
       width: $img-size;
       position: absolute;
       left: 1rem;
     }
+
     .name {
       line-height: 3rem;
       font-size: 1rem;
       padding-right: 1rem;
+
       nz-dropdown {
         float: right;
       }
     }
+
     .address {
       line-height: 2rem;
       font-size: 1rem;
       padding-right: 1rem;
+
       app-copy {
         float: right;
         line-height: inherit;
       }
     }
+
     .operations {
       position: absolute;
       left: 0;
       right: 0;
       bottom: 1rem;
       display: flex;
+
       &>* {
         flex: 1;
         margin: 0 2rem;
@@ -90,6 +101,7 @@
     border-radius: $border-radius;
     background: $second-bg;
   }
+
   img {
     margin: 0 auto;
     display: block;

@@ -1,4 +1,5 @@
 @import "../../config";
+
 .panel {
   flex: 0 26rem;
   background: $content-bg;
@@ -6,10 +7,12 @@
   // box-shadow: $box-shadow;
   padding-left: 1rem;
   margin-bottom: 1rem;
+
   >.header {
     padding-top: 1rem;
     font-size: 1rem;
     font-weight: bold;
+
     span {
       font-size: 0.8rem;
       font-weight: normal;
@@ -25,15 +28,18 @@ i {
   display: inline-block;
   background-size: auto 100%;
   background-repeat: no-repeat;
+
   &.rank-icon {
-    background-image: url('assets/img/rank_icon.png');
+    background-image: url(assets/img/rank-icon.png);
   }
+
   &.team-icon {
     width: 2rem;
-    background-image: url('assets/img/team_icon.png');
+    background-image: url(assets/img/team-icon.png);
   }
+
   &.sentinel-icon {
-    background-image: url('assets/img/sentinel_icon.png');
+    background-image: url(assets/img/sentinel-icon.png);
   }
 }
 

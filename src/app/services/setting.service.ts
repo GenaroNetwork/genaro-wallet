@@ -17,6 +17,7 @@ export class SettingService {
     this.set("wallet", true);
     switch (value) {
       case "eden":
+      case "gmail":
         this.set("eden", true);
         this.set("mail", true);
         this.set("txEden", true);

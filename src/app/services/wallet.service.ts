@@ -8,6 +8,7 @@ import { TransactionService } from './transaction.service';
 import { NickService } from './nick.service';
 import { SENTINEL_API, BRIDGE_API_URL } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
+import { ObserverService } from './observer.service';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 
@@ -21,7 +22,7 @@ export class WalletService {
   wallets: any = {
     current: null,
     currentNick: null,
-    all: {},
+    all: [],
   };
   balances: any = {};
 
@@ -29,10 +30,12 @@ export class WalletService {
     private i18n: TranslateService,
     private txService: TransactionService,
     private alert: NzMessageService,
-    private nickService: NickService
+    private nickService: NickService,
+    private observer: ObserverService,
   ) {
     this.walletManager = this.txService.walletManager;
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
     this.walletList.subscribe(walletList => {
       // 删除不存在的钱包的签名
       const addrArr = walletList.map(wallet => `'${wallet.address}'`);
@@ -42,11 +45,13 @@ export class WalletService {
       this.wallets.all = walletList;
       if (walletList.length === 0) {
         this.currentWallet.next(null);
+        this.observer.wallet.next(null);
         return;
       }
       const currentAddress = this.wallets.current;
       if (currentAddress && walletList.find(wallet => wallet.address === currentAddress)) { return; }
       this.currentWallet.next(walletList[0]);
+      this.observer.wallet.next(walletList[0]);
     });
 
     this.currentWallet.subscribe(async wallet => {
@@ -72,12 +77,14 @@ export class WalletService {
     const wallet = this.walletManager.importFromMnemonic(mnemonic, password, this.setNewWalletName.bind(this), true);
     // this.sendNick(wallet.address, password, wallet.name);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
     return wallet;
   }
 
   importWallet(json: any, password, name) {
     const wallet = this.walletManager.importFromJson(json, password, this.setNewWalletName.bind(this), true);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
     return wallet;
   }
 
@@ -333,11 +340,13 @@ export class WalletService {
   changeName(address: string, newName: string) {
     this.walletManager.renameWallet(address, newName);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
   }
 
   changePassword(address: string, oldPassword: string, newPassword: string) {
     this.walletManager.changePassword(address, oldPassword, newPassword);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
     this.alert.success(this.i18n.instant('WALLET.CHANGE_PASSWORD_SUCCESS'));
   }
 
@@ -348,6 +357,7 @@ export class WalletService {
     }
     this.walletManager.importFromMnemonic(mnemonic, newPassword, '', true);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
   }
 
   getPrivateKey(addr: string, pass: string) {
@@ -388,6 +398,7 @@ export class WalletService {
   deleteWallet(address) {
     this.walletManager.deleteWallet(address);
     this.walletList.next(this.walletManager.listWallet());
+    this.observer.wallets.next(this.walletManager.listWallet());
   }
 
   generateMnemonic() {

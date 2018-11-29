@@ -4,6 +4,8 @@ import { WalletService } from '../../services/wallet.service';
 import { SettingService } from '../../services/setting.service';
 import { EdenService } from '../../services/eden.service';
 import { setNetType } from '../../libs/config';
+import { StoreService } from '../../services/store.service';
+import { ObserverService } from '../../services/observer.service';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +22,8 @@ export class HeaderComponent implements OnInit {
     public walletService: WalletService, // 会在 html 中用到，
     public setting: SettingService,
     public edenService: EdenService,
+    public store: StoreService,
+    public observer: ObserverService,
   ) { }
 
   ngOnInit() {

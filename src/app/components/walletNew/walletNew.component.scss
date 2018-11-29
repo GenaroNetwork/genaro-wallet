@@ -1,4 +1,5 @@
 @import "../../config.scss";
+
 :host .bg {
   position: fixed;
   z-index: 999999999;
@@ -7,6 +8,7 @@
   right: 0;
   bottom: 0;
   background: $popup-bg;
+
   nz-card {
     border-radius: $border-radius;
     width: 50rem;
@@ -14,9 +16,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     ::ng-deep .ant-card-body {
       padding-top: 0;
     }
+
     .header {
       $title-height: 4rem;
       height: $title-height;
@@ -24,6 +28,7 @@
       position: relative;
       text-align: center;
       margin-bottom: $border-blank;
+
       .back {
         position: absolute;
         left: 0;
@@ -32,6 +37,7 @@
         color: $link-color;
         cursor: pointer;
       }
+
       .close {
         position: absolute;
         right: 0;
@@ -41,50 +47,62 @@
         text-align: center;
       }
     }
+
     .front-page {
       text-align: center;
+
       .generate {
         height: 100px;
         width: 200px;
-        background-image: url("assets/img/key_generate.png");
+        background-image: url(assets/img/key-generate.png);
         background-size: contain;
         display: inline-block;
         margin-bottom: 2rem;
       }
+
       button {
         margin-top: $border-blank;
       }
     }
+
     .createStep,
     .importStep {
       nz-steps {
         text-align: left;
       }
+
       text-align: center;
+
       nz-steps {
         ::ng-deep .ant-steps {
           margin-bottom: $border-blank;
         }
       }
+
       button {
         margin: 0 $border-blank;
       }
+
       nz-button-group {
         button {
           margin: 0 0 0 -1px;
         }
       }
+
       .password {
         padding: 2*$border-blank 2*$border-blank $border-blank;
+
         input {
           width: $short-input;
           margin-bottom: $border-blank;
         }
       }
+
       .done {
         text-align: center;
         padding: $border-blank 0;
         $icon-size: 5rem;
+
         &>div {
           display: inline-block;
           text-align: left;
@@ -92,45 +110,55 @@
           position: relative;
           height: $icon-size;
           margin-bottom: $border-blank;
+
           img {
             height: $icon-size;
             width: $icon-size;
             position: absolute;
             left: 0;
           }
+
           nz-input-group {
             width: $short-input;
+
             button {
               margin: 0;
             }
           }
+
           div {
             margin-top: $border-blank;
           }
         }
       }
     }
+
     .createStep {
       .tip {
         margin: $border-blank auto;
         width: 60%;
       }
+
       .generate {
         background: $second-bg;
         padding: $border-blank 0;
         margin: 0 auto $border-blank;
         width: 80%;
+
         div {
           margin-bottom: $border-blank;
         }
+
         el-alert {
           position: relative;
           bottom: $border-blank;
         }
       }
+
       .confirm {
         margin-bottom: $border-blank;
         text-align: center;
+
         ::ng-deep textarea {
           display: inline-block;
           resize: none;
@@ -138,10 +166,12 @@
         }
       }
     }
+
     .importStep {
       .type {
         height: 12rem;
         text-align: center;
+
         &>div {
           height: 8rem;
           width: 8rem;
@@ -155,34 +185,42 @@
           background-position: 50% 30%;
           background-repeat: no-repeat;
           color: #CCC;
+
           &.mnemonic {
-            background-image: url("assets/img/import_mnemonic.png");
+            background-image: url(assets/img/import-mnemonic.png);
           }
+
           &.json {
-            background-image: url("assets/img/import_json.png");
+            background-image: url(assets/img/import-json.png);
           }
+
           &.chosen {
             border: 1px solid $theme-color;
             box-shadow: $box-shadow;
             color: #333;
+
             &.mnemonic {
-              background-image: url("assets/img/import_mnemonic_active.png");
+              background-image: url(assets/img/import-mnemonic-active.png);
             }
+
             &.json {
-              background-image: url("assets/img/import_json_active.png");
+              background-image: url(assets/img/import-json-active.png);
             }
           }
         }
       }
+
       .inputmnemonic {
         text-align: center;
         width: 70%;
         display: inline-block;
+
         textarea {
           resize: none;
           margin: $border-blank 0;
         }
       }
+
       .selectjson {
         cursor: pointer;
         margin: $border-blank/2 0;
@@ -194,9 +232,11 @@
         background: $second-bg;
         text-align: center;
         border-radius: $border-radius;
+
         i {
           font-size: 4rem;
         }
+
         div {
           line-height: 2.5rem;
         }

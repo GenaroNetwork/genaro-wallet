@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
 const url = require('url');
