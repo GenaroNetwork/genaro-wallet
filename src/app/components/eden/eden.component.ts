@@ -167,14 +167,22 @@ export class EdenComponent implements OnInit, OnDestroy {
 
   setInbox() {
     const i = this.fileSelected.values().next().value;
-    const id = this.edenService.currentView[i].id;
+    const bucket = this.edenService.currentView[i];
+    if(bucket.usedStorage > 0) {
+      return this.alert.error(this.i18n.instant('ERROR.SET_BOX_ERROR'));
+    }
+    const id = bucket.id;
     this.edenDialogName = 'setInbox';
     this.edenDialogOpt = id;
   }
 
   setOutbox() {
     const i = this.fileSelected.values().next().value;
-    const id = this.edenService.currentView[i].id;
+    const bucket = this.edenService.currentView[i];
+    if(bucket.usedStorage > 0) {
+      return this.alert.error(this.i18n.instant('ERROR.SET_BOX_ERROR'));
+    }
+    const id = bucket.id;
     this.edenDialogName = 'setOutbox';
     this.edenDialogOpt = id;
   }
