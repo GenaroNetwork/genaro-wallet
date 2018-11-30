@@ -4,7 +4,7 @@
     {{ "SIDERBAR.WALLET" | translate }}
   </li>
 
-  <li nz-submenu *ngIf="settingService.eden">
+  <li nz-submenu *ngIf="settingService.eden && settingService.appType !== 'gmail'">
     <span title>
       <i nz-icon type="file" theme="outline"></i>
       {{ (settingService.appType === 'gmail' ? "SIDERBAR.MAIL" : "SIDERBAR.EDEN_FILE") | translate }}
@@ -14,15 +14,19 @@
         <i nz-icon type="folder" theme="outline"></i>
         {{ "SIDERBAR.EDEN" | translate }}
       </li>
-      <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'" *ngIf="settingService.appType !== 'gmail'">
+      <li nz-menu-item [routerLink]="['/eden-file-receive']" [nzSelected]="page==='/eden-file-receive'">
         <i nz-icon type="download" theme="outline"></i>
         {{ "SIDERBAR.EDEN_FILE_RECEIVE" | translate }}
       </li>
-      <li nz-menu-item [routerLink]="['/eden-file-share']" [nzSelected]="page==='/eden-file-share'" *ngIf="settingService.appType !== 'gmail'">
+      <li nz-menu-item [routerLink]="['/eden-file-share']" [nzSelected]="page==='/eden-file-share'">
         <i nz-icon type="share-alt" theme="outline"></i>
         {{ "SIDERBAR.EDEN_FILE_SHARE" | translate }}
       </li>
     </ul>
+  </li>
+  <li nz-menu-item [routerLink]="['/eden']" [nzSelected]="page==='/eden'" *ngIf="settingService.appType === 'gmail'">
+    <i nz-icon type="database" theme="outline"></i>
+    {{ "SIDERBAR.MAIL" | translate }}
   </li>
   <li nz-submenu *ngIf="settingService.eden">
     <span title>
