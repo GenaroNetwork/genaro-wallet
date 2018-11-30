@@ -580,7 +580,7 @@
     <a (click)="sendMessageAttach()" style="float:left;line-height: 2.5rem;"><i nz-icon type="paper-clip" theme="outline"></i>{{
       'MAIL.ATTACH' |
       translate }}&gt;&gt;</a>
-    <button nz-button nzSize="large" nzType="primary" (click)="sendMessageStep=sendMessageStep+1">{{ 'COMMON.NEXT' |
+    <button nz-button nzSize="large" nzType="primary" (click)="sendMessageSubmit(false)">{{ 'COMMON.NEXT' |
       translate }}</button>
   </ng-container>
   <ng-container *ngIf="sendMessageStep===1">

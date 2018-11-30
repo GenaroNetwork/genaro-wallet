@@ -673,7 +673,16 @@ export class DialogComponent implements OnChanges {
     }
   }
 
-  async sendMessageSubmit() {
+  async sendMessageSubmit(submit: boolean = true) {
+    if (!submit) {
+      let uploaded = true;
+      for (let attach of this.sendMessageAttaches) {
+        if (!attach.done) uploaded = false
+      }
+      if (uploaded) this.sendMessageStep++;
+      else this.alert.error("您添加的附件正在上传中，请上传成功后再发送邮件。");
+      return;
+    }
     this.sendMessageDisabled = true;
     nextTick(async () => {
       let sendMessageTitle = this.sendMessageTitle;
