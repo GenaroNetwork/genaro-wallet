@@ -533,7 +533,7 @@
       邮件大小/邮箱剩余： {{signInMessageAttahcesSize[3] | humanSize}}/{{signInMessageAttahcesSize[2] | humanSize}}
     </span>
     <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageStep=signInMessageStep+1">{{
-      'COMMON.CONFIRM' | translate }}</button>
+      'COMMON.NEXT' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
     <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageSubmit()">{{
@@ -580,7 +580,7 @@
     <a (click)="sendMessageAttach()" style="float:left;line-height: 2.5rem;"><i nz-icon type="paper-clip" theme="outline"></i>{{
       'MAIL.ATTACH' |
       translate }}&gt;&gt;</a>
-    <button nz-button nzSize="large" nzType="primary" (click)="sendMessageStep=sendMessageStep+1">{{ 'COMMON.NEXT' |
+    <button nz-button nzSize="large" nzType="primary" (click)="sendMessageSubmit(false)">{{ 'COMMON.NEXT' |
       translate }}</button>
   </ng-container>
   <ng-container *ngIf="sendMessageStep===1">

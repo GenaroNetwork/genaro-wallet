@@ -8,7 +8,7 @@
   <ng-container *ngIf="sendTxStep===1">
     <app-input name="label-text" [ipt]="('INPUT.ADDRESS_FROM' | translate)" [iptExtra]="walletService.wallets.current | longAddr"></app-input>
     <app-input name="label-text" [ipt]="('INPUT.ADDRESS_TO' | translate)" [iptExtra]="sendTxAddress | longAddr"></app-input>
-    <app-input name="label-text" [ipt]="('INPUT.AMOUNT' | translate)" [iptExtra]="sendTxAmount"></app-input>
+    <app-input name="label-text" [ipt]="('INPUT.AMOUNT' | translate)" [iptExtra]="sendTxAmount + ' GNX'"></app-input>
     <app-input (submit)="submitSendTx()" name="password" [(ipt)]="sendTxPassword"></app-input>
   </ng-container>
   <app-input *ngIf="sendTxStep===0" name="step" (iptChange)="sendTxStep=1" [ipt]="[null,'COMMON.NEXT']"></app-input>
@@ -18,37 +18,28 @@
 
 <!-- 压注 -->
 <ng-container *ngIf="name==='stake'">
-  <nz-tabset [(nzSelectedIndex)]="stakeType" class="stake">
+  <nz-tabset [(nzSelectedIndex)]="stakeType" class="stake" *ngIf="stakeStep===0">
     <nz-tab nzTitle="{{ 'TXSHARER.STAKE' | translate }}">
-      <ng-container *ngIf="stakeStep===0">
-        <app-input (submit)="stakeConfirm()" name="stake" [(ipt)]="stakeGNX" [span]="[6,14]"></app-input>
-        <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
-        <app-input (submit)="stakeConfirm()" name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + ' ' +  (stakeGNX | maxNode)"></app-input>
-        <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-        <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
-      </ng-container>
-      <div>
-        <i *ngIf="stakeStep===1" nz-icon type="check-circle" theme="outline"></i>
-      </div>
+      <app-input (submit)="stakeConfirm()" name="stake" [(ipt)]="stakeGNX" [span]="[6,14]"></app-input>
+      <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
+      <app-input (submit)="stakeConfirm()" name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + ' ' +  (stakeGNX | maxNode)"></app-input>
+      <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
+      <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
       <app-input [span]="[2,20]" *ngIf="stakeUnstakable===-1" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_DISABLED' | translate"></app-input>
       <ng-container *ngIf="stakeUnstakable===0">
-        <ng-container *ngIf="stakeStep===0">
-          <app-input [span]="[2,20]" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_ENABLED' | translate"></app-input>
-          <app-input name="step" (iptChange)="stakeUnstakable=stakeUnstakable+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
-        </ng-container>
-        <div *ngIf="stakeStep===1">
-          <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
-          <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-          <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
-        </div>
-        <div *ngIf="stakeStep===2">
-          <i nz-icon type="check-circle" theme="outline"></i>
-        </div>
+        <app-input [span]="[2,20]" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_ENABLED' | translate"></app-input>
+        <app-input name="step" (iptChange)="stakeUnstakable=stakeUnstakable+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
+      </ng-container>
+      <ng-container *ngIf="stakeUnstakable===1">
+        <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
+        <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
+        <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
       </ng-container>
     </nz-tab>
   </nz-tabset>
+  <i *ngIf="stakeStep===1" nz-icon type="check-circle" theme="outline"></i>
 </ng-container>
 
 <!-- 绑定节点 -->
