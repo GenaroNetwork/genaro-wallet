@@ -738,8 +738,8 @@ export class DialogComponent implements OnChanges {
       }
     } catch (e) { }
   }
-  async openMessageDownload(fileId) {
-    await this.txEdenService.getAll()
+  async openMessageDownload(attach) {
+    let fileId = attach.bucketEntryId;
     let user = this.txEdenService.currentUser;
     let used = user.usedDownloadBytes || 0;
     let all = user.limitBytes || 0;

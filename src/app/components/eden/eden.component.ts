@@ -41,7 +41,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
-      if(this.edenService.currentPathId && this.edenService.currentPathId.length > 0) {
+      if (this.edenService.currentPathId && this.edenService.currentPathId.length > 0) {
         let pathId = this.edenService.currentPathId[this.edenService.currentPathId.length - 1];
         if (pathId === this.edenService.mail.inbox) {
           this.mailPath = 'inbox';
@@ -168,7 +168,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   setInbox() {
     const i = this.fileSelected.values().next().value;
     const bucket = this.edenService.currentView[i];
-    if(bucket.usedStorage > 0) {
+    if (bucket.usedStorage > 0) {
       return this.alert.error(this.i18n.instant('ERROR.SET_BOX_ERROR'));
     }
     const id = bucket.id;
@@ -179,7 +179,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   setOutbox() {
     const i = this.fileSelected.values().next().value;
     const bucket = this.edenService.currentView[i];
-    if(bucket.usedStorage > 0) {
+    if (bucket.usedStorage > 0) {
       return this.alert.error(this.i18n.instant('ERROR.SET_BOX_ERROR'));
     }
     const id = bucket.id;

@@ -82,7 +82,7 @@ function getBrowserConfig(wco) {
     target: "electron-renderer",
 
 
-    devtool: sourcemaps,
+    devtool: "inline-source-map",
     module: {
       rules: [{
         test: /\.node$/,

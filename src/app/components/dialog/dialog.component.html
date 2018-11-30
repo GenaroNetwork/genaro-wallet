@@ -625,7 +625,7 @@
         <textarea disabled="true" row="6" nz-input [(ngModel)]="openMessageContent" style="height:250px"></textarea>
         <div *ngFor="let attach of options ? options.attaches : []" class="mail-attach" nz-tooltip [nzTitle]="attach.fileName">
           {{ attach.fileName }}
-          <i nz-icon type="download" theme="outline" (click)="openMessageDownload(attach.bucketEntryId)"></i>
+          <i nz-icon type="download" theme="outline" (click)="openMessageDownload(attach)"></i>
         </div>
       </div>
     </div>
