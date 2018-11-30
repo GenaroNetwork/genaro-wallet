@@ -225,6 +225,10 @@ export class EdenService {
         });
       } else {
         const startsWith = this.currentPath.slice(1).join('/');
+        let currentId = this.currentPathId[this.currentPathId.length - 1];
+        if (currentId === this.mail.inbox || currentId === this.mail.outbox) {
+          return;
+        }
         const currentFolder = this.currentFiles.filter(file => file.name.startsWith(startsWith));
         currentFolder.forEach(file => {
           file = Object.assign({}, file);
