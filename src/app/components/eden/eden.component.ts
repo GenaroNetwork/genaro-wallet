@@ -67,6 +67,12 @@ export class EdenComponent implements OnInit, OnDestroy {
       this.edenService.changePath(pathArr);
     }
     this.walletSub = this.walletService.currentWallet.subscribe(async () => {
+      if (this.settingService.appType === 'gmail') {
+        this.mailPath = 'mail';
+      }
+      else {
+        this.mailPath = '';
+      }
       this.txEdenService.clearAllSig();
       await this.txEdenService.getAll(true);
       await this.edenService.updateAll([]);
