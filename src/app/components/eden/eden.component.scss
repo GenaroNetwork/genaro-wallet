@@ -231,6 +231,12 @@ hr {
     &.noOutbox {
       background-image: url(assets/img/no-outbox.png);
     }
+
+    &.noBucket {
+      background-image: url(assets/img/empty-bucket.jpg);
+      background-size: contain;
+      background-position: center center;
+    }
   }
 }
 
