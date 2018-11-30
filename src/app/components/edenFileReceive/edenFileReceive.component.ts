@@ -60,6 +60,7 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
   }
 
   delete(data) {
+    data.type = 'inbox';
     this.dialogOpt = data;
     this.dialogName = 'deleteShare';
   }

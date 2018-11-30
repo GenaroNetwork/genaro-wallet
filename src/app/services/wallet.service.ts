@@ -260,12 +260,12 @@ export class WalletService {
     }
   }
 
-  async deleteShare(address, password, shareId) {
+  async deleteShare(address, password, shareId, type) {
     const method = 'PUT';
     if (!address.startsWith('0x')) {
       address = '0x' + address;
     }
-    const url = '/shares/' + shareId + '/delete';
+    const url = '/shares/' + shareId + '/delete/' + type;
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
     const privKeyBuffer = Buffer.from(privKey, 'hex');

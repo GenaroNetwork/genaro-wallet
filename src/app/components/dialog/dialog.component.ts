@@ -540,7 +540,7 @@ export class DialogComponent implements OnChanges {
     this.deleteShareDisabled = true;
     const address = this.walletService.wallets.current;
     try {
-      await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id);
+      await this.walletService.deleteShare(address, this.deleteSharePassword, this.deleteShareInfo._id, this.deleteShareInfo.type);
       await this.txEdenService.getUserShares();
       this.deleteShareStep++;
     } catch (e) { } finally {
@@ -762,7 +762,7 @@ export class DialogComponent implements OnChanges {
     this.deleteMessageDisabled = true;
     const address = this.walletService.wallets.current;
     try {
-      await this.walletService.deleteShare(address, this.deleteMessagePassword, this.deleteMessageInfo.shareId);
+      await this.walletService.deleteShare(address, this.deleteMessagePassword, this.deleteMessageInfo.shareId, this.deleteMessageInfo.type);
       if (this.deleteMessageInfo.fileId) {
         await this.edenService.fileRemoveTask([{ id: this.deleteMessageInfo.fileId }]);
       }
