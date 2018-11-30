@@ -162,9 +162,15 @@
       </div>
     </ng-container>
   </div>
-  <div *ngIf="edenService.currentView.length === 0 && edenService.currentPath.length === 0" class="empty-bucket">
+  <div *ngIf="edenService.currentView.length === 0 && edenService.currentPath.length === 0 && settingService.appType !== 'gmail'" class="empty-bucket">
     <h1>{{ "EDEN.EMPTY_BUCKET_TIP1" | translate }}</h1>
     <p>{{ "EDEN.EMPTY_BUCKET_TIP2" | translate }}</p>
+  </div>
+  <div *ngIf="edenService.currentView.length === 0 && edenService.currentPath.length === 0 && settingService.appType === 'gmail'">
+    <div class="folder noBucket">
+      <i class="icon noBucket"></i>
+      {{ "EDEN.EMPTY_BUCKET_TIP1" | translate }}
+    </div>
   </div>
   <div *ngIf="edenService.currentView.length === 0 && edenService.currentPath.length > 0" class="empty-bucket">
     <h1>{{ "EDEN.EMPTY_FILE_TIP1" | translate }}</h1>
