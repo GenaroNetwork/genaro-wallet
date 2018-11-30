@@ -347,7 +347,8 @@ export class EdenComponent implements OnInit, OnDestroy {
     let file = this.getFileByShare(data);
     this.edenDialogOpt = {
       fileId: file ? file.id : '',
-      shareId: data._id
+      shareId: data._id,
+      type: this.mailPath
     };
   }
 

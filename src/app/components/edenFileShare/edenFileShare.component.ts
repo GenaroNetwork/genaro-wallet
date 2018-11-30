@@ -36,6 +36,7 @@ export class EdenFileShareComponent implements OnInit, OnDestroy {
   }
 
   delete(data) {
+    data.type = 'outbox';
     this.dialogOpt = data;
     this.dialogName = 'deleteShare';
   }
