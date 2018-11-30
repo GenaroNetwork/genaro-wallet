@@ -503,7 +503,7 @@
 <!-- 签收Message-->
 <nz-modal [nzVisible]="dialogName==='signInMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'TXEDEN.AGREE_SHARE' | translate" [nzFooter]="signInMessageFooter" class="buy-space">
-  <ng-container *ngIf="signInMessageStep===0">
+  <ng-container *ngIf="signInMessageStep===0 || signInMessageStep===1">
     <app-input name="label-text" [ipt]="'MAIL.SENDER' | translate" [iptExtra]="options && options.mail && options.mail.fromAddress"></app-input>
     <app-input name="label-text" [ipt]="'MAIL.TITLE' | translate" [iptExtra]="options && options.mail && options.mail.fileName"></app-input>
 
@@ -567,13 +567,6 @@
   <ng-container *ngIf="sendMessageStep===1">
     <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="sendMessageTo"></app-input>
     <app-input name="label-text" [ipt]="'INPUT.MESSAGE_TITLE' | translate" [iptExtra]="sendMessageTitle"></app-input>
-    <div nz-row class="review">
-      <div nz-col nzSpan="2">
-      </div>
-      <div nz-col nzSpan="18">
-        <textarea disabled="true" row="6" nz-input [(ngModel)]="sendMessageContent" style="height:250px"></textarea>
-      </div>
-    </div>
     <br />
     <app-input (submit)="dialogDone()" name="gas" [(ipt)]="sendMessageGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="sendMessagePassword" [span]="[6, 14]"></app-input>
@@ -606,18 +599,9 @@
 <nz-modal [nzVisible]="dialogName==='openMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'MAIL.SEND_MESSAGE' | translate" [nzFooter]="openMessageFooter" class="buy-space">
   <ng-container>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.SENDER' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-left">{{ openMessageFromAddress }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-left">{{ openMessageToAddress }}</div>
-    </div>
-    <div nz-row class="review">
-      <div nz-col nzSpan="6" class="label">{{ 'INPUT.MESSAGE_TITLE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-left">{{ openMessageTitle }}</div>
-    </div>
+    <app-input name="label-text" [ipt]="'INPUT.SENDER' | translate" [iptExtra]="openMessageFromAddress"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="openMessageToAddress"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.MESSAGE_TITLE' | translate" [iptExtra]="openMessageTitle"></app-input>
     <div nz-row class="review">
       <div nz-col nzSpan="2">
       </div>

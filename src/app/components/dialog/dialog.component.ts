@@ -739,11 +739,11 @@ export class DialogComponent implements OnChanges {
     } catch (e) { }
   }
   async openMessageDownload(attach) {
-    let fileId = attach.bucketEntryId;
+    let fileName = `1|${attach.mailId}|${attach.fileName}`;
     let user = this.txEdenService.currentUser;
     let used = user.usedDownloadBytes || 0;
     let all = user.limitBytes || 0;
-    let file = this.edenService.currentFiles.find(file => file.id === fileId);
+    let file = this.edenService.currentFiles.find(file => file.name === fileName);
     this.edenService.fileDownloadTask(file, all - used, true, true)
   }
 
