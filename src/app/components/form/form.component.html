@@ -24,15 +24,11 @@
         <app-input (submit)="stakeConfirm()" name="stake" [(ipt)]="stakeGNX" [span]="[6,14]"></app-input>
         <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
         <app-input (submit)="stakeConfirm()" name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + ' ' +  (stakeGNX | maxNode)"></app-input>
-        <app-input name="step" (iptChange)="stakeStep=stakeStep+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
-      </ng-container>
-      <ng-container *ngIf="stakeStep===1">
-        <app-input (submit)="stakeConfirm()" name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + ' ' +  (stakeGNX | maxNode)"></app-input>
         <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-        <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
+        <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
       </ng-container>
       <div>
-        <i *ngIf="stakeStep===2" nz-icon type="check-circle" theme="outline"></i>
+        <i *ngIf="stakeStep===1" nz-icon type="check-circle" theme="outline"></i>
       </div>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
@@ -41,13 +37,11 @@
         <ng-container *ngIf="stakeUnstakable===0">
           <app-input [span]="[2,20]" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_ENABLED' | translate"></app-input>
           <app-input name="step" (iptChange)="stakeUnstakable=stakeUnstakable+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
-        </ng-container>
-        <ng-container *ngIf="stakeUnstakable===1">
           <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
           <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
           <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
         </ng-container>
-        <div *ngIf="stakeStep===2">
+        <div *ngIf="stakeStep===1">
           <i nz-icon type="check-circle" theme="outline"></i>
         </div>
       </ng-container>
@@ -66,13 +60,10 @@
   <div *ngIf="bindNodeStep===0 && bindNodeTokenFlg" class="bind-node">
     <app-input (submit)="bindNodeConfirm()" name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,18]"></app-input>
     <app-input (submit)="bindNodeConfirm()" name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
-    <app-input name="step" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" [ipt]="[COMMON.PREV,'COMMON.NEXT']"></app-input>
-  </div>
-  <div *ngIf="bindNodeStep===1">
     <app-input (submit)="bindNodeConfirm()" name="password" [(ipt)]="bindNodePassword" [span]="[6,18]"></app-input>
     <app-input name="step" (iptChange)="bindNodeConfirm()" [ipt]="[null,'']"></app-input>
   </div>
-  <div *ngIf="bindNodeStep===2">
+  <div *ngIf="bindNodeStep===1">
     <i nz-icon type="check-circle" theme="outline"></i>
   </div>
 </ng-container>

@@ -23,7 +23,7 @@ const whiteListedModules = [];
 
 function getServerConfig(wco) {
   const config = {
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     resolve: {
       mainFields: [
         ...(wco.supportES2015 ? ['es2015'] : []),
@@ -39,8 +39,8 @@ function getServerConfig(wco) {
       libraryTarget: 'commonjs2'
     },
     node: {
-      __dirname: process.env.NODE_ENV !== 'production',
-      __filename: process.env.NODE_ENV !== 'production'
+      __dirname: true,
+      __filename: true
     },
   };
   if (wco.buildOptions.bundleDependencies == 'none') {

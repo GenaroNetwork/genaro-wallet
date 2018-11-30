@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { STX_ADDR, WEB3_URL, LITE_WALLET, WALLET_CONFIG_PATH } from '../libs/config';
 import { toHex, toWei, toBN } from 'web3-utils';
 import { v1 as uuidv1 } from 'uuid';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import Web3 from 'genaro-web3';
 import { GethService } from './geth.service';
 import { TransactionDbService } from './transaction-db.service';

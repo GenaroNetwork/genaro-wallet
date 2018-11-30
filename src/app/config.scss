@@ -41,10 +41,10 @@ $error-color: rgb(200, 50, 25);
   width: 16px;
   height: 16px;
   top: 4px;
-  background-image: url('assets/img/question_circle_grey.svg');
+  background-image: url(assets/img/question-circle-grey.svg);
 
   &:hover {
-    background-image: url('assets/img/question_circle_blue.svg');
+    background-image: url(assets/img/question-circle-blue.svg);
   }
 }
 

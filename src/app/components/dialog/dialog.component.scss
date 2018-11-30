@@ -72,6 +72,7 @@ textarea {
   color: gray;
   box-sizing: border-box;
   border: 1px solid #CCC;
+  background: #F2F2F2;
   border-radius: 3px;
   margin-top: .5rem;
   line-height: calc(2rem - 2px);
@@ -89,7 +90,7 @@ textarea {
   }
 
   .process {
-    height: 1px;
+    height: 2px;
     bottom: 0;
     left: 0;
     right: 0;

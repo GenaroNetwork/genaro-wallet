@@ -589,18 +589,20 @@ export class DialogComponent implements OnChanges {
   }
   async signInMessageSubmit() {
     this.signInMessageDisabled = true;
-    const address = this.walletService.wallets.current;
-    try {
-      this.options.attaches.forEach(async attach => {
-        await this.txService.agreeShare(address, this.signInMessagePassword, attach._id, this.signInMessageGas[1], this.signInMessageGas[0]);
-        await this.walletService.agreeShare(address, this.signInMessagePassword, attach._id, this.edenService.mail.inbox);
-      });
-      await this.txService.agreeShare(address, this.signInMessagePassword, this.options.mail._id, this.signInMessageGas[1], this.signInMessageGas[0]);
-      await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
-      this.signInMessageStep++;
-    } catch (e) { } finally {
-      this.signInMessageDisabled = false;
-    }
+    nextTick(async () => {
+      const address = this.walletService.wallets.current;
+      try {
+        for (let attach of this.options.attaches) {
+          await this.txService.agreeShare(address, this.signInMessagePassword, attach._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+          await this.walletService.agreeShare(address, this.signInMessagePassword, attach._id, this.edenService.mail.inbox);
+        }
+        await this.txService.agreeShare(address, this.signInMessagePassword, this.options.mail._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+        await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
+        this.signInMessageStep++;
+      } catch (e) { } finally {
+        this.signInMessageDisabled = false;
+      }
+    });
   }
 
   // sendMessage
@@ -662,7 +664,7 @@ export class DialogComponent implements OnChanges {
   }
   sendMessageRemoveAttach(i) {
     let attach = this.sendMessageAttaches[i];
-    delete this.sendMessageAttaches[i];
+    this.sendMessageAttaches.splice(i, 1);
     if (!attach.taskEnv) return;
     if (attach.done) { }
     else {
@@ -673,43 +675,46 @@ export class DialogComponent implements OnChanges {
 
   async sendMessageSubmit() {
     this.sendMessageDisabled = true;
-    this.sendMessageTitle = `0|${this.sendMessageId}|${this.sendMessageTitle}`
-    const address = this.walletService.wallets.current;
-    try {
-      let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
-      if (!nickAddress) {
-        nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
-        if (nickAddress) {
-          this.nickService.update(nickAddress, this.sendMessageTo);
+    nextTick(async () => {
+      let sendMessageTitle = this.sendMessageTitle;
+      sendMessageTitle = `0|${this.sendMessageId}|${sendMessageTitle}`
+      const address = this.walletService.wallets.current;
+      try {
+        let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
+        if (!nickAddress) {
+          nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
+          if (nickAddress) {
+            this.nickService.update(nickAddress, this.sendMessageTo);
+          }
         }
-      }
-      this.sendMessageToAddress = nickAddress || this.sendMessageTo;
-      // 发送附件 
+        this.sendMessageToAddress = nickAddress || this.sendMessageTo;
+        // 发送附件 
 
-      for (let attach of this.sendMessageAttaches) {
-        let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
-        let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
-        await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
-      };
+        for (let attach of this.sendMessageAttaches) {
+          let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
+        };
 
-      let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, this.sendMessageTitle, this.sendMessageContent, this.options);
-      let { fileId, fileSize, fileHash, key, ctr, str } = message;
-      this.edenService.encryptMetaToFile(str, fileId);
-      let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
-      if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
-        let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, this.sendMessageTitle, shareKey);
-        await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
-        this.sendMessageStep++;
-      }
-      else {
-        this.alert.error(this.i18n.instant("EDEN.SEND_MESSAGE_ERROR"));
+        let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, sendMessageTitle, this.sendMessageContent, this.options);
+        let { fileId, fileSize, fileHash, key, ctr, str } = message;
+        this.edenService.encryptMetaToFile(str, fileId);
+        let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
+        if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
+          let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, sendMessageTitle, shareKey);
+          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
+          this.sendMessageStep++;
+        }
+        else {
+          this.alert.error(this.i18n.instant("EDEN.SEND_MESSAGE_ERROR"));
+          this.sendMessageDisabled = false;
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
         this.sendMessageDisabled = false;
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      this.sendMessageDisabled = false;
-    }
+    });
   }
 
   // openMessage
@@ -733,8 +738,8 @@ export class DialogComponent implements OnChanges {
       }
     } catch (e) { }
   }
-  async openMessageDownload(fileId) {
-    await this.txEdenService.getAll()
+  async openMessageDownload(attach) {
+    let fileId = attach.bucketEntryId;
     let user = this.txEdenService.currentUser;
     let used = user.usedDownloadBytes || 0;
     let all = user.limitBytes || 0;

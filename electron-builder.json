@@ -21,7 +21,7 @@
   ],
   "npmRebuild": false,
   "win": {
-    "icon": "dist/icons",
+    "icon": "dist/assets/icons",
     "extraFiles": [
       "msvcr110.dll"
     ],
@@ -33,13 +33,13 @@
     ]
   },
   "mac": {
-    "icon": "dist/icons",
+    "icon": "dist/assets/icons",
     "target": [
       "default"
     ]
   },
   "linux": {
-    "icon": "dist/icons",
+    "icon": "dist/assets/icons",
     "target": [
       "AppImage"
     ]

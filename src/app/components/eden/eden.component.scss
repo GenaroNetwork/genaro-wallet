@@ -89,7 +89,7 @@
       line-height: 6.5rem;
 
       &.bucket-icon {
-        background-image: url("assets/img/bucket_icon.png");
+        background-image: url(assets/img/bucket-icon.png);
         display: block;
         background-size: auto 70%;
         background-position: 50% 90%;
@@ -164,7 +164,7 @@
     position: absolute;
     height: 18rem;
     padding-top: 8rem;
-    background-image: url("assets/img/empty_bucket.jpg");
+    background-image: url(assets/img/empty-bucket.jpg);
     background-size: auto 30%;
     background-position: 50% 10%;
     background-repeat: no-repeat;
@@ -217,19 +217,19 @@ hr {
     background-repeat: no-repeat;
 
     &.inbox {
-      background-image: url("assets/img/inbox.png");
+      background-image: url(assets/img/inbox.png);
     }
 
     &.outbox {
-      background-image: url("assets/img/outbox.png");
+      background-image: url(assets/img/outbox.png);
     }
 
     &.noInbox {
-      background-image: url("assets/img/no-inbox.png");
+      background-image: url(assets/img/no-inbox.png);
     }
 
     &.noOutbox {
-      background-image: url("assets/img/no-outbox.png");
+      background-image: url(assets/img/no-outbox.png);
     }
   }
 }
