@@ -56,7 +56,6 @@ function getBrowserConfig(wco) {
       baseHref: buildOptions.baseHref
     }));
   }
-  let sourcemaps = "source-maps";
   if (buildOptions.subresourceIntegrity) {
     extraPlugins.push(new SubresourceIntegrityPlugin({
       hashFuncNames: ['sha384']
@@ -80,8 +79,6 @@ function getBrowserConfig(wco) {
     .map(style => style.bundleName);
   return {
     target: "electron-renderer",
-
-
     devtool: "inline-source-map",
     module: {
       rules: [{

@@ -23,7 +23,7 @@ const whiteListedModules = [];
 
 function getServerConfig(wco) {
   const config = {
-    devtool: 'inline-source-map',
+    devtool: false,
     resolve: {
       mainFields: [
         ...(wco.supportES2015 ? ['es2015'] : []),
@@ -34,7 +34,7 @@ function getServerConfig(wco) {
     externals: [
       ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
     ],
-    target: 'node',
+    target: 'electron-main',
     output: {
       libraryTarget: 'commonjs2'
     },

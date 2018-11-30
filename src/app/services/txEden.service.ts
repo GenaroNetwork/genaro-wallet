@@ -244,6 +244,7 @@ export class TxEdenService {
         let fileName = mail.fileName.substr(16);
         let fileType = mail.fileName.substr(0, 1);
         let mailId = mail.fileName.substr(2, 13);
+        mail.mailId = mailId;
         mail.fileName = fileName;
         if (fileType === "0") {
           mail.mailId = mailId;
@@ -262,6 +263,7 @@ export class TxEdenService {
         let fileName = mail.fileName.substr(16);
         let fileType = mail.fileName.substr(0, 1);
         let mailId = mail.fileName.substr(2, 13);
+        mail.mailId = mailId;
         mail.fileName = fileName;
         if (fileType === "0") {
           mail.mailId = mailId;
