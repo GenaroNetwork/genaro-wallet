@@ -533,7 +533,7 @@
       邮件大小/邮箱剩余： {{signInMessageAttahcesSize[3] | humanSize}}/{{signInMessageAttahcesSize[2] | humanSize}}
     </span>
     <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageStep=signInMessageStep+1">{{
-      'COMMON.CONFIRM' | translate }}</button>
+      'COMMON.NEXT' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
     <button nz-button nzSize="large" nzType="primary" [disabled]="signInMessageDisabled" (click)="signInMessageSubmit()">{{
@@ -608,15 +608,15 @@
   <ng-container>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.SENDER' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ openMessageFromAddress }}</div>
+      <div nz-col nzSpan="14" class="text-left">{{ openMessageFromAddress }}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.RECIPIENT' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ openMessageToAddress }}</div>
+      <div nz-col nzSpan="14" class="text-left">{{ openMessageToAddress }}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.MESSAGE_TITLE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ openMessageTitle }}</div>
+      <div nz-col nzSpan="14" class="text-left">{{ openMessageTitle }}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="2">

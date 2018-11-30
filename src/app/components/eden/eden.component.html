@@ -22,13 +22,10 @@
         "EDEN.RENAME_BUCKET" | translate }}</button>
       <button nz-button nzType="primary" [disabled]="!fileSelected.size" (click)="deleteBucket()">{{
         "EDEN.DELETE_BUCKET" | translate }}</button>
-      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="fileSelected.size!==1" (click)="setInbox()">{{
-        "MAIL.SET_RECEIVE"
-        | translate
-        }}</button>
-      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="fileSelected.size!==1" (click)="setOutbox()">{{
-        "MAIL.SET_SEND" |
-        translate }}</button>
+      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="!(fileSelected.size===1 && !edenService.mail.inbox)" (click)="setInbox()">{{
+        "MAIL.SET_RECEIVE" | translate}}</button>
+      <button nz-button *ngIf="mailPath==='mail'" nzType="primary" [disabled]="!(fileSelected.size===1 && !edenService.mail.outbox)" (click)="setOutbox()">{{
+        "MAIL.SET_SEND" | translate }}</button>
     </ng-container>
     <!-- 容器内 -->
     <ng-container *ngIf="edenService.currentPath.length>0 && mailPath!=='inbox' && mailPath!=='outbox'">
@@ -76,12 +73,12 @@
       <thead>
         <tr>
           <!-- <th></th> -->
-          <th>{{ "MAIL.SENDER" | translate }}</th>
-          <th>{{ "MAIL.TITLE" | translate }}</th>
-          <th>{{ "MAIL.STORAGE" | translate }}</th>
-          <th>{{ "MAIL.SEND_TIME" | translate }}</th>
-          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th>
-          <th>{{ "MAIL.OPERATION" | translate }}</th>
+          <th nzWidth="25%">{{ "MAIL.SENDER" | translate }}</th>
+          <th nzWidth="20%">{{ "MAIL.TITLE" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.STORAGE" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.SEND_TIME" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.RECEIVE_TIME" | translate }}</th>
+          <th nzWidth="10%">{{ "MAIL.OPERATION" | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -90,13 +87,13 @@
           <td>{{mail.fromAddress | longAddr | shortAddr}}</td>
           <td>{{mail.fileName}}</td>
           <td>{{mail.fileSize | humanSize }}</td>
-          <td>{{mail.created | date }}</td>
-          <td>{{mail.agreeTime | date }}</td>
+          <td>{{mail.created | date:"MM-dd HH:mm" }}</td>
+          <td>{{mail.agreeTime | date:"MM-dd HH:mm" }}</td>
           <td *ngIf="mail.reject">
             <a (click)="showMessage(mail)">
               <i nz-icon type="eye" theme="outline"></i>
             </a>
-            &nbsp;
+            &nbsp;&nbsp;
             <a (click)="deleteMessage(mail)">
               <i nz-icon type="delete" theme="outline"></i>
             </a>
@@ -113,12 +110,12 @@
       <thead>
         <tr>
           <!-- <th></th> -->
-          <th>{{ "MAIL.RECEIVER" | translate }}</th>
-          <th>{{ "MAIL.TITLE" | translate }}</th>
-          <th>{{ "MAIL.STORAGE" | translate }}</th>
-          <th>{{ "MAIL.SEND_TIME" | translate }}</th>
-          <th>{{ "MAIL.RECEIVE_TIME" | translate }}</th>
-          <th>{{ "MAIL.OPERATION" | translate }}</th>
+          <th nzWidth="25%">{{ "MAIL.RECEIVER" | translate }}</th>
+          <th nzWidth="20%">{{ "MAIL.TITLE" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.STORAGE" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.SEND_TIME" | translate }}</th>
+          <th nzWidth="15%">{{ "MAIL.RECEIVE_TIME" | translate }}</th>
+          <th nzWidth="10%">{{ "MAIL.OPERATION" | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -127,13 +124,13 @@
           <td>{{mail.toAddress | longAddr | shortAddr}}</td>
           <td>{{mail.fileName}}</td>
           <td>{{mail.fileSize | humanSize }}</td>
-          <td>{{mail.created | date }}</td>
-          <td>{{mail.agreeTime | date }}</td>
+          <td>{{mail.created | date:"MM-dd HH:mm" }}</td>
+          <td>{{mail.agreeTime | date:"MM-dd HH:mm" }}</td>
           <td>
             <a (click)="showMessage(mail)">
               <i nz-icon type="eye" theme="outline"></i>
             </a>
-            &nbsp;
+            &nbsp;&nbsp;
             <a (click)="deleteMessage(mail)">
               <i nz-icon type="delete" theme="outline"></i>
             </a>

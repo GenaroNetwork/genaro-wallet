@@ -4,10 +4,10 @@
       {{'TXSHARER.HEFT' | translate}}
       <span>{{ heft * 10000 | formatSentinel }}<span> {{'TXSHARER.SCORE' | translate}}</span></span>
     </div>
-    <a (click)='openSentinel()'>
+    <!-- <a (click)='openSentinel()'> -->
       <div [innerHtml]="'TXSHARER.HEFT_RANK' | translate:{rank: heftRank}">
       </div>
-    </a>
+    <!-- </a> -->
     <div [innerHtml]="'TXSHARER.STAKE_AMOUNT' | translate:{stake: stakeAmount}">
     </div>
     <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()" class="genaro-question-button"></button>
