@@ -48,7 +48,8 @@
     <app-input (submit)="bindNodeConfirm()" name="bindNode" [(ipt)]="bindNodeId" [iptExtra]="selectBindNodes" [span]="[6,18]"
       (iptChange)="setNodeId()"></app-input>
     <app-input (submit)="bindNodeConfirm()" name="gas" [(ipt)]="bindNodeGas" [span]="[6,18]"></app-input>
-    <app-input name="step" (iptChange)="bindNodeStep=bindNodeStep+1" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
+    <app-input (submit)="bindNodeConfirm()" name="password" [(ipt)]="bindNodePassword" [span]="[6,18]"></app-input>
+    <app-input name="step" (iptChange)="bindNodeConfirm()" [span]="[6,14]" [ipt]="[null,'']"></app-input>
   </div>
   <div *ngIf="bindNodeStep===0 && bindNodeTokenFlg" class="bind-node">
     <app-input (submit)="bindNodeConfirm()" name="bindNodeToken" [(ipt)]="bindNodeToken" [span]="[6,18]"></app-input>
