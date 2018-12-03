@@ -37,6 +37,7 @@ export class EdenComponent implements OnInit, OnDestroy {
   mailSub: any;
   mailPath: string = '';
   mails: any[] = [];
+  trafficLimit: boolean = false;
 
   ngOnInit() {
     if (this.settingService.appType === 'gmail') {
@@ -323,12 +324,17 @@ export class EdenComponent implements OnInit, OnDestroy {
   }
 
   showMessage(data) {
-    this.edenDialogName = "openMessage";
     let file = this.getFileByShare(data);
     if (!file) {
       this.alert.error("未找到邮件");
       return;
     }
+    let traffic = this.txEdenService.currentUser.limitBytes - this.txEdenService.currentUser.usedDownloadBytes;
+    if (file.size > traffic) {
+      this.trafficLimit = true;
+      return;
+    }
+    this.edenDialogName = "openMessage";
     let mailId = file.name.substr(2, 13);
     let allAttaches = this.mailPath === "inbox" ? this.txEdenService.mailList.toAttaches : this.txEdenService.mailList.fromAttaches;
     let attaches = allAttaches[mailId];

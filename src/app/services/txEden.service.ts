@@ -164,7 +164,6 @@ export class TxEdenService {
       if (!address || address === walletAddr) {
         await this.getBuckets(force);
         await this.getUserInfo(force, password, address);
-        await this.getUserShares(force, address);
         await this.getUserMails(force, address);
       }
     } catch (e) {
@@ -300,13 +299,11 @@ export class TxEdenService {
       let addr = wallet.address;
       if (!addr.startsWith("0x")) addr = `0x${addr}`;
       this.getUserMails();
-      this.getUserShares();
     });
     this.txService.newBlockHeaders.subscribe(() => {
       let addr = this.walletService.wallets.current;
       if (!addr.startsWith("0x")) addr = `0x${addr}`;
       this.getUserMails();
-      this.getUserShares();
     })
   }
 }
