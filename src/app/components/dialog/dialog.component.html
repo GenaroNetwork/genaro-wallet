@@ -517,6 +517,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
+    <br />
     <app-input (submit)="dialogDone()" name="gas" [(ipt)]="signInMessageGas" [span]="[6, 14]"></app-input>
     <app-input (submit)="dialogDone()" name="password" [(ipt)]="signInMessagePassword" [span]="[6, 14]"></app-input>
   </ng-container>
@@ -597,7 +598,7 @@
 
 <!-- openMessage -->
 <nz-modal [nzVisible]="dialogName==='openMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'MAIL.SEND_MESSAGE' | translate" [nzFooter]="openMessageFooter" class="buy-space">
+  [nzTitle]="'MAIL.OPEN_MESSAGE' | translate" [nzFooter]="openMessageFooter" class="buy-space">
   <ng-container>
     <app-input name="label-text" [ipt]="'INPUT.SENDER' | translate" [iptExtra]="openMessageFromAddress"></app-input>
     <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="openMessageToAddress"></app-input>

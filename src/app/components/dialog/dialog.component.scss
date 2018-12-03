@@ -69,10 +69,10 @@ textarea {
   float: left;
   height: 2rem;
   width: 49%;
-  color: gray;
+  color: #27292F;
   box-sizing: border-box;
   border: 1px solid #CCC;
-  background: #F2F2F2;
+  background: #F5F7Fb;
   border-radius: 3px;
   margin-top: .5rem;
   line-height: calc(2rem - 2px);
@@ -87,6 +87,7 @@ textarea {
     line-height: 2rem;
     height: 2rem;
     cursor: pointer;
+    color: #191C18;
   }
 
   .process {
@@ -104,7 +105,7 @@ textarea {
   }
 
   span.size {
-    color: lightgray;
+    color: #A4A5A8;
   }
 
   &:nth-of-type(2n-1) {

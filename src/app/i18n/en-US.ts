@@ -308,7 +308,8 @@ export default {
     "DELETE_FILES_TIP3": "删除后,他人无法接收此文件。",
     "DELETE_FILES_TIP4": "确定要删除所选文件么?",
     "SEND_MESSAGE_ERROR": "邮件发送失败",
-    "SEND_MESSAGE_DONE": "邮件发送成功"
+    "SEND_MESSAGE_DONE": "邮件发送成功",
+    "OPEN_MESSAGE": "查看邮件",
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "分享人",
