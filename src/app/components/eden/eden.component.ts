@@ -40,6 +40,34 @@ export class EdenComponent implements OnInit, OnDestroy {
   trafficLimit: boolean = false;
 
   ngOnInit() {
+    this.setMailPath();
+    this.edenService.updateAll();
+    // let env = this.edenService.allEnvs[this.walletService.wallets.current]
+    // if (!env)
+    //   this.edenService.generateEnv("111111");
+    // else
+    //   this.edenService.updateAll();
+    const path = this.route.snapshot.params.path;
+    if (path) {
+      const pathArr = path.split('/');
+      pathArr.unshift('/');
+      this.edenService.changePath(pathArr);
+    }
+    this.walletSub = this.walletService.currentWallet.subscribe(async () => {
+      this.setMailPath();
+      this.txEdenService.clearAllSig();
+      await this.txEdenService.getAll(true);
+      await this.edenService.updateAll([]);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.walletSub) {
+      this.walletSub.unsubscribe();
+    }
+  }
+
+  setMailPath() {
     if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
       if (this.edenService.currentPathId && this.edenService.currentPathId.length > 0) {
@@ -54,35 +82,6 @@ export class EdenComponent implements OnInit, OnDestroy {
           this.mailPath = '';
         }
       }
-    }
-    this.edenService.updateAll();
-    // let env = this.edenService.allEnvs[this.walletService.wallets.current]
-    // if (!env)
-    //   this.edenService.generateEnv("111111");
-    // else
-    //   this.edenService.updateAll();
-    const path = this.route.snapshot.params.path;
-    if (path) {
-      const pathArr = path.split('/');
-      pathArr.unshift('/');
-      this.edenService.changePath(pathArr);
-    }
-    this.walletSub = this.walletService.currentWallet.subscribe(async () => {
-      if (this.settingService.appType === 'gmail') {
-        this.mailPath = 'mail';
-      }
-      else {
-        this.mailPath = '';
-      }
-      this.txEdenService.clearAllSig();
-      await this.txEdenService.getAll(true);
-      await this.edenService.updateAll([]);
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.walletSub) {
-      this.walletSub.unsubscribe();
     }
   }
 

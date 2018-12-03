@@ -598,6 +598,7 @@ export class DialogComponent implements OnChanges {
         }
         await this.txService.agreeShare(address, this.signInMessagePassword, this.options.mail._id, this.signInMessageGas[1], this.signInMessageGas[0]);
         await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
+        this.edenService.updateAll();
         this.signInMessageStep++;
       } catch (e) { } finally {
         this.signInMessageDisabled = false;
@@ -701,7 +702,7 @@ export class DialogComponent implements OnChanges {
 
         for (let attach of this.sendMessageAttaches) {
           let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
-          let share = await this.walletService.shareFile(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+          let share = await this.walletService.shareMail(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
           await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
         };
 
@@ -710,7 +711,7 @@ export class DialogComponent implements OnChanges {
         this.edenService.encryptMetaToFile(str, fileId);
         let shareKey = await this.edenService.shareFile(key, ctr, this.sendMessageToAddress);
         if (shareKey && shareKey.key.cipher && shareKey.ctr.cipher) {
-          let share = await this.walletService.shareFile(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, sendMessageTitle, shareKey);
+          let share = await this.walletService.shareMail(address, this.sendMessagePassword, fileId, this.sendMessageToAddress, 0, sendMessageTitle, shareKey);
           await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, fileId, share._id, this.sendMessageGas[1], this.sendMessageGas[0], fileSize, fileHash);
           this.sendMessageStep++;
         }
