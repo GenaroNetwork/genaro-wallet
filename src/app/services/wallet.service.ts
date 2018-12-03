@@ -188,6 +188,46 @@ export class WalletService {
     }
   }
 
+  async shareMail(address, password, bucketEntryId, toAddress, price, fileName, key) {
+    const method = 'POST';
+    if (!address.startsWith('0x')) {
+      address = '0x' + address;
+    }
+    if (!toAddress.startsWith('0x')) {
+      toAddress = '0x' + toAddress;
+    }
+    const url = '/mails';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = Buffer.from(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      bucketEntryId: bucketEntryId,
+      toAddress: toAddress,
+      price: price,
+      fileName: fileName,
+      key: key.key.cipher,
+      ctr: key.ctr.cipher
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = Buffer.from(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
   async getShareExist(shareId) {
     let res = await fetch(BRIDGE_API_URL + '/share/' + shareId + '/exist', {
       method: 'GET'
