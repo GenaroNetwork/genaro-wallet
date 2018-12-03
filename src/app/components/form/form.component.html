@@ -24,7 +24,7 @@
       <app-input (submit)="stakeConfirm()" name="gas" [(ipt)]="stakeGas" [span]="[6,14]"></app-input>
       <app-input (submit)="stakeConfirm()" name="text" [ipt]="('TXSHARER.MAX_STAKE_NODE' | translate) + ' ' +  (stakeGNX | maxNode)"></app-input>
       <app-input (submit)="stakeConfirm()" name="password" [(ipt)]="stakePassword" [span]="[6,14]"></app-input>
-      <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'COMMON.NEXT']"></app-input>
+      <app-input name="step" (iptChange)="stakeConfirm()" [span]="[6,14]" [ipt]="[null,'COMMON.CONFIRM']"></app-input>
     </nz-tab>
     <nz-tab nzTitle="{{ 'TXSHARER.UNSTAKE' | translate }}">
       <app-input [span]="[2,20]" *ngIf="stakeUnstakable===-1" name="text" [ipt]="'TXSHARER.UNSTAKE_TIP_DISABLED' | translate"></app-input>
