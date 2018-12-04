@@ -27,7 +27,7 @@
     <div class="detail">
       <img src="assets/img/app-gmail.png">
       <div>
-        <span>Gemail</span> v{{ setting.appVersion }}
+        <span>G-Email</span> v{{ setting.appVersion }}
       </div>
       <div>{{ "COMMON.CHOOSE_GMAIL" | translate }}</div>
       <button nz-button nzType="primary" (click)="setting.set('appType', 'gmail')">{{ "COMMON.START_USE" | translate }}</button>
@@ -55,7 +55,7 @@
       <div class="icon">
         <ng-container *ngIf="setting.appType === 'gmail'">
           <img src="assets/img/app-gmail.png">
-          <div>Gemail v{{ setting.appVersion }}</div>
+          <div>G-Email v{{ setting.appVersion }}</div>
         </ng-container>
         <ng-container *ngIf="setting.appType === 'eden'">
           <img src="assets/img/app-eden.png">
