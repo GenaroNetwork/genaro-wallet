@@ -23,7 +23,7 @@
     </div>
     <nz-dropdown nzPlacement="bottomRight" nzTrigger="click">
       <a nz-dropdown>
-        {{ txService.chainSyncing[1]}}
+        <span *ngIf="txService.readyState===true">{{ txService.chainSyncing[1]}}</span>
         <i *ngIf="txService.chainSyncing[0]" nz-icon type="sync" theme="outline" [spin]="true"></i>
         <i nz-icon type="down" theme="outline"></i>
       </a>
