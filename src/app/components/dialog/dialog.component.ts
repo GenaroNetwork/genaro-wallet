@@ -189,6 +189,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
+      this.txEdenService.getAll();
       this.buyTrafficStep++;
     } catch (e) { } finally {
       this.buyTrafficDisabled = false;
@@ -754,7 +755,9 @@ export class DialogComponent implements OnChanges {
     let used = user.usedDownloadBytes || 0;
     let all = user.limitBytes || 0;
     let file = this.edenService.currentFiles.find(file => file.name === fileName);
-    this.edenService.fileDownloadTask(file, all - used, true, true)
+    let fileForDownload = Object.assign({}, file);
+    fileForDownload.name = attach.fileName;
+    this.edenService.fileDownloadTask(fileForDownload, all - used, true, true)
   }
 
   // deleteMesage

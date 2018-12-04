@@ -598,19 +598,17 @@
 
 <!-- openMessage -->
 <nz-modal [nzVisible]="dialogName==='openMessage'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'MAIL.OPEN_MESSAGE' | translate" [nzFooter]="openMessageFooter" class="buy-space">
+  [nzTitle]="'EDEN.OPEN_MESSAGE' | translate" [nzFooter]="openMessageFooter" class="buy-space">
   <ng-container>
-    <app-input name="label-text" [ipt]="'INPUT.SENDER' | translate" [iptExtra]="openMessageFromAddress"></app-input>
-    <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="openMessageToAddress"></app-input>
-    <app-input name="label-text" [ipt]="'INPUT.MESSAGE_TITLE' | translate" [iptExtra]="openMessageTitle"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.SENDER' | translate" [iptExtra]="openMessageFromAddress" [span]="[4,16]"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.RECIPIENT' | translate" [iptExtra]="openMessageToAddress" [span]="[4,16]"></app-input>
+    <app-input name="label-text" [ipt]="'INPUT.MESSAGE_TITLE' | translate" [iptExtra]="openMessageTitle" [span]="[4,16]"></app-input>
     <div nz-row class="review">
-      <div nz-col nzSpan="2">
-      </div>
-      <div nz-col nzSpan="18">
+      <div nz-col [nzOffset]="4" [nzSpan]="16">
         <textarea disabled="true" row="6" nz-input [(ngModel)]="openMessageContent" style="height:250px"></textarea>
         <div *ngFor="let attach of options ? options.attaches : []" class="mail-attach" nz-tooltip [nzTitle]="attach.fileName">
           {{ attach.fileName }}
-          <i nz-icon type="download" theme="outline" (click)="openMessageDownload(attach)"></i>
+          <i nz-icon type="download" theme="outline" (click)="openMessageDownload(attach)" class="attach-download"></i>
         </div>
       </div>
     </div>
