@@ -757,7 +757,7 @@ export class DialogComponent implements OnChanges {
     let file = this.edenService.currentFiles.find(file => file.name === fileName);
     let fileForDownload = Object.assign({}, file);
     fileForDownload.name = attach.fileName;
-    this.edenService.fileDownloadTask(fileForDownload, all - used, true, true)
+    this.edenService.fileDownloadTask(fileForDownload, all - used, true)
   }
 
   // deleteMesage

@@ -514,7 +514,7 @@ export class EdenService {
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
-  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true, removePrefix: boolean = false) {
+  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true) {
     if (!(files instanceof Array)) {
       files = [files];
     }
@@ -530,7 +530,6 @@ export class EdenService {
       const filePath = nativePath;
       let filename = files[0].name.split('/').pop();
       filename = this.convertChar(filename, false);
-      if (removePrefix) filename = filename.substr(16);
       nativePath = remote.dialog.showSaveDialog(remote.getCurrentWindow(), {
         defaultPath: filename,
       });
@@ -550,7 +549,6 @@ export class EdenService {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
       filename = this.convertChar(filename, false);
-      if (removePrefix) filename = filename.substr(16);
       tipFileName = filename.length > TIP_FILE_LENGTH ? filename.substr(0, 10) + '...' : filename;
       if (files.length > 1) { filePath = join(nativePath[0], filename); }
 
