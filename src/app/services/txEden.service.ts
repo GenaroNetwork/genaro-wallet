@@ -228,11 +228,11 @@ export class TxEdenService {
       }
       let mails = await this.send('GET', '/users/' + walletAddr + '/mails', null, this.mailSig, this.publicKey);
       let share = this.shareFiles;
-      for (let from of share.from) {
+      for (let from of share.from.filter(f => f.isMail)) {
         if (mails.from.find(mail => mail.fileName === from.fileName)) continue;
         mails.from.push(Object.assign({}, from));
       }
-      for (let to of share.to) {
+      for (let to of share.to.filter(f => f.isMail)) {
         if (mails.to.find(mail => mail.fileName === to.fileName)) continue;
         mails.to.push(Object.assign({}, to));
       }
