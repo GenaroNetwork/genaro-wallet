@@ -233,9 +233,8 @@ hr {
     }
 
     &.noBucket {
-      background-image: url(assets/img/empty-bucket.jpg);
-      background-size: contain;
-      background-position: center center;
+      background-image: url(assets/img/empty-bucket.png);
+      background-position: 50% 90%;
     }
   }
 }

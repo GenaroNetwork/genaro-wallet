@@ -40,7 +40,6 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  pendingTeamInfo: any = {};
   showPendingTeam = false;
   showApplyTeam = false;
   hasTempSubAccount = false;
