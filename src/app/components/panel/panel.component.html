@@ -14,7 +14,7 @@
           <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.currentMainWalletState.order + 1 || '300+' }}
+              {{ accountTeamInfo.order + 1 || '300+' }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -24,7 +24,7 @@
           <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.currentMainWalletState.shortAddr }}
+              {{ accountTeamInfo.shortAddr }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -34,7 +34,7 @@
           <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.currentMainWalletState.currentSentinel * 10000 | formatSentinel }}
+              {{ accountTeamInfo.currentSentinel * 10000 | formatSentinel }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -52,7 +52,7 @@
           <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.currentMainWalletState.currentStake }}
+              {{ accountTeamInfo.currentStake }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -62,7 +62,7 @@
           <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.currentMainWalletState.currentDataSize | formatSize }}
+              {{ accountTeamInfo.currentDataSize | formatSize }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -72,15 +72,15 @@
           <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ (committeeService.currentMainWalletState.subFarmers || []).length }} / 10
+              {{ (accountTeamInfo.subFarmers || []).length }} / 10
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
   </form>
-  <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="committeeService.currentMainWalletState.subFarmers"
-    nzShowPagination="false" [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
+  <nz-table *ngIf="showCurrentTeam" #currentTeamTable [nzData]="accountTeamInfo.subFarmers" nzShowPagination="false"
+    [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
         <!-- <th nzWidth="15%">{{ 'TABLE.COMMITTEE.NAME' | translate }}</th> -->
@@ -118,7 +118,7 @@
           <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.pendingMainWalletState.pendingOrder + 1 || '300+' }}
+              {{ pendingTeamInfo.pendingOrder + 1 || '300+' }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -128,7 +128,7 @@
           <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.pendingMainWalletState.shortAddr }}
+              {{ pendingTeamInfo.shortAddr }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -138,7 +138,7 @@
           <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.pendingMainWalletState.pendingSentinel * 10000 | formatSentinel }}
+              {{ pendingTeamInfo.pendingSentinel * 10000 | formatSentinel }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -156,7 +156,7 @@
           <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.pendingMainWalletState.pendingStake }}
+              {{ pendingTeamInfo.pendingStake }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -166,7 +166,7 @@
           <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ committeeService.pendingMainWalletState.pendingDataSize | formatSize }}
+              {{ pendingTeamInfo.pendingDataSize | formatSize }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -176,7 +176,7 @@
           <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ (committeeService.pendingMainWalletState.pendingSubFarmers || []).length }} / 10
+              {{ (pendingTeamInfo.pendingSubFarmers || []).length }} / 10
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -184,19 +184,18 @@
       <div nz-col [nzSpan]="6">
         <nz-form-item nzFlex>
           <nz-form-control>
-            <nz-badge nzDot *ngIf="committeeService.pendingMainWalletState.tempAccounts && committeeService.pendingMainWalletState.tempAccounts.length > 0">
+            <nz-badge nzDot *ngIf="hasTempSubAccount">
               <button style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
                 'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
             </nz-badge>
-            <button *ngIf="!committeeService.pendingMainWalletState.tempAccounts || committeeService.pendingMainWalletState.tempAccounts.length <= 0"
-              style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
+            <button *ngIf="!hasTempSubAccount" style="width: 140px" nz-button [nzType]="'primary'" (click)="showPendingTeam=false;showApplyTeam=!showApplyTeam;">{{
               'PANEL.RANK.APPLICATION_RECORD' | translate }}</button>
           </nz-form-control>
         </nz-form-item>
       </div>
     </div>
   </form>
-  <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="committeeService.pendingMainWalletState.pendingSubFarmers" nzShowPagination="false"
+  <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="pendingTeamInfo.pendingSubFarmers" nzShowPagination="false"
     [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
@@ -221,7 +220,7 @@
     </tbody>
   </nz-table>
 
-  <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="committeeService.pendingMainWalletState.tempAccounts" nzShowPagination="false"
+  <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="pendingTeamInfo.tempAccounts" nzShowPagination="false"
     [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
