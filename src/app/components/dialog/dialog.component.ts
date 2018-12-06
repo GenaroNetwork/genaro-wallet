@@ -626,6 +626,7 @@ export class DialogComponent implements OnChanges {
     this.sendMessageContent = '';
     this.sendMessagePassword = '';
     this.sendMessageAttaches = [];
+    this.sendMessageDisabled = false;
   }
   sendMessageAttach() {
     let files = remote.dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] });
