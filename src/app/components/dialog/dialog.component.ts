@@ -633,7 +633,7 @@ export class DialogComponent implements OnChanges {
     files.forEach(async file => {
       let attach = {
         name: basename(file),
-        percentage: 0,
+        percentage: 10,
         rsaKey: null,
         rsaCtr: null,
         id: null,
@@ -644,7 +644,8 @@ export class DialogComponent implements OnChanges {
       let { rsaKey, rsaCtr, taskEnv } = await this.edenService.mailAttach(this.options, `1|${this.sendMessageId}|${attach.name}`, file,
         (process, allBytes) => {
           this.zone.run(() => {
-            attach.percentage = process;
+            let percentage = process * 100;
+            attach.percentage = percentage <= 10 ? 10 : percentage;
           });
         },
         (err, fileId) => {
