@@ -363,7 +363,7 @@
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.CHARGE_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ shareFileChargePrice }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ shareFileChargePrice }} GNX</div>
     </div>
     <br />
     <app-input (submit)="dialogDone()" name="gas" [(ipt)]="shareFileGas" [span]="[6, 14]"></app-input>
@@ -404,7 +404,7 @@
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.PAY_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ agreeShareInfo.price }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ agreeShareInfo.price }} GNX</div>
     </div>
     <br />
     <div nz-row class="review">

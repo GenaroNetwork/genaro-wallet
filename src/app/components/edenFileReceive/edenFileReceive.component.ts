@@ -44,7 +44,8 @@ export class EdenFileReceiveComponent implements OnInit, OnDestroy {
   }
 
   async agree(data) {
-    if (!this.edenService.currentBuckets || this.edenService.currentBuckets.length === 0) {
+    let bs = (this.edenService.currentBuckets || []).filter(b => b.bucketType === 0);
+    if (bs.length === 0) {
       return this.alert.error(this.i18n.instant("ERROR.NO_BUCKETS"));
     }
     if (!(await this.walletService.getShareExist(data._id))) {
