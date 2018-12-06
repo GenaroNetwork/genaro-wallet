@@ -27,9 +27,12 @@ export class EdenComponent implements OnInit, OnDestroy {
     public nickService: NickService,
   ) {
   }
+
+  mailTip: boolean = false;
   edenDialogName: string = null;
   edenDialogOpt: any = null;
   fileSelected: Set<number> = new Set();
+  mailSelected: string = null;
   lastFileSelected: number = null;
   selectedIncludeFolder = false;
   zone: NgZone;
@@ -52,6 +55,8 @@ export class EdenComponent implements OnInit, OnDestroy {
       const pathArr = path.split('/');
       pathArr.unshift('/');
       this.edenService.changePath(pathArr);
+    } else {
+      this.edenService.changePath(['/']);
     }
     this.walletSub = this.walletService.currentWallet.subscribe(async () => {
       this.setMailPath();
@@ -137,6 +142,22 @@ export class EdenComponent implements OnInit, OnDestroy {
 
   rightClick(event: MouseEvent) {
     const menu = new remote.Menu();
+    if (typeof event === 'string') {
+      switch (event) {
+        case "inbox":
+          menu.append(new remote.MenuItem({
+            label: this.i18n.instant('EDEN.OPEN'), click: this.openInbox.bind(this)
+          }));
+          break;
+        case "outbox":
+          menu.append(new remote.MenuItem({
+            label: this.i18n.instant('EDEN.OPEN'), click: this.openOutbox.bind(this)
+          }));
+          break;
+      }
+      menu.popup({ window: remote.getCurrentWindow() });
+      return;
+    }
     if (this.edenService.currentPath.length === 0) {
       if (this.fileSelected.size === 1) {
         menu.append(new remote.MenuItem({
@@ -328,10 +349,12 @@ export class EdenComponent implements OnInit, OnDestroy {
       this.alert.error("未找到邮件");
       return;
     }
-    let traffic = this.txEdenService.currentUser.limitBytes - this.txEdenService.currentUser.usedDownloadBytes;
-    if (file.size > traffic) {
-      this.trafficLimit = true;
-      return;
+    if (!this.edenService.showMessage(file, this.edenService.currentPathId[0], true)) {
+      let traffic = this.txEdenService.currentUser.limitBytes - this.txEdenService.currentUser.usedDownloadBytes;
+      if (file.size > traffic) {
+        this.trafficLimit = true;
+        return;
+      }
     }
     this.edenDialogName = "openMessage";
     let mailId = file.name.substr(2, 13);

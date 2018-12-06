@@ -207,6 +207,11 @@ hr {
   color: gray;
   cursor: pointer;
 
+  &.selected {
+    border-style: solid;
+    border-color: $theme-color;
+  }
+
   i.icon {
     height: 5.5rem;
     font-size: 4rem;

@@ -794,16 +794,20 @@ export class EdenService {
     });
   }
 
-  async showMessage(file, bucketId): Promise<{
+  async showMessage(file, bucketId, checkOnly: boolean = false): Promise<{
     title: string,
     content: string,
     fromAddress: string,
     toAddress: string,
-  }> {
+  } | boolean> {
     const filePath = join(MESSAGE_STORAGE_PATH, file.id);
-    if (existsSync(filePath)) {
+    if (checkOnly)
+      if (existsSync(filePath))
+        return true;
+      else
+        return false;
+    if (existsSync(filePath))
       return this.decryptMetaFromFile(filePath);
-    }
     else {
       const downloadPath = join(MESSAGE_STORAGE_PATH, file.id + '_inbox');
       if (!existsSync(downloadPath)) {

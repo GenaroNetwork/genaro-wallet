@@ -586,7 +586,6 @@ export class DialogComponent implements OnChanges {
     this.options.attaches.forEach(attach => {
       this.signInMessageAttahcesSize[3] += attach.fileSize;
     });
-    this.signInMessageDisabled = this.signInMessageAttahcesSize[3] > this.signInMessageAttahcesSize[2];
   }
   async signInMessageSubmit() {
     this.signInMessageDisabled = true;
@@ -741,7 +740,7 @@ export class DialogComponent implements OnChanges {
     try {
       let data = await this.edenService.showMessage(this.options.file, this.options.bucketId);
       if (data) {
-        let { title, content, fromAddress, toAddress } = data;
+        let { title, content, fromAddress, toAddress } = <{ title, content, fromAddress, toAddress }>data;
         this.openMessageTitle = title.substr(16);
         this.openMessageContent = content;
         this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
