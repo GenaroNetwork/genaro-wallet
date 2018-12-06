@@ -43,7 +43,7 @@ export default {
     "DOWNLOADMINER": "'Download'",
     "DOWNLOADMINER_TIPS3": " installer and miner userguide",
     "REJECT_SHARE_CONFIRM": "确认拒绝接收该文件吗？",
-    "DELETE_SHARE_CONFIRM": "点击确认后，将本条接收信息。",
+    "DELETE_SHARE_CONFIRM": "点击确认后，将删除本条接收信息。",
     "START_USE": "开始使用",
     "USE_DAPP": "开发DApp",
     "BECOME_DEVELOPER": "BECOME A DAPP DEVELOPER",

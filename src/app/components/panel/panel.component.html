@@ -118,7 +118,7 @@
           <nz-form-label><i class="rank-icon"></i>{{ 'PANEL.RANK.RANK' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ pendingTeamInfo.pendingOrder + 1 || '300+' }}
+              {{ committeeService.pendingMainWalletState.pendingOrder + 1 || '300+' }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -128,7 +128,7 @@
           <nz-form-label><i class="team-icon"></i>{{ 'PANEL.RANK.TEAM_NAME' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ pendingTeamInfo.shortAddr }}
+              {{ committeeService.pendingMainWalletState.shortAddr }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -138,7 +138,7 @@
           <nz-form-label><i class="sentinel-icon"></i>{{ 'PANEL.RANK.SENTINEL_SCORE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ pendingTeamInfo.pendingSentinel * 10000 | formatSentinel }}
+              {{ committeeService.pendingMainWalletState.pendingSentinel * 10000 | formatSentinel }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -156,7 +156,7 @@
           <nz-form-label>{{ 'PANEL.RANK.GNX_STAKE' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ pendingTeamInfo.pendingStake }}
+              {{ committeeService.pendingMainWalletState.pendingStake }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -166,7 +166,7 @@
           <nz-form-label>{{ 'PANEL.RANK.SPACE_USED' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ pendingTeamInfo.pendingDataSize | formatSize }}
+              {{ committeeService.pendingMainWalletState.pendingDataSize | formatSize }}
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -176,7 +176,7 @@
           <nz-form-label>{{ 'PANEL.RANK.MEMBER_COUNT' | translate }}</nz-form-label>
           <nz-form-control>
             <nz-form-text>
-              {{ (pendingTeamInfo.pendingSubFarmers || []).length }} / 10
+              {{ (committeeService.pendingMainWalletState.pendingSubFarmers || []).length }} / 10
             </nz-form-text>
           </nz-form-control>
         </nz-form-item>
@@ -196,7 +196,7 @@
       </div>
     </div>
   </form>
-  <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="pendingTeamInfo.pendingSubFarmers" nzShowPagination="false"
+  <nz-table *ngIf="showPendingTeam" #pendingTeamTable [nzData]="committeeService.pendingMainWalletState.pendingSubFarmers" nzShowPagination="false"
     [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
@@ -221,7 +221,7 @@
     </tbody>
   </nz-table>
 
-  <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="pendingTeamInfo.tempAccounts" nzShowPagination="false"
+  <nz-table *ngIf="showApplyTeam" #applyTeamTable [nzData]="committeeService.pendingMainWalletState.tempAccounts" nzShowPagination="false"
     [nzPageSize]="31" class="tx" [nzScroll]='{ y: "240px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
     <thead>
       <tr>
