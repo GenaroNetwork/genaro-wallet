@@ -513,13 +513,14 @@
           {{ attach.fileName }}
           <span class="size">{{ attach.fileSize | humanSize }}</span>
         </div>
+        <br />
+        <p *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]" style="color: #F56;">
+          收件箱剩余容量不足，无法接收该文件。
+          <br />
+          请到“空间管理”页面将“收件箱”扩容后，再次签收。
+        </p>
       </div>
     </div>
-    <p *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]" style="color: #F56;">
-      收件箱剩余容量不足，无法接收该文件。
-      <br />
-      请到“空间管理”页面将“收件箱”扩容后，再次签收。
-    </p>
   </ng-container>
   <ng-container *ngIf="signInMessageStep===1">
     <br />
