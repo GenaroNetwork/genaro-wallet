@@ -128,7 +128,7 @@ export default {
       "SHARER_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-sharer-manual-gui.cn.pdf",
       "SHARER_INSTRUCTIONS": "SHARER 使用说明",
       "EDEN_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-eden-manual.cn.pdf",
-      "MAIL_INSTRUCTIONS": "MAIL 使用说明",
+      "MAIL_INSTRUCTIONS": "G-EMAIL 使用说明",
       "MAIL_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/gemail-manual-cn.pdf",
       "DOWNLOAD_EDEN": "下载Genaro Eden",
       "DOWNLOAD_SHARER": "下载Genaro Sharer",
