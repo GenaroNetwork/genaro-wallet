@@ -125,9 +125,11 @@ export default {
     "HELP": {
       "INSTRUCTIONS": "Instructions",
       "EDEN_INSTRUCTIONS": "EDEN Userguide",
-      "SHARER_INSTRUCTIONS": "SHARER Userguide",
       "EDEN_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-eden-manual.en.pdf",
+      "SHARER_INSTRUCTIONS": "SHARER Userguide",
       "SHARER_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/genaro-sharer-manual-gui.en.pdf",
+      "MAIL_INSTRUCTIONS": "MAIL Userguide",
+      "MAIL_INSTRUCTIONS_URL": "https://genaro-docs.oss-cn-shanghai.aliyuncs.com/gemail-manual-cn.pdf",
       "DOWNLOAD_EDEN": "Download Genaro Eden",
       "DOWNLOAD_SHARER": "Download Genaro Sharer",
       "CONTACT": "Contact Customer Service"
