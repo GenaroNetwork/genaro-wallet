@@ -703,15 +703,15 @@ export class DialogComponent implements OnChanges {
         // 发送附件 
         let promises = [];
         for (let attach of this.sendMessageAttaches) {
-          let promise = new Promise(async (res, rej) => {
-            let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
-            let share = await this.walletService.shareMail(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
-            await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
-          });
-          promises.push(promise);
+          //let promise = new Promise(async (res, rej) => {
+          let key = await this.edenService.shareFile(attach.rsaKey, attach.rsaCtr, this.sendMessageToAddress);
+          let share = await this.walletService.shareMail(address, this.sendMessagePassword, attach.id, this.sendMessageToAddress, 0, `1|${this.sendMessageId}|${attach.name}`, key);
+          await this.txService.shareFile(address, this.sendMessageToAddress, this.sendMessagePassword, 0, attach.id, share._id, this.sendMessageGas[1], this.sendMessageGas[0]);
+          //});
+          //promises.push(promise);
         };
 
-        await Promise.all(promises);
+        //await Promise.all(promises);
         let message = await this.edenService.sendMessageTask(this.sendMessageToAddress, this.sendMessageId, sendMessageTitle, this.sendMessageContent, this.options);
         let { fileId, fileSize, fileHash, key, ctr, str } = message;
         this.edenService.encryptMetaToFile(str, fileId);
