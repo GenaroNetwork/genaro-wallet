@@ -1,6 +1,8 @@
 import { Component, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from './services/translate.service';
 import { SettingService } from './services/setting.service';
+import { DAPP_PAGE } from './libs/config';
+import { shell } from 'electron';
 const LANGS = ['en', 'zh'];
 
 @Component({
@@ -23,5 +25,9 @@ export class AppComponent implements AfterViewChecked {
     if (this.i18n.instant("LANGUAGE_NAME") === "LANGUAGE_NAME") return;
     if (this.checkLang.nativeElement.innerHTML !== this.i18n.instant("LANGUAGE_NAME")) return;
     this.currentLang = this.setting.language;
+  }
+
+  openDappPage() {
+    shell.openExternal(DAPP_PAGE);
   }
 }
