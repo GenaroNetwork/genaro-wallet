@@ -516,11 +516,8 @@
           <span class="size">{{ attach.fileSize | humanSize }}</span>
         </div>
         <br />
-        <p *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]" style="color: #F56;">
-          收件箱剩余容量不足，无法接收该文件。
-          <br />
-          请到“空间管理”页面将“收件箱”扩容后，再次签收。
-        </p>
+        <p *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]" style="color: #F56;clear:both;"
+          [innerHTML]="'MAIL.ATTACH_OUT_OF_RANGE' | translate"></p>
       </div>
     </div>
   </ng-container>
@@ -535,10 +532,11 @@
 </nz-modal>
 <ng-template #signInMessageFooter>
   <span *ngIf="signInMessageAttahcesSize[2] >= signInMessageAttahcesSize[3]">
-    邮件大小/邮箱剩余： {{signInMessageAttahcesSize[3] | humanSize}}/{{signInMessageAttahcesSize[2] | humanSize}}
+    {{ 'MAIL.ATTACH_SIZE_LEFT' | translate }}： {{signInMessageAttahcesSize[3] |
+    humanSize}}/{{signInMessageAttahcesSize[2] | humanSize}}
   </span>
   <span *ngIf="signInMessageAttahcesSize[3] > signInMessageAttahcesSize[2]">
-    邮件大小/邮箱剩余： {{signInMessageAttahcesSize[3] | humanSize}}/<span style="color: #F56;">{{signInMessageAttahcesSize[2]
+    {{ 'MAIL.ATTACH_SIZE_LEFT' | translate }}： {{signInMessageAttahcesSize[3] | humanSize}}/<span style="color: #F56;">{{signInMessageAttahcesSize[2]
       | humanSize}}</span>
   </span>
   <ng-container *ngIf="signInMessageStep===0">

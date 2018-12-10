@@ -343,13 +343,13 @@ export class EdenComponent implements OnInit, OnDestroy {
     this.edenDialogOpt = this.edenService.mail.outbox;
   }
 
-  showMessage(data) {
+  async showMessage(data) {
     let file = this.getFileByShare(data);
     if (!file) {
       this.alert.error("未找到邮件");
       return;
     }
-    if (!this.edenService.showMessage(file, this.edenService.currentPathId[0], true)) {
+    if (!await this.edenService.showMessage(file, this.edenService.currentPathId[0], true)) {
       let traffic = this.txEdenService.currentUser.limitBytes - this.txEdenService.currentUser.usedDownloadBytes;
       if (file.size > traffic) {
         this.trafficLimit = true;

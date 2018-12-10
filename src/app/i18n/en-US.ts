@@ -518,8 +518,20 @@ export default {
     "SIGN_IN_MESSAGE": "Accept email",
     "SEND_MESSAGE": "Send email",
     "DELETE_MESSAGE": "Delete email",
+    "ATTACH": "",
     "NO_INBOX": "Please set up your Inbox",
-    "NO_OUTBOX": "Please set up your Outbox"
+    "NO_OUTBOX": "Please set up your Outbox",
+    "ATTACH_SIZE_LEFT": "Add attachments",
+    "ATTACH_OUT_OF_RANGE": `Inbox storage space insufficient, file downloading failed.
+    Please go to "Space management" and "Buy space", and try to receive the file again.`,
+    "HOW_TO_USE": `
+    <p><strong>User Instructions:</strong></p>
+    <p><strong>Outbox:</strong> Purchase storage space → Set up as Outbox → Double click to enter the outbox to send an email → Check your Outbox</p>
+    <p><strong>Inbox:</strong> Purchase storage space → Set up as Inbox → Double click to enter the inbox to receive an email → Check your Inbox</p>
+    <p><strong style="color:#F56;">*Note:</strong></p>
+    <p>1. About storage space purchase: Since the cloud email service utilizes the "Verifiable Encrypted Data Interaction" (VEDI) system, users will need to <strong>purchase the two empty storage spaces</strong> separately, and set up one as Outbox, and the other as Inbox.</p>
+    <p>2. About traffic purchase: Users are using local network traffic when sending an email. When receiving an email, the user will also need to use the network traffic from the node to download the email/file. Therefore, <strong>purchasing network traffic is required</strong> to view/download the email/file for the first time; and to view the email/file again, no more network traffic expenses will be incurred.</p>
+    `,
   },
   "NICK": {
     "APPLY_NICK": "Apply for a nickname"
