@@ -70,7 +70,7 @@ export enum Role {
 export const RELATION_FETCH_INTERVAL = 2 * 60 * 1000;
 export const BROTHER_CONTRACT_ADDR = '0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e';
 
-export const MINER_DOWNLOAD = 'https://gnxtech.io/en/gnx-dapps/';
+export const MINER_DOWNLOAD = 'http://genaro.network/';
 
 export const DAPP_PAGE = 'http://genaro-docs.oss-cn-shanghai.aliyuncs.com/dapp-develop-guide.pdf';
 
@@ -143,7 +143,7 @@ export {
     BC_ERR_FILE,
     BROTHER_STATE_FILE,
     SQLITE_CONFIG_PATH,
-    WEB3_URL, 
+    WEB3_URL,
     STX_ADDR,
     BRIDGE_API_URL
 };
