@@ -60,7 +60,7 @@ export const INSTRUCTIONS_URL = '';
 export const DOWNLOAD_EDEN_URL = '';
 export const DOWNLOAD_SHARER_URL = '';
 
-export const BLOCK_COUNT_OF_ROUND = 86400;
+export const BLOCK_COUNT_OF_ROUND = 43200;
 export enum Role {
     Free = 'Free',
     Main = 'Main',

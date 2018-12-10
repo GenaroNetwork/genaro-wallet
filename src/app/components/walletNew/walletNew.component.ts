@@ -144,10 +144,11 @@ export class WalletNewComponent {
           this.alert.create('error', this.translate.instant('WALLETNEW.IMPORT_JSON_ERROR_ILLEGAL'));
           break;
         case 'Assertion failed':
+        case 'Key derivation failed - possibly wrong passphrase':
           this.alert.create('error', this.translate.instant('WALLETNEW.IMPORT_JSON_ERROR_PASSWORD'));
           break;
         default:
-          this.alert.create('error', this.translate.instant('WALLETNEW.IMPORT_JSON'));
+          this.alert.create('error', this.translate.instant('WALLETNEW.IMPORT_JSON_ERROR'));
           break;
       }
       return;
