@@ -471,7 +471,7 @@ export default {
       "UPDATE_BLOCK": "更新区块",
       "NEXT_UPDATE_BLOCK": "次届委员会更新区块",
       "NODE_LIST": "节点列表",
-      "RELIEVE": "解除"
+      "RELIEVE": "解除",
     }
   },
   "PANEL": {
@@ -486,7 +486,7 @@ export default {
       "SPACE_USED": "空间使用量",
       "MEMBER_COUNT": "团队人数",
       "APPLICATION_RECORD": "申请消息",
-      "EFFECT_BLOCK": "生效区块高度"
+      "EFFECT_BLOCK": "生效区块高度",
     }
   },
   "ERROR": {
@@ -502,7 +502,7 @@ export default {
     "NO_SHARE_KEY": "接收人暂未解锁“文件管理”功能，无法发送此文件到接收人地址。",
     "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件",
     "SHARE_FILE_NOT_EXIST": "分享源文件不存在或已被删除，不能接收",
-    "SET_BOX_ERROR": "设置失败,空存储空间才可以设置为发件箱/收件箱"
+    "SET_BOX_ERROR": "设置失败,空存储空间才可以设置为发件箱/收件箱",
   },
   "MAIL": {
     "INBOX": "收件箱",
@@ -521,9 +521,19 @@ export default {
     "DELETE_MESSAGE": "删除邮件",
     "ATTACH": "添加附件",
     "NO_INBOX": "暂未设置收件箱",
-    "NO_OUTBOX": "暂未设置发件箱"
+    "NO_OUTBOX": "暂未设置发件箱",
+    "ATTACH_SIZE_LEFT": "邮件大小/邮箱剩余",
+    "ATTACH_OUT_OF_RANGE": "收件箱剩余容量不足，无法接收该文件。<br/>请到“空间管理”页面将“收件箱”扩容后，再次签收。",
+    "HOW_TO_USE": `
+    <p><strong>使用流程：</strong></p>
+    <p><strong>发件箱：</strong>购买存储空间 → 设置为发件箱 → 双击进入发件箱，发送邮件 → 查看邮件</p>
+    <p><strong>收件箱：</strong>购买存储空间 → 设置为收件箱 → 双击进入收件箱，签收邮件 → 查看邮件</p>
+    <p><strong style="color:#F56;">*注意：</strong></p>
+    <p>1. 关于存储空间：云邮箱可验证加密交互系采用的分布式存储，所以使用前需要先<strong>购买两个存储空间</strong>，且在<strong>两个存储空间为空</strong>的情况下，将其中一个空间设置为发件箱，一个设置为收件箱。（且<strong>只能设置一次</strong>）</p>
+    <p>2. 关于流量：发送邮件时使用的是本地流量。在接收文件后，第一次查看邮件时需要使用节点流量，所以<strong>需要购买流量</strong>，用于签收邮件后的第一次查看邮件。再次查看则无需花费流量。</p>
+      `,
   },
   "NICK": {
-    "APPLY_NICK": "申请别名"
+    "APPLY_NICK": "申请别名",
   }
 }

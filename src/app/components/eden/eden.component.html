@@ -194,10 +194,5 @@
 <app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.EDEN_NEED_PASS' | translate"></app-dialog>
 <app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>
 <nz-modal [nzVisible]="mailTip" [nzTitle]="null" [nzCancelText]="null" [nzClosable]="false" (nzOnOk)="mailTip=false">
-  <p><strong>使用流程：</strong></p>
-  <p><strong>发件箱：</strong>购买存储空间 → 设置为发件箱 → 双击进入发件箱，发送邮件→ 查看邮件</p>
-  <p><strong>收件箱：</strong>购买存储空间 → 设置为收件箱 → 双击进入收件箱，签收邮件→ 查看邮件</p>
-  <p><strong style="color:#F56;">*注意：</strong></p>
-  <p>1. 关于存储空间：云邮箱可验证加密交互系采用的分布式存储，所以使用前需要先<strong>购买两个存储空间</strong>，且在<strong>两个存储空间为空</strong>的情况下，将其中一个空间设置为发件箱，一个设置为收件箱。（且<strong>只能设置一次</strong>）</p>
-  <p>2. 关于流量：发送邮件时使用的是本地流量。在接收文件后，第一次查看邮件时需要使用节点流量，所以<strong>需要购买流量</strong>，用于签收邮件后的第一次查看邮件。再次查看则无需花费流量。</p>
+  <div [innerHTML]="'MAIL.HOW_TO_USE' | translate"></div>
 </nz-modal>
