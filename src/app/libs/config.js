@@ -33,7 +33,7 @@ if (exports.LITE_WALLET) {
 else {
     exports.WEB3_URL = WEB3_URL = "ws://" + exports.WEB3_CONFIG.WS_ADDR + ":" + exports.WEB3_CONFIG.WS_PORT; // for develope
 }
-exports.BRIDGE_API_URL = 'http://47.100.36.181:8080';
+exports.BRIDGE_API_URL = 'http://47.100.33.60:8080';
 exports.DAEMON_CONFIG = {
     RPC_ADDR: "127.0.0.1",
     RPC_PORT: "45016",
@@ -46,11 +46,11 @@ exports.DAEMON_CONFIG = {
             '0f03020202'
         ],
         'bridges': [{
-                'url': 'http://47.100.36.181:8080',
+                'url': 'http://47.100.33.60:8080',
                 'extendedKey': 'xpub6ABDixD5jpQUDWNzHFh2WgAuANKDeTHmeXqLYaXsUuzpvfN8ZvbfBMXXbYkoq1kCvvpbiNE9zAzeC9VQh8dMNDb8mjc8cUh8F4jaUmFkyjr'
             }],
         'seedList': [
-            'storj://47.100.36.181:4000/337472da3068fa05d415262baf4df5bada8aefdc'
+            'storj://47.100.33.60:4000/337472da3068fa05d415262baf4df5bada8aefdc'
         ],
         'rpcAddress': '127.0.0.1',
         'rpcPort': 9001,
