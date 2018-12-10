@@ -6,7 +6,7 @@ export const PRODUCT_MODE = true;
 export const LITE_WALLET = true;
 export const SHARER = true;
 export const PLATFORM = 'darwin-x64';
-export const FULL_NODE_URL = 'enode://bf9599927eaf4993fdb6ff15f6918a6ca35f9126ef25a51acb3c94e93d39113acb40794643b4dd7a30a7f4db537a9cf0fef65d3ebddb89d5ddd0487fc265e65a@118.31.61.119:30315';
+export const FULL_NODE_URL = 'enode://bf9599927eaf4993fdb6ff15f6918a6ca35f9126ef25a51acb3c94e93d39113acb40794643b4dd7a30a7f4db537a9cf0fef65d3ebddb89d5ddd0487fc265e65a@47.100.36.181:30315';
 export const SPACE_UNIT_PRICE = 0.015 / 30; // GNX/GB*Day
 export const TRAFFIC_UNIT_PRICE = 0.05; // GB
 export const STAKE_PER_NODE = 5000;
@@ -27,7 +27,7 @@ export const DAEMON_CONFIG = require('./DAEMON_CONFIG.json');
 
 export const SENTINEL_WEB = 'http://sentinel.genaro.network';
 
-export const SENTINEL_API = 'http://118.31.61.119:8000';
+export const SENTINEL_API = 'http://47.100.36.181:8000';
 
 export const TOP_FARMER_URL = SENTINEL_API + '/farmers';
 
@@ -89,13 +89,13 @@ export function setNetType(type) {
     let GENARO_ROOT_PATH_0 = join(homedir(), '.genaro');
     if (type === 'main') {
         GENARO_ROOT_PATH = join(GENARO_ROOT_PATH_0, 'main');
-        WEB3_URL = 'ws://47.100.107.16:8547';
-        BRIDGE_API_URL = 'http://118.31.61.119:8080';
+        WEB3_URL = 'ws://47.100.34.71:8547';
+        BRIDGE_API_URL = 'http://47.100.36.181:8080';
     }
     else if (type === 'test') {
         GENARO_ROOT_PATH = join(GENARO_ROOT_PATH_0, 'test');
-        WEB3_URL = 'ws://47.100.107.16:8549';
-        BRIDGE_API_URL = 'http://120.77.247.10:8080';
+        WEB3_URL = 'ws://47.100.107.16:8547';
+        BRIDGE_API_URL = 'http://118.31.61.119:8080';
     }
 
     if (!LITE_WALLET) {
