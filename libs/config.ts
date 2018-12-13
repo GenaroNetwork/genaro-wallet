@@ -72,7 +72,7 @@ export const BROTHER_CONTRACT_ADDR = '0x5f260d5c1b8ccba5193eeec3e08635c4435a6e9e
 
 export const MINER_DOWNLOAD = 'http://genaro.network/';
 
-export const DAPP_PAGE = 'http://genaro-docs.oss-cn-shanghai.aliyuncs.com/dapp-develop-guide.pdf';
+export const DAPP_PAGE = 'http://docs.gnaro.network/dapp/';
 
 // autoupdate
 export enum UPDATE_STATES {
