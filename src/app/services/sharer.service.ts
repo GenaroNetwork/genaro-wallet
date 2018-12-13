@@ -70,8 +70,38 @@ export class SharerService {
       const fileobj = path.parse(file);
       if (fileobj.ext === '.json' && fileobj.name.length === 40) {
         this.configIds.push(fileobj.name);
+        this.repaireConfig(file);
       }
     });
+  }
+
+  private repaireConfig(file) {
+    const filePath = path.join(CONFIG_DIR, file);
+    let config = JSON.parse(fs.readFileSync(filePath).toString());
+    config.bridges = [{
+      'url': 'http://47.100.33.60:8080',
+      'extendedKey': 'xpub6ARdmdNZPJwvS1e2WqE4JSkctgZgWnnTHiGqDa431pmpVNER1Ghdw2LYmq3TA4K6GQSEx7x3DMGvanb4U8ZxGMAy13aGkoMMJGfeeBL2Cpk'
+    }];
+    config.seedList = [
+      'storj://47.100.33.60:4000/3bbc8d265930c56d6b5ca7ed5ede20b45e399cca'
+    ];
+    const configArray = JSON.stringify(config, null, 2).split('\n');
+    const configBuffer = Buffer.from(configArray.join('\n'));
+    let configFileDescriptor;
+    try {
+      const err = this.validateConfig(config);
+      if (err) {
+        throw err;
+      }
+      configFileDescriptor = fs.openSync(filePath, 'w');
+      fs.writeFileSync(configFileDescriptor, configBuffer);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      if (configFileDescriptor) {
+        fs.closeSync(configFileDescriptor);
+      }
+    }
   }
 
   private getPrivateKey() {
