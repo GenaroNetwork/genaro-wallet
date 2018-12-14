@@ -58,6 +58,7 @@ export class WalletService {
       if (wallet) {
         this.wallets.current = wallet.address;
         this.wallets.currentNick = await this.nickService.getNick('0x' + wallet.address);
+        this.txService.resetNonce();
       } else {
         this.wallets.current = null;
         this.wallets.currentNick = null;

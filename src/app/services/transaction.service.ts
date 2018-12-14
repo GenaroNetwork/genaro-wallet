@@ -31,6 +31,7 @@ export class TransactionService {
   chainSyncing: any = [true, 0];
   walletManager: any;
   private newBlockHeadersTimer = null;
+  private transactionCount = 0;
 
   constructor(
     private transactionDb: TransactionDbService,
@@ -79,6 +80,7 @@ export class TransactionService {
   }
 
   async connect() {
+    this.resetNonce();
     this.ready.next(null);
     web3Provider = new Web3.providers.WebsocketProvider(WEB3_URL);
     web3 = new Web3(web3Provider);
@@ -162,8 +164,18 @@ export class TransactionService {
     return this.sendTransaction(fromAddr, password, txOptions, 'TRANSFER');
   }
 
-  getNonce(address) {
-    return web3.eth.getTransactionCount(address, 'pending');
+  resetNonce() {
+    this.transactionCount = 0;
+  }
+
+  async getNonce(address, force = false) {
+    if(this.transactionCount <= 0 || force) {
+      this.transactionCount = await web3.eth.getTransactionCount(address);
+    }
+    else {
+      this.transactionCount = this.transactionCount + 1;
+    }
+    return this.transactionCount;
   }
 
   private async generateTxOptions2(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any, toAddr: string) {
