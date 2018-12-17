@@ -261,7 +261,8 @@ export class BrotherhoodService {
   async getCommitteeRank() {
     const web3 = await this.TxService.getWeb3Instance();
     // @ts-ignore
-    return await web3.genaro.getMainAccountRank('latest');
+    const extra = await this.getCurrentRoundExtra();
+    return (extra || {}).committeeRank;
   }
 
   private getRole(state) {

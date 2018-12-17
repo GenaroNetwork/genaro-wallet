@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IpcService } from './ipc.service';
-import { TOP_FARMER_URL, FARMER_URL } from '../libs/config';
+import { TOP_FARMER_URL, FARMER_URL, RELATION_FETCH_INTERVAL } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
 
@@ -306,6 +306,6 @@ export class CommitteeService {
     private ipc: IpcService
   ) {
     this.initSentinelRank();
-    // setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
+    setInterval(this.initSentinelRank.bind(this), RELATION_FETCH_INTERVAL);
   }
 }

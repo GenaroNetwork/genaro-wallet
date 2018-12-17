@@ -373,7 +373,7 @@
 </div>
 
 <!-- currentCommittee -->
-<nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzLoading]="!this.sharer.driversData || !this.sharer.driversData.length"
+<nz-table *ngIf="name==='currentCommittee'" #currentCommitteeTable [nzLoading]="!currentCommitteeData || !currentCommitteeData.length"
   [nzData]="currentCommitteeData" [nzScroll]='{ y: el.nativeElement.offsetHeight - 64 + "px"}' [nzShowPagination]="false"
   [nzPageSize]="31" class="tx" [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
