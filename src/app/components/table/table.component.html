@@ -309,13 +309,20 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of rankTable.data">
-        <td>{{ data.order + 1 || '300+'}}</td>
+        <!-- <td>{{ data.order + 1 || '300+'}}</td> -->
         <!-- <td>{{ data.nickName }}</td> -->
-        <td>{{ data.address | longAddr | shortAddr}}</td>
+        <!-- <td>{{ data.address | longAddr | shortAddr}}</td>
         <td>{{ data.currentStake }}</td>
         <td>{{ data.currentDataSize | formatSize }}</td>
         <td>{{ data.currentSentinel * 10000 | formatSentinel }}</td>
-        <td>{{ (data.subFarmers || []).length || 0}} / 10</td>
+        <td>{{ (data.subFarmers || []).length || 0}} / 10</td> -->
+        <td>{{ data.pendingOrder + 1 || '300+'}}</td>
+        <!-- <td>{{ data.nickName }}</td> -->
+        <td>{{ data.address | longAddr | shortAddr}}</td>
+        <td>{{ data.pendingStake }}</td>
+        <td>{{ data.pendingDataSize | formatSize }}</td>
+        <td>{{ data.pendingSentinel * 10000 | formatSentinel }}</td>
+        <td>{{ (data.pendingSubFarmers || []).length || 0}} / 10</td>
       </tr>
     </tbody>
   </nz-table>

@@ -146,21 +146,25 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.rankDataUpdate();
   }
   async rankDataUpdate() {
-    let self = this;
-    this.rankSubscribe = this.committeeService.currentSentinelRank.subscribe((ranks) => {
-      self.isSpinning = true;
-      self.rankData = ranks;
-      self.isSpinning = false;
-    });
+    // let self = this;
+    // this.rankSubscribe = this.committeeService.currentSentinelRank.subscribe((ranks) => {
+    //   self.isSpinning = true;
+    //   self.rankData = ranks;
+    //   self.isSpinning = false;
+    // });
+    this.isSpinning = true;
+    this.rankData = this.committeeData = this.committeeService.getPendingSentinelRankDatas();
+    this.isSpinning = false;
   }
   async searchRankFarmer() {
-    if (this.rankSubscribe) {
-      this.rankSubscribe.unsubscribe();
-    }
+    // if (this.rankSubscribe) {
+    //   this.rankSubscribe.unsubscribe();
+    // }
     if (this.rankAddress) {
       this.showRankBack = true;
       this.isSpinning = true;
-      this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
+      // this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
+      this.rankData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
       this.isSpinning = false;
     }
     else {
@@ -173,9 +177,9 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     this.searchRankFarmer();
   }
   rankDestroy() {
-    if (this.rankSubscribe) {
-      this.rankSubscribe.unsubscribe();
-    }
+    // if (this.rankSubscribe) {
+    //   this.rankSubscribe.unsubscribe();
+    // }
   }
 
   // committee
