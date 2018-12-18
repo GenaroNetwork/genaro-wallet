@@ -74,7 +74,7 @@ export class EdenComponent implements OnInit, OnDestroy {
 
   dialogDone(name) {
     if (name === null)
-      this.ngOnInit();
+      this.txEdenService.getAll(true);
   }
 
   setMailPath() {
