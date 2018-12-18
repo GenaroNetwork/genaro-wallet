@@ -12,7 +12,8 @@
     <app-input (submit)="submitSendTx()" name="password" [(ipt)]="sendTxPassword"></app-input>
   </ng-container>
   <app-input *ngIf="sendTxStep===0" name="step" (iptChange)="sendTxStep=1" [ipt]="[null,'COMMON.NEXT']"></app-input>
-  <app-input *ngIf="sendTxStep===1" name="step" (iptChange)="submitSendTx($event)" [ipt]="['COMMON.PREV', '']"></app-input>
+  <app-input *ngIf="sendTxStep===1" name="step" (iptChange)="submitSendTx($event)" [ipt]="['COMMON.PREV', '']"
+    [iptExtra]="[false, sendTxLoading]"></app-input>
 </div>
 
 

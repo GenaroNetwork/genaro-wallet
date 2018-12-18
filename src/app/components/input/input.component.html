@@ -222,10 +222,12 @@
 <!-- 确认/取消 按钮 -->
 <div *ngIf="name==='step'" nz-row nzType="flex" nzAlign="middle">
   <div nz-col [nzSpan]="span[1]" [nzOffset]="span[0]" class="step">
-    <button *ngIf="ipt[0]!==null" nz-button (click)="iptChange.emit('cancel')">{{ (ipt[0] ||
+    <button *ngIf="ipt[0]!==null" nz-button (click)="iptChange.emit('cancel')" [disabled]="iptExtra ? iptExtra[0] : false">{{
+      (ipt[0] ||
       'COMMON.CANCEL')
       | translate }}</button>
-    <button *ngIf="ipt[1]!==null" nz-button nzType="primary" (click)="iptChange.emit()">{{ (ipt[1] || 'COMMON.CONFIRM')
+    <button *ngIf="ipt[1]!==null" nz-button nzType="primary" (click)="iptChange.emit()" [disabled]="iptExtra ? iptExtra[1] : false">{{
+      (ipt[1] || 'COMMON.CONFIRM')
       | translate }}</button>
   </div>
 </div>

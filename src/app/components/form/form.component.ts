@@ -33,6 +33,9 @@ export class FormComponent implements OnChanges {
   sendTxAmount = 0;
   sendTxGas = [null, 21000];
   sendTxPassword = '';
+  sendTxInit() {
+    this.sendTxLoading = false;
+  }
   async submitSendTx(e) {
     if (e === 'cancel') {
       this.sendTxStep = 0;
@@ -40,8 +43,15 @@ export class FormComponent implements OnChanges {
     }
     const from = this.walletService.wallets.current;
     let to = this.sendTxAddress;
-    await this.txService.transfer(from, this.sendTxPassword, to, this.sendTxAmount, this.sendTxGas[1], this.sendTxGas[0]);
-    this.onSubmit.emit();
+    this.sendTxLoading = true;
+    try {
+      await this.txService.transfer(from, this.sendTxPassword, to, this.sendTxAmount, this.sendTxGas[1], this.sendTxGas[0]);
+      this.onSubmit.emit();
+    }
+    catch (e) { }
+    finally {
+      this.sendTxLoading = false;
+    }
   }
 
   // 压注
