@@ -68,7 +68,7 @@ export class TransactionService {
   }
 
   toBN2(input: any) {
-    if (typeof input === "string" && input.startsWith("0.")) return input;
+    if (typeof input === "string" && /\d+\.?\d?/.test(input)) return input;
     return toBN(input);
   };
 
@@ -169,7 +169,7 @@ export class TransactionService {
   }
 
   async getNonce(address, force = false) {
-    if(this.transactionCount <= 0 || force) {
+    if (this.transactionCount <= 0 || force) {
       this.transactionCount = await web3.eth.getTransactionCount(address);
     }
     else {

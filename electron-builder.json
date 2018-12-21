@@ -21,7 +21,7 @@
   ],
   "npmRebuild": false,
   "win": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/assets/icons/favicon.512x512.png",
     "extraFiles": [
       "msvcr110.dll"
     ],
