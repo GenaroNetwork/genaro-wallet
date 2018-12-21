@@ -177,13 +177,14 @@ export class TransactionService {
   }
 
   async getNonce(address, force = false) {
-    if(this.transactionCount <= 0 || force) {
-      this.transactionCount = await web3.eth.getTransactionCount(address);
-    }
-    else {
-      this.transactionCount = this.transactionCount + 1;
-    }
-    return this.transactionCount;
+    // if(this.transactionCount <= 0 || force) {
+    //   this.transactionCount = await web3.eth.getTransactionCount(address);
+    // }
+    // else {
+    //   this.transactionCount = this.transactionCount + 1;
+    // }
+    // return this.transactionCount;
+    return await web3.eth.getTransactionCount(address);
   }
 
   private async generateTxOptions2(fromAddr, gasLimit: number, gasPriceInWei: string | number, inputData: any, toAddr: string) {
