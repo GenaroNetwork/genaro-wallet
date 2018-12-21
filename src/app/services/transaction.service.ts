@@ -58,14 +58,14 @@ export class TransactionService {
   }
 
   async add0x(addr: string) {
-    if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+    //if (!addr.startsWith('0x')) { addr = '0x' + addr; }
     if (!isAddress(addr)) {
       addr = await this.getAccountByName(addr);
-      if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-      if (!isAddress(addr)) {
-        this.alert.error("invalid address");
-        throw new Error();
-      }
+    }
+    if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+    if (!isAddress(addr)) {
+      this.alert.error("invalid address");
+      throw new Error();
     }
     // addr = addr.toLowerCase();
     // if (!/^0x[0-9a-f]{40}$/.test(addr)) {

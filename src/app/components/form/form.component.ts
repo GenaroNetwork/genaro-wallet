@@ -53,6 +53,10 @@ export class FormComponent implements OnChanges {
       this.sendTxLoading = false;
     }
   }
+  async sendTxConfirm() {
+    this.sendTxAddress = await this.txService.add0x(this.sendTxAddress);
+    this.sendTxStep = 1;
+  }
 
   // 压注
   stakeType = 0; // stake or unstake
