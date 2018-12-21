@@ -3,11 +3,6 @@ import { TransactionService } from './transaction.service';
 import { BLOCK_COUNT_OF_ROUND, Role, RELATION_FETCH_INTERVAL, BROTHER_STATE_FILE, BROTHER_CONTRACT_ADDR } from '../libs/config';
 import { NzNotificationService } from 'ng-zorro-antd';
 
-function add0x(addr: string) {
-  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr;
-}
-
 class BrotherContract {
   private abi = require('../libs/StakeLink.json').abi;
   private contract;
@@ -176,8 +171,8 @@ export class BrotherhoodService {
     this.lastState.deleteEntry(address);
   }
 
-  public getStateByAddress(address: string) {
-    address = add0x(address);
+  public async getStateByAddress(address: string) {
+    address = await this.TxService.add0x(address);
     return [address, this.lastState.getStateByAddress(address)];
   }
   /*
@@ -294,17 +289,18 @@ export class BrotherhoodService {
   }
 
   private async fetchCurrentState(address: string) {
-    function getSubs(extra) {
+    async function getSubs(extra) {
       if (extra && extra.CommitteeAccountBinding) {
-        return extra.CommitteeAccountBinding[add0x(address)];
+        return extra.CommitteeAccountBinding[await this.TxService.add0x(address)];
       }
       return null;
     }
-    function getMain(extra) {
+    async function getMain(extra) {
       if (extra && extra.CommitteeAccountBinding) {
         const binding = extra.CommitteeAccountBinding;
         for (const mainAccount in binding) {
-          if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(add0x(address))) {
+          let addr = await this.TxService.add0x(address);
+          if (Array.isArray(binding[mainAccount]) && binding[mainAccount].includes(addr)) {
             return mainAccount;
           }
         }

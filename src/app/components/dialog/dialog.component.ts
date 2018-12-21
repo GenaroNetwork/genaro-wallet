@@ -816,10 +816,10 @@ export class DialogComponent implements OnChanges {
   }
   async applyNickSubmit() {
     this.applyNickDisabled = true;
-    const address = this.walletService.wallets.current;
+    const address = await this.txService.add0x(this.walletService.wallets.current);
     try {
       await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
-      this.nickService.update('0x' + this.walletService.wallets.current, this.applyNickName);
+      this.nickService.update(address, this.applyNickName);
       this.walletService.wallets.currentNick = this.applyNickName;
       this.applyNickStep++;
     } catch (e) { } finally {

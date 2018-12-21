@@ -57,7 +57,7 @@ export class WalletService {
     this.currentWallet.subscribe(async wallet => {
       if (wallet) {
         this.wallets.current = wallet.address;
-        this.wallets.currentNick = await this.nickService.getNick('0x' + wallet.address);
+        this.wallets.currentNick = await this.nickService.getNick(await this.txService.add0x(wallet.address));
         this.txService.resetNonce();
       } else {
         this.wallets.current = null;
@@ -96,9 +96,7 @@ export class WalletService {
 
   private async sendNick(address, password, name) {
     const method = 'POST';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/farmer/' + address + '/nick';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -119,9 +117,7 @@ export class WalletService {
 
   async putFileKey(address, password, fileKey) {
     const method = 'PUT';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/users/' + address + '/filekey';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -151,12 +147,8 @@ export class WalletService {
 
   async shareFile(address, password, bucketEntryId, toAddress, price, fileName, key) {
     const method = 'POST';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
-    if (!toAddress.startsWith('0x')) {
-      toAddress = '0x' + toAddress;
-    }
+    address = await this.txService.add0x(address);
+    toAddress = await this.txService.add0x(toAddress);
     const url = '/shares';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -191,12 +183,8 @@ export class WalletService {
 
   async shareMail(address, password, bucketEntryId, toAddress, price, fileName, key) {
     const method = 'POST';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
-    if (!toAddress.startsWith('0x')) {
-      toAddress = '0x' + toAddress;
-    }
+    address = await this.txService.add0x(address);
+    toAddress = await this.txService.add0x(toAddress);
     const url = '/mails';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -243,9 +231,7 @@ export class WalletService {
 
   async agreeShare(address, password, shareId, bucketId) {
     const method = 'PUT';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/shares/' + shareId + '/agree';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -275,9 +261,7 @@ export class WalletService {
 
   async rejectShare(address, password, shareId) {
     const method = 'PUT';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/shares/' + shareId + '/reject';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -303,9 +287,7 @@ export class WalletService {
 
   async deleteShare(address, password, shareId, type) {
     const method = 'PUT';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/shares/' + shareId + '/delete/' + type;
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -331,9 +313,7 @@ export class WalletService {
 
   async setInOutbox(address, password, bucketId, type) {
     const method = 'PUT';
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
+    address = await this.txService.add0x(address);
     const url = '/buckets/' + bucketId + '/type';
     let privKey = this.getPrivateKey(address, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
@@ -391,9 +371,9 @@ export class WalletService {
     this.alert.success(this.i18n.instant('WALLET.CHANGE_PASSWORD_SUCCESS'));
   }
 
-  changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {
+  async changePasswordByMnemonic(address: string, mnemonic: string, newPassword: string) {
     const addr = addressFromMnemonic(mnemonic);
-    if (addr != '0x' + address) {
+    if (addr != await this.txService.add0x(address)) {
       throw new Error('mnemonic error');
     }
     this.walletManager.importFromMnemonic(mnemonic, newPassword, '', true);
