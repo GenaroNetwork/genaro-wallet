@@ -54,9 +54,7 @@ export class TxSharerComponent implements OnInit, OnDestroy {
     this.heftRank = '300+';
 
     if (allCommittees) {
-      let addr = address;
-      if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-
+      let addr = await this.txService.add0x(address);
       for (let i = 0, length = allCommittees.length; i < length; i++) {
         if (addr === allCommittees[i].address) {
           this.heft = allCommittees[i].currentSentinel;

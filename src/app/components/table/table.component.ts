@@ -10,12 +10,6 @@ import { CommitteeService } from '../../services/committee.service';
 import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
 import { shell } from "electron";
 
-
-function add0x(addr: string) {
-  if (!addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr;
-}
-
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -203,7 +197,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       }
       broSub = self.committeeService.pendingSentinelRank.subscribe(async (datas: any[]) => {
         let data;
-        let currentWalletAddr = add0x(self.walletService.wallets.current);
+        let currentWalletAddr = await this.txService.add0x(self.walletService.wallets.current);
         datas = datas || [];
         for (let i = 0, length = datas.length; i < length; i++) {
           if (currentWalletAddr === datas[i].address) {
@@ -281,7 +275,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     let self = this;
     this.walletService.currentWallet.subscribe(async w => {
       self.currentCommitteeData = await self.committeeService.getCurrentCommittee() || [];
-      let currentWalletAddr = add0x(self.walletService.wallets.current);
+      let currentWalletAddr = await this.txService.add0x(self.walletService.wallets.current);
       self.currentCommitteeData.forEach(d => {
         d.self = d.address === currentWalletAddr;
       });

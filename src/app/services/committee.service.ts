@@ -4,11 +4,7 @@ import { IpcService } from './ipc.service';
 import { TOP_FARMER_URL, FARMER_URL, RELATION_FETCH_INTERVAL } from '../libs/config';
 import { BrotherhoodService } from './brotherhood.service';
 import { WalletService } from './wallet.service';
-
-function add0x(addr: string) {
-  if (addr && !addr.startsWith('0x')) { addr = '0x' + addr; }
-  return addr || '';
-}
+import { TransactionService } from './transaction.service';  
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +45,7 @@ export class CommitteeService {
   }
 
   async getFarmer(addr) {
-    let res = await fetch(FARMER_URL + add0x(addr).toLowerCase(), {
+    let res = await fetch(FARMER_URL + addr(addr).toLowerCase(), {
       method: 'GET',
     });
     try {
@@ -205,7 +201,7 @@ export class CommitteeService {
     this.walletSub = this.walletService.currentWallet.subscribe(async w => {
       currentMainAddr = '';
       pendingMainAddr = '';
-      const currentWalletAddr = add0x(self.walletService.wallets.current);
+      const currentWalletAddr = await this.txService.add0x(self.walletService.wallets.current);
       if(this.allDatas) {
         for (let i = 0, length = this.allDatas.length; i < length; i++) {
           if (currentWalletAddr === this.allDatas[i].address) {
@@ -303,6 +299,7 @@ export class CommitteeService {
   constructor(
     private brotherhoodService: BrotherhoodService,
     private walletService: WalletService,
+    private txService: TransactionService,
     private ipc: IpcService
   ) {
     this.initSentinelRank();

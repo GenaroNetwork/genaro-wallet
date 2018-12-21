@@ -30,14 +30,14 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   async rankInit() {
     this.getEffectBlock();
     let self = this;
-    this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
+    this.currentWalletSubscribe = this.walletService.currentWallet.subscribe(async w => {
       self.isSpinning = true;
-      self.currentWalletAddr = '0x' + self.walletService.wallets.current;
+      self.currentWalletAddr = await this.txService.add0x(self.walletService.wallets.current);
     });
-    this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe((data) => {
+    this.currentSubscribe = this.committeeService.currentMainWalletState.subscribe(async (data) => {
       if (data && data.address) {
         data.shortAddr = data.address.slice(0, 6);
-        if (data.currentAddress === '0x' + self.walletService.wallets.current) {
+        if (data.currentAddress === await this.txService.add0x(self.walletService.wallets.current)) {
           self.isSpinning = false;
         }
       }
@@ -62,17 +62,17 @@ export class PanelComponent implements OnInit, OnDestroy, OnChanges {
   async committeeInit() {
     this.getEffectBlock();
     let self = this;
-    this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(w => {
+    this.pendingWalletSubscribe = this.walletService.currentWallet.subscribe(async w => {
       self.isSpinning = true;
-      self.currentWalletAddr = '0x' + self.walletService.wallets.current;
+      self.currentWalletAddr = await this.txService.add0x(self.walletService.wallets.current);
 
       if (self.pendingSubscribe) {
         self.pendingSubscribe.unsubscribe();
       }
-      self.pendingSubscribe = self.committeeService.pendingMainWalletState.subscribe((data) => {
+      self.pendingSubscribe = self.committeeService.pendingMainWalletState.subscribe(async (data) => {
         if (data && data.address) {
           data.shortAddr = data.address.slice(0, 6);
-          if (data.currentAddress === '0x' + self.walletService.wallets.current) {
+          if (data.currentAddress === await this.txService.add0x(self.walletService.wallets.current)) {
             self.isSpinning = false;
           }
         }

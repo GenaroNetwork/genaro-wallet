@@ -318,13 +318,8 @@ export class EdenService {
   }
 
   async shareFile(key: string, ctr: string, address: string) {
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
-    let walletAddr = this.walletService.wallets.current;
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
+    address = await this.txService.add0x(address);
+    let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
     let response = await fetch(BRIDGE_API_URL + '/users/' + address + '/filekey', {
       method: 'GET'
     });
@@ -417,13 +412,10 @@ export class EdenService {
     });
   }
 
-  fileUploadTask() {
+  async fileUploadTask() {
     const path = Array.from(this.currentPath);
     const bucketName = path.shift();
-    let walletAddr = this.walletService.wallets.current;
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
+    let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
     let folderPrefix = path.join('/');
     if (folderPrefix.length > 0) { folderPrefix += '/'; }
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
@@ -514,7 +506,7 @@ export class EdenService {
     this.messageService.info(this.i18n.instant('TASK.UPLOAD_START_TIP', { filename: tipFileName }));
   }
 
-  fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true) {
+  async fileDownloadTask(files: any | any[], traffic: number, decryptFlg: boolean = true) {
     if (!(files instanceof Array)) {
       files = [files];
     }
@@ -541,10 +533,7 @@ export class EdenService {
     const bucketName = path.shift();
     const bucketId = this.currentBuckets.find(bucket => bucket.name === bucketName).id;
     let tipFileName;
-    let walletAddr = this.walletService.wallets.current;
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
+    let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
     this.runAll(files, async (file, env, cb) => {
       let filePath = nativePath;
       let filename = file.name.split('/').pop();
@@ -690,7 +679,7 @@ export class EdenService {
       let key = keyCtr.key;
       let ctr = keyCtr.ctr;
       let index = keyCtr.index;
-      let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey["0x" + this.walletService.wallets.current]);
+      let RSAPublicKeyString = cryptico.publicKeyString(this.txEden.RSAPrivateKey[await this.txService.add0x(this.walletService.wallets.current)]);
       let encryptionKey = cryptico.encrypt(key, RSAPublicKeyString);
       let encryptionCtr = cryptico.encrypt(ctr, RSAPublicKeyString);
       let taskEnv = env.storeFile(bucketId, path, true, {
@@ -721,11 +710,8 @@ export class EdenService {
     ctr: string,
     str: string,
   }> {
-    return new Promise((res, rej) => {
-      let fromAddress = this.walletService.wallets.current;
-      if (!fromAddress.startsWith('0x')) {
-        fromAddress = '0x' + fromAddress;
-      }
+    return new Promise(async (res, rej) => {
+      let fromAddress = await this.txService.add0x(this.walletService.wallets.current);
       const data = {
         fromAddress,
         toAddress,
@@ -818,13 +804,10 @@ export class EdenService {
   }
 
   async downloadMessage(file, bucketId, filePath) {
-    return new Promise((res, rej) => {
+    return new Promise(async (res, rej) => {
       try {
-        let walletAddr = this.walletService.wallets.current;
+        let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
         const env = this.allEnvs[walletAddr];
-        if (!walletAddr.startsWith('0x')) {
-          walletAddr = '0x' + walletAddr;
-        }
         let key = '';
         let ctr = '';
         if (file.rsaKey && file.rsaCtr) {
@@ -869,11 +852,8 @@ export class EdenService {
   }
 
   async decryptFile(filePath, rsaKey, rsaCtr) {
-    let address = this.walletService.wallets.current;
+    let address = await this.txService.add0x(this.walletService.wallets.current);
     const env = this.allEnvs[address];
-    if (!address.startsWith('0x')) {
-      address = '0x' + address;
-    }
     let decryptionKey = cryptico.decrypt(rsaKey, this.txEden.RSAPrivateKey[address]);
     let decryptionCtr = cryptico.decrypt(rsaCtr, this.txEden.RSAPrivateKey[address]);
     let key = decryptionKey.plaintext;

@@ -79,10 +79,7 @@ export class TxEdenService {
   }
 
   async beforehandSign(password: string, address: string = null) {
-    let walletAddr = address || this.walletService.wallets.current;
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
+    let walletAddr = await this.txService.add0x(address || this.walletService.wallets.current);
     let privKey = this.walletService.getPrivateKey(walletAddr, password);
     if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
     this.RSAPrivateKey[walletAddr] = cryptico.generateRSAKey(privKey, '1024');
@@ -117,10 +114,7 @@ export class TxEdenService {
   }
 
   private async checkSig(force: boolean = false, address: string = '') {
-    let walletAddr = address || this.walletService.wallets.current;
-    if (!walletAddr.startsWith('0x')) {
-      walletAddr = '0x' + walletAddr;
-    }
+    let walletAddr = await this.txService.add0x(address || this.walletService.wallets.current);
     if (this.bucketsSig && this.userSig && this.shareSig && this.mailSig && this.publicKey) { return; }
     const data: any = await this.ipc.dbGet('txeden', `SELECT * FROM txeden WHERE address='${walletAddr}'`);
     if (!data) {
@@ -157,10 +151,7 @@ export class TxEdenService {
   async getAll(force: boolean = false, password: string = '', address: string = '') {
     try {
       await this.checkSig(force, address);
-      let walletAddr = this.walletService.wallets.current;
-      if (!walletAddr.startsWith('0x')) {
-        walletAddr = '0x' + walletAddr;
-      }
+      let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
       if (!address || address === walletAddr) {
         await this.getBuckets(force);
         await this.getUserInfo(force, password, address);
@@ -184,10 +175,7 @@ export class TxEdenService {
 
   async getUserInfo(force: boolean = false, password: string = '', address: string = '') {
     try {
-      let walletAddr = address || this.walletService.wallets.current;
-      if (!walletAddr.startsWith('0x')) {
-        walletAddr = '0x' + walletAddr;
-      }
+      let walletAddr = await this.txService.add0x(address || this.walletService.wallets.current);
       const user = await this.send('GET', '/user/' + walletAddr, null, this.userSig, this.publicKey);
       this.currentUser = user;
       if (password && this.currentUser && !this.currentUser.filePublicKey) {
@@ -203,10 +191,7 @@ export class TxEdenService {
 
   async getUserShares(force: boolean = false, address: string = '') {
     try {
-      let walletAddr = address || this.walletService.wallets.current;
-      if (!walletAddr.startsWith('0x')) {
-        walletAddr = '0x' + walletAddr;
-      }
+      let walletAddr = await this.txService.add0x(address || this.walletService.wallets.current);
       const shares = await this.send('GET', '/users/' + walletAddr + '/shares', null, this.shareSig, this.publicKey);
       this.shareFileList = shares;
       this.zone.run(() => {
@@ -221,11 +206,8 @@ export class TxEdenService {
 
   async getUserMails(force: boolean = false, address: string = '') {
     try {
-      let walletAddr = address || this.walletService.wallets.current;
+      let walletAddr = await this.txService.add0x(address || this.walletService.wallets.current);
       await this.getUserShares(force, address);
-      if (!walletAddr.startsWith('0x')) {
-        walletAddr = '0x' + walletAddr;
-      }
       let mails = await this.send('GET', '/users/' + walletAddr + '/mails', null, this.mailSig, this.publicKey);
       let share = this.shareFiles;
       for (let from of share.from.filter(f => f.isMail)) {
@@ -295,14 +277,12 @@ export class TxEdenService {
     private zone: NgZone,
     private nickService: NickService,
   ) {
-    this.walletService.currentWallet.subscribe(wallet => {
-      let addr = wallet.address;
-      if (!addr.startsWith("0x")) addr = `0x${addr}`;
+    this.walletService.currentWallet.subscribe(async wallet => {
+      let addr = await this.txService.add0x(wallet.address);
       this.getUserMails();
     });
-    this.txService.newBlockHeaders.subscribe(() => {
-      let addr = this.walletService.wallets.current;
-      if (!addr.startsWith("0x")) addr = `0x${addr}`;
+    this.txService.newBlockHeaders.subscribe(async () => {
+      let addr = await this.txService.add0x(this.walletService.wallets.current);
       this.getUserMails();
     })
   }
