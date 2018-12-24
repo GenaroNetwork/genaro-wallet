@@ -823,7 +823,7 @@ export class EdenService {
         env.resolveFile(bucketId, file.id, filePath, {
           overwrite: true,
           progressCallback: (process, allBytes) => {
-
+            console.log(process);
           },
           finishedCallback: (err, fileId) => {
             if (err) {
@@ -837,6 +837,7 @@ export class EdenService {
           decrypt: false
         });
       } catch (e) {
+        console.log(e);
       }
     });
   }
