@@ -79,7 +79,7 @@ function getBrowserConfig(wco) {
     .map(style => style.bundleName);
   return {
     target: "electron-renderer",
-    devtool: "inline-source-map",
+    devtool: "source-map",
     module: {
       rules: [{
         test: /\.node$/,

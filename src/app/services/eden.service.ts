@@ -854,10 +854,11 @@ export class EdenService {
   }
 
   async decryptFile(filePath, rsaKey, rsaCtr) {
-    let address = await this.txService.add0x(this.walletService.wallets.current);
+    let address = this.walletService.wallets.current;
+    let oxaddress = await this.txService.add0x(this.walletService.wallets.current);
     const env = this.allEnvs[address];
-    let decryptionKey = cryptico.decrypt(rsaKey, this.txEden.RSAPrivateKey[address]);
-    let decryptionCtr = cryptico.decrypt(rsaCtr, this.txEden.RSAPrivateKey[address]);
+    let decryptionKey = cryptico.decrypt(rsaKey, this.txEden.RSAPrivateKey[oxaddress]);
+    let decryptionCtr = cryptico.decrypt(rsaCtr, this.txEden.RSAPrivateKey[oxaddress]);
     let key = decryptionKey.plaintext;
     let ctr = decryptionCtr.plaintext;
     const meta = env.decryptFile(filePath, key, ctr);

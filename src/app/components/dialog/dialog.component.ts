@@ -752,7 +752,9 @@ export class DialogComponent implements OnChanges {
         this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
         this.openMessageToAddress = (await this.nickService.getNick(toAddress)) || toAddress;
       }
-    } catch (e) { }
+    } catch (e) {
+      console.error(e);
+    }
   }
   async openMessageDownload(attach) {
     let fileName = `1|${attach.mailId}|${attach.fileName}`;
