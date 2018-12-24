@@ -13,6 +13,7 @@ import { EdenComponent } from './components/eden/eden.component';
 import { TaskComponent } from './components/task/task.component';
 import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
 import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
+import { NickNameComponent } from './components/nickName/nickName.component';
 
 const routes: Routes = [{
     path: 'wallet',
@@ -60,6 +61,9 @@ const routes: Routes = [{
 }, {
     path: 'downloadMiner',
     component: DownloadMinerComponent,
+}, {
+    path: 'nick-name',
+    component: NickNameComponent,
 }];
 
 @NgModule({

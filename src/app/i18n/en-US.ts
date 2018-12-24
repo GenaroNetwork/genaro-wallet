@@ -172,7 +172,8 @@ export default {
     "CURRENT_RANKS": "Current Ranks",
     "JOIN_COMMITTEE": "Join Construction",
     "DOWNLOAD_MINER": "Download Miner",
-    "MAIL": "Email"
+    "MAIL": "Email",
+    "NICK_MANAGE": "别名管理"
   },
   "WALLET": {
     "CONFIG": "Wallet management",

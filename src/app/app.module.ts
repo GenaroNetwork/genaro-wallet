@@ -31,6 +31,7 @@ import { FormatSentinelPipe } from './pipes/formatSentinel.pipe';
 import { FormatSizePipe } from './pipes/formatSize.pipe';
 import { EdenFileReceiveComponent } from './components/edenFileReceive/edenFileReceive.component';
 import { EdenFileShareComponent } from './components/edenFileShare/edenFileShare.component';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 // component
 import { AppComponent } from './app.component';
@@ -53,7 +54,7 @@ import { CurrentCommitteeComponent } from './components/currentCommittee/current
 import { JoinCommitteeComponent } from './components/joinCommittee/joinCommittee.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { DownloadMinerComponent } from './components/downloadMiner/downloadMiner.component';
-import { TranslatePipe } from './pipes/translate.pipe';
+import { NickNameComponent } from './components/nickName/nickName.component'; 
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
     CommitteeComponent,
     CurrentCommitteeComponent,
     JoinCommitteeComponent,
+    NickNameComponent,
     // common component
     DialogComponent,
     FormComponent,
