@@ -410,6 +410,7 @@ export class DialogComponent implements OnChanges {
   async spaceExpansionSubmit() {
     this.spaceExpansionDisabled = true;
     const address = this.walletService.wallets.current;
+
     try {
       await this.txService.bucketSupplement(address, this.spaceExpansionPassword, this.spaceExpansionBucket.bucketId, this.spaceExpansionRange, this.spaceExpansionLimit, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
       this.spaceExpansionStep++;
@@ -418,12 +419,14 @@ export class DialogComponent implements OnChanges {
     }
   }
   calcPrice() {
-    let timeNow = Date.now() / 1000,
-      timeStart = this.spaceExpansionBucket.timeStart,
-      timeEnd = this.spaceExpansionBucket.timeEnd,
-      limitStorage = this.spaceExpansionBucket.limitStorage / 1024 / 1024 / 1024,
-      durationTime = (timeEnd - timeNow) / (timeEnd - timeStart);
-    this.spaceExpansionPrice = ((durationTime * this.spaceExpansionRange) + (limitStorage + this.spaceExpansionRange) * this.spaceExpansionLimit) * this.SPACE_UNIT_PRICE;
+    let timeNow = Date.now() / 1000;
+    let timeEnd = this.spaceExpansionBucket.timeEnd;
+    let remainTime = (timeEnd - timeNow) / 3600 / 24;
+    let newTime = this.spaceExpansionLimit;
+    let prevStorage = this.spaceExpansionBucket.limitStorage / 1024 / 1024 / 1024;
+    let newStorage = this.spaceExpansionRange;
+    let allSpace = newTime * (newStorage + prevStorage) + remainTime * newStorage;
+    this.spaceExpansionPrice = allSpace * this.SPACE_UNIT_PRICE;
     if (this.spaceExpansionPrice !== 0 && this.spaceExpansionPrice < 0.01) {
       this.spaceExpansionPrice = 0.01;
     }
