@@ -806,8 +806,10 @@ export class EdenService {
   async downloadMessage(file, bucketId, filePath) {
     return new Promise(async (res, rej) => {
       try {
-        let walletAddr = await this.txService.add0x(this.walletService.wallets.current);
+        debugger;
+        let walletAddr = this.walletService.wallets.current;
         const env = this.allEnvs[walletAddr];
+        walletAddr = await this.txService.add0x(walletAddr);
         let key = '';
         let ctr = '';
         if (file.rsaKey && file.rsaCtr) {
