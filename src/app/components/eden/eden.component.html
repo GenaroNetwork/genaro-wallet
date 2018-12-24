@@ -192,7 +192,7 @@
   <i nz-icon type="info-circle" theme="outline" class="info"></i> 提示 ： 流量不足，无法查看。点击“<a (click)="trafficLimit=false; edenDialogName='buyTraffic'">购买流量</a>”，成功购买后，再次查看。
 </nz-modal>
 <app-dialog name="edenNeedPass" *ngIf="edenService.requestEnv" (nameChange)="edenService.requestEnv = false" [opt]="'MODEL.EDEN_NEED_PASS' | translate"></app-dialog>
-<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt" (nameChange)="dialogDone($event)"></app-dialog>
+<app-dialog [(name)]="edenDialogName" [opt]="edenDialogOpt"></app-dialog>
 <nz-modal [nzVisible]="mailTip" [nzTitle]="null" [nzCancelText]="null" [nzClosable]="false" (nzOnOk)="mailTip=false">
   <div [innerHTML]="'MAIL.HOW_TO_USE' | translate"></div>
 </nz-modal>

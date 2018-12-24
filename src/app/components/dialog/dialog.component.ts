@@ -189,6 +189,7 @@ export class DialogComponent implements OnChanges {
     const address = this.walletService.wallets.current;
     try {
       await this.txService.buyTraffic(address, this.buyTrafficPassword, this.buyTraffic, this.buyTrafficGas[1], this.buyTrafficGas[0]);
+      await this.txEdenService.getUserInfo(true, this.buyTrafficPassword);
       this.txEdenService.getAll();
       this.buyTrafficStep++;
     } catch (e) { } finally {

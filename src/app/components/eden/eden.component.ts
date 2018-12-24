@@ -72,13 +72,6 @@ export class EdenComponent implements OnInit, OnDestroy {
     }
   }
 
-  dialogDone(name) {
-    if (name === null) {
-      this.txEdenService.getAll(true);
-      this.edenService.updateAll([]);
-    }
-  }
-
   setMailPath() {
     if (this.settingService.appType === 'gmail') {
       this.mailPath = 'mail';
