@@ -10,7 +10,6 @@ import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
 import { BrotherhoodService } from '../../services/brotherhood.service';
-import { NickService } from '../../services/nick.service';
 import { remote } from 'electron';
 import { v1 as uuidv1 } from 'uuid';
 import { basename } from "path";
@@ -32,7 +31,6 @@ export class DialogComponent implements OnChanges {
     public settingService: SettingService,
     private brotherhoodService: BrotherhoodService,
     private committeeService: CommitteeService,
-    private nickService: NickService,
     private zone: NgZone,
   ) { }
   @Input('name') dialogName: string = null;
@@ -696,13 +694,7 @@ export class DialogComponent implements OnChanges {
       sendMessageTitle = `0|${this.sendMessageId}|${sendMessageTitle}`
       const address = this.walletService.wallets.current;
       try {
-        let nickAddress = await this.nickService.getAddress(this.sendMessageTo);
-        if (!nickAddress) {
-          nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
-          if (nickAddress) {
-            this.nickService.update(nickAddress, this.sendMessageTo);
-          }
-        }
+        let nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
         this.sendMessageToAddress = nickAddress || this.sendMessageTo;
         // 发送附件 
         let promises = [];
@@ -752,8 +744,8 @@ export class DialogComponent implements OnChanges {
         let { title, content, fromAddress, toAddress } = <{ title, content, fromAddress, toAddress }>data;
         this.openMessageTitle = title.substr(16);
         this.openMessageContent = content;
-        this.openMessageFromAddress = (await this.nickService.getNick(fromAddress)) || fromAddress;
-        this.openMessageToAddress = (await this.nickService.getNick(toAddress)) || toAddress;
+        this.openMessageFromAddress = fromAddress;
+        this.openMessageToAddress = toAddress;
       }
     } catch (e) {
       console.error(e);
@@ -798,15 +790,17 @@ export class DialogComponent implements OnChanges {
   // applyNick
   applyNickStep = 0;
   applyNickName = '';
+  applyNickAddress = '';
   applyNickPassword = '';
   applyNickDisabled = false;
   applyNickGas: number[] = [null, 2100000];
   applyNickPrice = 0;
-  applyNickInit() {
+  async applyNickInit() {
     this.applyNickStep = 0;
     this.applyNickName = '';
     this.applyNickPassword = '';
     this.applyNickDisabled = false;
+    this.applyNickAddress = await this.txService.add0x(this.walletService.wallets.current);
   }
   async getNamePrice() {
     try {
@@ -825,8 +819,6 @@ export class DialogComponent implements OnChanges {
     const address = await this.txService.add0x(this.walletService.wallets.current);
     try {
       await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
-      this.nickService.update(address, this.applyNickName);
-      this.walletService.wallets.currentNick = this.applyNickName;
       this.applyNickStep++;
     } catch (e) { } finally {
       this.applyNickDisabled = false;

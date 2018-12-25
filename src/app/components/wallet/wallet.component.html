@@ -24,19 +24,15 @@
           <li nz-menu-item (click)="dialogName='walletDelete'">
             <a>{{ "WALLET.DELETE_WALLET" | translate}}</a>
           </li>
-          <li nz-menu-item (click)="dialogName='applyNick'">
+          <!-- <li nz-menu-item (click)="dialogName='applyNick'">
             <a>{{ "WALLET.APPLY_NICK" | translate}}</a>
-          </li>
+          </li> -->
         </ul>
       </nz-dropdown>
     </div>
     <div class="address">
       {{ walletService.wallets.current | longAddr | shortAddr}}
       <app-copy [data]="walletService.wallets.current | longAddr"></app-copy>
-    </div>
-    <div class="address">
-      {{ walletService.wallets.currentNick }}
-      <app-copy *ngIf="walletService.wallets.currentNick" [data]="walletService.wallets.currentNick"></app-copy>
     </div>
     <div class="operations">
       <button nz-button nz-popover nzTrigger="click" nzType="primary" nzSize="large" nzPlacement="bottomRight"

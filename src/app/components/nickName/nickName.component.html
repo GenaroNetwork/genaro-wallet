@@ -1,3 +1,15 @@
-<p>
-  nickName works!
-</p>
+<nz-card [nzBordered]="false">
+  <div class="layout-header">
+    <h3>{{ 'SIDERBAR.NICK_MANAGE' | translate }}</h3>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button nz-button nzType="default" nzSize="small" nzShape="circle" (click)="tipClick()" class="genaro-question-button"></button>
+    <div class="apply-btn">
+      <button nz-button nzType="primary" (click)="applyNick()">
+        {{ "NICK.APPLY_NICK" | translate}}
+      </button>
+    </div>
+  </div>
+  <app-table name="nickName" [opt]="nickNameService.nickNameData" (action)="tableAction($event)"></app-table>
+</nz-card>
+
+<app-dialog [(name)]="dialogName" [opt]="dialogOpt"></app-dialog>

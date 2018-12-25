@@ -281,7 +281,7 @@
 
 
 <!-- tips -->
-<nz-modal [nzFooter]="tipsFooter" [nzVisible]="dialogName==='tips'" nzClosable="false">
+<nz-modal [nzTitle]="options? options.title : ''" [nzFooter]="tipsFooter" [nzVisible]="dialogName==='tips'" nzClosable="false">
   <div class="tips" [innerHtml]="options ? options.content : ''">
   </div>
 </nz-modal>
@@ -655,11 +655,20 @@
 
 <!-- 申请别名 -->
 <nz-modal [nzVisible]="dialogName==='applyNick'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
-  [nzTitle]="'NICK.APPLY_NICK' | translate" [nzFooter]="applyNickFooter" class="buy-space">
+  [nzTitle]="'NICK.APPLY_ADDRESS_NICK' | translate" [nzFooter]="applyNickFooter" class="buy-space">
   <ng-container *ngIf="applyNickStep===0">
+    <app-input name="label-text" [ipt]="'NICK.NICK_ADDRESS' | translate" [iptExtra]="applyNickAddress | longAddr | shortAddr" [span]="[6,14]"></app-input>
     <app-input (submit)="dialogDone()" name="nickName" [(ipt)]="applyNickName" [span]="[6, 14]"></app-input>
   </ng-container>
   <ng-container *ngIf="applyNickStep===1">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_ADDRESS' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ applyNickAddress | longAddr | shortAddr }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ applyNickName }}</div>
+    </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'INPUT.NICK_PRICE' | translate }}{{ 'COMMON.COLON' | translate }}</div>
       <div nz-col nzSpan="14" class="text-right">{{ applyNickPrice }} GNX</div>

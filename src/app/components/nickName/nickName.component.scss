@@ -1,0 +1,39 @@
+@import "../../config.scss";
+
+:host {
+  //display: flex;
+  flex-direction: column;
+
+  &>nz-card {
+    flex: 0 3rem;
+    box-shadow: $box-shadow;
+  }
+}
+
+.apply-btn {
+  float: right;
+  position: relative;
+  margin-right: 10px;
+}
+
+nz-card {
+  height: 100%;
+  border-radius: $border-radius;
+
+  .layout-header {
+    height: 48px;
+
+    h3 {
+      float: left;
+    }
+  }
+
+  app-table {
+    width: 100%;
+    height: calc(100% - 72px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    box-shadow: initial;
+  }
+}

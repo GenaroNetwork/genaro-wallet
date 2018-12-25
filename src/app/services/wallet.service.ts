@@ -5,7 +5,6 @@ import { remote } from 'electron'; // 有时间的话把界面功能统一挪到
 import { TranslateService } from './translate.service';
 import { writeFileSync } from 'fs';
 import { TransactionService } from './transaction.service';
-import { NickService } from './nick.service';
 import { SENTINEL_API, BRIDGE_API_URL } from '../libs/config';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ObserverService } from './observer.service';
@@ -21,7 +20,6 @@ export class WalletService {
   currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   wallets: any = {
     current: null,
-    currentNick: null,
     all: [],
   };
   balances: any = {};
@@ -30,7 +28,6 @@ export class WalletService {
     private i18n: TranslateService,
     private txService: TransactionService,
     private alert: NzMessageService,
-    private nickService: NickService,
     private observer: ObserverService,
   ) {
     this.walletManager = this.txService.walletManager;
@@ -57,11 +54,9 @@ export class WalletService {
     this.currentWallet.subscribe(async wallet => {
       if (wallet) {
         this.wallets.current = wallet.address;
-        this.wallets.currentNick = await this.nickService.getNick(await this.txService.add0x(wallet.address));
         this.txService.resetNonce();
       } else {
         this.wallets.current = null;
-        this.wallets.currentNick = null;
       }
     });
 

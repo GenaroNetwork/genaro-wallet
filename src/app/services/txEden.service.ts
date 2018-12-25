@@ -6,7 +6,6 @@ const cryptico = require('cryptico');
 import { BRIDGE_API_URL } from '../libs/config';
 import { WalletService } from './wallet.service';
 import { IpcService } from './ipc.service';
-import { NickService } from './nick.service';
 import { TransactionService } from './transaction.service';
 
 const fromBody = ['POST', 'PATCH', 'PUT'];
@@ -236,8 +235,8 @@ export class TxEdenService {
           mails.from.splice(i, 1);
           i--;
         }
-        mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
-        mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+        mail.fromAddress = mail.fromAddress;
+        mail.toAddress = mail.toAddress;
       }
       for (let i = 0; i < mails.to.length; i++) {
         let mail = mails.to[i];
@@ -255,10 +254,9 @@ export class TxEdenService {
           mails.to.splice(i, 1);
           i--;
         }
-        mail.fromAddress = (await this.nickService.getNick(mail.fromAddress)) || mail.fromAddress;
-        mail.toAddress = (await this.nickService.getNick(mail.toAddress)) || mail.toAddress;
+        mail.fromAddress = mail.fromAddress;
+        mail.toAddress = mail.toAddress;
       }
-
 
       this.zone.run(() => {
         this.mailList = mails;
@@ -275,7 +273,6 @@ export class TxEdenService {
     private txService: TransactionService,
     private ipc: IpcService,
     private zone: NgZone,
-    private nickService: NickService,
   ) {
     this.walletService.currentWallet.subscribe(async wallet => {
       let addr = await this.txService.add0x(wallet.address);

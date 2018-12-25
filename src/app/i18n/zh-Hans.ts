@@ -134,7 +134,14 @@ export default {
       "DOWNLOAD_SHARER": "下载Genaro Sharer",
       "CONTACT": "联系客服",
       "JOIN": "申请加入"
-    }
+    },
+    "NICK_MANAGE_TIP": `
+    GenaroNetwork别名系统是基于GenaroNetwork公有链的，一个分布式，开放的，可扩展命名系统。您可以通过支付一定的token来申请喜欢的别名（别名如果已被人占用，则无法申请）。一个私钥可管理多个地址别名，也可以通过地址的别名，来进行转账交易、文件分享、发送邮件等操作。
+    <b class=\"attention\">*注意:</b>
+    1. 申请地址别名需要支付相应的token和交易gas费，支付价格与别名的字符长短有关。 申请成功后，该别名将成为您的数字资产，可以进行转赠，注销。
+    2. 其中，转赠的接受方无需支付任何费用。
+    3. 注销的地址别名，将不再属于该地址的数字资产，无法再次使用该地址进行转账交易、文件分享、发送邮件的操作。如果被其他用户申请后，您将无法再次申请使用此别名。
+    `
   },
   "FORM": {
     "ADDRESS": "地址",
@@ -536,5 +543,16 @@ export default {
   },
   "NICK": {
     "APPLY_NICK": "申请别名",
+    "APPLY_ADDRESS_NICK": "申请地址别名",
+    "GIFT_ADDRESS_NICK": "转赠地址别名",
+    "LOGOFF_ADDRESS_NICK": "注销地址别名",
+    "NICK_NAME": "地址别名",
+    "NICK_ADDRESS": "钱包地址",
+    "OPERATION": "操作",
+    "LOG_OFF": "注销",
+    "GIFT": "转赠",
+    "NICK_APPLY_TIPS": "别名申请成功",
+    "NICK_GIFT_TIP": "别名转赠成功",
+    "NICK_LOGOFF_TIP": "别名注销成功"
   }
 }

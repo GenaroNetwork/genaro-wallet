@@ -5,7 +5,6 @@ import { WalletService } from '../../services/wallet.service';
 import { TranslateService } from '../../services/translate.service';
 import { ActivatedRoute } from '@angular/router';
 import { TxEdenService } from '../../services/txEden.service';
-import { NickService } from '../../services/nick.service';
 import { SettingService } from '../../services/setting.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
@@ -24,7 +23,6 @@ export class EdenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private alert: NzMessageService,
     public settingService: SettingService,
-    public nickService: NickService,
   ) {
   }
 
