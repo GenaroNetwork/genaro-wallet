@@ -659,6 +659,9 @@
   <ng-container *ngIf="applyNickStep===0">
     <app-input name="label-text" [ipt]="'NICK.NICK_ADDRESS' | translate" [iptExtra]="applyNickAddress | longAddr | shortAddr" [span]="[6,14]"></app-input>
     <app-input (submit)="dialogDone()" name="nickName" [(ipt)]="applyNickName" [span]="[6, 14]"></app-input>
+    <div nz-row class="review">
+      <div nz-col nzSpan="18" class="text-left text-red" style="left: 48px;">* {{ 'NICK.NICK_APPLY_TIP' | translate }}</div>
+    </div>
   </ng-container>
   <ng-container *ngIf="applyNickStep===1">
     <div nz-row class="review">
@@ -692,6 +695,75 @@
       'COMMON.CONFIRM' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="applyNickStep===2">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
+  </ng-container>
+</ng-template>
+
+<!-- 转让别名 -->
+<nz-modal [nzVisible]="dialogName==='giftNick'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'NICK.GIFT_ADDRESS_NICK' | translate" [nzFooter]="giftNickFooter" class="buy-space">
+  <ng-container *ngIf="giftNickStep===0">
+    <app-input name="label-text" [ipt]="'NICK.NICK_NAME' | translate" [iptExtra]="giftNickNameInfo.nickName" [span]="[6,14]"></app-input>
+    <app-input (submit)="dialogDone()" name="nickToAddress" [(ipt)]="giftNickToAddress" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="giftNickStep===1">
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_ADDRESS' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ giftNickAddress | longAddr | shortAddr }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ giftNickNameInfo.nickName }}</div>
+    </div>
+    <div nz-row class="review">
+      <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_TO_ADDRESS' | translate }}{{ 'COMMON.COLON' | translate }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ giftNickToAddress | longAddr | shortAddr }}</div>
+    </div>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="giftNickGas" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="giftNickPassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="giftNickStep===2">
+    <i nz-icon type="check-circle" theme="outline"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #giftNickFooter>
+  <ng-container *ngIf="giftNickStep===0">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="giftNickDisabled" (click)="giftNickStep=giftNickStep+1">{{
+      'COMMON.NEXT' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="giftNickStep===1">
+    <button nz-button nzSize="large" nzType="primary" (click)="giftNickStep=giftNickStep-1">{{ 'COMMON.PREV' |
+      translate }}</button>
+    <button nz-button nzSize="large" nzType="primary" [disabled]="giftNickDisabled" (click)="giftNickSubmit()">{{
+      'COMMON.CONFIRM' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="giftNickStep===2">
+    <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
+      translate }}</button>
+  </ng-container>
+</ng-template>
+
+<!-- 注销别名 -->
+<nz-modal [nzVisible]="dialogName==='logOffNick'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
+  [nzTitle]="'NICK.LOGOFF_ADDRESS_NICK' | translate" [nzFooter]="logOffNickFooter" class="buy-space">
+  <ng-container *ngIf="logOffNickStep===0">
+    <div nz-row class="review">
+      <div nz-col nzSpan="18" class="text-left" style="left: 48px;">{{ 'NICK.NICK_LOGOFF_TIP' | translate:{address: logOffNickAddress, nickName:logOffNickNameInfo.nickName} }}</div>
+    </div>
+    <app-input (submit)="dialogDone()" name="gas" [(ipt)]="logOffNickGas" [span]="[6, 14]"></app-input>
+    <app-input (submit)="dialogDone()" name="password" [(ipt)]="logOffNickPassword" [span]="[6, 14]"></app-input>
+  </ng-container>
+  <ng-container *ngIf="logOffNickStep===1">
+    <i nz-icon type="check-circle" theme="outline"></i>
+  </ng-container>
+</nz-modal>
+<ng-template #logOffNickFooter>
+  <ng-container *ngIf="logOffNickStep===0">
+    <button nz-button nzSize="large" nzType="primary" [disabled]="logOffNickDisabled" (click)="logOffNickSubmit()">{{
+      'COMMON.NEXT' | translate }}</button>
+  </ng-container>
+  <ng-container *ngIf="logOffNickStep===1">
     <button nz-button nzSize="large" nzType="primary" (click)="dialogNameChange.emit(null)">{{ 'COMMON.DONE' |
       translate }}</button>
   </ng-container>

@@ -548,11 +548,13 @@ export default {
     "LOGOFF_ADDRESS_NICK": "注销地址别名",
     "NICK_NAME": "地址别名",
     "NICK_ADDRESS": "钱包地址",
+    "NICK_TO_ADDRESS": "转赠地址",
     "OPERATION": "操作",
     "LOG_OFF": "注销",
     "GIFT": "转赠",
-    "NICK_APPLY_TIPS": "别名申请成功",
-    "NICK_GIFT_TIP": "别名转赠成功",
-    "NICK_LOGOFF_TIP": "别名注销成功"
+    "NICK_APPLY_TIP": "申请地址别名只支持小写字母“a～z”、数字“0～9”和 “.”符号 组成， 比如“genaro2016” ，其他特殊字符不可以使用。且别名长度目前最多支持32个字符。",
+    "NICK_LOGOFF_TIP": "确定要注销地址{{address}}的别名：{{nickName}}么？注销后，如果被其他用户申请，您将无法再次申请使用此别名。",
+    "APPLY_ERROR_1": "别名包含特殊字符",
+    "APPLY_ERROR_2": "别名已被使用"
   }
 }

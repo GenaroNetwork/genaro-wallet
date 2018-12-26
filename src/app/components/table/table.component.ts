@@ -7,6 +7,7 @@ import { WalletService } from '../../services/wallet.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { EdenService } from '../../services/eden.service';
 import { CommitteeService } from '../../services/committee.service';
+import { NickNameService } from '../../services/nickName.service';
 import { TASK_STATE, TASK_TYPE, Role } from '../../libs/config';
 import { shell } from "electron";
 
@@ -38,7 +39,8 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
     public txEdenService: TxEdenService,
     public edenService: EdenService,
     public committeeService: CommitteeService,
-    public brotherhoodService: BrotherhoodService
+    public brotherhoodService: BrotherhoodService,
+    public nickNameService: NickNameService,
   ) { }
 
   isSpinning: boolean = false;
@@ -287,6 +289,13 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   sharerInit() { }
   sharerDestroy() { }
 
+  // nickName
+  nickNameData
+  async nickNameInit() {
+    await this.walletService.getNickNames(this.walletService.wallets.current);
+  }
+  nickNameDestroy() { }
+  
 
   // eden file share 
   edenFileReceiveInit() { }

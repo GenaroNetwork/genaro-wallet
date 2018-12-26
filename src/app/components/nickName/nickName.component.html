@@ -12,4 +12,4 @@
   <app-table name="nickName" [opt]="nickNameService.nickNameData" (action)="tableAction($event)"></app-table>
 </nz-card>
 
-<app-dialog [(name)]="dialogName" [opt]="dialogOpt"></app-dialog>
+<app-dialog [(name)]="dialogName" [opt]="dialogOpt" (action)="tableAction($event)"></app-dialog>

@@ -33,4 +33,20 @@ export class NickNameComponent implements OnInit {
     };
   }
 
+  logOff(data) {
+    this.dialogName='logOffNick';
+    this.dialogOpt = data;
+  }
+
+  gift(data) {
+    this.dialogName='giftNick';
+    this.dialogOpt = data;
+  }
+
+  tableAction(event) {
+    const name = event[0];
+    const args = event.slice(1);
+    if (this[name]) { this[name](...args); }
+  }
+
 }

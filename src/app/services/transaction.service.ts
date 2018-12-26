@@ -222,7 +222,7 @@ export class TransactionService {
       web3.eth.sendSignedTransaction(rawTx)
         .once('transactionHash', async hash => {
           await tdb.updateTxHash(txOptions.transactionId, hash);
-          res();
+          res(hash);
         })
         .on('receipt', async receipt => {
           // will be fired once the receipt its mined
@@ -407,22 +407,22 @@ export class TransactionService {
     return this.sendTransaction(address, password, txOptions, 'APPLY_NICK');
   }
 
-  async transferNick(address: string, password: string, nickName: string, gasLimit: number, gasPriceInGwei: string | number) {
+  async transferNick(address: string, password: string, nickName: string, toAddress: string, gasLimit: number, gasPriceInGwei: string | number) {
     const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0x18',
-      msg: nickName
+      msg: nickName,
+      address: toAddress
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'TRANSFER_NICK');
   }
 
-  async logoutNick(address: string, password: string, nickName: string, toAddress: string, gasLimit: number, gasPriceInGwei: string | number) {
+  async logoutNick(address: string, password: string, nickName: string, gasLimit: number, gasPriceInGwei: string | number) {
     const gasPriceInWei = toWei(this.toBN2(gasPriceInGwei), 'gwei');
     const inputData = {
       type: '0x19',
-      msg: nickName,
-      address: toAddress
+      msg: nickName
     };
     const txOptions = await this.generateTxOptions(address, gasLimit, gasPriceInWei, inputData);
     return this.sendTransaction(address, password, txOptions, 'LOUOUT_NICK');

@@ -500,7 +500,7 @@
 </nz-table>
 
 <!-- nickName -->
-<nz-table *ngIf="name==='nickName'" #nickName [nzData]="xxx"
+<nz-table *ngIf="name==='nickName'" #nickNameData [nzData]="this.walletService.wallets.currentNickNames || []"
   [nzScroll]='{ y: el.nativeElement.offsetHeight - 120 + "px"}' [nzNoResult]="'TABLE.NO_DATA' | translate">
   <thead>
     <tr>
@@ -510,16 +510,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of nickName">
-      <td>{{ data.name }}</td>
-      <td>{{ data.address}}</td>
+    <tr *ngFor="let data of nickNameData.data">
+      <td>{{ data.nickName }}</td>
+      <td>{{ data.user}}</td>
       <td>
-        <a [routerLink]="action.emit(['logOff', data])">
-          {{ 'NICK.STORAGE' | translate }}
+        <a (click)="action.emit(['logOff', data])">
+          {{ 'NICK.LOG_OFF' | translate }}
         </a>
         &nbsp;&nbsp;
         <a (click)="action.emit(['gift', data])">
-          {{ 'NICK.STORAGE' | translate }}
+          {{ 'NICK.GIFT' | translate }}
         </a>
       </td>
     </tr>

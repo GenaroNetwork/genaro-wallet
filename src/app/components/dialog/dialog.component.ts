@@ -804,9 +804,12 @@ export class DialogComponent implements OnChanges {
   }
   async getNamePrice() {
     try {
+      if(!/^[0-9a-z\.]+$/.test(this.applyNickName)) {
+        return this.alert.error(this.i18n.instant("NICK.APPLY_ERROR_1"));
+      }
       const nickAddress = await this.txService.getAccountByName(this.applyNickName);
       if (nickAddress) {
-        return this.alert.error("别名已被使用");
+        return this.alert.error(this.i18n.instant("NICK.APPLY_ERROR_2"));
       }
       this.applyNickPrice = parseInt(await this.txService.getNamePrice(this.applyNickName), 16) / Math.pow(10, 18);
       this.applyNickStep++;
@@ -818,10 +821,66 @@ export class DialogComponent implements OnChanges {
     this.applyNickDisabled = true;
     const address = await this.txService.add0x(this.walletService.wallets.current);
     try {
-      await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
+      let hash = await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
+      await this.walletService.applyNick(address, this.applyNickPassword, this.applyNickName, hash);
       this.applyNickStep++;
     } catch (e) { } finally {
       this.applyNickDisabled = false;
+    }
+  }
+
+  // giftNick 
+  giftNickStep = 0;
+  giftNickNameInfo: any = {};
+  giftNickAddress = '';
+  giftNickToAddress = '';
+  giftNickPassword = '';
+  giftNickDisabled = false;
+  giftNickGas: number[] = [null, 2100000];
+  async giftNickInit() {
+    this.giftNickStep = 0;
+    this.giftNickPassword = '';
+    this.giftNickDisabled = false;
+    this.giftNickAddress = await this.txService.add0x(this.walletService.wallets.current);
+    this.giftNickToAddress = '';
+    this.giftNickNameInfo = this.options;
+  }
+  async giftNickSubmit() {
+    this.giftNickDisabled = true;
+    const address = await this.txService.add0x(this.walletService.wallets.current);
+    this.giftNickToAddress = await this.txService.add0x(this.giftNickToAddress);
+    try {
+      let hash = await this.txService.transferNick(address, this.giftNickPassword, this.giftNickNameInfo.nickName, this.giftNickToAddress, this.giftNickGas[1], this.giftNickGas[0]);
+      await this.walletService.giftNick(address, this.giftNickPassword, this.giftNickNameInfo._id, this.giftNickToAddress, hash);
+      this.giftNickStep++;
+    } catch (e) { } finally {
+      this.giftNickDisabled = false;
+    }
+  }
+
+  // logOffNick 
+  logOffNickStep = 0;
+  logOffNickNameInfo: any = {};
+  logOffNickAddress = '';
+  logOffNickPassword = '';
+  logOffNickDisabled = false;
+  logOffNickGas: number[] = [null, 2100000];
+  async logOffNickInit() {
+    this.logOffNickStep = 0;
+    this.logOffNickPassword = '';
+    this.logOffNickDisabled = false;
+    this.logOffNickAddress = await this.txService.add0x(this.walletService.wallets.current);
+    this.logOffNickNameInfo = this.options;
+  }
+  async logOffNickSubmit() {
+    this.logOffNickDisabled = true;
+    const address = await this.txService.add0x(this.walletService.wallets.current);
+    try {
+      let hash = await this.txService.logoutNick(address, this.logOffNickPassword, this.logOffNickNameInfo.nickName, this.logOffNickGas[1], this.logOffNickGas[0]);
+      await this.walletService.logOffNick(address, this.logOffNickPassword, this.logOffNickNameInfo._id, hash);
+      this.logOffNickStep++;
+    } catch (e) { } finally {
+      this.logOffNickDisabled = false;
     }
   }
 }

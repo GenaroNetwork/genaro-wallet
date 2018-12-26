@@ -20,8 +20,10 @@ export class WalletService {
   currentWallet: BehaviorSubject<any> = new BehaviorSubject<any>(void 0);
   wallets: any = {
     current: null,
-    all: [],
+    currentNickNames: [],
+    all: []
   };
+
   balances: any = {};
 
   constructor(
@@ -317,6 +319,113 @@ export class WalletService {
     const data = {
       type: type
     };
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = Buffer.from(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getNickNames(address) {
+    address = await this.txService.add0x(address);
+    const method = 'GET';
+    const url = '/nicknames/' + address;
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method
+    });
+    try {
+      this.wallets.currentNickNames = (await res.json()) || [];
+    } catch (e) {
+      this.wallets.currentNickNames = [];
+    }
+  }
+
+  async applyNick(address, password, nickName, txHash) {
+    const method = 'POST';
+    address = await this.txService.add0x(address);
+    const url = '/nicknames';
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = Buffer.from(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      name: nickName,
+      hash: txHash
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = Buffer.from(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async giftNick(address, password, id, toAddress, txHash) {
+    const method = 'PUT';
+    address = await this.txService.add0x(address);
+    toAddress = await this.txService.add0x(toAddress);
+    const url = '/nicknames/' + id;
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = Buffer.from(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      toAddress: toAddress,
+      hash: txHash
+    }
+    const dataStr = JSON.stringify(data);
+    const hash = this.getHash(method, url, dataStr);
+    const msg = Buffer.from(hash, 'hex');
+    const sigObj = secp256k1.sign(msg, privKeyBuffer);
+    let res = await fetch(BRIDGE_API_URL + url, {
+      method: method,
+      body: dataStr,
+      headers: {
+        'x-signature': secp256k1.signatureExport(sigObj.signature).toString('hex'),
+        'x-pubkey': publicKeyBuffer.toString('hex')
+      }
+    });
+    try {
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async logOffNick(address, password, id, txHash) {
+    const method = 'DELETE';
+    address = await this.txService.add0x(address);
+    const url = '/nicknames/' + id;
+    let privKey = this.getPrivateKey(address, password);
+    if (privKey.startsWith('0x')) { privKey = privKey.substr(2); }
+    const privKeyBuffer = Buffer.from(privKey, 'hex');
+    const publicKeyBuffer = secp256k1.publicKeyCreate(privKeyBuffer, false);
+    const data = {
+      hash: txHash
+    }
     const dataStr = JSON.stringify(data);
     const hash = this.getHash(method, url, dataStr);
     const msg = Buffer.from(hash, 'hex');
