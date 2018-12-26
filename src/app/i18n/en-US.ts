@@ -135,11 +135,11 @@ export default {
       "CONTACT": "Contact Customer Service"
     },
     "NICK_MANAGE_TIP": `
-    GenaroNetwork别名系统是基于GenaroNetwork公有链的，一个分布式，开放的，可扩展命名系统。您可以通过支付一定的token来申请喜欢的别名（别名如果已被人占用，则无法申请）。一个私钥可管理多个地址别名，也可以通过地址的别名，来进行转账交易、文件分享、发送邮件等操作。
-    <b class=\"attention\">*注意:</b>
-    1. 申请地址别名需要支付相应的token和交易gas费，支付价格与别名的字符长短有关。 申请成功后，该别名将成为您的数字资产，可以进行转赠，注销。
-    2. 其中，转赠的接受方无需支付任何费用。
-    3. 注销的地址别名，将不再属于该地址的数字资产，无法再次使用该地址进行转账交易、文件分享、发送邮件的操作。如果被其他用户申请后，您将无法再次申请使用此别名。
+    The Genaro Network Domain System, based on the Genaro Network public chain, is a distributed, open, and scalable naming system. You can apply for a favorite domain by paying  certain amount of token (A domain can't be applied if it is already taken). A private key can manage multiple address domains, and can also use the domains of the address to perform operations such as transfer transactions, file sharing, and sending mail.
+    <b class=\"attention\">*Attention:</b>
+    1. To apply for an address domain, you need to pay the corresponding token and transaction gas fee. The payment price is related to the character length of the domain. After the application is successful, the domain will become your digital asset and can be transferred and deregistered.
+    2. The recipient of the transferred domain does not have to pay any fees.
+    3. The deregistered address domain will no longer be the digital assets of the address, and the domain cannot be used again for the address to transfer token, share files, and send mail. If a deregistered domain is applied by another user successfully, you will not be able to apply for this domain again.
     `
   },
   "FORM": {
@@ -180,7 +180,7 @@ export default {
     "JOIN_COMMITTEE": "Join Construction",
     "DOWNLOAD_MINER": "Download Miner",
     "MAIL": "Email",
-    "NICK_MANAGE": "别名管理"
+    "NICK_MANAGE": "Domain Management"
   },
   "WALLET": {
     "CONFIG": "Wallet management",
@@ -542,19 +542,19 @@ export default {
     `,
   },
   "NICK": {
-    "APPLY_NICK": "Apply for a nickname",
-    "APPLY_ADDRESS_NICK": "申请地址别名",
-    "GIFT_ADDRESS_NICK": "转赠地址别名",
-    "LOGOFF_ADDRESS_NICK": "注销地址别名",
-    "NICK_NAME": "地址别名",
-    "NICK_ADDRESS": "钱包地址",
-    "NICK_TO_ADDRESS": "转赠地址",
-    "OPERATION": "操作",
-    "LOG_OFF": "注销",
-    "GIFT": "转赠",
-    "NICK_APPLY_TIP": "申请地址别名只支持小写字母“a～z”、数字“0～9”和 “.”符号 组成， 比如“genaro2016” ，其他特殊字符不可以使用。且别名长度目前最多支持32个字符。",
-    "NICK_LOGOFF_TIP": "确定要注销地址{{address}}的别名：{{nickName}}么？注销后，如果被其他用户申请，您将无法再次申请使用此别名。",
-    "APPLY_ERROR_1": "别名包含特殊字符",
-    "APPLY_ERROR_2": "别名已被使用"
+    "APPLY_NICK": "Apply for a domain",
+    "APPLY_ADDRESS_NICK": "Apply for an address domain",
+    "GIFT_ADDRESS_NICK": "Transfer address domain",
+    "LOGOFF_ADDRESS_NICK": "Deregister address domain",
+    "NICK_NAME": "Address domain",
+    "NICK_ADDRESS": "Wallet address",
+    "NICK_TO_ADDRESS": "Transfer address",
+    "OPERATION": "Operation",
+    "LOG_OFF": "Deregister",
+    "GIFT": "Transfer",
+    "NICK_APPLY_TIP": "You can apply for address domain consisting of only lowercase letters \"a ~ z\", numbers \"0 ~ 9\" and \".\" symbols, such as \"genaro2016\". Other special characters cannot be used. And the domain length currently supports up to 32 characters.",
+    "NICK_LOGOFF_TIP": "Are you sure to deregister {{address}} domain：{{nickName}}？If the domain is deregistered and other user take this domain，you will no longer be able to apply for this domain",
+    "APPLY_ERROR_1": "Domain contains special characters",
+    "APPLY_ERROR_2": "Domain has been taken"
   }
 }
