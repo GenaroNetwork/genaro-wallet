@@ -10,6 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { ObserverService } from './observer.service';
 const secp256k1 = require('secp256k1');
 const crypto = require('crypto');
+const _url = require('url');
 
 @Injectable({
   providedIn: 'root'
@@ -341,7 +342,7 @@ export class WalletService {
   async getNickNames(address) {
     address = await this.txService.add0x(address);
     const method = 'GET';
-    const url = '/nicknames/' + address;
+    const url = '/nicknames/' + address + '?' + Math.random();
     let res = await fetch(BRIDGE_API_URL + url, {
       method: method
     });
@@ -427,7 +428,7 @@ export class WalletService {
       hash: txHash
     }
     const dataStr = JSON.stringify(data);
-    const hash = this.getHash(method, url, dataStr);
+    const hash = this.getHash(method, url, _url.parse(url).query);
     const msg = Buffer.from(hash, 'hex');
     const sigObj = secp256k1.sign(msg, privKeyBuffer);
     let res = await fetch(BRIDGE_API_URL + url, {

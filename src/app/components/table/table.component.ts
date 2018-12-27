@@ -290,11 +290,25 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
   sharerDestroy() { }
 
   // nickName
-  nickNameData
+  nickTimeout: any = null;
+  nickSub: any = null;
   async nickNameInit() {
-    await this.walletService.getNickNames(this.walletService.wallets.current);
+    this.nickSub = this.walletService.currentWallet.subscribe(async w => {
+      if(this.nickTimeout) {
+        clearInterval(this.nickTimeout);
+      }
+      await this.walletService.getNickNames(this.walletService.wallets.current);
+      this.nickTimeout = setInterval(this.walletService.getNickNames.bind(this.walletService, this.walletService.wallets.current), 10 * 1000);
+    });
   }
-  nickNameDestroy() { }
+  nickNameDestroy() { 
+    if(this.nickTimeout) {
+      clearInterval(this.nickTimeout);
+    }
+    if(this.nickSub) {
+      this.nickSub.unsubscribe();
+    }
+  }
   
 
   // eden file share 
