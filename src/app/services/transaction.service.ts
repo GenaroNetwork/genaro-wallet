@@ -219,14 +219,16 @@ export class TransactionService {
       txOptions.created = Date.now();
       const tdb = this.transactionDb;
       this.transactionDb.addNewTransaction(transactionType, txOptions);
+      let _hash = '';
       web3.eth.sendSignedTransaction(rawTx)
         .once('transactionHash', async hash => {
           await tdb.updateTxHash(txOptions.transactionId, hash);
-          res(hash);
+          _hash = hash;
         })
         .on('receipt', async receipt => {
           // will be fired once the receipt its mined
           await tdb.txSuccess(txOptions.transactionId, JSON.stringify(receipt));
+          res(_hash);
         })
         .on('error', async error => {
           await tdb.txError(txOptions.transactionId, error.message);
