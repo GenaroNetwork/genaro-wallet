@@ -511,8 +511,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of nickNameData.data">
-      <td>{{ data.nickName }}</td>
-      <td>{{ data.user}}</td>
+      <td>
+        {{ data.nickName }}
+        <app-copy [data]="data.nickName"></app-copy>
+      </td>
+      <td>
+        {{ data.user}}
+        <app-copy [data]="data.user"></app-copy>
+      </td>
       <td>
         <a (click)="action.emit(['logOff', data])">
           {{ 'NICK.LOG_OFF' | translate }}
