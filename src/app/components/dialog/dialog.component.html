@@ -657,7 +657,7 @@
 <nz-modal [nzVisible]="dialogName==='applyNick'" (nzOnCancel)="dialogNameChange.emit(null)" [nzMaskClosable]="false"
   [nzTitle]="'NICK.APPLY_ADDRESS_NICK' | translate" [nzFooter]="applyNickFooter" class="buy-space">
   <ng-container *ngIf="applyNickStep===0">
-    <app-input name="label-text" [ipt]="'NICK.NICK_ADDRESS' | translate" [iptExtra]="applyNickAddress | longAddr | shortAddr" [span]="[6,14]"></app-input>
+    <app-input name="label-text" [ipt]="'NICK.NICK_ADDRESS' | translate" [iptExtra]="applyNickAddress" [span]="[6,14]"></app-input>
     <app-input (submit)="dialogDone()" name="nickName" [(ipt)]="applyNickName" [span]="[6, 14]"></app-input>
     <div nz-row class="review">
       <div nz-col nzSpan="18" class="text-left text-red" style="left: 48px;">* {{ 'NICK.NICK_APPLY_TIP' | translate }}</div>
@@ -666,7 +666,7 @@
   <ng-container *ngIf="applyNickStep===1">
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_ADDRESS' | translate }}{{ 'COMMON.COLON' | translate }}</div>
-      <div nz-col nzSpan="14" class="text-right">{{ applyNickAddress | longAddr | shortAddr }}</div>
+      <div nz-col nzSpan="14" class="text-right">{{ applyNickAddress}}</div>
     </div>
     <div nz-row class="review">
       <div nz-col nzSpan="6" class="label">{{ 'NICK.NICK_NAME' | translate }}{{ 'COMMON.COLON' | translate }}</div>

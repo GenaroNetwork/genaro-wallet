@@ -552,7 +552,7 @@ export default {
     "OPERATION": "Operation",
     "LOG_OFF": "Deregister",
     "GIFT": "Transfer",
-    "NICK_APPLY_TIP": "You can apply for address domain consisting of only lowercase letters \"a ~ z\", numbers \"0 ~ 9\" and \".\" symbols, such as \"genaro2016\". Other special characters cannot be used. And the domain length currently supports up to 32 characters.",
+    "NICK_APPLY_TIP": "Please choose from lowercase letters \"a ~ z\", numbers \"0 ~ 9\" and \".\" symbol for address domain, 32 charaters maximum.",
     "NICK_LOGOFF_TIP": "Are you sure to deregister {{address}} domain：{{nickName}}？If the domain is deregistered and other user take this domain，you will no longer be able to apply for this domain",
     "APPLY_ERROR_1": "Domain contains special characters",
     "APPLY_ERROR_2": "Domain has been taken"
