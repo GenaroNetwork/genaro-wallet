@@ -10,7 +10,7 @@ import { TranslateService } from '../../services/translate.service';
 export class NickNameComponent implements OnInit {
 
   constructor(
-    private nickNameService: NickNameService,
+    public nickNameService: NickNameService,
     private i18n: TranslateService,
   ) { }
 
