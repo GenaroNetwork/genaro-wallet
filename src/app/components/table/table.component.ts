@@ -160,7 +160,7 @@ export class TableComponent implements OnInit, OnDestroy, OnChanges {
       this.showRankBack = true;
       this.isSpinning = true;
       // this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
-      this.rankData = [await this.committeeService.getCurrentFarmer(this.committeeAddress)];
+      this.rankData = [await this.committeeService.getCurrentFarmer(this.rankAddress)];
       this.isSpinning = false;
     }
     else {

@@ -45,7 +45,8 @@ export class CommitteeService {
   }
 
   async getFarmer(addr) {
-    let res = await fetch(FARMER_URL + addr(addr).toLowerCase(), {
+    addr = await this.txService.add0x(addr);
+    let res = await fetch(FARMER_URL + addr.toLowerCase(), {
       method: 'GET',
     });
     try {
@@ -89,6 +90,11 @@ export class CommitteeService {
         }
         data.order = this.currentSentinelRanks.indexOf(orderAddr);
         data.pendingOrder = this.pendingSentinelRanks.indexOf(orderAddr);
+      }
+      else {
+        data = {
+          address: addr
+        };
       }
     }
     return data || {};
