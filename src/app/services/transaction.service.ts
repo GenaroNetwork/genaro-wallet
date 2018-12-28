@@ -62,7 +62,9 @@ export class TransactionService {
     if (!isAddress(addr)) {
       addr = await this.getAccountByName(addr);
     }
-    if (!addr.startsWith('0x')) { addr = '0x' + addr; }
+    else if (!addr.startsWith('0x')) { 
+      addr = '0x' + addr; 
+    }
     if (!isAddress(addr)) {
       this.alert.error("invalid address");
       throw new Error();
