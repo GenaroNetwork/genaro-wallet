@@ -847,9 +847,9 @@ export class DialogComponent implements OnChanges {
   }
   async giftNickSubmit() {
     this.giftNickDisabled = true;
-    const address = await this.txService.add0x(this.walletService.wallets.current);
-    this.giftNickToAddress = await this.txService.add0x(this.giftNickToAddress);
     try {
+      const address = await this.txService.add0x(this.walletService.wallets.current);
+      this.giftNickToAddress = await this.txService.add0x(this.giftNickToAddress);
       let hash = await this.txService.transferNick(address, this.giftNickPassword, this.giftNickNameInfo.nickName, this.giftNickToAddress, this.giftNickGas[1], this.giftNickGas[0]);
       await this.walletService.giftNick(address, this.giftNickPassword, this.giftNickNameInfo._id, this.giftNickToAddress, hash);
       this.giftNickStep++;
