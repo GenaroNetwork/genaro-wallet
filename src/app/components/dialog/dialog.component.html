@@ -733,7 +733,7 @@
       'COMMON.NEXT' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="giftNickStep===1">
-    <button nz-button nzSize="large" nzType="primary" (click)="giftNickStep=giftNickStep-1">{{ 'COMMON.PREV' |
+    <button nz-button nzSize="large" nzType="primary" (click)="giftNickStep=giftNickStep-1;giftNickDisabled=false">{{ 'COMMON.PREV' |
       translate }}</button>
     <button nz-button nzSize="large" nzType="primary" [disabled]="giftNickDisabled" (click)="giftNickSubmit()">{{
       'COMMON.CONFIRM' | translate }}</button>
