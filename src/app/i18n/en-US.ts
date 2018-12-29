@@ -526,7 +526,7 @@ export default {
     "SIGN_IN_MESSAGE": "Accept email",
     "SEND_MESSAGE": "Send email",
     "DELETE_MESSAGE": "Delete email",
-    "ATTACH": "",
+    "ATTACH": "Attachment",
     "NO_INBOX": "Please set up your Inbox",
     "NO_OUTBOX": "Please set up your Outbox",
     "ATTACH_SIZE_LEFT": "Add attachments",
