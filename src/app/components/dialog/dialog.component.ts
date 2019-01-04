@@ -845,6 +845,10 @@ export class DialogComponent implements OnChanges {
     this.giftNickToAddress = '';
     this.giftNickNameInfo = this.options;
   }
+  async giftNickNextStep() {
+    this.giftNickStep++;
+    this.giftNickToAddress = await this.txService.add0x(this.giftNickToAddress);
+  }
   async giftNickSubmit() {
     this.giftNickDisabled = true;
     try {
