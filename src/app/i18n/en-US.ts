@@ -509,7 +509,8 @@ export default {
     "NO_SHARE_KEY": "The recipient hasn’t unlock the File Management feature, the file can not be shared to the selected address. ",
     "NO_BUCKETS": "There’s no bucket to store the file received, please buy storage space in Space Management, and try to accept again.",
     "SHARE_FILE_NOT_EXIST": "The file do not exist or has been deleted, receiving failed. ",
-    "SET_BOX_ERROR": "Please set up an empty bucket as your inbox/outbox. "
+    "SET_BOX_ERROR": "Please set up an empty bucket as your inbox/outbox. ",
+    "ATTACH_UPLOADING": "Your Attachment is being uploaded. Please send email after upload completes.",
   },
   "MAIL": {
     "INBOX": "Inbox",

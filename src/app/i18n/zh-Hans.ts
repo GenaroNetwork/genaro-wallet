@@ -511,6 +511,7 @@ export default {
     "NO_BUCKETS": "暂无存储空间接收此文件，请先到“空间管理”页面，“购买空间”，再次接收此文件",
     "SHARE_FILE_NOT_EXIST": "分享源文件不存在或已被删除，不能接收",
     "SET_BOX_ERROR": "设置失败,空存储空间才可以设置为发件箱/收件箱",
+    "ATTACH_UPLOADING": "您添加的附件正在上传中，请上传成功后再发送邮件。",
   },
   "MAIL": {
     "INBOX": "收件箱",
