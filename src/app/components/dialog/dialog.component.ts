@@ -699,6 +699,7 @@ export class DialogComponent implements OnChanges {
       const address = this.walletService.wallets.current;
       if (!this.walletService.validatePassword(address, this.sendMessagePassword)) {
         this.alert.error(this.i18n.instant("ERROR.PASSWORD"));
+        this.sendMessageDisabled = false;
         return;
       }
       try {
