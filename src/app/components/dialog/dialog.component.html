@@ -729,7 +729,7 @@
 </nz-modal>
 <ng-template #giftNickFooter>
   <ng-container *ngIf="giftNickStep===0">
-    <button nz-button nzSize="large" nzType="primary" (click)="giftNickStep=giftNickStep+1">{{
+    <button nz-button nzSize="large" nzType="primary" (click)="giftNickNextStep()">{{
       'COMMON.NEXT' | translate }}</button>
   </ng-container>
   <ng-container *ngIf="giftNickStep===1">

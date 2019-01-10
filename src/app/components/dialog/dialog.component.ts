@@ -681,6 +681,10 @@ export class DialogComponent implements OnChanges {
 
   async sendMessageSubmit(submit: boolean = true) {
     if (!submit) {
+      let address = await this.txService.add0x(this.sendMessageTo);
+      if(!address) {
+        return;
+      }
       let uploaded = true;
       for (let attach of this.sendMessageAttaches) {
         if (!attach.done) uploaded = false
@@ -694,6 +698,11 @@ export class DialogComponent implements OnChanges {
       let sendMessageTitle = this.sendMessageTitle;
       sendMessageTitle = `0|${this.sendMessageId}|${sendMessageTitle}`
       const address = this.walletService.wallets.current;
+      if (!this.walletService.validatePassword(address, this.sendMessagePassword)) {
+        this.alert.error(this.i18n.instant("ERROR.PASSWORD"));
+        this.sendMessageDisabled = false;
+        return;
+      }
       try {
         let nickAddress = await this.txService.getAccountByName(this.sendMessageTo);
         this.sendMessageToAddress = nickAddress || this.sendMessageTo;
@@ -845,6 +854,10 @@ export class DialogComponent implements OnChanges {
     this.giftNickAddress = await this.txService.add0x(this.walletService.wallets.current);
     this.giftNickToAddress = '';
     this.giftNickNameInfo = this.options;
+  }
+  async giftNickNextStep() {
+    this.giftNickStep++;
+    this.giftNickToAddress = await this.txService.add0x(this.giftNickToAddress);
   }
   async giftNickSubmit() {
     this.giftNickDisabled = true;
