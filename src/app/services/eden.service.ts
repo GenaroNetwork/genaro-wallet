@@ -699,6 +699,8 @@ export class EdenService {
       }
     } catch (e) {
       console.error(e);
+      if (e.indexOf("Storage Limited") > -1)
+        this.messageService.error(this.i18n.instant('EDEN.MAIL_STORAGE_LIMIT'));
     }
   }
 

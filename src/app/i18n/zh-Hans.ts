@@ -321,6 +321,7 @@ export default {
     "SEND_MESSAGE_ERROR": "邮件发送失败",
     "SEND_MESSAGE_DONE": "邮件发送成功",
     "OPEN_MESSAGE": "查看邮件",
+    "MAIL_STORAGE_LIMIT": "您的发件箱容量不足，请将发件箱扩容后，再次发送。",
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "分享人",

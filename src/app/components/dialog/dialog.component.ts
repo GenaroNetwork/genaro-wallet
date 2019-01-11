@@ -654,7 +654,8 @@ export class DialogComponent implements OnChanges {
         (err, fileId) => {
           if (err) {
             console.error(err);
-            return;
+            throw new Error(err);
+            //return;
           }
           this.zone.run(() => {
             attach.percentage = 100;
@@ -813,7 +814,7 @@ export class DialogComponent implements OnChanges {
   }
   async getNamePrice() {
     try {
-      if(!/^[0-9a-z\.]+$/.test(this.applyNickName)) {
+      if (!/^[0-9a-z\.]+$/.test(this.applyNickName)) {
         return this.alert.error(this.i18n.instant("NICK.APPLY_ERROR_1"));
       }
       const nickAddress = await this.txService.getAccountByName(this.applyNickName);

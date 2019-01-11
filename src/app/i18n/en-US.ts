@@ -320,6 +320,7 @@ export default {
     "SEND_MESSAGE_ERROR": "Email sending error",
     "SEND_MESSAGE_DONE": "Email has been sent",
     "OPEN_MESSAGE": "Open the email",
+    "MAIL_STORAGE_LIMIT": "您的发件箱容量不足，请将发件箱扩容后，再次发送。",
   },
   "EDEN_FILE_SHARE": {
     "SHARE": "Sharer",
