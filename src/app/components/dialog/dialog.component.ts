@@ -6,6 +6,7 @@ import { TranslateService } from '../../services/translate.service';
 import { nextTick } from 'q';
 import { SPACE_UNIT_PRICE, TRAFFIC_UNIT_PRICE } from '../../libs/config';
 import { TransactionService } from '../../services/transaction.service';
+import { TransactionDbService } from '../../services/transaction-db.service';
 import { EdenService } from '../../services/eden.service';
 import { TxEdenService } from '../../services/txEden.service';
 import { SettingService } from '../../services/setting.service';
@@ -32,6 +33,7 @@ export class DialogComponent implements OnChanges {
     private brotherhoodService: BrotherhoodService,
     private committeeService: CommitteeService,
     private zone: NgZone,
+    private dbService: TransactionDbService,
   ) { }
   @Input('name') dialogName: string = null;
   @Output('nameChange') dialogNameChange: EventEmitter<string> = new EventEmitter;
@@ -833,6 +835,7 @@ export class DialogComponent implements OnChanges {
     try {
       let hash = await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
       await this.walletService.applyNick(address, this.applyNickPassword, this.applyNickName, hash);
+      this.dbService.updateTxAmount(hash, this.applyNickPrice);
       this.applyNickStep++;
     } catch (e) { } finally {
       this.applyNickDisabled = false;

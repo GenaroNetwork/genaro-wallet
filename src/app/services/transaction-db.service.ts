@@ -52,6 +52,11 @@ export class TransactionDbService {
     await this.runSql(sql);
   }
 
+  public async updateTxAmount(hash, amount) {
+    const sql = `UPDATE transactions SET amount = '${amount}' WHERE hash = '${hash}'`;
+    await this.runSql(sql);
+  }
+
   public async txSuccess(transactionId: string, reciept: string) {
     const sql = `UPDATE transactions SET state = ${TXSTATE.SUCCESS}, receipt = '${reciept}' WHERE transactionId = '${transactionId}'`;
     await this.runSql(sql);

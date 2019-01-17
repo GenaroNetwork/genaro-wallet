@@ -41,6 +41,9 @@ export class SpecialTxPipe implements PipeTransform {
         if (typeof json === "string") json = JSON.parse(json);
         allGNX = json.stake;
         break;
+      case 'APPLY_NICK':
+        allGNX = data.amount || "-";
+        break;
       default:
         allGNX = "-";
         break;
