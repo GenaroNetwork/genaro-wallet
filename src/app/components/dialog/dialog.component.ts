@@ -453,8 +453,10 @@ export class DialogComponent implements OnChanges {
     this.shareFileDisabled = true;
     const address = this.walletService.wallets.current;
     try {
+      // 获取分享文件所使用的密钥信息
       let key = await this.edenService.shareFile(this.shareFileInfo.rsaKey, this.shareFileInfo.rsaCtr, this.shareFileRecipient);
       if (key && key.key.cipher && key.ctr.cipher) {
+        // 先提交bridge记录，再提交链，之后bridge会通过链确认本次分享是否成功
         let share = await this.walletService.shareFile(address, this.shareFilePassword, this.shareFileInfo.id, this.shareFileRecipient, this.shareFileChargePrice, this.shareFileInfo.name, key);
         await this.txService.shareFile(address, this.shareFileRecipient, this.shareFilePassword, this.shareFileChargePrice, this.shareFileInfo.id, share._id, this.spaceExpansionGas[1], this.spaceExpansionGas[0]);
         this.shareFileStep++;
@@ -596,11 +598,14 @@ export class DialogComponent implements OnChanges {
     nextTick(async () => {
       const address = this.walletService.wallets.current;
       try {
+        // 签收邮件，首先签收所有的附件，附件作为普通分享文件一样签收
         for (let attach of this.options.attaches) {
           await this.txService.agreeShare(address, this.signInMessagePassword, attach._id, this.signInMessageGas[1], this.signInMessageGas[0]);
           await this.walletService.agreeShare(address, this.signInMessagePassword, attach._id, this.edenService.mail.inbox);
         }
+        // 签收邮件本身
         await this.txService.agreeShare(address, this.signInMessagePassword, this.options.mail._id, this.signInMessageGas[1], this.signInMessageGas[0]);
+        // 由于邮件虽然使用分享的逻辑，但是与普通分享区别对待，所以这里调用的是拒绝接口
         await this.walletService.rejectShare(address, this.signInMessagePassword, this.options.mail._id);
         this.edenService.updateAll();
         this.signInMessageStep++;
@@ -834,6 +839,7 @@ export class DialogComponent implements OnChanges {
     const address = await this.txService.add0x(this.walletService.wallets.current);
     try {
       let hash = await this.txService.applyNick(address, this.applyNickPassword, this.applyNickName, this.applyNickGas[1], this.applyNickGas[0]);
+      // 申请到的别名需要记录到列，方便显示到列表中
       await this.walletService.applyNick(address, this.applyNickPassword, this.applyNickName, hash);
       this.dbService.updateTxAmount(hash, this.applyNickPrice);
       this.applyNickStep++;

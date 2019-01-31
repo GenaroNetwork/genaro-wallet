@@ -794,6 +794,7 @@ export class EdenService {
         return true;
       else
         return false;
+    // 先判断本地是否有文件，如果有直接打开，如果没有，首先下载，之后保存在本地，再打开
     if (existsSync(filePath))
       return this.decryptMetaFromFile(filePath);
     else {
